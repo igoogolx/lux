@@ -1,0 +1,123 @@
+{
+ "proxy": [],
+ "rule": [
+  {
+   "id": "Proxy All",
+   "name": "Proxy All",
+   "dns": {
+    "primary": {
+     "address": "dhcp",
+     "domains": [],
+     "geoSites": []
+    },
+    "secondary": {
+     "address": "8.8.8.8",
+     "domains": [
+      ".*"
+     ],
+     "geoSites": []
+    }
+   },
+   "ip": {
+    "defaultProxy": true,
+    "geoIps": {
+     "bypass": [
+      "PRIVATE"
+     ],
+     "proxy": []
+    },
+    "geoSites": {
+     "bypass": [],
+     "proxy": []
+    },
+    "subnet": {
+     "bypass": [],
+     "proxy": []
+    }
+   }
+  },
+  {
+   "id": "Bypass CN",
+   "name": "Bypass CN",
+   "dns": {
+    "primary": {
+     "address": "119.29.29.29",
+     "domains": [],
+     "geoSites": [
+      "CN"
+     ]
+    },
+    "secondary": {
+     "address": "8.8.8.8",
+     "domains": [
+      ".*"
+     ],
+     "geoSites": []
+    }
+   },
+   "ip": {
+    "defaultProxy": true,
+    "geoIps": {
+     "bypass": [
+      "CN",
+      "PRIVATE"
+     ],
+     "proxy": []
+    },
+    "geoSites": {
+     "bypass": [],
+     "proxy": []
+    },
+    "subnet": {
+     "bypass": [],
+     "proxy": []
+    }
+   }
+  },
+  {
+   "id": "Proxy GFW",
+   "name": "Proxy GFW",
+   "dns": {
+    "primary": {
+     "address": "119.29.29.29",
+     "domains": [],
+     "geoSites": []
+    },
+    "secondary": {
+     "address": "8.8.8.8",
+     "domains": [],
+     "geoSites": [
+      "GFW"
+     ]
+    }
+   },
+   "ip": {
+    "defaultProxy": false,
+    "geoIps": {
+     "bypass": [],
+     "proxy": []
+    },
+    "geoSites": {
+     "bypass": [],
+     "proxy": [
+      "GFW"
+     ]
+    },
+    "subnet": {
+     "bypass": [],
+     "proxy": []
+    }
+   }
+  }
+ ],
+ "selected": {
+  "proxy": "",
+  "rule": "Proxy All"
+ },
+ "setting": {
+  "bypassIps": [
+  ],
+  "defaultInterface": "",
+  "primaryDomains": []
+ }
+}
