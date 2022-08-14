@@ -15,6 +15,12 @@ A VPN or proxy client, Wndows only for now, inspired by [Outline-client](https:/
 1. Download the release file and install it.
 2. Enjoy.
 
+## Modules
+* [lux-core](https://github.com/igoogolx/lux-core)
+* [lux-js-sdk](https://github.com/igoogolx/lux-js-sdk)
+* [lux-dashboard](https://github.com/igoogolx/lux-dashboard)
+* [lux-geo-data](https://github.com/igoogolx/lux-geo-data)
+
 ## Build
 
 ### `yarn init-modules`
