@@ -14,13 +14,18 @@ import { ThirdPartyType } from "./thirdParties";
 export const start = async (isDev = false) => {
   try {
     await startDashboard(isDev);
-    await startDownload([ThirdPartyType.Wintun, ThirdPartyType.GeoData]);
+    await startDownload([
+      ThirdPartyType.Wintun,
+      ThirdPartyType.GeoData,
+      ThirdPartyType.LuxCore,
+    ]);
     console.log("Creating core...");
     await createCoreDir([
       CoreType.Wintun,
       CoreType.GeoData,
       CoreType.Dashboard,
       CoreType.Config,
+      CoreType.LuxCore,
     ]);
     await fs.move(CORE_DIR_NAME, path.join(CLIENT_PATH, CORE_DIR_NAME), {
       overwrite: true,

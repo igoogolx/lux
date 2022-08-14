@@ -20,3 +20,9 @@ export const copyDefaultConfig = () =>
     path.join(process.cwd(), "default-config", "config.json"),
     path.join("core", "config.json")
   );
+
+export const copyLuxCore = () =>
+  fs.copy(
+    path.join(THIRD_PARTIES_PATH, "lux-core.exe"),
+    path.join("core", "lux-core.exe")
+  );

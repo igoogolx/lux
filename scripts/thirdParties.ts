@@ -3,6 +3,7 @@ import { download } from "./downloader";
 export enum ThirdPartyType {
   Wintun,
   GeoData,
+  LuxCore,
 }
 
 export const downloadThirdParties = async (types: ThirdPartyType[]) => {
@@ -20,6 +21,14 @@ export const downloadThirdParties = async (types: ThirdPartyType[]) => {
       outPath: "third_parties/geoData.tar.gz",
       checksum:
         "81113cea22b0899e26bd4742933d9bbbc65bcebaebf787796d0512666c343dd5",
+    });
+  }
+  if (types.includes(ThirdPartyType.LuxCore)) {
+    await download({
+      url: "https://github.com/igoogolx/lux-core/releases/download/v0.0.1/lux-core-windows-latest-v0.0.1.exe",
+      outPath: "third_parties/lux-core.exe",
+      checksum:
+        "7df1f5cdb32f5311ffc3e415e93dbb72f965261f5e796ff1df2bca5341cd9738",
     });
   }
 };

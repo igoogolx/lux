@@ -3,7 +3,12 @@ import * as fs from "fs-extra";
 import { buildDashboard } from "./dashboard";
 import { buildClient } from "./client";
 import { downloadThirdParties, ThirdPartyType } from "./thirdParties";
-import { copyDefaultConfig, copyGeoData, copyWintun } from "./copy";
+import {
+  copyDefaultConfig,
+  copyGeoData,
+  copyLuxCore,
+  copyWintun,
+} from "./copy";
 import {
   CLIENT_PATH,
   CORE_DIR_NAME,
@@ -17,6 +22,7 @@ export enum CoreType {
   GeoData,
   Wintun,
   Config,
+  LuxCore,
 }
 
 export const createCoreDir = async (types: CoreType[]) => {
@@ -37,6 +43,10 @@ export const createCoreDir = async (types: CoreType[]) => {
     }
     if (types.includes(CoreType.Config)) {
       await copyDefaultConfig();
+    }
+
+    if (types.includes(CoreType.LuxCore)) {
+      await copyLuxCore();
     }
   } finally {
     await fs.remove(THIRD_PARTIES_PATH);
