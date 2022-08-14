@@ -5,7 +5,7 @@
   "author": "igoogolx <27353191+igoogolx@users.noreply.github.com>",
   "license": "MIT",
   "scripts": {
-    "init-moduels": "ts-node scripts/init-project.ts",
+    "init-modules": "ts-node scripts/init-project.ts",
     "build": "ts-node scripts/build.ts",
     "build:dev": "ts-node scripts/buildDev.ts",
     "create-core-dir": "ts-node scripts/createCoreDir.ts"
