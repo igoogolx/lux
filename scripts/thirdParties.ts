@@ -17,10 +17,10 @@ export const downloadThirdParties = async (types: ThirdPartyType[]) => {
   }
   if (types.includes(ThirdPartyType.GeoData)) {
     await download({
-      url: "https://github.com/igoogolx/lux-geo-data/releases/download/v0.0.1/geoData.tar.gz",
+      url: "https://github.com/igoogolx/lux-geo-data/releases/download/v0.0.2/geoData.tar.gz",
       outPath: "third_parties/geoData.tar.gz",
       checksum:
-        "81113cea22b0899e26bd4742933d9bbbc65bcebaebf787796d0512666c343dd5",
+        "cf1104003e4a4bf108822449dfbba8df9c1d9ea1c16e37554655ee2ae89dff6c",
     });
   }
   if (types.includes(ThirdPartyType.LuxCore)) {
