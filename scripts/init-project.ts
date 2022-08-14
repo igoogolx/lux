@@ -3,13 +3,22 @@ import * as fs from "fs-extra";
 import { runScript } from "./utils";
 
 const modules = [
-  "https://github.com/igoogolx/lux-dashboard.git",
-  "https://github.com/igoogolx/lux-js-sdk.git",
-  "https://github.com/igoogolx/lux-client.git",
+  {
+    repo: "https://github.com/igoogolx/lux-dashboard.git",
+    branch: "v0.0.1",
+  },
+  {
+    repo: "https://github.com/igoogolx/lux-js-sdk.git",
+    branch: "v0.0.1",
+  },
+  {
+    repo: "https://github.com/igoogolx/lux-client.git",
+    branch: "v0.0.1",
+  },
 ];
 
-async function cloneGitRepo(url: string, dir: string) {
-  await runScript("git", ["clone", url], dir);
+async function cloneGitRepo(url: string, branch: string, dir: string) {
+  await runScript("git", ["clone", "-branch", branch, url], dir);
 }
 function getModuleName(url: string) {
   const suffix = url.split("/").pop();
@@ -23,9 +32,9 @@ async function start() {
     await fs.emptyDir(dir);
     await Promise.all(
       modules.map(async (module) => {
-        const name = getModuleName(module);
+        const name = getModuleName(module.repo);
         console.log(`cloning ${name}`);
-        await cloneGitRepo(module, dir);
+        await cloneGitRepo(module.repo, module.branch, dir);
         console.log(`clone ${name} done!`);
       })
     );
