@@ -18,7 +18,7 @@ const modules = [
 ];
 
 async function cloneGitRepo(url: string, branch: string, dir: string) {
-  await runScript("git", ["clone", "-branch", branch, url], dir);
+  await runScript("git", ["clone", "--branch", branch, url], dir);
 }
 function getModuleName(url: string) {
   const suffix = url.split("/").pop();
