@@ -32,6 +32,10 @@ Download necessary modules
 
 Builds the app for production to the `out` folder.<br />
 
+## TODO
+1. [ ] Add doc
+2. [ ] Support more platforms
+
 ## License
 
 [MIT]
