@@ -28,7 +28,7 @@ export const downloadThirdParties = async (types: ThirdPartyType[]) => {
       url: "https://github.com/igoogolx/lux-core/releases/download/v0.0.1/lux-core-windows-latest-v0.0.1.exe",
       outPath: "third_parties/lux-core.exe",
       checksum:
-        "7df1f5cdb32f5311ffc3e415e93dbb72f965261f5e796ff1df2bca5341cd9738",
+        "a613d70ea565b56a87a48481851bdc0b91b7631b27aaad9d027d0e39a04be8b1",
     });
   }
 };
