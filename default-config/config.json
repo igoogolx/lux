@@ -118,6 +118,12 @@
   "bypassIps": [
   ],
   "defaultInterface": "",
-  "primaryDomains": []
+  "primaryDomains": [],
+  "localServer": {
+   "http": {
+    "port": 1090,
+    "enabled": false
+   }
+  }
  }
 }
