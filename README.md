@@ -28,7 +28,7 @@ Compared with shadowsocks-windows, lux is a transparent proxy, which means apps 
 * [lux-geo-data](https://github.com/igoogolx/lux-geo-data)
 * [lux-client](https://github.com/igoogolx/lux-client)
 
-![Relation of module](https://github.com/igoogolx/lux/raw/main/doc/modules.png)
+![Relation between modules](https://github.com/igoogolx/lux/raw/main/doc/modules.png)
 
 ## Build
 
