@@ -1,0 +1,71 @@
+{
+  //A group of proxy servers: shodowsocks or socks5
+  "proxy": [],
+  //A group of matcher rules to determine which DNS server to use and how an ip is connected(proxy or direct)
+  "rule": [
+    {
+      "id": "Proxy All",
+      // The name of this rule, used to display in dashboard
+      "name": "Proxy All",
+      "dns": {
+        //If a domain is not matched, fallback to primary
+        "primary": {
+          // DNS server: dhcp or ip
+          "address": "dhcp",
+          //Match by domains, only support regex
+          "domains": [],
+          //Match by geo site files
+          "geoSites": []
+        },
+        "secondary": {
+          "address": "8.8.8.8",
+          "domains": [
+            ".*"
+          ],
+          "geoSites": []
+        }
+      },
+      "ip": {
+        //If an ip is not matched, fallback to this
+        "defaultProxy": true,
+        //Match by geo ip files
+        "geoIps": {
+          "bypass": [
+            "PRIVATE"
+          ],
+          "proxy": []
+        },
+        //Match by geo site files
+        "geoSites": {
+          "bypass": [],
+          "proxy": []
+        },
+        //Match by subnets
+        "subnet": {
+          "bypass": [],
+          "proxy": []
+        }
+      }
+    },
+  ],
+  //Current selected rule and proxy server
+  "selected": {
+    "proxy": "",
+    "rule": "Proxy All"
+  },
+  "setting": {
+    //Think it as ip.subnet.bypass
+    "bypassIps": [],
+    //Default outbound network interface name. If not set, lux will find it automatically
+    "defaultInterface": "",
+    //Think it as dns.primary.domains
+    "primaryDomains": [],
+    //Allow other devices in LAN to connect
+    "localServer": {
+      "http": {
+        "port": 1090,
+        "enabled": false
+      }
+    }
+  }
+}
