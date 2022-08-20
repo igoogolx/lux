@@ -1,6 +1,7 @@
 # Lux
 
 A VPN or proxy client, Wndows only for now, inspired by [Outline-client](https://github.com/Jigsaw-Code/outline-client)(windows). **IPV6: not support**
+Note that this project only contains building scripts. See more info in modules section.
 
 ## Features
 
