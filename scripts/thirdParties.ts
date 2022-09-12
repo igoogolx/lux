@@ -1,4 +1,6 @@
+import * as os from "os";
 import { download } from "./downloader";
+import { getCoreName } from "./utils";
 
 export enum ThirdPartyType {
   Wintun,
@@ -24,11 +26,22 @@ export const downloadThirdParties = async (types: ThirdPartyType[]) => {
     });
   }
   if (types.includes(ThirdPartyType.LuxCore)) {
-    await download({
-      url: "https://github.com/igoogolx/lux-core/releases/download/v0.0.1/lux-core-windows-latest-v0.0.1.exe",
-      outPath: "third_parties/lux-core.exe",
-      checksum:
-        "a613d70ea565b56a87a48481851bdc0b91b7631b27aaad9d027d0e39a04be8b1",
-    });
+    const platform = os.platform();
+    if (platform === "win32") {
+      await download({
+        url: "https://github.com/igoogolx/lux-core/releases/download/v0.0.2/lux-core-windows-latest-v0.0.2.exe",
+        outPath: `third_parties/${getCoreName()}`,
+        checksum:
+          "3fb12a96f0d6d7cfa89cafb5ea0f789d7d4cdda4c1a8320b213cebdf089b3b1c",
+      });
+    }
+    if (platform === "darwin") {
+      await download({
+        url: "https://github.com/igoogolx/lux-core/releases/download/v0.0.2/lux-core-macos-latest-v0.0.2",
+        outPath: `third_parties/${getCoreName()}`,
+        checksum:
+          "f36c054509c033563e8d1a7bfae926e9055f286bce90d6df4a06dd71e8262ac2",
+      });
+    }
   }
 };
