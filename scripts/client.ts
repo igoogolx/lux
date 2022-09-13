@@ -3,18 +3,18 @@ import { getClientName, runScript } from "./utils";
 
 export const buildClient = async (path: string, isDev = false) => {
   const platform = os.platform();
-  let buildCmd = "";
+  let buildForOs = "";
   if (platform === "win32") {
-    buildCmd = "make:win";
+    buildForOs = "--win";
   } else if (platform === "darwin") {
-    buildCmd = "make:mac";
+    buildForOs = "--mac";
   }
   const outName = getClientName();
   await runScript("yarn", ["install"], path);
-  const makeScript = isDev ? "make:dev" : buildCmd;
+  const makeScript = isDev ? "make:dev" : "make";
   await runScript(
     "yarn",
-    [makeScript, "--config.artifactName", outName],
+    [makeScript, "--config.artifactName", outName, buildForOs],
     path,
     true
   );
