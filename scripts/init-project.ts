@@ -13,7 +13,7 @@ const modules = [
   },
   {
     repo: "https://github.com/igoogolx/lux-client.git",
-    branch: "v0.0.2",
+    branch: "v0.0.3",
   },
 ];
 
