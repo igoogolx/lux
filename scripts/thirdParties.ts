@@ -29,7 +29,7 @@ export const downloadThirdParties = async (types: ThirdPartyType[]) => {
     const platform = os.platform();
     if (platform === "win32") {
       await download({
-        url: "https://github.com/igoogolx/lux-core/releases/download/v0.0.2/lux-core-windows-latest-v0.0.3.exe",
+        url: "https://github.com/igoogolx/lux-core/releases/download/v0.0.3/lux-core-windows-latest-v0.0.3.exe",
         outPath: `third_parties/${getCoreName()}`,
         checksum:
           "2f05bdcf7505d3227be9dc3ad40a0c0c8540e6db718b93130b6e035e620fcfc1",
