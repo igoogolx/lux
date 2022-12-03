@@ -6,7 +6,7 @@
    "name": "Proxy All",
    "dns": {
     "primary": {
-     "address": "dhcp",
+     "address": "119.29.29.29",
      "domains": [],
      "geoSites": []
     },
