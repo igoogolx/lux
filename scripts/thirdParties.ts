@@ -29,10 +29,10 @@ export const downloadThirdParties = async (types: ThirdPartyType[]) => {
     const platform = os.platform();
     if (platform === "win32") {
       await download({
-        url: "https://github.com/igoogolx/lux-core/releases/download/v0.0.4/lux-core-windows-latest-v0.0.4.exe",
+        url: "https://github.com/igoogolx/lux-core/releases/download/v0.0.5/lux-core-windows-latest-v0.0.5.exe",
         outPath: `third_parties/${getCoreName()}`,
         checksum:
-          "93961e816b8fba40d44d03194cf25117596c8c23187241e7049005d7ab856b1c",
+          "80e245bca17e38e88ed51f0bc6f4f633eca277da61116a3b4a3079c7e852db94",
       });
     }
     if (platform === "darwin") {

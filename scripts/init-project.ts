@@ -5,7 +5,7 @@ import { runScript } from "./utils";
 const modules = [
   {
     repo: "https://github.com/igoogolx/lux-dashboard.git",
-    branch: "v0.0.9",
+    branch: "v0.1.0",
   },
   {
     repo: "https://github.com/igoogolx/lux-js-sdk.git",
@@ -13,7 +13,7 @@ const modules = [
   },
   {
     repo: "https://github.com/igoogolx/lux-client.git",
-    branch: "v0.0.6",
+    branch: "v0.0.7",
   },
 ];
 
