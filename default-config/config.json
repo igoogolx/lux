@@ -115,10 +115,8 @@
   "rule": "Proxy All"
  },
  "setting": {
-  "bypassIps": [
-  ],
+  "trueProxyServer": "",
   "defaultInterface": "",
-  "primaryDomains": [],
   "localServer": {
    "http": {
     "port": 1090,
