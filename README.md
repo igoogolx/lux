@@ -1,48 +1,40 @@
-# Lux
-
-A VPN or proxy client, Wndows only for now, inspired by [Outline-client](https://github.com/Jigsaw-Code/outline-client)(windows). **IPV6: not support**.
-Note that this project only contains building scripts. See more source code in modules section.
-
-## Features
-
-- Supports Shadowsocks, Socks5
-- Built-in Shadowsocks plugin: simple-obfs, v2ray
-- Local Http proxy
-- Supports UDP
-- Built-in Dns, Dns over TCP
-
-**Installation**
-
-1. Download the release file and install it.
-2. Enjoy.
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
 
 
-# Architecture
+<br />
+<div align="center">
+  <a href="https://github.com/igoogolx/lux">
+    <img src="assets/logo.svg" alt="Logo" width="80" height="80">
+  </a>
 
-![Relation between modules](https://github.com/igoogolx/lux/raw/main/doc/arch.png)
+<h3 align="center">Lux</h3>
+A VPN or proxy client, Wndows only for now, inspired by Outline-client(windows). IPV6: not support. Note that this project only contains building scripts. See more source code in modules section.
+  <p align="center">
+    Lux
+    <br />
+    <a href="https://github.com/igoogolx/lux"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/igoogolx/lux">View Demo</a>
+    ·
+    <a href="https://github.com/igoogolx/lux/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/igoogolx/lux/issues">Request Feature</a>
+  </p>
+</div>
 
-## Modules
-* [lux-core](https://github.com/igoogolx/lux-core)
-* [lux-js-sdk](https://github.com/igoogolx/lux-js-sdk)
-* [lux-dashboard](https://github.com/igoogolx/lux-dashboard)
-* [lux-geo-data](https://github.com/igoogolx/lux-geo-data)
-* [lux-client](https://github.com/igoogolx/lux-client)
 
-![Relation between modules](https://github.com/igoogolx/lux/raw/main/doc/modules.png)
-
-## Build
-
-### `yarn init-modules`
-
-Download necessary modules
-
-### `yarn build`
-
-Builds the app for production to the `out` folder.<br />
-
-## TODO
-1. [ ] Support more platforms
-
-## License
-
-[MIT]
+[contributors-shield]: https://img.shields.io/github/contributors/igoogolx/lux.svg
+[contributors-url]: https://github.com/igoogolx/lux/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/igoogolx/lux.svg
+[forks-url]: https://github.com/igoogolx/lux/network/members
+[stars-shield]: https://img.shields.io/github/stars/igoogolx/lux.svg
+[stars-url]: https://github.com/igoogolx/lux/stargazers
+[issues-shield]: https://img.shields.io/github/issues/igoogolx/lux.svg
+[issues-url]: https://github.com/igoogolx/lux/issues
+[license-shield]: https://img.shields.io/github/license/igoogolx/lux.svg
+[license-url]: https://github.com/igoogolx/lux/blob/master/LICENSE.txt
