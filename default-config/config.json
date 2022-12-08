@@ -2,8 +2,7 @@
  "proxy": [],
  "rule": [
   {
-   "id": "Proxy All",
-   "name": "Proxy All",
+   "id": "proxy_all",
    "dns": {
     "primary": {
      "address": "119.29.29.29",
@@ -37,8 +36,7 @@
    }
   },
   {
-   "id": "Bypass CN",
-   "name": "Bypass CN",
+   "id": "bypass_cn",
    "dns": {
     "primary": {
      "address": "119.29.29.29",
@@ -75,8 +73,7 @@
    }
   },
   {
-   "id": "Proxy GFW",
-   "name": "Proxy GFW",
+   "id": "proxy_gfw",
    "dns": {
     "primary": {
      "address": "119.29.29.29",
@@ -108,11 +105,44 @@
      "proxy": []
     }
    }
+  },
+  {
+   "id": "bypass_all",
+   "dns": {
+    "primary": {
+     "address": "119.29.29.29",
+     "domains": [
+      ".*"
+     ],
+     "geoSites": []
+    },
+    "secondary": {
+     "address": "8.8.8.8",
+     "domains": [],
+     "geoSites": []
+    }
+   },
+   "ip": {
+    "name": "",
+    "defaultProxy": false,
+    "geoIps": {
+     "bypass": [],
+     "proxy": []
+    },
+    "geoSites": {
+     "bypass": [],
+     "proxy": []
+    },
+    "subnet": {
+     "bypass": [],
+     "proxy": []
+    }
+   }
   }
  ],
  "selected": {
   "proxy": "",
-  "rule": "Proxy All"
+  "rule": "proxy_all"
  },
  "setting": {
   "trueProxyServer": "",
