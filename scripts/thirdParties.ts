@@ -19,28 +19,28 @@ export const downloadThirdParties = async (types: ThirdPartyType[]) => {
   }
   if (types.includes(ThirdPartyType.GeoData)) {
     await download({
-      url: "https://github.com/igoogolx/lux-geo-data/releases/download/v0.0.2/geoData.tar.gz",
+      url: "https://github.com/igoogolx/lux-geo-data/releases/download/v0.0.4/geoData.tar.gz",
       outPath: "third_parties/geoData.tar.gz",
       checksum:
-        "cf1104003e4a4bf108822449dfbba8df9c1d9ea1c16e37554655ee2ae89dff6c",
+        "3ea42d9fea2615726b7f7d61c187621564b4a0d653adf890292ed37c1f601c78",
     });
   }
   if (types.includes(ThirdPartyType.LuxCore)) {
     const platform = os.platform();
     if (platform === "win32") {
       await download({
-        url: "https://github.com/igoogolx/lux-core/releases/download/v0.0.5/lux-core-windows-latest-v0.0.5.exe",
+        url: "https://github.com/igoogolx/lux-core/releases/download/v0.0.6/lux-core-windows-latest-v0.0.6.exe",
         outPath: `third_parties/${getCoreName()}`,
         checksum:
-          "80e245bca17e38e88ed51f0bc6f4f633eca277da61116a3b4a3079c7e852db94",
+          "8f30bfddf5a3a32b6c8fd8118312f0d587646ff2879e9e9de202168d3e291e13",
       });
     }
     if (platform === "darwin") {
       await download({
-        url: "https://github.com/igoogolx/lux-core/releases/download/v0.0.2/lux-core-macos-latest-v0.0.2",
+        url: "https://github.com/igoogolx/lux-core/releases/download/v0.0.6/lux-core-macos-latest-v0.0.6",
         outPath: `third_parties/${getCoreName()}`,
         checksum:
-          "f36c054509c033563e8d1a7bfae926e9055f286bce90d6df4a06dd71e8262ac2",
+          "452505c481cb0c9f7b3cf2c348462b6b11afb5fa2dc56c63cf3737786361e43a",
       });
     }
   }
