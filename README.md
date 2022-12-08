@@ -1,10 +1,4 @@
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![Build Status][build-shield]][build-url]
-[![Version][version-shield]][version-url]
+
 
 
 <br />
@@ -12,6 +6,14 @@
   <a href="https://github.com/igoogolx/lux">
     <img src="assets/logo.svg" alt="Logo" width="80" height="80">
   </a>
+
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
+[![Build Status][build-shield]][build-url]
+[![Version][version-shield]][version-url]
 
 <h3 align="center">Lux</h3>
 A VPN or proxy client, Wndows only for now, inspired by Outline-client(windows). IPV6: not support. 
