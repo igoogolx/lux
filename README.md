@@ -62,6 +62,13 @@ Note that this project only contains building scripts. See more source code in m
 1. Download the [release](https://github.com/igoogolx/lux/releases) file and install it.
 2. Enjoy.
 
+### Modules
+* [lux-core](https://github.com/igoogolx/lux-core)
+* [lux-js-sdk](https://github.com/igoogolx/lux-js-sdk)
+* [lux-dashboard](https://github.com/igoogolx/lux-dashboard)
+* [lux-geo-data](https://github.com/igoogolx/lux-geo-data)
+* [lux-client](https://github.com/igoogolx/lux-client)
+
 ### Development
 
 #### Prerequisites
