@@ -81,7 +81,7 @@ Note that this project only contains building scripts. See more source code in m
    ```
 3. Fetch modules
    ```sh
-   yarn init-projects
+   yarn init-modules
    ```
    Download necessary modules
 4. Start
