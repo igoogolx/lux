@@ -4,7 +4,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/igoogolx/lux">
-    <img src="assets/logo.svg" alt="Logo" width="80" height="80">
+    <img src="assets/logo.svg" alt="Logo" width="100" height="100">
   </a>
 
 [![Contributors][contributors-shield]][contributors-url]
@@ -34,9 +34,61 @@ A VPN or proxy client, Wndows only for now, inspired by Outline-client(windows).
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+<div align="center">
+<a href="https://github.com/igoogolx/lux">
+    <img src="assets/screenshot.png" alt="Screenshot" width="500" >
+</a>
+</div>
 
+There are many great proxy clients available on GitHub like [shadowsocks-windows](https://github.com/shadowsocks/shadowsocks-windows), [clash](https://github.com/Dreamacro/clash). However, I didn't find one that really suited my needs, so I created this one.
+This project aims to make a one-click proxy clients, so users don't need to perform complicated configuration.
 Note that this project only contains building scripts. See more source code in modules section.
+
+
+#### Features
+
+- Supports Shadowsocks, Socks5
+- Built-in Shadowsocks plugin: simple-obfs, v2ray
+- Local Http proxy
+- Supports UDP
+- Built-in Dns, Dns over TCP
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+<!-- GETTING STARTED -->
+## Getting Started
+
+1. Download the [release](https://github.com/igoogolx/lux/releases) file and install it.
+2. Enjoy.
+
+### Development
+
+#### Prerequisites
+
+1. Install [Node.js](https://nodejs.org/en/)
+2. Install [Yarn](https://classic.yarnpkg.com/lang/en/docs/install)
+
+#### Build
+
+1. Clone the repo
+   ```sh
+   git clone https://github.com/igoogolx/lux.git
+   ```
+2. Install NPM packages
+   ```sh
+   yarn install
+   ```
+3. Fetch modules
+   ```sh
+   yarn init-projects
+   ```
+   Download necessary modules
+4. Start
+   ```sh
+   yarn build
+   ```
+   Builds the app for production to the `out` folder.<br />
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -48,6 +100,8 @@ Note that this project only contains building scripts. See more source code in m
 * [![Go][Go.dev]][Golang-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
 
 
 <!-- LICENSE -->
