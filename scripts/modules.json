@@ -1,0 +1,36 @@
+{
+  "projects": [
+    {
+      "repo": "https://github.com/igoogolx/lux-dashboard.git",
+      "branch": "v0.1.2"
+    },
+    {
+      "repo": "https://github.com/igoogolx/lux-js-sdk.git",
+      "branch": "v0.0.2"
+    },
+    {
+      "repo": "https://github.com/igoogolx/lux-client.git",
+      "branch": "v0.1.0"
+    }
+  ],
+  "thirdParties": {
+    "tun": {
+      "url": "https://www.wintun.net/builds/wintun-0.14.1.zip",
+      "checksum": "07c256185d6ee3652e09fa55c0b673e2624b565e02c4b9091c79ca7d2f24ef51"
+    },
+    "geo": {
+      "url": "https://github.com/igoogolx/lux-geo-data/releases/download/v0.0.4/geoData.tar.gz",
+      "checksum": "3ea42d9fea2615726b7f7d61c187621564b4a0d653adf890292ed37c1f601c78"
+    },
+    "core": {
+      "win": {
+        "url": "https://github.com/igoogolx/lux-core/releases/download/v0.0.6/lux-core-windows-latest-v0.0.6.exe",
+        "checksum": "8f30bfddf5a3a32b6c8fd8118312f0d587646ff2879e9e9de202168d3e291e13"
+      },
+      "mac": {
+        "url": "https://github.com/igoogolx/lux-core/releases/download/v0.0.6/lux-core-macos-latest-v0.0.6",
+        "checksum": "452505c481cb0c9f7b3cf2c348462b6b11afb5fa2dc56c63cf3737786361e43a"
+      }
+    }
+  }
+}

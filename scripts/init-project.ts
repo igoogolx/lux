@@ -1,21 +1,7 @@
 import * as path from "path";
 import * as fs from "fs-extra";
 import { runScript } from "./utils";
-
-const modules = [
-  {
-    repo: "https://github.com/igoogolx/lux-dashboard.git",
-    branch: "v0.1.2",
-  },
-  {
-    repo: "https://github.com/igoogolx/lux-js-sdk.git",
-    branch: "v0.0.2",
-  },
-  {
-    repo: "https://github.com/igoogolx/lux-client.git",
-    branch: "v0.1.0",
-  },
-];
+import modulesConfig from "./modules.json";
 
 async function cloneGitRepo(url: string, branch: string, dir: string) {
   await runScript("git", ["clone", "--branch", branch, url], dir);
@@ -31,7 +17,7 @@ async function start() {
     await fs.ensureDir(dir);
     await fs.emptyDir(dir);
     await Promise.all(
-      modules.map(async (module) => {
+      modulesConfig.projects.map(async (module) => {
         const name = getModuleName(module.repo);
         console.log(`cloning ${name}`);
         await cloneGitRepo(module.repo, module.branch, dir);
