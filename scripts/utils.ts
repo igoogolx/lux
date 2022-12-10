@@ -2,6 +2,7 @@ import * as crypto from "crypto";
 import * as fs from "fs";
 import * as os from "os";
 import * as shell from "shelljs";
+import * as path from "path";
 
 export const runScript = (
   command: string,
@@ -46,7 +47,7 @@ export function fileHash(filename: string, algorithm = "sha256") {
   });
 }
 
-const packageInfo = JSON.parse(fs.readFileSync("package.json", "utf8"));
+export const packageInfo = JSON.parse(fs.readFileSync("package.json", "utf8"));
 export const getClientName = () => {
   const platform = os.platform();
   let ext = "";
@@ -69,3 +70,11 @@ export const getCoreName = () => {
   }
   return name;
 };
+export const modulesConfig = JSON.parse(
+  fs.readFileSync(path.join("scripts", "modules.json"), "utf8")
+);
+
+export function getModuleName(url: string) {
+  const suffix = url.split("/").pop();
+  return suffix.split(".")[0];
+}

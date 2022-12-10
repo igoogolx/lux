@@ -1,7 +1,6 @@
 import * as os from "os";
 import { download } from "./downloader";
-import { getCoreName } from "./utils";
-import modulesConfig from "./modules.json";
+import { getCoreName, modulesConfig } from "./utils";
 
 export enum ThirdPartyType {
   Wintun,

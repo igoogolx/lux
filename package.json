@@ -6,6 +6,7 @@
   "license": "MIT",
   "scripts": {
     "init-modules": "ts-node scripts/init-project.ts",
+    "update-modules": "ts-node scripts/update-modules",
     "build": "ts-node scripts/build.ts",
     "build:dev": "ts-node scripts/buildDev.ts",
     "create-core-dir": "ts-node scripts/createCoreDir.ts"
