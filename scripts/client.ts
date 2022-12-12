@@ -1,5 +1,5 @@
 import * as os from "os";
-import { getClientName, runScript } from "./utils";
+import { getInstallerName, runScript } from "./utils";
 
 export const buildClient = async (path: string, isDev = false) => {
   const platform = os.platform();
@@ -9,7 +9,7 @@ export const buildClient = async (path: string, isDev = false) => {
   } else if (platform === "darwin") {
     buildForOs = "--mac";
   }
-  const outName = getClientName();
+  const outName = getInstallerName();
   await runScript("yarn", ["install"], path);
   const makeScript = isDev ? "make:dev" : "make";
   await runScript(

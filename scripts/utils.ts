@@ -48,17 +48,18 @@ export function fileHash(filename: string, algorithm = "sha256") {
 }
 
 export const packageInfo = JSON.parse(fs.readFileSync("package.json", "utf8"));
-export const getClientName = () => {
-  const platform = os.platform();
+
+export const getAppName = () =>
+  `${packageInfo.name}-${os.platform()}-${os.arch()}-${packageInfo.version}`;
+
+export const getInstallerName = () => {
   let ext = "";
   if (os.platform() === "darwin") {
     ext = "dmg";
   } else if (os.platform() === "win32") {
     ext = "exe";
   }
-  return `${packageInfo.name}-${platform}-${os.arch()}-${
-    packageInfo.version
-  }.${ext}`;
+  return `${getAppName()}.${ext}`;
 };
 
 export const getCoreName = () => {
