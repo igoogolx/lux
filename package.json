@@ -15,6 +15,7 @@
     "@types/decompress": "^4.2.4",
     "@types/fs-extra": "^9.0.13",
     "@types/node": "^17.0.21",
+    "adm-zip": "^0.5.9",
     "axios": "^0.26.1",
     "decompress": "^4.2.1",
     "eslint": "^8.11.0",
