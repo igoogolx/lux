@@ -8,7 +8,7 @@ async function getLatestTag(project: string) {
     `https://api.github.com/repos/igoogolx/${project}/tags`
   );
   const tags = res.data as { name: string }[];
-  return tags.pop().name;
+  return tags[0].name;
 }
 
 async function main() {
@@ -17,13 +17,13 @@ async function main() {
     modulesConfig.projects.map(
       async (project: { repo: string; tag: string }, index: number) => {
         const name = getModuleName(project.repo);
-        newModulesConfig.projects[index].tag = await getLatestTag(name);
+        newModulesConfig.projects[index].branch = await getLatestTag(name);
       }
     )
   );
   await fs.writeFile(
     path.join("scripts", "modules.json"),
-    JSON.stringify(modulesConfig, null, 2)
+    JSON.stringify(newModulesConfig, null, 2)
   );
 }
 
