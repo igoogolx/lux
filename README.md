@@ -86,21 +86,21 @@ There are two ways to use lux.
 
 
 
-### Modules
+## Modules
 * [lux-core](https://github.com/igoogolx/lux-core)
 * [lux-js-sdk](https://github.com/igoogolx/lux-js-sdk)
 * [lux-dashboard](https://github.com/igoogolx/lux-dashboard)
 * [lux-geo-data](https://github.com/igoogolx/lux-geo-data)
 * [lux-client](https://github.com/igoogolx/lux-client)
 
-### Development
+## Development
 
-#### Prerequisites
+### Prerequisites
 
 1. Install [Node.js](https://nodejs.org/en/)
 2. Install [Yarn](https://classic.yarnpkg.com/lang/en/docs/install)
 
-#### Build
+### Build
 
 1. Clone the repo
    ```sh
