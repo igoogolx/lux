@@ -42,4 +42,5 @@ jobs:
           draft: true
           files: |
             out/*.exe
-            out/*.exe.sha256
+            out/*.zip
+            out/*.sha256
