@@ -28,6 +28,22 @@ A VPN or proxy client, Wndows only for now, inspired by Outline-client(windows).
 </div>
 
 
+
+- [About The Project](#about-the-project)
+    - [Features](#features)
+- [Getting Started](#getting-started)
+    - [1. Install it as an app](#1-install-it-as-an-app)
+    - [2. Start it from terminal](#2-start-it-from-terminal)
+  - [Modules](#modules)
+  - [Development](#development)
+    - [Prerequisites](#prerequisites)
+    - [Build](#build)
+  - [Built With](#built-with)
+- [License](#license)
+- [Contact](#contact)
+
+
+
 ## About The Project
 
 <div align="center">
