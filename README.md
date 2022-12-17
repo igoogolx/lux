@@ -58,8 +58,20 @@ Note that this project only contains building scripts. See more source code in m
 <!-- GETTING STARTED -->
 ## Getting Started
 
-1. Download the [release](https://github.com/igoogolx/lux/releases) file and install it.
-2. Enjoy.
+There are two ways to use lux.
+
+##### 1. Install it as an app
+1. Download the [installation](https://github.com/igoogolx/lux/releases) file and install it
+2. Open it like a normal app
+
+##### 2. Start it from terminal
+1. Download the [portable app](https://github.com/igoogolx/lux/releases) file and install it.
+2. Unzip it to your favorite folder
+3. Open terminal as **admin** from the folder
+4. Run `lux`
+5. Copy the url from the output and open it in your browser
+
+
 
 ### Modules
 * [lux-core](https://github.com/igoogolx/lux-core)
