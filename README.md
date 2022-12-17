@@ -65,7 +65,7 @@ There are two ways to use lux.
 2. Open it like a normal app
 
 ##### 2. Start it from terminal
-1. Download the [portable app](https://github.com/igoogolx/lux/releases) file and install it.
+1. Download the [portable app](https://github.com/igoogolx/lux/releases) file.
 2. Unzip it to your favorite folder
 3. Open terminal as **admin** from the folder
 4. Run `lux`
