@@ -1,5 +1,5 @@
 import * as os from "os";
-import { getInstallerName, runScript } from "./utils";
+import { getInstallerName, runScript, packageInfo } from "./utils";
 
 export const buildClient = async (path: string, isDev = false) => {
   const platform = os.platform();
@@ -14,7 +14,14 @@ export const buildClient = async (path: string, isDev = false) => {
   const makeScript = isDev ? "make:dev" : "make";
   await runScript(
     "yarn",
-    [makeScript, "--config.artifactName", outName, buildForOs],
+    [
+      makeScript,
+      "--config.artifactName",
+      outName,
+      "--config.extraMetadata.version",
+      packageInfo.version,
+      buildForOs,
+    ],
     path,
     true
   );
