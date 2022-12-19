@@ -4,14 +4,13 @@
   //A group of matcher rules to determine which DNS server to use and how an ip is connected(proxy or direct)
   "rule": [
     {
-      "id": "Proxy All",
       // The name of this rule, used to display in dashboard
-      "name": "Proxy All",
+      "name": "proxy_all",
       "dns": {
         //If a domain is not matched, fallback to primary
         "primary": {
           // DNS server: dhcp or ip
-          "address": "dhcp",
+          "address": "114.114.114.114",
           //Match by domains, only support regex
           "domains": [],
           //Match by geo site files
@@ -51,15 +50,14 @@
   //Current selected rule and proxy server
   "selected": {
     "proxy": "",
-    "rule": "Proxy All"
+    "rule": "proxy_all"
   },
   "setting": {
-    //Think it as ip.subnet.bypass
-    "bypassIps": [],
+    // Actual proxy server address. It's necessary when your server address is 127.0.0.1 or localhost. In that case,
+    // lux must know the actual address
+    "trueProxyServer": "",
     //Default outbound network interface name. If not set, lux will find it automatically
     "defaultInterface": "",
-    //Think it as dns.primary.domains
-    "primaryDomains": [],
     //Allow other devices in LAN to connect
     "localServer": {
       "http": {
