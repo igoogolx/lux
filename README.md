@@ -18,7 +18,7 @@
 A VPN or proxy client, Wndows only for now, inspired by Outline-client(windows). IPV6: not support. 
   <p align="center">
     <br />
-    <a href="https://github.com/igoogolx/lux"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/igoogolx/lux/wiki"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/igoogolx/lux/issues">Report Bug</a>
