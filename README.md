@@ -162,7 +162,7 @@ Project Link: [https://github.com/igoogolx/lux](https://github.com/igoogolx/lux)
 [issues-url]: https://github.com/igoogolx/lux/issues
 [license-shield]: https://img.shields.io/github/license/igoogolx/lux.svg
 [license-url]: https://github.com/igoogolx/lux/blob/master/LICENSE.txt
-[build-shield]: https://img.shields.io/github/workflow/status/igoogolx/lux/Build
+[build-shield]: https://github.com/igoogolx/lux/actions/workflows/build.yml/badge.svg
 [build-url]: https://github.com/igoogolx/lux/actions/workflows/build.yml
 [version-shield]: https://img.shields.io/github/package-json/v/igoogolx/lux
 [version-url]: https://github.com/igoogolx/lux/releases
