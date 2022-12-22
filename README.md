@@ -21,6 +21,8 @@ A VPN or proxy client, Wndows only for now, inspired by Outline-client(windows).
     <a href="https://github.com/igoogolx/lux/wiki"><strong>Explore the docs »</strong></a>
     <br />
     <br />
+    <a href="https://igoogolx.github.io/lux-dashboard/">View Demo</a>
+    .
     <a href="https://github.com/igoogolx/lux/issues">Report Bug</a>
     ·
     <a href="https://github.com/igoogolx/lux/issues">Request Feature</a>
