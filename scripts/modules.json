@@ -2,7 +2,7 @@
   "projects": [
     {
       "repo": "https://github.com/igoogolx/lux-dashboard.git",
-      "branch": "v0.1.6"
+      "branch": "v0.1.9"
     },
     {
       "repo": "https://github.com/igoogolx/lux-js-sdk.git",
@@ -10,7 +10,7 @@
     },
     {
       "repo": "https://github.com/igoogolx/lux-client.git",
-      "branch": "v0.1.2"
+      "branch": "v0.1.4"
     }
   ],
   "thirdParties": {
