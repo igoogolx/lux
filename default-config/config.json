@@ -34,12 +34,12 @@
     {
       "id": "bypass_cn",
       "dns": {
-        "primary": {
+        "local": {
           "address": "114.114.114.114",
           "domains": [],
           "geoSites": ["CN"]
         },
-        "secondary": {
+        "remote": {
           "address": "8.8.8.8",
           "domains": [".*"],
           "geoSites": []
@@ -64,12 +64,12 @@
     {
       "id": "proxy_gfw",
       "dns": {
-        "primary": {
+        "local": {
           "address": "114.114.114.114",
           "domains": [],
           "geoSites": []
         },
-        "secondary": {
+        "remote": {
           "address": "8.8.8.8",
           "domains": [],
           "geoSites": ["GFW"]
@@ -94,12 +94,12 @@
     {
       "id": "bypass_all",
       "dns": {
-        "primary": {
+        "local": {
           "address": "114.114.114.114",
           "domains": [".*"],
           "geoSites": []
         },
-        "secondary": {
+        "remote": {
           "address": "8.8.8.8",
           "domains": [],
           "geoSites": []
