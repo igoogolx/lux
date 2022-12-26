@@ -40,6 +40,7 @@ A VPN or proxy client, Wndows only for now, inspired by Outline-client(windows).
 - [Development](#development)
   - [Prerequisites](#prerequisites)
   - [Build](#build)
+- [Roadmap](#roadmap)
 - [Built With](#built-with)
 - [License](#license)
 - [Contact](#contact)
@@ -122,6 +123,19 @@ There are two ways to use lux.
    yarn build
    ```
    Builds the app for production to the `out` folder.<br />
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+## Roadmap
+
+- [ ] Add splash screen
+- [ ] Improve UI of About page
+- [ ] Support DNS over https
+- [ ] Support Mac OS
+- [ ] Support IPV6
+
+See the [open issues](https://github.com/igoogolx/lux/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
