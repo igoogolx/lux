@@ -36,7 +36,6 @@ async function copyPortableApp() {
 
 export const start = async (isDev = false) => {
   try {
-    const platform = os.platform();
     await startDashboard(isDev);
     const downloadTypes = [ThirdPartyType.GeoData, ThirdPartyType.LuxCore];
     const coreTypes = [
@@ -45,10 +44,6 @@ export const start = async (isDev = false) => {
       CoreType.Config,
       CoreType.LuxCore,
     ];
-    if (platform === "win32") {
-      downloadTypes.push(ThirdPartyType.Wintun);
-      coreTypes.push(CoreType.Wintun);
-    }
     await startDownload(downloadTypes);
     console.log("Creating core...");
     await createCoreDir(coreTypes);

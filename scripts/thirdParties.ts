@@ -3,19 +3,11 @@ import { download } from "./downloader";
 import { getCoreName, modulesConfig } from "./utils";
 
 export enum ThirdPartyType {
-  Wintun,
   GeoData,
   LuxCore,
 }
 
 export const downloadThirdParties = async (types: ThirdPartyType[]) => {
-  if (types.includes(ThirdPartyType.Wintun)) {
-    await download({
-      url: modulesConfig.thirdParties.tun.url,
-      outPath: "third_parties/wintun.zip",
-      checksum: modulesConfig.thirdParties.tun.checksum,
-    });
-  }
   if (types.includes(ThirdPartyType.GeoData)) {
     await download({
       url: modulesConfig.thirdParties.geo.url,

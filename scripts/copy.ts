@@ -10,12 +10,6 @@ export const copyGeoData = () =>
     path.join("core", "geoData")
   );
 
-export const copyWintun = () =>
-  fs.copy(
-    path.join(THIRD_PARTIES_PATH, "wintun", "bin", "amd64", "wintun.dll"),
-    path.join("core", "wintun.dll")
-  );
-
 export const copyDefaultConfig = () =>
   fs.copy(
     path.join(process.cwd(), "default-config", "config.json"),
