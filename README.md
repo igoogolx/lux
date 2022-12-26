@@ -131,6 +131,7 @@ There are two ways to use lux.
 
 - [ ] Add splash screen
 - [ ] Improve UI of About page
+- [ ] Improve UI Dark mode
 - [ ] Support DNS over https
 - [ ] Support Mac OS
 - [ ] Support IPV6
