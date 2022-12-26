@@ -24,12 +24,12 @@
     },
     "core": {
       "win": {
-        "url": "https://github.com/igoogolx/lux-core/releases/download/v0.0.7/lux-core-windows-latest-v0.0.7.exe",
-        "checksum": "58af73933aa248429026c69dc94e58a6891156fcdfa80f477912e2cc7f929024"
+        "url": "https://github.com/igoogolx/lux-core/releases/download/v0.0.8/lux-core-windows-latest-v0.0.8.exe",
+        "checksum": "5eaec1dc4226ab71763d860f76d2a49d4b1375004cde00f5996794b3c86b2bf8"
       },
       "mac": {
-        "url": "https://github.com/igoogolx/lux-core/releases/download/v0.0.7/lux-core-macos-latest-v0.0.7",
-        "checksum": "516268560173a8ef553da52d7c091285b51c80ccc38e99968beb38594d0d262f"
+        "url": "https://github.com/igoogolx/lux-core/releases/download/v0.0.8/lux-core-macos-latest-v0.0.8",
+        "checksum": "bf9be85d812d2e2ce23b0750f050b78340ca0e29460285d0d6fa7b02218c2e69"
       }
     }
   }
