@@ -4,12 +4,12 @@
     {
       "id": "proxy_all",
       "dns": {
-        "primary": {
+        "local": {
           "address": "114.114.114.114",
           "domains": [],
           "geoSites": []
         },
-        "secondary": {
+        "remote": {
           "address": "8.8.8.8",
           "domains": [".*"],
           "geoSites": []
@@ -106,7 +106,6 @@
         }
       },
       "ip": {
-        "name": "",
         "defaultProxy": false,
         "geoIps": {
           "bypass": [],
