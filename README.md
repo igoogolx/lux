@@ -129,7 +129,7 @@ There are two ways to use lux.
 
 ## Roadmap
 
-- [ ] Add splash screen
+- [x] Add splash screen
 - [ ] Improve UI of About page
 - [ ] Improve UI Dark mode
 - [ ] Support DNS over https
