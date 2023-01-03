@@ -84,7 +84,9 @@ There are two ways to use lux.
 2. Open it like a normal app
 
 ##### 1.2 Install it from [winget](https://github.com/microsoft/winget-cli)(windows only)
-`winget install igoogolx.lux`
+```sh
+winget install igoogolx.lux
+```
 
 #### 2. Start it from terminal
 1. Download the [portable app](https://github.com/igoogolx/lux/releases) file.
