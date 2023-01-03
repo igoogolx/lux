@@ -35,6 +35,8 @@ A VPN or proxy client, Wndows only for now, inspired by Outline-client(windows).
     - [Features](#features)
 - [Getting Started](#getting-started)
     - [1. Install it as an app](#1-install-it-as-an-app)
+      - [1.1 Install it manually](#11-install-it-manually)
+      - [1.2 Install it from winget(windows only)](#12-install-it-from-wingetwindows-only)
     - [2. Start it from terminal](#2-start-it-from-terminal)
 - [Modules](#modules)
 - [Development](#development)
@@ -77,8 +79,12 @@ Note that this project only contains building scripts. See more source code in m
 There are two ways to use lux.
 
 #### 1. Install it as an app
-1. Download the [installation](https://github.com/igoogolx/lux/releases) file and install it
+##### 1.1 Install it manually
+1. Download the [installer](https://github.com/igoogolx/lux/releases) file and install it
 2. Open it like a normal app
+
+##### 1.2 Install it from [winget](https://github.com/microsoft/winget-cli)(windows only)
+`winget install igoogolx.lux`
 
 #### 2. Start it from terminal
 1. Download the [portable app](https://github.com/igoogolx/lux/releases) file.
