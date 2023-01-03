@@ -37,7 +37,7 @@ jobs:
       - run: yarn build
 
       - name: GH Release
-        uses: softprops/action-gh-release@v0.1.13
+        uses: softprops/action-gh-release@v1
         with:
           draft: true
           files: |
