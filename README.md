@@ -53,7 +53,7 @@ A VPN or proxy client, Wndows only for now, inspired by Outline-client(windows).
 
 <div align="center">
 <a href="https://github.com/igoogolx/lux">
-    <img src="assets/screenshot.png" alt="Screenshot" width="500" >
+    <img src="assets/screenshot.png" alt="Screenshot" width="500" style="border-radius: 5px" >
 </a>
 </div>
 
