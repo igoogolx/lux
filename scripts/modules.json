@@ -2,7 +2,7 @@
   "projects": [
     {
       "repo": "https://github.com/igoogolx/lux-dashboard.git",
-      "branch": "v0.2.8"
+      "branch": "v0.3.1"
     },
     {
       "repo": "https://github.com/igoogolx/lux-client.git",
@@ -16,12 +16,12 @@
     },
     "core": {
       "win": {
-        "url": "https://github.com/igoogolx/lux-core/releases/download/v0.1.2/lux-core-windows-latest-v0.1.2.exe",
-        "checksum": "23666bee43e887c63b3a90dfa59a92456f398c36c08bee5b5df90837ffbf163c"
+        "url": "https://github.com/igoogolx/lux-core/releases/download/v0.1.3/lux-core-windows-latest-v0.1.3.exe",
+        "checksum": "c2d67c1626b65a25d5b38384c9c9bc7d1dfe00dde9d81a8332f9ce24185d1d9b"
       },
       "mac": {
-        "url": "https://github.com/igoogolx/lux-core/releases/download/v0.1.2/lux-core-macos-latest-v0.1.2",
-        "checksum": "f9205402716d28f9d0d053517a32f10caa6c8292233b5d1e2c23a13d3fc29c40"
+        "url": "https://github.com/igoogolx/lux-core/releases/download/v0.1.3/lux-core-macos-latest-v0.1.3",
+        "checksum": "b184acba3488258be096e73a42bdde577061c92a90eff9e545f25b8b8ff3b79d"
       }
     }
   }
