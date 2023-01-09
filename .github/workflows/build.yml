@@ -47,6 +47,4 @@ jobs:
             out/*.sha256
 
       - name: Winget Release
-      - run: winget install wingetcreate
-      - run: wingetcreate update --urls https://github.com/igoogolx/lux/releases/download/v0.1.9/lux-win32-x64-0.1.9.exe --version 0.1.9 igoogolx.lux
-      - run: yarn build
+      - run: yarn winget-release
