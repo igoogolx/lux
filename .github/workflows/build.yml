@@ -45,5 +45,3 @@ jobs:
             out/*.exe
             out/*.zip
             out/*.sha256
-
-      - run: yarn winget-release
