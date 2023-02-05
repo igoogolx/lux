@@ -5,5 +5,5 @@ export const buildDashboard = async (path: string, isDev = false) => {
   const buildScript = `${isDev ? "build:dev" : "build"} --env CLIENT_VERSION=${
     packageInfo.version
   }`;
-  await runScript("yarn", [buildScript], path);
+  await runScript("yarn", [buildScript], path, true);
 };
