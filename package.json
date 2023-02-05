@@ -3,7 +3,7 @@
   "version": "0.2.1",
   "repository": "https://github.com/igoogolx/lux.git",
   "author": "igoogolx <27353191+igoogolx@users.noreply.github.com>",
-  "license": "MIT",
+  "license": "GPL-3.0",
   "scripts": {
     "winget-release": "ts-node scripts/winget.ts",
     "init-modules": "ts-node scripts/init-project.ts",
