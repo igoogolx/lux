@@ -98,7 +98,7 @@ winget install igoogolx.lux
 
 
 ## Modules
-* [lux-core](https://github.com/igoogolx/lux-core)
+* [itun2socks](https://github.com/igoogolx/itun2socks)
 * [lux-js-sdk](https://github.com/igoogolx/lux-js-sdk)
 * [lux-dashboard](https://github.com/igoogolx/lux-dashboard)
 * [lux-geo-data](https://github.com/igoogolx/lux-geo-data)
