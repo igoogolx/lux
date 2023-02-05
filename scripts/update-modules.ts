@@ -31,7 +31,7 @@ async function getLatestRelease(project: string) {
 }
 
 async function updateCore() {
-  const { assets } = await getLatestRelease("lux-core");
+  const { assets } = await getLatestRelease("itun2socks");
   const coreConfig = {
     win: { url: "", checksum: "" },
     mac: { url: "", checksum: "" },
@@ -39,7 +39,7 @@ async function updateCore() {
   await Promise.all(
     assets.map(async (asset) => {
       let type: keyof typeof coreConfig = "win";
-      if (asset.name.startsWith("lux-core-windows")) {
+      if (asset.name.startsWith("itun2socks-windows")) {
         type = "win";
       } else {
         type = "mac";
