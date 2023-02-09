@@ -1,7 +1,7 @@
 import * as os from "os";
 import * as path from "path";
 import { download } from "./downloader";
-import { getCoreName, modulesConfig } from "./utils";
+import { modulesConfig } from "./utils";
 
 export enum ThirdPartyType {
   GeoData,
