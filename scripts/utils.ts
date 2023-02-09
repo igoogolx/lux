@@ -62,6 +62,16 @@ export const getInstallerName = () => {
   return `${getAppName()}.${ext}`;
 };
 
+export const getItun2socksName = () => {
+  let name = "";
+  if (os.platform() === "darwin") {
+    name = "itun2socks";
+  } else if (os.platform() === "win32") {
+    name = "itun2socks.exe";
+  }
+  return name;
+};
+
 export const getCoreName = () => {
   let name = "";
   if (os.platform() === "darwin") {
