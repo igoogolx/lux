@@ -12,7 +12,7 @@ export const downloadThirdParties = async (types: ThirdPartyType[]) => {
   if (types.includes(ThirdPartyType.GeoData)) {
     await download({
       url: modulesConfig.thirdParties.geo.url,
-      outPath: "third_parties/geoData.tar.gz",
+      outPath: path.join("third_parties", "geoData.tar.gz"),
       checksum: modulesConfig.thirdParties.geo.checksum,
     });
   }
