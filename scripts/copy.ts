@@ -10,12 +10,6 @@ export const copyGeoData = () =>
     path.join("core", "geoData")
   );
 
-export const copyDefaultConfig = () =>
-  fs.copy(
-    path.join(process.cwd(), "default-config", "config.json"),
-    path.join("core", "config.json")
-  );
-
 export const copyLuxCore = () => {
   const coreName = getCoreName();
   return fs.copy(

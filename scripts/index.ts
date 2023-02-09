@@ -38,12 +38,7 @@ export const start = async (isDev = false) => {
   try {
     await startDashboard(isDev);
     const downloadTypes = [ThirdPartyType.GeoData, ThirdPartyType.LuxCore];
-    const coreTypes = [
-      CoreType.GeoData,
-      CoreType.Dashboard,
-      CoreType.Config,
-      CoreType.LuxCore,
-    ];
+    const coreTypes = [CoreType.GeoData, CoreType.Dashboard, CoreType.LuxCore];
     await startDownload(downloadTypes);
     console.log("Creating core...");
     await createCoreDir(coreTypes);

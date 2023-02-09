@@ -3,7 +3,7 @@ import * as fs from "fs-extra";
 import { buildDashboard } from "./dashboard";
 import { buildClient } from "./client";
 import { downloadThirdParties, ThirdPartyType } from "./thirdParties";
-import { copyDefaultConfig, copyGeoData, copyLuxCore } from "./copy";
+import { copyGeoData, copyLuxCore } from "./copy";
 import {
   CLIENT_PATH,
   CORE_DIR_NAME,
@@ -15,7 +15,6 @@ import {
 export enum CoreType {
   Dashboard,
   GeoData,
-  Config,
   LuxCore,
 }
 
@@ -31,9 +30,6 @@ export const createCoreDir = async (types: CoreType[]) => {
       );
     if (types.includes(CoreType.GeoData)) {
       await copyGeoData();
-    }
-    if (types.includes(CoreType.Config)) {
-      await copyDefaultConfig();
     }
 
     if (types.includes(CoreType.LuxCore)) {
