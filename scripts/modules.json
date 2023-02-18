@@ -16,11 +16,11 @@
     },
     "core": {
       "win": {
-        "url": "https://github.com/igoogolx/itun2socks/releases/download/v0.1.8/itun2socks_Windows_x86_64.zip",
+        "url": "https://github.com/igoogolx/itun2socks/releases/download/v0.1.9/itun2socks_Windows_x86_64.zip",
         "checksum": "9fe679bcc988fd23fb4ee458cd72fa5f452ad7c5ed8d4d955560e9d706e10616"
       },
       "mac": {
-        "url": "https://github.com/igoogolx/itun2socks/releases/download/v0.1.8/itun2socks_Darwin_x86_64.tar.gz",
+        "url": "https://github.com/igoogolx/itun2socks/releases/download/v0.1.9/itun2socks_Darwin_x86_64.tar.gz",
         "checksum": "2b0b4a149cde375e6062903eb80ad836b7a7adab63b056bc05ebbe0ebc59b7db"
       }
     }
