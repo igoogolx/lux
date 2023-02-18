@@ -2,7 +2,7 @@
   "projects": [
     {
       "repo": "https://github.com/igoogolx/lux-dashboard.git",
-      "branch": "v0.3.7"
+      "branch": "v0.3.9"
     },
     {
       "repo": "https://github.com/igoogolx/lux-client.git",
@@ -17,11 +17,11 @@
     "core": {
       "win": {
         "url": "https://github.com/igoogolx/itun2socks/releases/download/v0.1.8/itun2socks_Windows_x86_64.zip",
-        "checksum": "6751bda51b1d7bafc0698c3b7c954f335a27433df6bf374344bbc5f22e87d035"
+        "checksum": "9fe679bcc988fd23fb4ee458cd72fa5f452ad7c5ed8d4d955560e9d706e10616"
       },
       "mac": {
         "url": "https://github.com/igoogolx/itun2socks/releases/download/v0.1.8/itun2socks_Darwin_x86_64.tar.gz",
-        "checksum": "3f78d82b813e34e093b839a2f7aaadf47181e8a09d5c022377460f42f433d5bf"
+        "checksum": "2b0b4a149cde375e6062903eb80ad836b7a7adab63b056bc05ebbe0ebc59b7db"
       }
     }
   }
