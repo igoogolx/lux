@@ -5,7 +5,6 @@
   "author": "igoogolx <27353191+igoogolx@users.noreply.github.com>",
   "license": "GPL-3.0",
   "scripts": {
-    "winget-release": "ts-node scripts/winget.ts",
     "init-modules": "ts-node scripts/init-project.ts",
     "update-modules": "ts-node scripts/update-modules",
     "build": "ts-node scripts/build.ts",
