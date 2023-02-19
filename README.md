@@ -64,7 +64,8 @@ Note that this project only contains building scripts. See more source code in m
 
 #### Features
 
-- Supports Shadowsocks, Socks5
+- Supports importing proxies from clash config
+- Supports editing Shadowsocks, Socks5, Http
 - Built-in Shadowsocks plugin: simple-obfs, v2ray
 - Local Http proxy
 - Supports UDP
