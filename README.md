@@ -140,7 +140,7 @@ winget install igoogolx.lux
 
 - [x] Add splash screen
 - [ ] Improve UI of About page
-- [ ] Improve UI Dark mode
+- [x] Improve UI Dark mode
 - [ ] Support DNS over https
 - [ ] Support Mac OS
 - [ ] Support IPV6
