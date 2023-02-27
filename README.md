@@ -178,6 +178,17 @@ Project Link: [https://github.com/igoogolx/lux](https://github.com/igoogolx/lux)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+<!-- FAQ -->
+## FAQ
+### 1.What's the difference between lux and clash?
+Lux is built on Clash's code but is not another GUI client for clash. Lux only use Clash's outbound feature.
+
+* Lux is fully open sourced. However, Clash Premium is close sourced.
+* Lux is GUI-First and focus on client-side. Clash is a universal proxy platform and is responsible for both the server-side code and the server-side.
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 
 [contributors-shield]: https://img.shields.io/github/contributors/igoogolx/lux.svg
 [contributors-url]: https://github.com/igoogolx/lux/graphs/contributors
