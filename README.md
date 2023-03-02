@@ -46,6 +46,8 @@ A VPN or proxy client, Wndows only for now, inspired by Outline-client(windows).
 - [Built With](#built-with)
 - [License](#license)
 - [Contact](#contact)
+- [FAQ](#faq)
+  - [1.What's the difference between lux and clash?](#1whats-the-difference-between-lux-and-clash)
 
 
 
@@ -175,6 +177,17 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 ## Contact
 
 Project Link: [https://github.com/igoogolx/lux](https://github.com/igoogolx/lux)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- FAQ -->
+## FAQ
+### 1.What's the difference between lux and clash?
+Lux is built on Clash's code but is not another GUI client for clash. Lux only use Clash's outbound feature.
+
+* Lux is fully open sourced. However, Clash Premium is close sourced.
+* Lux is GUI-First and focus on client-side. Clash is a universal proxy platform and is responsible for both the server-side code and the server-side.
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
