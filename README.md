@@ -187,6 +187,7 @@ Lux is built on Clash's code but is not another GUI client for clash. Lux only u
 
 * Lux is fully open sourced. However, Clash Premium is close sourced.
 * Lux is GUI-First and focus on client-side. Clash is a universal proxy platform and is responsible for both the server-side code and the client-side.
+* Lux is easy to start because of built-in proxy rules. Clash is highly customized and requires users to equip with cs background to configure.
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
