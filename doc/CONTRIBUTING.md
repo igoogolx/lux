@@ -9,7 +9,7 @@ Thank you for your interest in contributing to lux! In this document, we'll outl
 3. Yarn
 4. Git
 
-Before next steps, plz read the arch and understand child modules and why they exist.
+Before next steps, plz read the [arch](https://github.com/igoogolx/lux/blob/main/doc/architecture.md) and understand child modules and why they exist.
 
 ### Init project
 1. Clone this repo
@@ -19,10 +19,23 @@ Before next steps, plz read the arch and understand child modules and why they e
 1. Run dashboard
 
 ```sh
+cd {lux_dir}\modules\lux-dashboard
+```
+
+```sh
+yarn install
+```
+
+```sh
 yarn dev
 ```
 
-2. Run itun2socks
+2. Run Itun2socks
+
+```sh
+cd {lux_dir}\modules\itun2socks
+```
+
 ```sh
 go run -tags="with_gvisor debug" .\main.go -home-dir ..\..\core
 ```
