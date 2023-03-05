@@ -43,10 +43,10 @@ A VPN or proxy client, Wndows only for now, inspired by Outline-client(windows).
   - [Prerequisites](#prerequisites)
   - [Build](#build)
 - [Roadmap](#roadmap)
+- [Contributing](#contributing)
 - [Built With](#built-with)
 - [License](#license)
 - [Contact](#contact)
-- [Contributing](#contributing)
 - [FAQ](#faq)
   - [1.What's the difference between lux and clash?](#1whats-the-difference-between-lux-and-clash)
 
