@@ -5,7 +5,7 @@
   "author": "igoogolx <27353191+igoogolx@users.noreply.github.com>",
   "license": "GPL-3.0",
   "scripts": {
-    "init-modules": "ts-node scripts/init-project.ts",
+    "init-modules": "ts-node scripts/cmd/init-project.ts",
     "update-modules": "ts-node scripts/update-modules",
     "build": "ts-node scripts/build.ts",
     "build:dev": "ts-node scripts/buildDev.ts"

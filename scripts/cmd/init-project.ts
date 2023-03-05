@@ -1,6 +1,6 @@
 import * as path from "path";
 import * as fs from "fs-extra";
-import { getModuleName, modulesConfig, runScript } from "./utils";
+import { getModuleName, modulesConfig, runScript } from "../utils";
 
 async function cloneGitRepo(url: string, branch: string, dir: string) {
   await runScript("git", ["clone", "--branch", branch, url], dir);
