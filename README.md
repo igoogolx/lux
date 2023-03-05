@@ -46,6 +46,7 @@ A VPN or proxy client, Wndows only for now, inspired by Outline-client(windows).
 - [Built With](#built-with)
 - [License](#license)
 - [Contact](#contact)
+- [Contributing](#contributing)
 - [FAQ](#faq)
   - [1.What's the difference between lux and clash?](#1whats-the-difference-between-lux-and-clash)
 
@@ -152,6 +153,12 @@ See the [open issues](https://github.com/igoogolx/lux/issues) for a full list of
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Contributing
+
+Please see our [contribution guide](https://github.com/igoogolx/lux/blob/main/doc/CONTRIBUTING.md).
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 
 ## Built With
 
@@ -179,6 +186,8 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 Project Link: [https://github.com/igoogolx/lux](https://github.com/igoogolx/lux)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
 
 <!-- FAQ -->
 ## FAQ
