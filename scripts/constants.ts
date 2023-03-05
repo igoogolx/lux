@@ -1,5 +1,4 @@
 import * as path from "path";
-import * as os from "os";
 
 export const MODULES_PATH = path.join(process.cwd(), "modules");
 export const DASHBOARD_PATH = path.join(MODULES_PATH, "lux-dashboard");
