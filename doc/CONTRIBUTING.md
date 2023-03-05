@@ -16,7 +16,18 @@ Before next steps, plz read the [arch](https://github.com/igoogolx/lux/blob/main
 2. Run `yarn init-modules` that will download child modules in modules dir.
 
 ### Start development
-1. Run dashboard
+
+1. Download third parties
+
+```sh
+cd {lux_dir}
+```
+
+```sh
+yarn create-core-dir
+```
+
+2. Run dashboard
 
 ```sh
 cd {lux_dir}\modules\lux-dashboard
@@ -30,7 +41,7 @@ yarn install
 yarn dev
 ```
 
-2. Run Itun2socks
+3. Run Itun2socks
 
 ```sh
 cd {lux_dir}\modules\itun2socks
