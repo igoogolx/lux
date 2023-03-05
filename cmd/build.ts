@@ -1,4 +1,4 @@
-import path from "path";
+import * as path from "path";
 import * as fs from "fs-extra";
 import * as AdmZip from "adm-zip";
 import { CLIENT_PATH, CORE_DIR_NAME } from "../scripts/constants";
