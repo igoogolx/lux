@@ -8,7 +8,6 @@ import {
   CLIENT_PATH,
   CORE_DIR_NAME,
   DASHBOARD_PATH,
-  EXTRA_CORE_DIR_NAME,
   THIRD_PARTIES_PATH,
 } from "./constants";
 
@@ -22,8 +21,6 @@ export enum CoreType {
 export const createCoreDir = async (types: CoreType[]) => {
   try {
     await fs.remove(CORE_DIR_NAME);
-    await fs.ensureDir(EXTRA_CORE_DIR_NAME);
-    await fs.copy(EXTRA_CORE_DIR_NAME, CORE_DIR_NAME);
     if (types.includes(CoreType.Dashboard))
       await fs.copy(
         path.join(DASHBOARD_PATH, "dist"),
