@@ -7,8 +7,7 @@
   "scripts": {
     "init-modules": "ts-node scripts/cmd/init-project.ts",
     "update-modules": "ts-node scripts/update-modules",
-    "build": "ts-node scripts/build.ts",
-    "build:dev": "ts-node scripts/buildDev.ts"
+    "build": "ts-node scripts/build.ts"
   },
   "dependencies": {
     "@types/decompress": "^4.2.4",
