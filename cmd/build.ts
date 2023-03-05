@@ -1,16 +1,16 @@
 import path from "path";
 import * as fs from "fs-extra";
 import * as AdmZip from "adm-zip";
-import { CLIENT_PATH, CORE_DIR_NAME } from "../constants";
-import { fileHash, getAppName, getInstallerName } from "../utils";
+import { CLIENT_PATH, CORE_DIR_NAME } from "../scripts/constants";
+import { fileHash, getAppName, getInstallerName } from "../scripts/utils";
 import {
   CoreType,
   createCoreDir,
   startClient,
   startDashboard,
   startDownload,
-} from "../actions";
-import { ThirdPartyType } from "../thirdParties";
+} from "../scripts/actions";
+import { ThirdPartyType } from "../scripts/thirdParties";
 
 async function copyInstaller() {
   const outDir = path.join(CLIENT_PATH, "out");
