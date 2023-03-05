@@ -17,36 +17,42 @@ Before next steps, plz read the [arch](https://github.com/igoogolx/lux/blob/main
 
 ### Start development
 
-1. Download third parties
+1.Download third parties
 
 ```sh
 cd {lux_dir}
-```
 
-```sh
 yarn create-core-dir
 ```
 
-2. Run dashboard
+
+2.Run dashboard
 
 ```sh
 cd {lux_dir}\modules\lux-dashboard
-```
 
-```sh
 yarn install
-```
 
-```sh
 yarn dev
 ```
 
-3. Run Itun2socks
+
+3.Run Itun2socks. Note: must run as **admin**
 
 ```sh
 cd {lux_dir}\modules\itun2socks
+
+go run -tags="with_gvisor debug" .\main.go -home-dir ..\..\core
 ```
 
+4.Develop with lux-js-sdk(optional)
+
 ```sh
-go run -tags="with_gvisor debug" .\main.go -home-dir ..\..\core
+cd {lux_dir}\modules\lux-js-sdk
+
+yarn link
+
+cd {lux_dir}\modules\lux-dashboard
+
+yarn link lux-js-sdk
 ```
