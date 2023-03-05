@@ -5,9 +5,10 @@
   "author": "igoogolx <27353191+igoogolx@users.noreply.github.com>",
   "license": "GPL-3.0",
   "scripts": {
-    "init-modules": "ts-node scripts/cmd/init-project.ts",
-    "update-modules": "ts-node scripts/update-modules",
-    "build": "ts-node scripts/build.ts"
+    "init-modules": "ts-node cmd/init-project.ts",
+    "update-modules": "ts-node cmd/update-modules.ts",
+    "build": "ts-node cmd/build.ts",
+    "create-core-dir": "ts-node  cmd/create-core-dir.ts"
   },
   "dependencies": {
     "@types/decompress": "^4.2.4",
