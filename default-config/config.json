@@ -135,6 +135,13 @@
         "port": 1090,
         "enabled": false
       }
+    },
+    "outbound": {
+      "mode": "auto",
+      "config": {
+        "type": "url-test",
+        "url": "https://google.com"
+      }
     }
   }
 }
