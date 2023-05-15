@@ -4,18 +4,10 @@ import { download } from "./downloader";
 import { modulesConfig } from "./utils";
 
 export enum ThirdPartyType {
-  GeoData,
   LuxCore,
 }
 
 export const downloadThirdParties = async (types: ThirdPartyType[]) => {
-  if (types.includes(ThirdPartyType.GeoData)) {
-    await download({
-      url: modulesConfig.thirdParties.geo.url,
-      outPath: path.join("third_parties", "geoData.tar.gz"),
-      checksum: modulesConfig.thirdParties.geo.checksum,
-    });
-  }
   if (types.includes(ThirdPartyType.LuxCore)) {
     const platform = os.platform();
     if (platform === "win32") {

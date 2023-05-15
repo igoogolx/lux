@@ -7,7 +7,6 @@ import {
   CoreType,
   createCoreDir,
   startClient,
-  startDashboard,
   startDownload,
 } from "../scripts/actions";
 import { ThirdPartyType } from "../scripts/thirdParties";
@@ -35,14 +34,8 @@ async function copyPortableApp() {
 
 export const start = async (isDev = false) => {
   try {
-    await startDashboard(isDev);
-    const downloadTypes = [ThirdPartyType.GeoData, ThirdPartyType.LuxCore];
-    const coreTypes = [
-      CoreType.GeoData,
-      CoreType.Dashboard,
-      CoreType.Config,
-      CoreType.LuxCore,
-    ];
+    const downloadTypes = [ThirdPartyType.LuxCore];
+    const coreTypes = [CoreType.Config, CoreType.LuxCore];
     await startDownload(downloadTypes);
     console.log("Creating core...");
     await createCoreDir(coreTypes);

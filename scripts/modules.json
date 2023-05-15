@@ -18,10 +18,6 @@
     }
   ],
   "thirdParties": {
-    "geo": {
-      "url": "https://github.com/igoogolx/lux-geo-data/releases/download/v0.0.4/geoData.tar.gz",
-      "checksum": "3ea42d9fea2615726b7f7d61c187621564b4a0d653adf890292ed37c1f601c78"
-    },
     "core": {
       "win": {
         "url": "https://github.com/igoogolx/itun2socks/releases/download/v0.2.4/itun2socks_0.2.4_windows_amd64.zip",
