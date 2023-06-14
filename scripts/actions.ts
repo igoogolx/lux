@@ -1,11 +1,12 @@
 import * as fs from "fs-extra";
 import { buildClient } from "./client";
 import { downloadThirdParties, ThirdPartyType } from "./thirdParties";
-import { copyLuxCore } from "./copy";
+import { copyConfig, copyLuxCore } from "./copy";
 import { CLIENT_PATH, CORE_DIR_NAME, THIRD_PARTIES_PATH } from "./constants";
 
 export enum CoreType {
   LuxCore,
+  Config,
 }
 
 export const createCoreDir = async (types: CoreType[]) => {
@@ -14,6 +15,9 @@ export const createCoreDir = async (types: CoreType[]) => {
 
     if (types.includes(CoreType.LuxCore)) {
       await copyLuxCore();
+    }
+    if (types.includes(CoreType.Config)) {
+      await copyConfig();
     }
   } finally {
     await fs.remove(THIRD_PARTIES_PATH);

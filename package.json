@@ -7,8 +7,7 @@
   "scripts": {
     "init-modules": "ts-node cmd/init-project.ts",
     "update-modules": "ts-node cmd/update-modules.ts",
-    "build": "ts-node cmd/build.ts",
-    "create-core-dir": "ts-node  cmd/create-core-dir.ts"
+    "build": "ts-node cmd/build.ts"
   },
   "dependencies": {
     "@types/decompress": "^4.2.4",
