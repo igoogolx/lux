@@ -7,6 +7,7 @@ import {
   CoreType,
   createCoreDir,
   startClient,
+  startDashboard,
   startDownload,
 } from "../scripts/actions";
 import { ThirdPartyType } from "../scripts/thirdParties";
@@ -26,6 +27,7 @@ async function copyPortableApp() {
   const appName = getAppName();
   const outName = `${appName}-portable.zip`;
   const zip = new AdmZip();
+  await fs.remove(path.join(CLIENT_PATH, "core", "web"));
   zip.addLocalFolder(path.join(CLIENT_PATH, "core"));
   zip.writeZip(path.join("out", outName));
   const appHash = await fileHash(path.join("out", outName));
@@ -34,8 +36,9 @@ async function copyPortableApp() {
 
 export const start = async (isDev = false) => {
   try {
+    await startDashboard(isDev);
     const downloadTypes = [ThirdPartyType.LuxCore];
-    const coreTypes = [CoreType.Config, CoreType.LuxCore];
+    const coreTypes = [CoreType.Config, CoreType.LuxCore, CoreType.Dashboard];
     await startDownload(downloadTypes);
     console.log("Creating core...");
     await createCoreDir(coreTypes);
