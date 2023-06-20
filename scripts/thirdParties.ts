@@ -10,8 +10,8 @@ export enum ThirdPartyType {
 export const downloadThirdParties = async (types: ThirdPartyType[]) => {
   if (types.includes(ThirdPartyType.LuxCore)) {
     const platform = os.platform();
-    const arch = os.arch();
     if (platform === "win32") {
+      const arch = os.arch();
       await download({
         url: modulesConfig.thirdParties.core.win[arch].url,
         outPath: path.join("third_parties", "itun2socks.zip"),
@@ -20,7 +20,7 @@ export const downloadThirdParties = async (types: ThirdPartyType[]) => {
     }
     if (platform === "darwin") {
       await download({
-        url: modulesConfig.thirdParties.core.mac[arch].url,
+        url: modulesConfig.thirdParties.core.mac.url,
         outPath: path.join("third_parties", "itun2socks.tar.gz"),
         checksum: modulesConfig.thirdParties.core.mac.checksum,
       });
