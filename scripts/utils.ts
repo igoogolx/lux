@@ -89,3 +89,11 @@ export function getModuleName(url: string) {
   const suffix = url.split("/").pop();
   return suffix.split(".")[0];
 }
+
+export function getArches() {
+  const arches = ["x64"];
+  if (os.platform() === "darwin") {
+    arches.push("arm64");
+  }
+  return arches;
+}

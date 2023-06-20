@@ -37,15 +37,15 @@ export const createCoreDir = async (types: CoreType[]) => {
   }
 };
 
-export const startDownload = async (types: ThirdPartyType[]) => {
+export const startDownload = async (types: ThirdPartyType[], arch: string) => {
   console.log("Downloading third parties...");
-  await downloadThirdParties(types);
+  await downloadThirdParties(types, arch);
   console.log("Download third parties done!");
 };
 
-export const startClient = async (isDev = false) => {
+export const startClient = async (arch: string, isDev = false) => {
   console.log("Building client...");
-  await buildClient(CLIENT_PATH, isDev);
+  await buildClient(CLIENT_PATH, arch, isDev);
   console.log("Build client done!");
 };
 

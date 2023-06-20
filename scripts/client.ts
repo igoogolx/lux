@@ -1,14 +1,11 @@
-import * as os from "os";
 import { getInstallerName, runScript, packageInfo } from "./utils";
 
-export const buildClient = async (path: string, isDev = false) => {
-  const platform = os.platform();
-  let buildForOs = "";
-  if (platform === "win32") {
-    buildForOs = "--win";
-  } else if (platform === "darwin") {
-    buildForOs = "--mac";
-  }
+export const buildClient = async (
+  path: string,
+  arch: string,
+  isDev = false
+) => {
+  const buildForOs = "";
   const outName = getInstallerName();
   await runScript("yarn", ["install"], path);
   const makeScript = isDev ? "make:dev" : "make";
@@ -21,6 +18,7 @@ export const buildClient = async (path: string, isDev = false) => {
       "--config.extraMetadata.version",
       packageInfo.version,
       buildForOs,
+      `--${arch}`,
     ],
     path,
     true
