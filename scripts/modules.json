@@ -6,7 +6,7 @@
     },
     {
       "repo": "https://github.com/igoogolx/lux-client.git",
-      "branch": "v0.2.0"
+      "branch": "v0.2.1"
     },
     {
       "repo": "https://github.com/igoogolx/lux-js-sdk.git",
@@ -14,7 +14,7 @@
     },
     {
       "repo": "https://github.com/igoogolx/itun2socks.git",
-      "branch": "v0.2.7"
+      "branch": "v0.2.8"
     }
   ],
   "thirdParties": {
