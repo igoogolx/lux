@@ -61,6 +61,7 @@ export const start = async (isDev = false) => {
 
     await startDashboard(isDev);
     for (let i = 0; i < arches.length; i += 1) {
+      process.env.ARCH = arches[i];
       const downloadTypes = [ThirdPartyType.LuxCore];
       await startDownload(downloadTypes, arches[i]);
       console.log("Creating core...");
@@ -71,9 +72,9 @@ export const start = async (isDev = false) => {
       });
       console.log("Create core done!");
       await startClient(arches[i], isDev);
+      await copyInstaller();
+      await copyPortableApp();
     }
-    await copyInstaller();
-    await copyPortableApp();
     await calculateFileHash();
   } catch (e) {
     console.error(e);

@@ -50,7 +50,9 @@ export function fileHash(filename: string, algorithm = "sha256") {
 export const packageInfo = JSON.parse(fs.readFileSync("package.json", "utf8"));
 
 export const getAppName = () =>
-  `${packageInfo.name}-${os.platform()}-${os.arch()}-${packageInfo.version}`;
+  `${packageInfo.name}-${os.platform()}-${process.env.ARCH}-${
+    packageInfo.version
+  }`;
 
 export const getInstallerName = () => {
   let ext = "";
