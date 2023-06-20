@@ -26,7 +26,6 @@
   },
   "devDependencies": {
     "@types/adm-zip": "^0.5.0",
-    "@types/shelljs": "^0.8.11",
-    "cross-env": "^7.0.3"
+    "@types/shelljs": "^0.8.11"
   }
 }
