@@ -93,9 +93,5 @@ export function getModuleName(url: string) {
 }
 
 export function getArches() {
-  const arches = ["x64"];
-  if (os.platform() === "darwin") {
-    arches.push("arm64");
-  }
-  return arches;
+  return ["x64", "arm64"];
 }
