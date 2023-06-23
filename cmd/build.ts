@@ -12,7 +12,7 @@ import {
 } from "../scripts/actions";
 import { ThirdPartyType } from "../scripts/thirdParties";
 
-const regexFilter = /^.*\.(dmg)$/;
+const regexFilter = /^.*\.(dmg|exe)$/;
 
 const CLIENT_SRC_PATH = path.join(CLIENT_PATH, "out");
 
@@ -72,8 +72,8 @@ export const start = async (isDev = false) => {
       });
       console.log("Create core done!");
       await startClient(arches[i], isDev);
-      await copyInstaller();
       await copyPortableApp();
+      await copyInstaller();
     }
     await calculateFileHash();
   } catch (e) {
