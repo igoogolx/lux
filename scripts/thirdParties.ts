@@ -15,16 +15,16 @@ export const downloadThirdParties = async (
     const platform = os.platform();
     if (platform === "win32") {
       await download({
-        url: modulesConfig.thirdParties.core.win[arch].url,
+        url: modulesConfig.thirdParties.core[`windows_${arch}`].url,
         outPath: path.join("third_parties", "itun2socks.zip"),
-        checksum: modulesConfig.thirdParties.core.win.checksum,
+        checksum: modulesConfig.thirdParties.core[`windows_${arch}`].checksum,
       });
     }
     if (platform === "darwin") {
       await download({
-        url: modulesConfig.thirdParties.core.mac[arch].url,
+        url: modulesConfig.thirdParties.core[`darwin_${arch}`].url,
         outPath: path.join("third_parties", "itun2socks.tar.gz"),
-        checksum: modulesConfig.thirdParties.core.mac.checksum,
+        checksum: modulesConfig.thirdParties.core[`darwin_${arch}`].checksum,
       });
     }
   }

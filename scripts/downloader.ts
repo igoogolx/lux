@@ -8,7 +8,7 @@ import { fileHash } from "./utils";
 
 const COMPRESSED_NAMES = [".zip", ".tar.gz"];
 
-const downloadFile = async (url: string, outPath: string) => {
+export const downloadFile = async (url: string, outPath: string) => {
   try {
     const request = await axios.get(url, {
       responseType: "stream",
