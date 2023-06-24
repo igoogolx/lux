@@ -1,7 +1,7 @@
 import * as path from "path";
 import * as fs from "fs-extra";
 import * as AdmZip from "adm-zip";
-import { CLIENT_PATH, CORE_DIR_NAME } from "../scripts/constants";
+import { CLIENT_PATH, CORE_DIR_NAME, OUT_PATH } from "../scripts/constants";
 import { fileHash, getAppName, getArches } from "../scripts/utils";
 import {
   CoreType,
@@ -16,11 +16,7 @@ const regexFilter = /^.*\.(dmg|exe)$/;
 
 const CLIENT_SRC_PATH = path.join(CLIENT_PATH, "out");
 
-const OUT_PATH = "out";
-
 async function copyInstaller() {
-  await fs.remove(OUT_PATH);
-  await fs.mkdir(OUT_PATH);
   await fs.copy(CLIENT_SRC_PATH, OUT_PATH, {
     overwrite: true,
     filter: (srcPath) => {
@@ -57,6 +53,8 @@ async function calculateFileHash() {
 
 export const start = async (isDev = false) => {
   try {
+    await fs.remove(OUT_PATH);
+    await fs.mkdir(OUT_PATH);
     const arches = getArches();
 
     await startDashboard(isDev);

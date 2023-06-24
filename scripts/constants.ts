@@ -7,3 +7,4 @@ export const CLIENT_PATH = path.join(MODULES_PATH, "lux-client");
 export const THIRD_PARTIES_PATH = path.join(process.cwd(), "third_parties");
 export const CORE_DIR_NAME = "core";
 export const TMP_DIR = "tmp";
+export const OUT_PATH = "out";
