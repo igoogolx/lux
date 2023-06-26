@@ -74,6 +74,30 @@ export const start = async (isDev = false) => {
       await copyInstaller();
     }
     await calculateFileHash();
+    const fileNames = await fs.readdir(OUT_PATH);
+    await Promise.all(
+      fileNames.map(async (fileName) => {
+        if (fileName.endsWith(".sha256")) {
+          const basename = path.basename(fileName, ".sha256");
+          const outDirName = basename.replace(/\.exe|\.dmg|\.zip/, "");
+          const releaseRootDir = path.join(".", OUT_PATH, "release");
+          const releaseDir = path.join(releaseRootDir, outDirName);
+          await fs.mkdir(releaseDir, { recursive: true });
+          await fs.copy(
+            path.join(OUT_PATH, fileName),
+            path.join(releaseDir, fileName)
+          );
+          await fs.copy(
+            path.join(OUT_PATH, basename),
+            path.join(releaseDir, basename)
+          );
+          const zip = new AdmZip();
+          zip.addLocalFolder(releaseDir);
+          console.log("releaseDir", releaseDir);
+          zip.writeZip(releaseDir, (err) => console.log("err", err));
+        }
+      })
+    );
   } catch (e) {
     console.error(e);
   }

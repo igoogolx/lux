@@ -41,7 +41,5 @@ jobs:
         with:
           draft: true
           files: |
-            out/*.exe
-            out/*.dmg
-            out/*.zip
-            out/*.sha256
+            out/*.dmg.zip
+            out/*.exe.zip
