@@ -41,5 +41,4 @@ jobs:
         with:
           draft: true
           files: |
-            out/*.dmg.zip
-            out/*.exe.zip
+            out/release/*.zip
