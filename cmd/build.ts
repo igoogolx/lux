@@ -93,8 +93,11 @@ export const start = async (isDev = false) => {
           );
           const zip = new AdmZip();
           zip.addLocalFolder(releaseDir);
-          console.log("releaseDir", releaseDir);
-          zip.writeZip(releaseDir, (err) => console.log("err", err));
+          zip.writeZip(`${releaseDir}.zip`, (err) => {
+            if (err) {
+              console.log("err", err);
+            }
+          });
         }
       })
     );
