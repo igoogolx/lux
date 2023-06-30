@@ -4,6 +4,10 @@ import * as os from "os";
 import * as shell from "shelljs";
 import * as path from "path";
 
+function capitalized(word: string) {
+  return word.charAt(0).toUpperCase() + word.slice(1);
+}
+
 export const runScript = (
   command: string,
   args: string[],
@@ -50,7 +54,7 @@ export function fileHash(filename: string, algorithm = "sha256") {
 export const packageInfo = JSON.parse(fs.readFileSync("package.json", "utf8"));
 
 export const getAppName = () =>
-  `${packageInfo.name}-${os.platform()}-${process.env.ARCH}-${
+  `${capitalized(packageInfo.name)}-${os.platform()}-${process.env.ARCH}-${
     packageInfo.version
   }`;
 
