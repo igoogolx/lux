@@ -3,12 +3,7 @@ import * as path from "path";
 import { buildClient } from "./client";
 import { downloadThirdParties, ThirdPartyType } from "./thirdParties";
 import { copyConfig, copyLuxCore } from "./copy";
-import {
-  CLIENT_PATH,
-  CORE_DIR_NAME,
-  DASHBOARD_PATH,
-  THIRD_PARTIES_PATH,
-} from "./constants";
+import { CLIENT_PATH, CORE_DIR_NAME, THIRD_PARTIES_PATH } from "./constants";
 import { buildDashboard } from "./dashboard";
 
 export enum CoreType {
@@ -22,7 +17,7 @@ export const createCoreDir = async (types: CoreType[]) => {
     await fs.remove(CORE_DIR_NAME);
     if (types.includes(CoreType.Dashboard))
       await fs.copy(
-        path.join(DASHBOARD_PATH, "dist"),
+        path.join(CLIENT_PATH, "dist", "ui"),
         path.join(CORE_DIR_NAME, "web", "dist")
       );
 
@@ -49,8 +44,8 @@ export const startClient = async (arch: string, isDev = false) => {
   console.log("Build client done!");
 };
 
-export const startDashboard = async (isDev = false) => {
+export const startDashboard = async () => {
   console.log("Building dashboard...");
-  await buildDashboard(DASHBOARD_PATH, isDev);
+  await buildDashboard(CLIENT_PATH);
   console.log("Build dashboard done!");
 };

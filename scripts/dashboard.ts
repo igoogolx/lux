@@ -1,9 +1,7 @@
 import { packageInfo, runScript } from "./utils";
 
-export const buildDashboard = async (path: string, isDev = false) => {
+export const buildDashboard = async (path: string) => {
   await runScript("yarn", ["install"], path, true);
-  const buildScript = `${isDev ? "build:dev" : "build"} --env CLIENT_VERSION=${
-    packageInfo.version
-  }`;
+  const buildScript = `build:ui --env CLIENT_VERSION=${packageInfo.version}`;
   await runScript("yarn", [buildScript], path, true);
 };

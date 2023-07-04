@@ -57,7 +57,7 @@ export const start = async (isDev = false) => {
     await fs.mkdir(OUT_PATH);
     const arches = getArches();
 
-    await startDashboard(isDev);
+    await startDashboard();
     for (let i = 0; i < arches.length; i += 1) {
       process.env.ARCH = arches[i];
       const downloadTypes = [ThirdPartyType.LuxCore];
