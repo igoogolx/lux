@@ -4,7 +4,7 @@ import * as os from "os";
 import * as shell from "shelljs";
 import * as path from "path";
 
-function capitalized(word: string) {
+export function capitalized(word: string) {
   return word.charAt(0).toUpperCase() + word.slice(1);
 }
 

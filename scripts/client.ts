@@ -1,4 +1,4 @@
-import { getInstallerName, runScript, packageInfo } from "./utils";
+import { getInstallerName, runScript, packageInfo, capitalized } from "./utils";
 
 export const buildClient = async (
   path: string,
@@ -19,6 +19,8 @@ export const buildClient = async (
       packageInfo.version,
       buildForOs,
       `--${arch}`,
+      "--config.extraMetadata.name",
+      capitalized(packageInfo.name),
     ],
     path,
     true
