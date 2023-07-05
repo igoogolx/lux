@@ -55,6 +55,8 @@ export const start = async (isDev = false) => {
   try {
     await fs.remove(OUT_PATH);
     await fs.mkdir(OUT_PATH);
+    await fs.remove(CLIENT_SRC_PATH);
+    await fs.mkdir(CLIENT_SRC_PATH);
     const arches = getArches();
 
     await startDashboard();
