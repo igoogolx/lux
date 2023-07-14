@@ -7,7 +7,6 @@ import {
   CoreType,
   createCoreDir,
   startClient,
-  startDashboard,
   startDownload,
 } from "../scripts/actions";
 import { ThirdPartyType } from "../scripts/thirdParties";
@@ -59,13 +58,12 @@ export const start = async (isDev = false) => {
     await fs.mkdir(CLIENT_SRC_PATH);
     const arches = getArches();
 
-    await startDashboard();
     for (let i = 0; i < arches.length; i += 1) {
       process.env.ARCH = arches[i];
       const downloadTypes = [ThirdPartyType.LuxCore];
       await startDownload(downloadTypes, arches[i]);
       console.log("Creating core...");
-      const coreTypes = [CoreType.Config, CoreType.LuxCore, CoreType.Dashboard];
+      const coreTypes = [CoreType.Config, CoreType.LuxCore];
       await createCoreDir(coreTypes);
       await fs.move(CORE_DIR_NAME, path.join(CLIENT_PATH, CORE_DIR_NAME), {
         overwrite: true,
