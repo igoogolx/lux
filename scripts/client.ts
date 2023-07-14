@@ -6,7 +6,7 @@ export const buildClient = async (
   isDev = false
 ) => {
   const outName = getInstallerName();
-  await runScript("yarn", ["install"], path);
+  await runScript("yarn", ["install"], path, true);
   const makeScript = isDev ? "make:dev" : "make";
   await runScript(
     "yarn",
