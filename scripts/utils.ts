@@ -21,6 +21,7 @@ export const runScript = (
       (err, stdout, stderr) => {
         if (err) {
           reject(err);
+          console.log("err in running script:", command);
           return;
         }
         if (!ignoreErr && stderr) {
