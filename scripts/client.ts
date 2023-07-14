@@ -5,7 +5,6 @@ export const buildClient = async (
   arch: string,
   isDev = false
 ) => {
-  const buildForOs = "";
   const outName = getInstallerName();
   await runScript("yarn", ["install"], path);
   const makeScript = isDev ? "make:dev" : "make";
@@ -17,7 +16,6 @@ export const buildClient = async (
       outName,
       "--config.extraMetadata.version",
       packageInfo.version,
-      buildForOs,
       `--${arch}`,
       "--config.extraMetadata.name",
       capitalized(packageInfo.name),
