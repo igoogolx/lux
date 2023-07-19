@@ -2,7 +2,7 @@
   "projects": [
     {
       "repo": "https://github.com/igoogolx/lux-client.git",
-      "branch": "v0.3.2"
+      "branch": "v0.3.3"
     },
     {
       "repo": "https://github.com/igoogolx/itun2socks.git",
