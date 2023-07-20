@@ -2,46 +2,46 @@
   "projects": [
     {
       "repo": "https://github.com/igoogolx/lux-client.git",
-      "branch": "v0.3.3"
+      "branch": "v0.3.4"
     },
     {
       "repo": "https://github.com/igoogolx/itun2socks.git",
-      "branch": "v0.3.7"
+      "branch": "v0.3.8"
     }
   ],
   "thirdParties": {
     "core": {
       "linux_arm64": {
-        "url": "https://github.com/igoogolx/itun2socks/releases/download/v0.3.7/itun2socks_0.3.7_linux_arm64.tar.gz",
-        "checksum": "32173b291a79b2e7d5051550f76e3c85611a29c558e7ba8bffb78326d8124131"
+        "url": "https://github.com/igoogolx/itun2socks/releases/download/v0.3.8/itun2socks_0.3.8_linux_arm64.tar.gz",
+        "checksum": "3abdded86b87ecb3b72baa4e27d490424e4ceace1101b7918756f23a453ba35a"
       },
       "windows_x64": {
-        "url": "https://github.com/igoogolx/itun2socks/releases/download/v0.3.7/itun2socks_0.3.7_windows_amd64.zip",
-        "checksum": "32c8192a7d6a6b8dc7f3c6033ef6474c9fbbdfa3d5140066f3b0744825d5abb4"
-      },
-      "windows_arm64": {
-        "url": "https://github.com/igoogolx/itun2socks/releases/download/v0.3.7/itun2socks_0.3.7_windows_arm64.zip",
-        "checksum": "589297956b514d197637b5f909f90b1cadf822c7358de053686e41e58b0bcb52"
-      },
-      "darwin_arm64": {
-        "url": "https://github.com/igoogolx/itun2socks/releases/download/v0.3.7/itun2socks_0.3.7_darwin_arm64.tar.gz",
-        "checksum": "934bb9a8376c55ac0d9848ad026c11e4d5fd75dec0e3d0e62b43eecfee3fc519"
-      },
-      "windows_386": {
-        "url": "https://github.com/igoogolx/itun2socks/releases/download/v0.3.7/itun2socks_0.3.7_windows_386.zip",
-        "checksum": "a4594a19ff10bbc1b39061160c63a2b894dd6b59f281bb5221b80bf643fa1bae"
-      },
-      "linux_x64": {
-        "url": "https://github.com/igoogolx/itun2socks/releases/download/v0.3.7/itun2socks_0.3.7_linux_amd64.tar.gz",
-        "checksum": "c58dcc7b47476bc046e5a3be40210098f96f6cb3ee97c2fe21f50698a7c177c3"
+        "url": "https://github.com/igoogolx/itun2socks/releases/download/v0.3.8/itun2socks_0.3.8_windows_amd64.zip",
+        "checksum": "4aa74692393738b506d4c84b00dd1b0941f01efc270b7748641032a7f207c238"
       },
       "darwin_x64": {
-        "url": "https://github.com/igoogolx/itun2socks/releases/download/v0.3.7/itun2socks_0.3.7_darwin_amd64.tar.gz",
-        "checksum": "e80633e0d8c2670a7025c5f4dff18c66d077d0b219bf35afff6125e41706ae81"
+        "url": "https://github.com/igoogolx/itun2socks/releases/download/v0.3.8/itun2socks_0.3.8_darwin_amd64.tar.gz",
+        "checksum": "7265f1729e70cabbd90f6aa2e66dd86366d8c957140c9ffde7ed59e40d9ee18a"
+      },
+      "darwin_arm64": {
+        "url": "https://github.com/igoogolx/itun2socks/releases/download/v0.3.8/itun2socks_0.3.8_darwin_arm64.tar.gz",
+        "checksum": "81d29e15c4b7e7ff61189b91e81057afebfe97b801dda0571ae2f8896a9c21ff"
       },
       "linux_386": {
-        "url": "https://github.com/igoogolx/itun2socks/releases/download/v0.3.7/itun2socks_0.3.7_linux_386.tar.gz",
-        "checksum": "f40dca599eec39b2697608d0fbc7716fd88b5b74f76df0e28501a5e15c246fbb"
+        "url": "https://github.com/igoogolx/itun2socks/releases/download/v0.3.8/itun2socks_0.3.8_linux_386.tar.gz",
+        "checksum": "8757b51ffb499c97ac7b202976d1f17531d77e14a3a538b19319883f8f432d98"
+      },
+      "windows_arm64": {
+        "url": "https://github.com/igoogolx/itun2socks/releases/download/v0.3.8/itun2socks_0.3.8_windows_arm64.zip",
+        "checksum": "8c34c774ec84c3c460b88144e917b504f46b8d45a2d2624a00370a41c98a9b77"
+      },
+      "linux_x64": {
+        "url": "https://github.com/igoogolx/itun2socks/releases/download/v0.3.8/itun2socks_0.3.8_linux_amd64.tar.gz",
+        "checksum": "a44e087078e1bd099f20585d75fd8d5ac276ad1334b656af3e024886ca392530"
+      },
+      "windows_386": {
+        "url": "https://github.com/igoogolx/itun2socks/releases/download/v0.3.8/itun2socks_0.3.8_windows_386.zip",
+        "checksum": "ea92d9d97837fcb86222c29faca56182781a09817873b4c3fd629fc191b65474"
       }
     }
   }
