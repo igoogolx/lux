@@ -30,8 +30,8 @@ export const startDownload = async (types: ThirdPartyType[], arch: string) => {
   console.log("Download third parties done!");
 };
 
-export const startClient = async (arch: string, isDev = false) => {
+export const startClient = async (arch: string) => {
   console.log("Building client...");
-  await buildClient(CLIENT_PATH, arch, isDev);
+  await buildClient(CLIENT_PATH, arch);
   console.log("Build client done!");
 };

@@ -50,7 +50,7 @@ async function calculateFileHash() {
   );
 }
 
-export const start = async (isDev = false) => {
+export const start = async () => {
   try {
     await fs.remove(OUT_PATH);
     await fs.mkdir(OUT_PATH);
@@ -69,7 +69,7 @@ export const start = async (isDev = false) => {
         overwrite: true,
       });
       console.log("Create core done!");
-      await startClient(arches[i], isDev);
+      await startClient(arches[i]);
       await copyPortableApp();
       await copyInstaller();
     }
