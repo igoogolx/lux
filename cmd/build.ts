@@ -2,7 +2,7 @@ import * as path from "path";
 import * as fs from "fs-extra";
 import * as AdmZip from "adm-zip";
 import { CLIENT_PATH, CORE_DIR_NAME, OUT_PATH } from "../scripts/constants";
-import { fileHash, getAppName, getArches } from "../scripts/utils";
+import { fileHash, getArches } from "../scripts/utils";
 import {
   CoreType,
   createCoreDir,
@@ -29,15 +29,6 @@ async function copyInstaller() {
       return regexFilter.test(srcPath); // Include files that match the regex filter
     },
   });
-}
-
-async function copyPortableApp() {
-  const appName = getAppName();
-  const outName = `${appName}-portable.zip`;
-  const zip = new AdmZip();
-  await fs.remove(path.join(CLIENT_PATH, "core", "web"));
-  zip.addLocalFolder(path.join(CLIENT_PATH, "core"));
-  zip.writeZip(path.join(OUT_PATH, outName));
 }
 
 async function calculateFileHash() {
@@ -70,7 +61,6 @@ export const start = async () => {
       });
       console.log("Create core done!");
       await startClient(arches[i]);
-      await copyPortableApp();
       await copyInstaller();
     }
     await calculateFileHash();
