@@ -80,7 +80,11 @@ Note that this project only contains building scripts. See more source code in m
 <!-- GETTING STARTED -->
 ## Getting Started
 
-There are two ways to use lux.
+Note: On Apple Silicon Mac, you may see the error: “Lux” is damaged and can’t be opened. You should move it to the Trash. To solve this, open a new Terminal window and type:
+```sh
+xattr -d com.apple.quarantine /Applications/Lux.app
+```
+
 
 #### 1. Install it as an app
 ##### 1.1 Install it manually
@@ -91,13 +95,6 @@ There are two ways to use lux.
 ```sh
 winget install igoogolx.lux
 ```
-
-#### 2. Start it from terminal
-1. Download the [portable app](https://github.com/igoogolx/lux/releases) file.
-2. Unzip it to your favorite folder
-3. Open terminal as **admin** from the folder
-4. Run `lux`
-5. Copy the url from the output and open it in your browser
 
 
 
