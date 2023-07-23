@@ -37,7 +37,6 @@ A VPN or proxy client, Wndows only for now, inspired by Outline-client(windows).
     - [1. Install it as an app](#1-install-it-as-an-app)
       - [1.1 Install it manually](#11-install-it-manually)
       - [1.2 Install it from winget(windows only)](#12-install-it-from-wingetwindows-only)
-    - [2. Start it from terminal](#2-start-it-from-terminal)
 - [Modules](#modules)
 - [Development](#development)
   - [Prerequisites](#prerequisites)
