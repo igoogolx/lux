@@ -53,12 +53,6 @@ A VPN or proxy client, Wndows only for now, inspired by Outline-client(windows).
 
 ## About The Project
 
-<div align="center">
-<a href="https://github.com/igoogolx/lux">
-    <img src="assets/screenshot.png" alt="Screenshot" width="500" style="border-radius: 5px" >
-</a>
-</div>
-
 There are many great proxy clients available on GitHub like [shadowsocks-windows](https://github.com/shadowsocks/shadowsocks-windows), [clash](https://github.com/Dreamacro/clash). However, I didn't find one that really suited my needs, so I created this one.
 This project aims to make a one-click proxy clients, so users don't need to perform complicated configuration.
 Note that this project only contains building scripts. See more source code in modules section.
