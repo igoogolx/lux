@@ -1,6 +1,5 @@
 import * as path from "path";
 import * as fs from "fs-extra";
-import * as AdmZip from "adm-zip";
 import { CLIENT_PATH, CORE_DIR_NAME, OUT_PATH } from "../scripts/constants";
 import { fileHash, getArches } from "../scripts/utils";
 import {
@@ -64,33 +63,6 @@ export const start = async () => {
       await copyInstaller();
     }
     await calculateFileHash();
-    const fileNames = await fs.readdir(OUT_PATH);
-    await Promise.all(
-      fileNames.map(async (fileName) => {
-        if (fileName.endsWith(".sha256")) {
-          const basename = path.basename(fileName, ".sha256");
-          const outDirName = basename.replace(/\.exe|\.dmg|\.zip/, "");
-          const releaseRootDir = path.join(".", OUT_PATH, "release");
-          const releaseDir = path.join(releaseRootDir, outDirName);
-          await fs.mkdir(releaseDir, { recursive: true });
-          await fs.copy(
-            path.join(OUT_PATH, fileName),
-            path.join(releaseDir, fileName)
-          );
-          await fs.copy(
-            path.join(OUT_PATH, basename),
-            path.join(releaseDir, basename)
-          );
-          const zip = new AdmZip();
-          zip.addLocalFolder(releaseDir);
-          zip.writeZip(`${releaseDir}.zip`, (err) => {
-            if (err) {
-              console.log("err", err);
-            }
-          });
-        }
-      })
-    );
   } catch (e) {
     console.error(e);
   }
