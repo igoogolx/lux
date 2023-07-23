@@ -136,12 +136,11 @@ winget install igoogolx.lux
 ## Roadmap
 
 - [x] Add splash screen
-- [ ] Improve UI of About page
+- [x] Improve UI of About page
 - [x] Improve UI Dark mode
-- [ ] Support DNS over https
-- [ ] Support Mac OS
+- [x] Support DNS over https
+- [x] Support Mac OS
 - [ ] Support IPV6
-- [ ] Migrate to tauri
 
 See the [open issues](https://github.com/igoogolx/lux/issues) for a full list of proposed features (and known issues).
 
