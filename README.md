@@ -3,7 +3,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/igoogolx/lux">
-    <img src="assets/logo.svg" alt="Logo" width="100" height="100">
+    <img src="assets/logo.png" alt="Logo" width="100" height="100">
   </a>
 
 [![Contributors][contributors-shield]][contributors-url]
@@ -100,29 +100,11 @@ winget install igoogolx.lux
 
 ### Prerequisites
 
-1. Install [Node.js](https://nodejs.org/en/)
-2. Install [Yarn](https://classic.yarnpkg.com/lang/en/docs/install)
+TODO
 
 ### Build
 
-1. Clone the repo
-   ```sh
-   git clone https://github.com/igoogolx/lux.git
-   ```
-2. Install NPM packages
-   ```sh
-   yarn install
-   ```
-3. Fetch modules
-   ```sh
-   yarn init-modules
-   ```
-   Download necessary modules
-4. Start
-   ```sh
-   yarn build
-   ```
-   Builds the app for production to the `out` folder.<br />
+TODO
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -201,7 +183,7 @@ Lux is built on Clash's code but is not another GUI client for clash. Lux only u
 [license-url]: https://github.com/igoogolx/lux/blob/master/LICENSE.txt
 [build-shield]: https://github.com/igoogolx/lux/actions/workflows/build.yml/badge.svg
 [build-url]: https://github.com/igoogolx/lux/actions/workflows/build.yml
-[version-shield]: https://img.shields.io/github/package-json/v/igoogolx/lux
+[version-shield]: https://img.shields.io/github/v/release/igoogolx/lux
 [version-url]: https://github.com/igoogolx/lux/releases
 
 [React.js]: https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB
