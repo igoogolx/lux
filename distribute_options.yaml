@@ -1,0 +1,14 @@
+output: dist/
+releases:
+  - name: windows-latest
+    jobs:
+      - name: release-dev-windows
+        package:
+          platform: windows
+          target: exe
+  - name: macos-latest
+    jobs:
+      - name: release-dev-macos
+        package:
+          platform: macos
+          target: dmg

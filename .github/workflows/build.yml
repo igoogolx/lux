@@ -1,0 +1,70 @@
+name: Build
+
+on:
+  push:
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - v*.*.*           # Push events to v1.0, v1.1, and v1.9 tags
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest]
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.10.6'
+          channel: 'stable'
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: dart pub global activate flutter_distributor
+      - run: flutter pub get
+      - if: matrix.os == 'macos-latest'
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          echo Version: $VERSION
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          npm install -g appdmg
+          dart run scripts/init.dart -a 'arm64'
+          flutter_distributor release --name ${{ matrix.os }}
+          mv dist/${VERSION}/lux-${VERSION}-macos.dmg dist/${VERSION}/lux-${VERSION}-arm64-macos.dmg
+          dart run scripts/init.dart -a 'amd64'
+          flutter_distributor release --name ${{ matrix.os }}
+          mv dist/${VERSION}/lux-${VERSION}-macos.dmg dist/${VERSION}/lux-${VERSION}-amd64-macos.dmg
+
+      - if: matrix.os == 'windows-latest'
+        run: |
+          dart run scripts/init.dart
+          flutter_distributor release --name ${{ matrix.os }}
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: artifact
+          path: dist/*/*
+
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/download-artifact@v3
+
+      - name: Generate checksum
+        uses: jmgilman/actions-generate-checksum@v1
+        with:
+          patterns: |
+            artifact/*/*
+
+      - name: GH Release
+        uses: softprops/action-gh-release@v1
+        with:
+          draft: true
+          files: |
+            checksum.txt
+            artifact/*/*
