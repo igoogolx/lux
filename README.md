@@ -36,7 +36,6 @@ A VPN or proxy client, Wndows only for now, inspired by Outline-client(windows).
 - [Getting Started](#getting-started)
     - [1. Install it as an app](#1-install-it-as-an-app)
       - [1.1 Install it manually](#11-install-it-manually)
-      - [1.2 Install it from winget(windows only)](#12-install-it-from-wingetwindows-only)
 - [Modules](#modules)
 - [Development](#development)
   - [Prerequisites](#prerequisites)
@@ -83,11 +82,6 @@ xattr -d com.apple.quarantine /Applications/Lux.app
 ##### 1.1 Install it manually
 1. Download the [installer](https://github.com/igoogolx/lux/releases) file and install it
 2. Open it like a normal app
-
-##### 1.2 Install it from [winget](https://github.com/microsoft/winget-cli)(windows only)
-```sh
-winget install igoogolx.lux
-```
 
 
 
