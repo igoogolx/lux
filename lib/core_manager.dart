@@ -30,6 +30,9 @@ class CoreManager {
         if (s == 'sleep') {
           final response = await dio.get('$baseUrl/manager');
           lastIsStarted = response.data['isStarted'];
+          if (lastIsStarted) {
+            await dio.post('$baseUrl/manager/stop');
+          }
         } else if (s == 'woke_up') {
           if (lastIsStarted) {
             await dio.post('$baseUrl/manager/start');
