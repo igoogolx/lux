@@ -29,7 +29,7 @@ class CoreManager {
       if (s != null) {
         if (s == 'sleep') {
           final response = await dio.get('$baseUrl/manager');
-          lastIsStarted=response.data['isStarted'];
+          lastIsStarted = response.data['isStarted'];
         } else if (s == 'woke_up') {
           if (lastIsStarted) {
             await dio.post('$baseUrl/manager/start');
@@ -40,10 +40,10 @@ class CoreManager {
             );
             notification.show();
           }
+        } else if (s == 'terminate_app') {
+          coreProcess?.exit();
+          exit(0);
         }
-      } else if (s == 'terminate_app') {
-        coreProcess?.exit();
-        exit(0);
       }
     });
   }
