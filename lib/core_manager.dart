@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_desktop_sleep/flutter_desktop_sleep.dart';
+import 'package:lux/process_manager.dart';
 
 /// Must be top-level function
 Map<String, dynamic> _parseAndDecode(String response) {
@@ -11,16 +14,26 @@ Future<Map<String, dynamic>> parseJson(String text) {
   return compute(_parseAndDecode, text);
 }
 
-
-
 class CoreManager {
+  final ProcessManager? coreProcess;
   final String baseUrl;
-
+  final FlutterDesktopSleep flutterDesktopSleep = FlutterDesktopSleep();
   final dio = Dio();
 
-  CoreManager(this.baseUrl) {
+  CoreManager(this.baseUrl, this.coreProcess) {
     dio.transformer = BackgroundTransformer()..jsonDecodeCallback = parseJson;
     dio.options.receiveTimeout = const Duration(seconds: 1);
+
+    flutterDesktopSleep.setWindowSleepHandler((String? s) async {
+      if (s != null) {
+        if (s == 'sleep') {
+        } else if (s == 'woke_up') {
+        } else if (s == 'terminate_app') {
+          coreProcess?.exit();
+          exit(0);
+        }
+      }
+    });
   }
 
   Future<void> makeRequestUntilSuccess(String url) async {
@@ -46,6 +59,6 @@ class CoreManager {
   }
 
   Future<void> ping() async {
-     await makeRequestUntilSuccess('$baseUrl/ping');
+    await makeRequestUntilSuccess('$baseUrl/ping');
   }
 }

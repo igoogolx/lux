@@ -83,7 +83,7 @@ void main(args) async {
   await process?.run();
   process?.watchExit();
   urlStr = 'http://localhost:$port';
-  final manager = CoreManager(urlStr);
+  final manager = CoreManager(urlStr, process);
   await manager.ping();
   openDashboard();
   initSystemTray();
