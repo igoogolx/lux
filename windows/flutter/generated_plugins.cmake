@@ -4,6 +4,7 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   flutter_desktop_sleep
+  local_notifier
   screen_retriever
   system_tray
   url_launcher_windows

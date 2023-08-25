@@ -45,6 +45,7 @@ dependencies:
   package_info_plus: ^4.1.0
   args: ^2.4.2
   flutter_desktop_sleep: ^0.0.2
+  local_notifier: ^0.1.5
 
 dev_dependencies:
   flutter_test:
