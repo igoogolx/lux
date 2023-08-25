@@ -19,19 +19,25 @@ class CoreManager {
   final String baseUrl;
   final FlutterDesktopSleep flutterDesktopSleep = FlutterDesktopSleep();
   final dio = Dio();
+  var lastIsStarted = false;
 
   CoreManager(this.baseUrl, this.coreProcess) {
     dio.transformer = BackgroundTransformer()..jsonDecodeCallback = parseJson;
     dio.options.receiveTimeout = const Duration(seconds: 1);
-
     flutterDesktopSleep.setWindowSleepHandler((String? s) async {
       if (s != null) {
         if (s == 'sleep') {
+          final response = await dio.get('$baseUrl/manager');
+          lastIsStarted=response.data['isStarted'];
         } else if (s == 'woke_up') {
-        } else if (s == 'terminate_app') {
-          coreProcess?.exit();
-          exit(0);
+          if (lastIsStarted) {
+            await dio.post('$baseUrl/manager/start');
+            lastIsStarted = false;
+          }
         }
+      } else if (s == 'terminate_app') {
+        coreProcess?.exit();
+        exit(0);
       }
     });
   }
