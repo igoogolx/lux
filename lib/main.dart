@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:local_notifier/local_notifier.dart';
 import 'package:lux/core_manager.dart';
 import 'package:lux/process_manager.dart';
 import 'package:path_provider/path_provider.dart';
@@ -74,6 +75,14 @@ void openDashboard() async {
 void main(args) async {
   WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
+
+  // Add in main method.
+  await localNotifier.setup(
+    appName: 'Lux',
+    // The parameter shortcutPolicy only works on Windows
+    shortcutPolicy: ShortcutPolicy.requireCreate,
+  );
+
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
   final port = await findAvailablePort(8000, 9000);
   final Directory appDocumentsDir = await getApplicationSupportDirectory();

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_desktop_sleep/flutter_desktop_sleep.dart';
+import 'package:local_notifier/local_notifier.dart';
 import 'package:lux/process_manager.dart';
 
 /// Must be top-level function
@@ -33,6 +34,11 @@ class CoreManager {
           if (lastIsStarted) {
             await dio.post('$baseUrl/manager/start');
             lastIsStarted = false;
+            LocalNotification notification = LocalNotification(
+              title: "Lux",
+              body: "Reconnected",
+            );
+            notification.show();
           }
         }
       } else if (s == 'terminate_app') {
