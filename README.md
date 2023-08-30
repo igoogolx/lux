@@ -15,14 +15,8 @@
 [![Version][version-shield]][version-url]
 
 <h3 align="center">Lux</h3>
-A VPN or proxy client, Wndows only for now, inspired by Outline-client(windows). IPV6: not support. 
+A VPN or proxy client. IPV6: not support. 
   <p align="center">
-    <br />
-    <a href="https://github.com/igoogolx/lux/wiki"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://igoogolx.github.io/lux-dashboard/">View Demo</a>
-    .
     <a href="https://github.com/igoogolx/lux/issues">Report Bug</a>
     ·
     <a href="https://github.com/igoogolx/lux/issues">Request Feature</a>
