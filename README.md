@@ -15,7 +15,7 @@
 [![Version][version-shield]][version-url]
 
 <h3 align="center">Lux</h3>
-A VPN or proxy client. IPV6: not support. 
+A VPN or proxy client. IPV6: not support.
   <p align="center">
     <a href="https://github.com/igoogolx/lux/issues">Report Bug</a>
     ·
@@ -26,10 +26,10 @@ A VPN or proxy client. IPV6: not support.
 
 
 - [About The Project](#about-the-project)
-    - [Features](#features)
+  - [Features](#features)
 - [Getting Started](#getting-started)
-    - [1. Install it as an app](#1-install-it-as-an-app)
-      - [1.1 Install it manually](#11-install-it-manually)
+  - [1. Install it as an app](#1-install-it-as-an-app)
+    - [1.1 Install it manually](#11-install-it-manually)
 - [Modules](#modules)
 - [Development](#development)
   - [Prerequisites](#prerequisites)
@@ -87,12 +87,24 @@ xattr -d com.apple.quarantine /Applications/Lux.app
 ## Development
 
 ### Prerequisites
-
-TODO
-
+1. Install [Flutter][Flutter-url]
+2. Install [Node][Node-url]
 ### Build
 
-TODO
+```sh
+
+dart pub global activate flutter_distributor
+dart run scripts/init.dart
+
+
+#Widows
+flutter_distributor release --name windows-latest
+
+#Macos
+npm install -g appdmg
+flutter_distributor release --name macos-latest
+```
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -120,12 +132,10 @@ Please see our [contribution guide](https://github.com/igoogolx/lux/blob/main/do
 ## Built With
 
 * [![React][React.js]][React-url]
-* [![Vue][Electron.js]][Electron-url]
+* [![Flutter][Flutter]][Flutter-url]
 * [![Go][Go.dev]][Golang-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 
 <!-- LICENSE -->
@@ -175,7 +185,8 @@ Lux is built on Clash's code but is not another GUI client for clash. Lux only u
 
 [React.js]: https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/
-[Electron.js]: https://img.shields.io/badge/Electron-20232A?logo=electron&logoColor=61DAFB
-[Electron-url]: https://www.electronjs.org/
+[Flutter]: https://img.shields.io/badge/Flutter-%2302569B.svg?logo=flutter&logoColor=61DAFB
+[Flutter-url]: https://flutter.dev/
 [Go.dev]: https://img.shields.io/badge/Go-20232A?logo=go&logoColor=61DAFB
 [Golang-url]: https://go.dev/
+[Node-url]: https://nodejs.org/
