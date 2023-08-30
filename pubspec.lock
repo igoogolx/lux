@@ -160,6 +160,15 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_window_close:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: main
+      resolved-ref: "5a2c015680c35aeddcdfd0a05aabb565ef80bd00"
+      url: "https://github.com/igoogolx/flutter_window_close.git"
+    source: git
+    version: "0.2.2"
   http:
     dependency: transitive
     description:

@@ -46,6 +46,11 @@ dependencies:
   args: ^2.4.2
   flutter_desktop_sleep: ^0.0.2
   local_notifier: ^0.1.5
+  flutter_window_close:
+    git:
+      url: https://github.com/igoogolx/flutter_window_close.git
+      ref: main # branch name
+
 
 dev_dependencies:
   flutter_test:

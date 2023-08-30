@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_desktop_sleep/flutter_desktop_sleep.dart';
+import 'package:flutter_window_close/flutter_window_close.dart';
 import 'package:local_notifier/local_notifier.dart';
 import 'package:lux/process_manager.dart';
 
@@ -22,33 +23,40 @@ class CoreManager {
   final dio = Dio();
   var lastIsStarted = false;
 
+  Future<void> powerMonitorHandler(String? s) async {
+    if (s != null) {
+      if (s == 'sleep') {
+        final response = await dio.get('$baseUrl/manager');
+        lastIsStarted = response.data['isStarted'];
+        if (lastIsStarted) {
+          await dio.post('$baseUrl/manager/stop');
+        }
+      } else if (s == 'woke_up') {
+        if (lastIsStarted) {
+          await dio.post('$baseUrl/manager/start');
+          lastIsStarted = false;
+          LocalNotification notification = LocalNotification(
+            title: "Lux",
+            body: "Reconnected",
+          );
+          notification.show();
+        }
+      } else if (s == 'terminate_app') {
+        coreProcess?.exit();
+        exit(0);
+      }
+    }
+  }
+
   CoreManager(this.baseUrl, this.coreProcess) {
     dio.transformer = BackgroundTransformer()..jsonDecodeCallback = parseJson;
     dio.options.receiveTimeout = const Duration(seconds: 1);
-    flutterDesktopSleep.setWindowSleepHandler((String? s) async {
-      if (s != null) {
-        if (s == 'sleep') {
-          final response = await dio.get('$baseUrl/manager');
-          lastIsStarted = response.data['isStarted'];
-          if (lastIsStarted) {
-            await dio.post('$baseUrl/manager/stop');
-          }
-        } else if (s == 'woke_up') {
-          if (lastIsStarted) {
-            await dio.post('$baseUrl/manager/start');
-            lastIsStarted = false;
-            LocalNotification notification = LocalNotification(
-              title: "Lux",
-              body: "Reconnected",
-            );
-            notification.show();
-          }
-        } else if (s == 'terminate_app') {
-          coreProcess?.exit();
-          exit(0);
-        }
-      }
-    });
+    if(Platform.isMacOS){
+      flutterDesktopSleep.setWindowSleepHandler(powerMonitorHandler);
+    }
+    if(Platform.isWindows){
+      FlutterWindowClose.setWindowShouldCloseHandler(powerMonitorHandler);
+    }
   }
 
   Future<void> makeRequestUntilSuccess(String url) async {
