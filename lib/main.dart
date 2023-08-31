@@ -10,6 +10,7 @@ import 'package:lux/const/const.dart';
 import 'package:path/path.dart' as path;
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:window_manager/window_manager.dart';
+import 'package:version/version.dart';
 
 ProcessManager? process;
 
@@ -86,12 +87,13 @@ void main(args) async {
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
   final port = await findAvailablePort(8000, 9000);
   final Directory appDocumentsDir = await getApplicationSupportDirectory();
-  String version = packageInfo.version;
-  final homeDir = path.join(appDocumentsDir.path, version);
+
+  final Version currentVersion = Version.parse(packageInfo.version);
+  final homeDir = path.join(appDocumentsDir.path, '${currentVersion.major}.${currentVersion.minor}');
   process = ProcessManager(path.join(Paths.assetsBin.path, LuxCoreName.name),  ['-home_dir=$homeDir', '-port=$port']);
   await process?.run();
   process?.watchExit();
-  urlStr = 'http://localhost:$port/?client_version=$version';
+  urlStr = 'http://localhost:$port/?client_version=$currentVersion';
   final manager = CoreManager(urlStr, process);
   await manager.ping();
   openDashboard();
