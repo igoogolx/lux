@@ -50,6 +50,7 @@ dependencies:
     git:
       url: https://github.com/igoogolx/flutter_window_close.git
       ref: main # branch name
+  version: ^3.0.2
 
 
 dev_dependencies:
