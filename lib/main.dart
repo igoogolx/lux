@@ -93,8 +93,9 @@ void main(args) async {
   process = ProcessManager(path.join(Paths.assetsBin.path, LuxCoreName.name),  ['-home_dir=$homeDir', '-port=$port']);
   await process?.run();
   process?.watchExit();
-  urlStr = 'http://localhost:$port/?client_version=$currentVersion';
-  final manager = CoreManager(urlStr, process);
+  final baseUrl='http://localhost:$port';
+  urlStr = '$baseUrl/?client_version=$currentVersion';
+  final manager = CoreManager(baseUrl, process);
   await manager.ping();
   openDashboard();
   initSystemTray();
