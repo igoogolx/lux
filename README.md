@@ -15,7 +15,7 @@
 [![Version][version-shield]][version-url]
 
 <h3 align="center">Lux</h3>
-A VPN or proxy client. IPV6: not support.
+A VPN or proxy client. **IPV4-Only**.
   <p align="center">
     <a href="https://github.com/igoogolx/lux/issues">Report Bug</a>
     ·
@@ -58,8 +58,7 @@ Note that this project only contains building scripts. See more source code in m
 - Supports editing Shadowsocks, Socks5, Http
 - Built-in Shadowsocks plugin: simple-obfs, v2ray
 - Local Http proxy
-- Supports UDP
-- Built-in Dns, Dns over TCP
+- Built-in Dns
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
