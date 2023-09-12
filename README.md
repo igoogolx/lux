@@ -41,6 +41,7 @@ A VPN or proxy client. IPV6: not support.
 - [Contact](#contact)
 - [FAQ](#faq)
   - [1.What's the difference between lux and clash?](#1whats-the-difference-between-lux-and-clash)
+- [Sponsors](#sponsors)
 
 
 
@@ -164,6 +165,17 @@ Lux is built on Clash's code but is not another GUI client for clash. Lux only u
 * Lux is fully open sourced. However, Clash Premium is close sourced.
 * Lux is easy to start because of built-in proxy rules. Clash is highly customized and requires users to equip with cs background to configure.
 
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- Sponsors -->
+## Sponsors
+
+<a href="https://jb.gg/OpenSourceSupport">
+<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="Jet Brains Logo" width="100" height="100">
+</a>
+
+Thanks to Jetbrains provided license!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
