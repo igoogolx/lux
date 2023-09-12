@@ -15,7 +15,7 @@
 [![Version][version-shield]][version-url]
 
 <h3 align="center">Lux</h3>
-A VPN or proxy client. **IPV4-Only**.
+A VPN or proxy client. _IPV4-Only_.
   <p align="center">
     <a href="https://github.com/igoogolx/lux/issues">Report Bug</a>
     ·
