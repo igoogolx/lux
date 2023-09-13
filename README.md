@@ -66,7 +66,15 @@ Note that this project only contains building scripts. See more source code in m
 <!-- GETTING STARTED -->
 ## Getting Started
 
-Note: On Apple Silicon Mac, you may see the error: “Lux” is damaged and can’t be opened. You should move it to the Trash. To solve this, open a new Terminal window and type:
+Note: 
+
+1.On Mac os, you need to manually configure system DNS to hijack.
+```sh
+# replace "Wi-Fi" according to your actual network
+networksetup -setdnsservers Wi-Fi 8.8.8.8
+```
+
+2.On Apple Silicon Mac, you may see the error: “Lux” is damaged and can’t be opened. You should move it to the Trash. To solve this, open a new Terminal window and type:
 ```sh
 xattr -d com.apple.quarantine /Applications/Lux.app
 ```
