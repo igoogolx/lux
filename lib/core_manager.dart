@@ -33,6 +33,7 @@ class CoreManager {
         }
       } else if (s == 'woke_up') {
         if (lastIsStarted) {
+          await Future.delayed(const Duration(seconds: 2));
           await dio.post('$baseUrl/manager/start');
           lastIsStarted = false;
           LocalNotification notification = LocalNotification(
