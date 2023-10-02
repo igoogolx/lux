@@ -26,7 +26,6 @@ A VPN or proxy client. _IPV4-Only_.
 
 
 - [About The Project](#about-the-project)
-  - [Features](#features)
 - [Getting Started](#getting-started)
 - [Modules](#modules)
 - [Roadmap](#roadmap)
@@ -43,14 +42,6 @@ A VPN or proxy client. _IPV4-Only_.
 There are many great proxy clients available on GitHub like [shadowsocks-windows](https://github.com/shadowsocks/shadowsocks-windows), [clash](https://github.com/Dreamacro/clash). However, I didn't find one that really suited my needs, so I created this one.
 This project aims to make a one-click proxy clients, so users don't need to perform complicated configuration.
 
-
-#### Features
-
-- Supports importing proxies from clash config
-- Supports editing Shadowsocks, Socks5, Http
-- Built-in Shadowsocks plugin: simple-obfs, v2ray
-- Local Http proxy
-- Built-in Dns
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
