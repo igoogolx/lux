@@ -28,19 +28,12 @@ A VPN or proxy client. _IPV4-Only_.
 - [About The Project](#about-the-project)
   - [Features](#features)
 - [Getting Started](#getting-started)
-  - [1. Install it as an app](#1-install-it-as-an-app)
-    - [1.1 Install it manually](#11-install-it-manually)
 - [Modules](#modules)
-- [Development](#development)
-  - [Prerequisites](#prerequisites)
-  - [Build](#build)
 - [Roadmap](#roadmap)
 - [Contributing](#contributing)
 - [Built With](#built-with)
 - [License](#license)
 - [Contact](#contact)
-- [FAQ](#faq)
-  - [1.What's the difference between lux and clash?](#1whats-the-difference-between-lux-and-clash)
 - [Sponsors](#sponsors)
 
 
@@ -66,55 +59,13 @@ Note that this project only contains building scripts. See more source code in m
 <!-- GETTING STARTED -->
 ## Getting Started
 
-Note: 
-
-1.On Mac os, you need to manually configure system DNS to hijack.
-```sh
-# replace "Wi-Fi" according to your actual network
-networksetup -setdnsservers Wi-Fi 8.8.8.8
-```
-
-2.On Apple Silicon Mac, you may see the error: “Lux” is damaged and can’t be opened. You should move it to the Trash. To solve this, open a new Terminal window and type:
-```sh
-xattr -d com.apple.quarantine /Applications/Lux.app
-```
-
-
-#### 1. Install it as an app
-##### 1.1 Install it manually
-1. Download the [installer](https://github.com/igoogolx/lux/releases) file and install it
-2. Open it like a normal app
-
+See the [docs](https://igoogolx.github.io/lux-docs) for more.
 
 
 ## Modules
 * [itun2socks](https://github.com/igoogolx/itun2socks)
 * [lux-client](https://github.com/igoogolx/lux-client)
 * [lux-geo-data](https://github.com/igoogolx/lux-geo-data)
-
-## Development
-
-### Prerequisites
-1. Install [Flutter][Flutter-url]
-2. Install [Node][Node-url]
-### Build
-
-```sh
-
-dart pub global activate flutter_distributor
-dart run scripts/init.dart
-
-
-#Widows
-flutter_distributor release --name windows-latest
-
-#Macos
-npm install -g appdmg
-flutter_distributor release --name macos-latest
-```
-
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 ## Roadmap
@@ -163,17 +114,6 @@ Project Link: [https://github.com/igoogolx/lux](https://github.com/igoogolx/lux)
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-
-<!-- FAQ -->
-## FAQ
-### 1.What's the difference between lux and clash?
-Lux is built on Clash's code but is not another GUI client for clash. Lux only use Clash's outbound feature.
-
-* Lux is fully open sourced. However, Clash Premium is close sourced.
-* Lux is easy to start because of built-in proxy rules. Clash is highly customized and requires users to equip with cs background to configure.
-
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- Sponsors -->
 ## Sponsors
