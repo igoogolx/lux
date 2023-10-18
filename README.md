@@ -15,7 +15,16 @@
 [![Version][version-shield]][version-url]
 
 <h3 align="center">Lux</h3>
-A VPN or proxy client. _IPV4-Only_.
+A light desktop proxy client.
+<br />
+<a href="https://igoogolx.github.io/lux-docs/"><strong>lux-docs »</strong></a>
+<br />
+<br />
+<b>Download for </b>
+macOS
+·
+Windows
+<br />
   <p align="center">
     <a href="https://github.com/igoogolx/lux/issues">Report Bug</a>
     ·
@@ -25,11 +34,11 @@ A VPN or proxy client. _IPV4-Only_.
 
 
 
-- [About The Project](#about-the-project)
+- [Motivation](#motivation)
 - [Getting Started](#getting-started)
-- [Modules](#modules)
+- [Architecture](#architecture)
+- [Monorepo structure](#monorepo-structure)
 - [Roadmap](#roadmap)
-- [Contributing](#contributing)
 - [Built With](#built-with)
 - [License](#license)
 - [Contact](#contact)
@@ -37,10 +46,11 @@ A VPN or proxy client. _IPV4-Only_.
 
 
 
-## About The Project
+## Motivation
 
-There are many great proxy clients available on GitHub like [shadowsocks-windows](https://github.com/shadowsocks/shadowsocks-windows), [clash](https://github.com/Dreamacro/clash). However, I didn't find one that really suited my needs, so I created this one.
-This project aims to make a one-click proxy clients, so users don't need to perform complicated configuration.
+There are many great proxy clients available on GitHub. However, some of them are a little hard to use or not open sourced.
+As a proxy tool, I think it should be easy to use. Open source technology is the only way to ensure we retain absolute control over the data.
+
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -49,14 +59,25 @@ This project aims to make a one-click proxy clients, so users don't need to perf
 <!-- GETTING STARTED -->
 ## Getting Started
 
-See the [docs](https://igoogolx.github.io/lux-docs) for more.
+See the [docs](https://igoogolx.github.io/lux-docs/docs/category/getting-started) for more.
 
 
-## Modules
-* [itun2socks](https://github.com/igoogolx/itun2socks)
-* [lux-client](https://github.com/igoogolx/lux-client)
-* [lux-geo-data](https://github.com/igoogolx/lux-geo-data)
 
+
+
+## Architecture
+
+This project is using what I'm calling the "FGRT" stack (Flutter, Go, React, TypeScript).
+
+* React on Flutter? Here flutter is not responsible for UI. It's more like a launcher: 
+  start the core process and open the webpage in browser.
+* The core (itun2socks) is written in pure Go.
+
+
+## Monorepo structure
+* [itun2socks](https://github.com/igoogolx/itun2socks):  The Go core, referred to internally as lux-core. Contains tun, networking stack and clash logic. Can be deployed in windows and macOS. 
+* [lux-client](https://github.com/igoogolx/lux-client):  A React app using fluent-ui.
+* [lux-rules](https://github.com/igoogolx/lux-rules): A Go utility tool used to generate built in proxy rules.
 
 ## Roadmap
 
@@ -65,17 +86,13 @@ See the [docs](https://igoogolx.github.io/lux-docs) for more.
 - [x] Improve UI Dark mode
 - [x] Support DNS over https
 - [x] Support Mac OS
+- [ ] Support adding rules
 - [ ] Support IPV6
 
 See the [open issues](https://github.com/igoogolx/lux/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Contributing
-
-Please see our [contribution guide](https://github.com/igoogolx/lux/blob/main/doc/CONTRIBUTING.md).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 ## Built With
@@ -90,7 +107,7 @@ Please see our [contribution guide](https://github.com/igoogolx/lux/blob/main/do
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the GPL License. See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
