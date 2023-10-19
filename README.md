@@ -15,7 +15,7 @@
 [![Version][version-shield]][version-url]
 
 <h3 align="center">Lux</h3>
-A light desktop proxy client.
+A light desktop tun proxy client.
 <br />
 <a href="https://igoogolx.github.io/lux-docs/"><strong>lux-docs »</strong></a>
 <br />
