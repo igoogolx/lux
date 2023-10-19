@@ -76,8 +76,9 @@ This project is using what I'm calling the "FGRT" stack (Flutter, Go, React, Typ
 
 ## Monorepo structure
 * [itun2socks](https://github.com/igoogolx/itun2socks):  The Go core, referred to internally as lux-core. Contains tun, networking stack and clash logic. Can be deployed in windows and macOS. 
-* [lux-client](https://github.com/igoogolx/lux-client):  A React app using fluent-ui.
+* [lux-client](https://github.com/igoogolx/lux-client):  A React app using fluent-ui. It's the UI of lux.
 * [lux-rules](https://github.com/igoogolx/lux-rules): A Go utility tool used to generate built in proxy rules.
+* [lux-docs](https://github.com/igoogolx/lux-docs): The docs build with docusaurus.
 
 ## Roadmap
 
