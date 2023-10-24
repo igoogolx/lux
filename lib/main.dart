@@ -11,6 +11,7 @@ import 'package:path/path.dart' as path;
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:version/version.dart';
+import 'package:desktop_webview_window/desktop_webview_window.dart';
 
 ProcessManager? process;
 
@@ -69,13 +70,27 @@ void exitApp() {
 var urlStr = '';
 
 void openDashboard() async {
-  final Uri url = Uri.parse(urlStr);
-  launchUrl(url);
+  if(await WebviewWindow.isWebviewAvailable()){
+    final webview = await WebviewWindow.create();
+    webview.launch(urlStr);
+  }else{
+    final Uri url = Uri.parse(urlStr);
+    launchUrl(url);
+  }
 }
 
 void main(args) async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Add this your main method.
+  // used to show a webview title bar.
+  if (runWebViewTitleBarWidget(args)) {
+    return;
+  }
+
   await windowManager.ensureInitialized();
+
+
 
   // Add in main method.
   await localNotifier.setup(
