@@ -3,6 +3,7 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  desktop_webview_window
   flutter_desktop_sleep
   flutter_window_close
   local_notifier

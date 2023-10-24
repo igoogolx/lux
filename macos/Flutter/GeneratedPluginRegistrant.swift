@@ -5,6 +5,7 @@
 import FlutterMacOS
 import Foundation
 
+import desktop_webview_window
 import flutter_desktop_sleep
 import flutter_window_close
 import local_notifier
@@ -16,6 +17,7 @@ import url_launcher_macos
 import window_manager
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
+  DesktopWebviewWindowPlugin.register(with: registry.registrar(forPlugin: "DesktopWebviewWindowPlugin"))
   FlutterDesktopSleepPlugin.register(with: registry.registrar(forPlugin: "FlutterDesktopSleepPlugin"))
   FlutterWindowClosePlugin.register(with: registry.registrar(forPlugin: "FlutterWindowClosePlugin"))
   LocalNotifierPlugin.register(with: registry.registrar(forPlugin: "LocalNotifierPlugin"))
