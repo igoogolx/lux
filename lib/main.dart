@@ -68,11 +68,23 @@ void exitApp() {
 
 
 var urlStr = '';
+Webview? webview;
+var homeDir= '';
 
 void openDashboard() async {
   if(await WebviewWindow.isWebviewAvailable()){
-    final webview = await WebviewWindow.create();
-    webview.launch(urlStr);
+    if(webview!=null){
+      webview?.close();
+    }
+    webview = await WebviewWindow.create(
+      configuration: CreateConfiguration(
+        title: "Lux",
+        titleBarTopPadding: Platform.isMacOS ? 20 : 0,
+        userDataFolderWindows: homeDir
+      ),
+    );
+    webview?.launch(urlStr);
+    webview?.onClose.whenComplete(() => webview=null);
   }else{
     final Uri url = Uri.parse(urlStr);
     launchUrl(url);
@@ -88,9 +100,6 @@ void main(args) async {
     return;
   }
 
-  await windowManager.ensureInitialized();
-
-
 
   // Add in main method.
   await localNotifier.setup(
@@ -104,7 +113,7 @@ void main(args) async {
   final Directory appDocumentsDir = await getApplicationSupportDirectory();
 
   final Version currentVersion = Version.parse(packageInfo.version);
-  final homeDir = path.join(appDocumentsDir.path, '${currentVersion.major}.${currentVersion.minor}');
+  homeDir = path.join(appDocumentsDir.path, '${currentVersion.major}.${currentVersion.minor}');
   process = ProcessManager(path.join(Paths.assetsBin.path, LuxCoreName.name),  ['-home_dir=$homeDir', '-port=$port']);
   await process?.run();
   process?.watchExit();
@@ -123,6 +132,8 @@ void main(args) async {
   );
 
 
+
+  await windowManager.ensureInitialized();
   windowManager.waitUntilReadyToShow(windowOptions, () async {
     await windowManager.hide();
   });
