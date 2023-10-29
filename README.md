@@ -144,7 +144,7 @@ Thanks to Jetbrains provided license!
 [issues-shield]: https://img.shields.io/github/issues/igoogolx/lux.svg
 [issues-url]: https://github.com/igoogolx/lux/issues
 [license-shield]: https://img.shields.io/github/license/igoogolx/lux.svg
-[license-url]: https://github.com/igoogolx/lux/blob/master/LICENSE.txt
+[license-url]: https://github.com/igoogolx/lux/blob/master/LICENSE
 [build-shield]: https://github.com/igoogolx/lux/actions/workflows/build.yml/badge.svg
 [build-url]: https://github.com/igoogolx/lux/actions/workflows/build.yml
 [version-shield]: https://img.shields.io/github/v/release/igoogolx/lux
