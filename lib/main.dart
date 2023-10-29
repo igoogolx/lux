@@ -11,6 +11,7 @@ import 'package:path/path.dart' as path;
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:version/version.dart';
+import 'package:flutter_single_instance/flutter_single_instance.dart';
 
 ProcessManager? process;
 
@@ -75,7 +76,6 @@ void openDashboard() async {
 
 void main(args) async {
   WidgetsFlutterBinding.ensureInitialized();
-  await windowManager.ensureInitialized();
 
   // Add in main method.
   await localNotifier.setup(
@@ -83,6 +83,19 @@ void main(args) async {
     // The parameter shortcutPolicy only works on Windows
     shortcutPolicy: ShortcutPolicy.requireCreate,
   );
+  if(!await FlutterSingleInstance.platform.isFirstInstance()){
+    LocalNotification notification = LocalNotification(
+      title: "Lux",
+      body: "App is already running"
+    );
+    await notification.show();
+    exit(0);
+  }
+
+
+  await windowManager.ensureInitialized();
+
+
 
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
   final port = await findAvailablePort(8000, 9000);
