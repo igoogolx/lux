@@ -85,4 +85,9 @@ class CoreManager {
   Future<void> ping() async {
     await makeRequestUntilSuccess('$baseUrl/ping');
   }
+
+  Future<void> restart() async {
+    coreProcess?.exit();
+    await coreProcess?.run();
+  }
 }
