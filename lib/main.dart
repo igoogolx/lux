@@ -27,54 +27,60 @@ void openDashboard() async {
   launchUrl(url);
 }
 
-
 void main(args) async {
   WidgetsFlutterBinding.ensureInitialized();
-  await windowManager.ensureInitialized();
   await notifier.ensureInitialized();
-  initSystemTray(openDashboard,exitApp);
-  if (!await FlutterSingleInstance.platform.isFirstInstance()) {
-    notifier.show("App is already running");
-    exitApp();
-  }
 
-  PackageInfo packageInfo = await PackageInfo.fromPlatform();
-  final port = await findAvailablePort(8000, 9000);
-  final Directory appDocumentsDir = await getApplicationSupportDirectory();
-  final Version currentVersion = Version.parse(packageInfo.version);
-  final homeDir = path.join(
-      appDocumentsDir.path, '${currentVersion.major}.${currentVersion.minor}');
-  var corePath = path.join(Paths.assetsBin.path, LuxCoreName.name);
-  if (Platform.isMacOS) {
-    var owner =
-        await getFileOwner(path.join(Paths.assetsBin.path, LuxCoreName.name));
-    if (owner != "root") {
-      var code = await elevate(corePath);
-      if (code != 0) {
-        notifier.show("App is not run as root");
-        exitApp();
+  try {
+    await windowManager.ensureInitialized();
+    initSystemTray(openDashboard, exitApp);
+    if (Platform.isWindows &&
+        !await FlutterSingleInstance.platform.isFirstInstance()) {
+      await notifier.show("App is already running");
+      exitApp();
+    }
+
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    final port = await findAvailablePort(8000, 9000);
+    final Directory appDocumentsDir = await getApplicationSupportDirectory();
+    final Version currentVersion = Version.parse(packageInfo.version);
+    final homeDir = path.join(appDocumentsDir.path,
+        '${currentVersion.major}.${currentVersion.minor}');
+    var corePath = path.join(Paths.assetsBin.path, LuxCoreName.name);
+    if (Platform.isMacOS) {
+      var owner = await getFileOwner(corePath);
+      if (owner != "root") {
+        await notifier.show("App is not run as root");
+        var code = await elevate(corePath, "Lux elevation service");
+        if (code != 0) {
+          notifier.show("App is not run as root");
+          exitApp();
+        }
       }
     }
+    process = ProcessManager(corePath, ['-home_dir=$homeDir', '-port=$port']);
+    await process?.run();
+    process?.watchExit();
+    final baseUrl = 'http://localhost:$port';
+    urlStr = '$baseUrl/?client_version=$currentVersion';
+    final manager = CoreManager(baseUrl, process);
+    await manager.ping();
+    openDashboard();
+    WindowOptions windowOptions = const WindowOptions(
+      size: Size(800, 600),
+      center: true,
+      backgroundColor: Colors.transparent,
+      skipTaskbar: false,
+      titleBarStyle: TitleBarStyle.hidden,
+    );
+    windowManager.waitUntilReadyToShow(windowOptions, () async {
+      await windowManager.hide();
+    });
+    runApp(const MyApp());
+  } catch (e) {
+    await notifier.show("$e");
+    exitApp();
   }
-  process = ProcessManager(corePath, ['-home_dir=$homeDir', '-port=$port']);
-  await process?.run();
-  process?.watchExit();
-  final baseUrl = 'http://localhost:$port';
-  urlStr = '$baseUrl/?client_version=$currentVersion';
-  final manager = CoreManager(baseUrl, process);
-  await manager.ping();
-  openDashboard();
-  WindowOptions windowOptions = const WindowOptions(
-    size: Size(800, 600),
-    center: true,
-    backgroundColor: Colors.transparent,
-    skipTaskbar: false,
-    titleBarStyle: TitleBarStyle.hidden,
-  );
-  windowManager.waitUntilReadyToShow(windowOptions, () async {
-    await windowManager.hide();
-  });
-  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
