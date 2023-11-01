@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_desktop_sleep/flutter_desktop_sleep.dart';
 import 'package:flutter_window_close/flutter_window_close.dart';
-import 'package:local_notifier/local_notifier.dart';
+import 'package:lux/notifier.dart';
 import 'package:lux/process_manager.dart';
 
 /// Must be top-level function
@@ -36,11 +36,7 @@ class CoreManager {
           await Future.delayed(const Duration(seconds: 2));
           await dio.post('$baseUrl/manager/start');
           lastIsStarted = false;
-          LocalNotification notification = LocalNotification(
-            title: "Lux",
-            body: "Reconnected",
-          );
-          notification.show();
+          notifier.show("Reconnected");
         }
       } else if (s == 'terminate_app') {
         coreProcess?.exit();

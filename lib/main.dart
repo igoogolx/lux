@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:local_notifier/local_notifier.dart';
 import 'package:lux/core_manager.dart';
 import 'package:lux/elevate.dart';
+import 'package:lux/notifier.dart';
 import 'package:lux/process_manager.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
@@ -99,17 +100,9 @@ Future<String?> getFileOwner(String path) async {
 
 void main(args) async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Add in main method.
-  await localNotifier.setup(
-    appName: 'Lux',
-    // The parameter shortcutPolicy only works on Windows
-    shortcutPolicy: ShortcutPolicy.requireCreate,
-  );
+  await notifier.ensureInitialized();
   if (!await FlutterSingleInstance.platform.isFirstInstance()) {
-    LocalNotification notification =
-        LocalNotification(title: "Lux", body: "App is already running");
-    await notification.show();
+    notifier.show("App is already running");
     exit(0);
   }
 
@@ -129,9 +122,7 @@ void main(args) async {
     if (owner != "root") {
       var code = await elevate(corePath);
       if (code != 0) {
-        LocalNotification notification =
-            LocalNotification(title: "Lux", body: "App is not run as root");
-        await notification.show();
+        notifier.show("App is not run as root");
         exit(0);
       }
     }
