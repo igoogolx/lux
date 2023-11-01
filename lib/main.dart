@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:local_notifier/local_notifier.dart';
 import 'package:lux/core_manager.dart';
 import 'package:lux/elevate.dart';
 import 'package:lux/notifier.dart';
 import 'package:lux/process_manager.dart';
+import 'package:lux/tray.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:system_tray/system_tray.dart';
 import 'package:lux/const/const.dart';
 import 'package:path/path.dart' as path;
 import 'package:package_info_plus/package_info_plus.dart';
@@ -16,102 +15,32 @@ import 'package:version/version.dart';
 import 'package:flutter_single_instance/flutter_single_instance.dart';
 
 ProcessManager? process;
-
-Future<int> findAvailablePort(int startPort, int endPort) async {
-  for (int port = startPort; port <= endPort; port++) {
-    try {
-      final serverSocket = await ServerSocket.bind("127.0.0.1", port);
-      await serverSocket.close();
-      return port;
-    } catch (e) {
-      // Port is not available
-    }
-  }
-  throw Exception('No available port found in range $startPort-$endPort');
-}
-
-Future<void> initSystemTray() async {
-  String path = Platform.isWindows ? 'assets/app_icon.ico' : 'assets/tray.png';
-
-  final SystemTray systemTray = SystemTray();
-
-  // We first init the systray menu
-  await systemTray.initSystemTray(
-    iconPath: path,
-  );
-  systemTray.setToolTip("Lux");
-
-  // create context menu
-  final Menu menu = Menu();
-  await menu.buildFrom([
-    MenuItemLabel(label: 'Lux', enabled: false),
-    MenuItemLabel(label: 'Dashboard', onClicked: (menuItem) => openDashboard()),
-    MenuItemLabel(label: 'Exit', onClicked: (menuItem) => exitApp()),
-  ]);
-
-  // set context menu
-  await systemTray.setContextMenu(menu);
-
-  // handle system tray event
-  systemTray.registerSystemTrayEventHandler((eventName) {
-    debugPrint("eventName: $eventName");
-    if (eventName == kSystemTrayEventClick) {
-      Platform.isWindows ? openDashboard() : systemTray.popUpContextMenu();
-    } else if (eventName == kSystemTrayEventRightClick) {
-      Platform.isWindows ? systemTray.popUpContextMenu() : openDashboard();
-    }
-  });
-}
+var urlStr = '';
 
 void exitApp() {
   process?.exit();
   exit(0);
 }
 
-var urlStr = '';
-
 void openDashboard() async {
   final Uri url = Uri.parse(urlStr);
   launchUrl(url);
 }
 
-Future<String?> getFileOwner(String path) async {
-  var result = await Process.run("ls", ["-l", path]);
-
-  // should be something like:
-  // ```
-  //     PID TTY          TIME CMD
-  //  xxxxx ?        xx:xx:xx process_name
-  // ```
-  // or emtpy if process does not exist
-  var output = result.stdout.toString().trim();
-
-  if (output.isEmpty) {
-    return null;
-  } else {
-    output = output.split("\n").last;
-
-    var parts =
-        output.split(" ").where((element) => element.isNotEmpty).toList();
-
-    return parts[2];
-  }
-}
 
 void main(args) async {
   WidgetsFlutterBinding.ensureInitialized();
+  await windowManager.ensureInitialized();
   await notifier.ensureInitialized();
+  initSystemTray(openDashboard,exitApp);
   if (!await FlutterSingleInstance.platform.isFirstInstance()) {
     notifier.show("App is already running");
-    exit(0);
+    exitApp();
   }
-
-  await windowManager.ensureInitialized();
 
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
   final port = await findAvailablePort(8000, 9000);
   final Directory appDocumentsDir = await getApplicationSupportDirectory();
-
   final Version currentVersion = Version.parse(packageInfo.version);
   final homeDir = path.join(
       appDocumentsDir.path, '${currentVersion.major}.${currentVersion.minor}');
@@ -123,7 +52,7 @@ void main(args) async {
       var code = await elevate(corePath);
       if (code != 0) {
         notifier.show("App is not run as root");
-        exit(0);
+        exitApp();
       }
     }
   }
@@ -135,7 +64,6 @@ void main(args) async {
   final manager = CoreManager(baseUrl, process);
   await manager.ping();
   openDashboard();
-  initSystemTray();
   WindowOptions windowOptions = const WindowOptions(
     size: Size(800, 600),
     center: true,
@@ -143,11 +71,9 @@ void main(args) async {
     skipTaskbar: false,
     titleBarStyle: TitleBarStyle.hidden,
   );
-
   windowManager.waitUntilReadyToShow(windowOptions, () async {
     await windowManager.hide();
   });
-
   runApp(const MyApp());
 }
 

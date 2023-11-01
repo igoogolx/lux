@@ -7,6 +7,20 @@ import 'package:flutter_window_close/flutter_window_close.dart';
 import 'package:lux/notifier.dart';
 import 'package:lux/process_manager.dart';
 
+
+Future<int> findAvailablePort(int startPort, int endPort) async {
+  for (int port = startPort; port <= endPort; port++) {
+    try {
+      final serverSocket = await ServerSocket.bind("127.0.0.1", port);
+      await serverSocket.close();
+      return port;
+    } catch (e) {
+      // Port is not available
+    }
+  }
+  throw Exception('No available port found in range $startPort-$endPort');
+}
+
 /// Must be top-level function
 Map<String, dynamic> _parseAndDecode(String response) {
   return jsonDecode(response) as Map<String, dynamic>;
