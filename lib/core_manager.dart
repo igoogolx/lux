@@ -35,21 +35,26 @@ class CoreManager {
   final String baseUrl;
   final FlutterDesktopSleep flutterDesktopSleep = FlutterDesktopSleep();
   final dio = Dio();
-  var lastIsStarted = false;
+  var needRestart= false;
 
   Future<void> powerMonitorHandler(String? s) async {
     if (s != null) {
       if (s == 'sleep') {
-        final response = await dio.get('$baseUrl/manager');
-        lastIsStarted = response.data['isStarted'];
-        if (lastIsStarted) {
-          await dio.post('$baseUrl/manager/stop');
+        final managerRes = await dio.get('$baseUrl/manager');
+        var isStarted = managerRes.data['isStarted'];
+        if(isStarted){
+          final settingRes = await dio.get('$baseUrl/setting');
+          var mode = settingRes.data['mode'];
+          if (mode=="tun") {
+            needRestart=true;
+            await dio.post('$baseUrl/manager/stop');
+          }
         }
       } else if (s == 'woke_up') {
-        if (lastIsStarted) {
+        if (needRestart) {
+          needRestart = false;
           await Future.delayed(const Duration(seconds: 2));
           await dio.post('$baseUrl/manager/start');
-          lastIsStarted = false;
           notifier.show("Reconnected");
         }
       } else if (s == 'terminate_app') {
