@@ -50,7 +50,6 @@ void main(args) async {
     if (Platform.isMacOS) {
       var owner = await getFileOwner(corePath);
       if (owner != "root") {
-        await notifier.show("App is not run as root");
         var code = await elevate(corePath, "Lux elevation service");
         if (code != 0) {
           notifier.show("App is not run as root");
