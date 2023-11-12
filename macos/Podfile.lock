@@ -1,6 +1,8 @@
 PODS:
   - flutter_desktop_sleep (0.0.1):
     - FlutterMacOS
+  - flutter_window_close (0.0.1):
+    - FlutterMacOS
   - FlutterMacOS (1.0.0)
   - local_notifier (0.1.0):
     - FlutterMacOS
@@ -20,6 +22,7 @@ PODS:
 
 DEPENDENCIES:
   - flutter_desktop_sleep (from `Flutter/ephemeral/.symlinks/plugins/flutter_desktop_sleep/macos`)
+  - flutter_window_close (from `Flutter/ephemeral/.symlinks/plugins/flutter_window_close/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
   - local_notifier (from `Flutter/ephemeral/.symlinks/plugins/local_notifier/macos`)
   - package_info_plus (from `Flutter/ephemeral/.symlinks/plugins/package_info_plus/macos`)
@@ -32,6 +35,8 @@ DEPENDENCIES:
 EXTERNAL SOURCES:
   flutter_desktop_sleep:
     :path: Flutter/ephemeral/.symlinks/plugins/flutter_desktop_sleep/macos
+  flutter_window_close:
+    :path: Flutter/ephemeral/.symlinks/plugins/flutter_window_close/macos
   FlutterMacOS:
     :path: Flutter/ephemeral
   local_notifier:
@@ -51,6 +56,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   flutter_desktop_sleep: d7e29bb5c2944a0db954674f53ad190b79a7d69d
+  flutter_window_close: ee4a6b81ca6fafe93b7cba48b0a18976e3f48e39
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
   local_notifier: e9506bc66fc70311e8bc7291fb70f743c081e4ff
   package_info_plus: 02d7a575e80f194102bef286361c6c326e4c29ce
@@ -62,4 +68,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 236401fc2c932af29a9fcf0e97baeeb2d750d367
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.14.2
