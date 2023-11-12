@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:system_tray/system_tray.dart';
 
 Future<void> initSystemTray(void Function() openDashboard, exitApp) async {
-  String path = Platform.isWindows ? 'assets/app_icon.ico' : 'assets/tray.png';
+  String path = Platform.isWindows ? 'assets/app_icon.ico' : 'assets/tray.icns';
 
   final SystemTray systemTray = SystemTray();
 
