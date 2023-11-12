@@ -44,7 +44,7 @@ class CoreManager {
         var isStarted = managerRes.data['isStarted'];
         if(isStarted){
           final settingRes = await dio.get('$baseUrl/setting');
-          var mode = settingRes.data['mode'];
+          var mode = settingRes.data['setting']['mode'];
           if (mode=="tun") {
             needRestart=true;
             await dio.post('$baseUrl/manager/stop');
