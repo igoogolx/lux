@@ -10,6 +10,7 @@ Future<void> initSystemTray(void Function() openDashboard, exitApp) async {
   // We first init the systray menu
   await systemTray.initSystemTray(
     iconPath: path,
+    isTemplate: true
   );
   systemTray.setToolTip("Lux");
 
