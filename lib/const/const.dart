@@ -19,7 +19,7 @@ class LuxCoreName {
   }
 
   static String get name {
-    return 'lux-core$ext';
+    return 'lux_core$ext';
   }
 }
 
