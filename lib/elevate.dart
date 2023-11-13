@@ -23,7 +23,7 @@ Future<String?> getFileOwner(String path) async {
 
 Future<int> elevate(String path, message) async {
   var escapedCommand =
-      "sudo chown root $path&&sudo chmod 770 $path&&sudo chmod +sx $path";
+      "sudo chown root:wheel $path&&sudo chmod 770 $path&&sudo chmod +sx $path";
   var messageArg = " with prompt \"$message\"";
   var escapedScript =
       "tell current application\n   activate\n   do shell script \"$escapedCommand\"$messageArg with administrator privileges without altering line endings\nend tell";
