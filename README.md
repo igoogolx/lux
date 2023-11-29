@@ -13,6 +13,7 @@
 [![MIT License][license-shield]][license-url]
 [![Build Status][build-shield]][build-url]
 [![Version][version-shield]][version-url]
+[![Downloads][downloads-shield]][downloads-url]
 
 <h3 align="center">Lux</h3>
 A light desktop tun proxy client.
@@ -149,6 +150,9 @@ Thanks to Jetbrains provided license!
 [build-url]: https://github.com/igoogolx/lux/actions/workflows/build.yml
 [version-shield]: https://img.shields.io/github/v/release/igoogolx/lux
 [version-url]: https://github.com/igoogolx/lux/releases
+
+[downloads-shield]: https://img.shields.io/github/downloads/igoogolx/lux/total
+[downloads-url]: https://github.com/igoogolx/lux/releases
 
 [React.js]: https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/
