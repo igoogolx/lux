@@ -15,7 +15,7 @@ final assetsPath =
 final binDir = Directory(path.join(assetsPath, 'bin'));
 
 const rawCoreName = 'itun2socks';
-const rawCoreVersion = '0.17.0';
+const rawCoreVersion = '0.18.0';
 
 Future downloadLatestCore(String arch) async {
   var releaseArch = LuxCoreName.arch;
