@@ -11,7 +11,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest, macos-latest]
+        os: [windows-latest, macos-14]
 
     steps:
       - uses: actions/checkout@v3
@@ -31,7 +31,7 @@ jobs:
           node-version: 16
       - run: dart pub global activate flutter_distributor
       - run: flutter pub get
-      - if: matrix.os == 'macos-latest'
+      - if: matrix.os == 'macos-14'
         run: |
           VERSION=${GITHUB_REF_NAME#v}
           echo Version: $VERSION
