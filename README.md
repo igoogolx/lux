@@ -88,7 +88,7 @@ This project is using what I'm calling the "FGRT" stack (Flutter, Go, React, Typ
 - [x] Improve UI Dark mode
 - [x] Support DNS over https
 - [x] Support Mac OS
-- [ ] Support adding rules
+- [x] Support adding rules
 - [ ] Support IPV6
 
 See the [open issues](https://github.com/igoogolx/lux/issues) for a full list of proposed features (and known issues).
