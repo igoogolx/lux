@@ -45,7 +45,7 @@ void main(args) async {
     final Directory appDocumentsDir = await getApplicationSupportDirectory();
     final Version currentVersion = Version.parse(packageInfo.version);
     final homeDir = path.join(appDocumentsDir.path,
-        '${currentVersion.major}.${currentVersion.minor}');
+        '${currentVersion.major}.0');
     var corePath = path.join(Paths.assetsBin.path, LuxCoreName.name);
     if (Platform.isMacOS) {
       var owner = await getFileOwner(corePath);
