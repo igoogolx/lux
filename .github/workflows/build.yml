@@ -22,7 +22,7 @@ jobs:
         with:
           flutter-version: '3.16.0'
           channel: 'stable'
-          cache: true
+          cache: false
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:' # optional, change this to force refresh cache
           cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:' # optional, change this to specify the cache path
       - uses: actions/setup-node@v3
