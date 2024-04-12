@@ -25,9 +25,6 @@ jobs:
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:' # optional, change this to force refresh cache
           cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:' # optional, change this to specify the cache path
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
       - run: dart pub global activate flutter_distributor
       - run: flutter pub get
       - if: matrix.os == 'macos-14'
