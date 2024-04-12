@@ -40,6 +40,7 @@ jobs:
       - if: matrix.os == 'windows-latest'
         shell: bash
         run: |
+          mkdir -p  C:\\temp\\dll
           cp -f C:\\Windows\\System32\\msvcp140.dll C:\\temp\\dll\\msvcp140.dll
           cp -f C:\\Windows\\System32\\vcruntime140.dll C:\\temp\\dll\\vcruntime140.dll
           cp -f C:\\Windows\\System32\\vcruntime140_1.dll C:\\temp\\dll\\vcruntime140_1.dll
