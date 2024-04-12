@@ -39,8 +39,8 @@ jobs:
 
       - if: matrix.os == 'windows-latest'
         run: |
-          flutter build windows
           dart run scripts/init.dart
+          flutter build windows
           flutter_distributor release --name ${{ matrix.os }}
 
       - uses: actions/upload-artifact@v3
