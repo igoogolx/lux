@@ -41,9 +41,9 @@ jobs:
         shell: bash
         run: |
           dart run scripts/init.dart
-          cp C:\Windows\System32\msvcp140.dll C:\temp\dll\msvcp140.dll
-          cp C:\Windows\System32\vcruntime140.dll C:\temp\dll\vcruntime140.dll
-          cp C:\Windows\System32\vcruntime140_1.dll C:\temp\dll\vcruntime140_1.dll
+          cp C:\\Windows\\System32\\msvcp140.dll C:\\temp\\dll\\msvcp140.dll
+          cp C:\\Windows\\System32\\vcruntime140.dll C:\\temp\\dll\\vcruntime140.dll
+          cp C:\\Windows\\System32\\vcruntime140_1.dll C:\\temp\\dll\\vcruntime140_1.dll
           flutter_distributor release --name ${{ matrix.os }}
 
       - uses: actions/upload-artifact@v3
