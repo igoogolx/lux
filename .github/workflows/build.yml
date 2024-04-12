@@ -23,6 +23,7 @@ jobs:
           flutter-version: '3.16.0'
           channel: 'stable'
       - run: dart pub global activate flutter_distributor
+      - run: flutter pub get
       - if: matrix.os == 'macos-14'
         run: |
           VERSION=${GITHUB_REF_NAME#v}
