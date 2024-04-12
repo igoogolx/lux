@@ -40,8 +40,6 @@ jobs:
       - if: matrix.os == 'windows-latest'
         run: |
           flutter build windows
-          cd C:\Windows\System32
-          ls
           dart run scripts/init.dart
           flutter_distributor release --name ${{ matrix.os }}
 
