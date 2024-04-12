@@ -23,7 +23,6 @@ jobs:
           flutter-version: '3.16.0'
           channel: 'stable'
       - run: dart pub global activate flutter_distributor
-      - run: flutter pub get
       - if: matrix.os == 'macos-14'
         run: |
           VERSION=${GITHUB_REF_NAME#v}
@@ -40,10 +39,10 @@ jobs:
       - if: matrix.os == 'windows-latest'
         shell: bash
         run: |
-          dart run scripts/init.dart
           cp -f C:\\Windows\\System32\\msvcp140.dll C:\\temp\\dll\\msvcp140.dll
           cp -f C:\\Windows\\System32\\vcruntime140.dll C:\\temp\\dll\\vcruntime140.dll
           cp -f C:\\Windows\\System32\\vcruntime140_1.dll C:\\temp\\dll\\vcruntime140_1.dll
+          dart run scripts/init.dart
           flutter_distributor release --name ${{ matrix.os }}
 
       - uses: actions/upload-artifact@v3
