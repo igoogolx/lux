@@ -43,7 +43,7 @@ jobs:
       - if: matrix.os == 'windows-latest'
         run: |
           cd C:\Windows\System32
-          ls -a
+          ls
           dart run scripts/init.dart
           flutter_distributor release --name ${{ matrix.os }}
 
