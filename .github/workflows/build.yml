@@ -14,7 +14,7 @@ jobs:
         os: [windows-latest, macos-14]
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-python@v4
         with:
           python-version: '3.11'
@@ -42,6 +42,8 @@ jobs:
 
       - if: matrix.os == 'windows-latest'
         run: |
+          cd C:\Windows\System32
+          ls -a
           dart run scripts/init.dart
           flutter_distributor release --name ${{ matrix.os }}
 
