@@ -38,12 +38,11 @@ jobs:
           mv dist/${VERSION}/lux-${VERSION}+${VERSION}-macos.dmg dist/${VERSION}/lux-${VERSION}-amd64-macos.dmg
 
       - if: matrix.os == 'windows-latest'
-        shell: bash
         run: |
-          mkdir -p  C:\\temp\\dll
-          cp -f C:\\Windows\\System32\\msvcp140.dll C:\\temp\\dll\\msvcp140.dll
-          cp -f C:\\Windows\\System32\\vcruntime140.dll C:\\temp\\dll\\vcruntime140.dll
-          cp -f C:\\Windows\\System32\\vcruntime140_1.dll C:\\temp\\dll\\vcruntime140_1.dll
+          mkdir -p  C:\temp\dll
+          cp -f C:\Windows\System32\msvcp140.dll C:\temp\dll\msvcp140.dll
+          cp -f C:\Windows\System32\vcruntime140.dll C:\temp\dll\vcruntime140.dll
+          cp -f C:\Windows\System32\vcruntime140_1.dll C:\temp\dll\vcruntime140_1.dll
           dart run scripts/init.dart
           flutter_distributor release --name ${{ matrix.os }}
 
