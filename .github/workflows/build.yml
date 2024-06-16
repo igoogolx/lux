@@ -46,7 +46,7 @@ jobs:
           dart run scripts/init.dart
           flutter_distributor release --name ${{ matrix.os }}
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v3
         with:
           name: artifact
           path: dist/*/*
