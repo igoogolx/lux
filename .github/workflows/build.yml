@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
       - uses: subosito/flutter-action@v2
@@ -46,9 +46,9 @@ jobs:
           dart run scripts/init.dart
           flutter_distributor release --name ${{ matrix.os }}
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
-          name: artifact
+          name: ${{ matrix.os }}
           path: dist/*/*
 
 
