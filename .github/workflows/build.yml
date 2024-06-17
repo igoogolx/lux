@@ -48,7 +48,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.os }}
+          name: ${{ matrix.os }}-artifact
           path: dist/*/*
 
 
@@ -58,12 +58,16 @@ jobs:
 
     steps:
       - uses: actions/download-artifact@v4
+      - run: |
+          mkdir artifact
+          mv windows-latest-artifact/*/* artifact/
+          mv macos-14-artifact/*/* artifact/
 
       - name: Generate checksum
         uses: jmgilman/actions-generate-checksum@v1
         with:
           patterns: |
-            artifact/*/*
+            artifact/*
 
       - name: GH Release
         uses: softprops/action-gh-release@v2
@@ -71,4 +75,4 @@ jobs:
           draft: true
           files: |
             checksum.txt
-            artifact/*/*
+            artifact/*
