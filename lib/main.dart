@@ -36,7 +36,6 @@ void main(args) async {
 
   try {
     await windowManager.ensureInitialized();
-    initSystemTray(openDashboard, exitApp);
     if (Platform.isWindows &&
         !await FlutterSingleInstance.platform.isFirstInstance()) {
       await notifier.show("App is already running");
@@ -91,6 +90,8 @@ void main(args) async {
         await windowManager.focus();
       }
     });
+
+    initSystemTray(openDashboard, exitApp, isWebviewSupported);
 
     if(!isWebviewSupported){
       openDashboard();
