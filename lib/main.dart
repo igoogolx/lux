@@ -15,6 +15,7 @@ import 'package:version/version.dart';
 import 'package:flutter_single_instance/flutter_single_instance.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
+import 'package:webview_windows/webview_windows.dart' as webview_windows;
 
 ProcessManager? process;
 var urlStr = '';
@@ -115,6 +116,29 @@ class _MacOSWebViewDashboardState extends State<WebViewDashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: WebViewWidget(controller: _controller),
+    );
+  }
+}
+
+
+class _WindowsWebViewDashboardState extends State<WebViewDashboard> {
+  late final webview_windows.WebviewController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final webview_windows.WebviewController controller = webview_windows.WebviewController();
+    controller.loadUrl(urlStr);
+    _controller = controller;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: webview_windows.Webview(
+        _controller,
+      ),
     );
   }
 }
