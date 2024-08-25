@@ -46,8 +46,8 @@ void main(args) async {
     final port = await findAvailablePort(8000, 9000);
     final Directory appDocumentsDir = await getApplicationSupportDirectory();
     final Version currentVersion = Version.parse(packageInfo.version);
-    final homeDir = path.join(appDocumentsDir.path,
-        '${currentVersion.major}.0');
+    final homeDir =
+        path.join(appDocumentsDir.path, '${currentVersion.major}.0');
     var corePath = path.join(Paths.assetsBin.path, LuxCoreName.name);
     if (Platform.isMacOS) {
       var owner = await getFileOwner(corePath);
@@ -75,17 +75,18 @@ void main(args) async {
     );
 
     var isWebviewSupported = true;
-    if(Platform.isWindows){
-      final webviewVersion = await webview_windows.WebviewController.getWebViewVersion();
-      if(webviewVersion==null){
-       isWebviewSupported = false;
+    if (Platform.isWindows) {
+      final webviewVersion =
+          await webview_windows.WebviewController.getWebViewVersion();
+      if (webviewVersion == null) {
+        isWebviewSupported = false;
       }
     }
 
     windowManager.waitUntilReadyToShow(windowOptions, () async {
-      if(!isWebviewSupported){
-       await windowManager.hide();
-      }else{
+      if (!isWebviewSupported) {
+        await windowManager.hide();
+      } else {
         await windowManager.show();
         await windowManager.focus();
       }
@@ -93,17 +94,16 @@ void main(args) async {
 
     initSystemTray(openDashboard, exitApp, isWebviewSupported);
 
-    if(!isWebviewSupported){
+    if (!isWebviewSupported) {
       openDashboard();
       runApp(const MaterialApp());
-    }else{
-      if(Platform.isWindows){
+    } else {
+      if (Platform.isWindows) {
         runApp(const MaterialApp(home: WindowsWebViewDashboard()));
-      } else{
+      } else {
         runApp(const MaterialApp(home: MacOSWebViewDashboard()));
       }
     }
-
   } catch (e) {
     await notifier.show("$e");
     exitApp();
@@ -147,9 +147,9 @@ class WindowsWebViewDashboard extends StatefulWidget {
   const WindowsWebViewDashboard({super.key});
 
   @override
-  State<WindowsWebViewDashboard> createState() => _WindowsWebViewDashboardState();
+  State<WindowsWebViewDashboard> createState() =>
+      _WindowsWebViewDashboardState();
 }
-
 
 class _WindowsWebViewDashboardState extends State<WindowsWebViewDashboard> {
   late final webview_windows.WebviewController _controller;
@@ -158,7 +158,8 @@ class _WindowsWebViewDashboardState extends State<WindowsWebViewDashboard> {
   void initState() {
     super.initState();
 
-    final webview_windows.WebviewController controller = webview_windows.WebviewController();
+    final webview_windows.WebviewController controller =
+        webview_windows.WebviewController();
     controller.loadUrl(urlStr);
     _controller = controller;
   }
