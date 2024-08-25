@@ -7,7 +7,7 @@ class AppDelegate: FlutterAppDelegate {
   var _windowManager = FlutterDesktopSleepPlugin()
 
   override func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
-    return false
+    return true
   }
 
    override func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
