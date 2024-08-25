@@ -90,10 +90,10 @@ class WebViewDashboard extends StatefulWidget {
   const WebViewDashboard({super.key});
 
   @override
-  State<WebViewDashboard> createState() => _WebViewDashboardState();
+  State<WebViewDashboard> createState() => _MacOSWebViewDashboardState();
 }
 
-class _WebViewDashboardState extends State<WebViewDashboard> {
+class _MacOSWebViewDashboardState extends State<WebViewDashboard> {
   late final WebViewController _controller;
 
   @override
