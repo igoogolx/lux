@@ -80,7 +80,12 @@ void main(args) async {
       await windowManager.focus();
     });
 
-    runApp(const MaterialApp(home: MacOSWebViewDashboard()));
+    if(Platform.isWindows){
+      runApp(const MaterialApp(home: WindowsWebViewDashboard()));
+    } else{
+      runApp(const MaterialApp(home: MacOSWebViewDashboard()));
+    }
+
   } catch (e) {
     await notifier.show("$e");
     exitApp();
