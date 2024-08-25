@@ -120,8 +120,15 @@ class _MacOSWebViewDashboardState extends State<MacOSWebViewDashboard> {
   }
 }
 
+class WindowsWebViewDashboard extends StatefulWidget {
+  const WindowsWebViewDashboard({super.key});
 
-class _WindowsWebViewDashboardState extends State<MacOSWebViewDashboard> {
+  @override
+  State<WindowsWebViewDashboard> createState() => _WindowsWebViewDashboardState();
+}
+
+
+class _WindowsWebViewDashboardState extends State<WindowsWebViewDashboard> {
   late final webview_windows.WebviewController _controller;
 
   @override
