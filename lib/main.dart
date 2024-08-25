@@ -80,21 +80,21 @@ void main(args) async {
       await windowManager.focus();
     });
 
-    runApp(const MaterialApp(home: WebViewDashboard()));
+    runApp(const MaterialApp(home: MacOSWebViewDashboard()));
   } catch (e) {
     await notifier.show("$e");
     exitApp();
   }
 }
 
-class WebViewDashboard extends StatefulWidget {
-  const WebViewDashboard({super.key});
+class MacOSWebViewDashboard extends StatefulWidget {
+  const MacOSWebViewDashboard({super.key});
 
   @override
-  State<WebViewDashboard> createState() => _MacOSWebViewDashboardState();
+  State<MacOSWebViewDashboard> createState() => _MacOSWebViewDashboardState();
 }
 
-class _MacOSWebViewDashboardState extends State<WebViewDashboard> {
+class _MacOSWebViewDashboardState extends State<MacOSWebViewDashboard> {
   late final WebViewController _controller;
 
   @override
@@ -121,7 +121,7 @@ class _MacOSWebViewDashboardState extends State<WebViewDashboard> {
 }
 
 
-class _WindowsWebViewDashboardState extends State<WebViewDashboard> {
+class _WindowsWebViewDashboardState extends State<MacOSWebViewDashboard> {
   late final webview_windows.WebviewController _controller;
 
   @override
