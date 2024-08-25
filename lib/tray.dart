@@ -19,7 +19,7 @@ Future<void> initSystemTray(
     MenuItemLabel(label: 'Exit', onClicked: (menuItem) => exitApp()),
   ];
 
-  if (isWebviewSupported) {
+  if (!isWebviewSupported) {
     menuItems.insert(
         1,
         MenuItemLabel(
