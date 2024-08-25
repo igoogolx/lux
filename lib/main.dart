@@ -13,6 +13,8 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:version/version.dart';
 import 'package:flutter_single_instance/flutter_single_instance.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
 ProcessManager? process;
 var urlStr = '';
@@ -64,7 +66,6 @@ void main(args) async {
     urlStr = '$baseUrl/?client_version=$currentVersion';
     final manager = CoreManager(baseUrl, process);
     await manager.ping();
-    openDashboard();
     WindowOptions windowOptions = const WindowOptions(
       size: Size(800, 600),
       center: true,
@@ -72,43 +73,48 @@ void main(args) async {
       skipTaskbar: false,
       titleBarStyle: TitleBarStyle.hidden,
     );
+
     windowManager.waitUntilReadyToShow(windowOptions, () async {
-      await windowManager.hide();
+      await windowManager.show();
+      await windowManager.focus();
     });
-    runApp(const MyApp());
+
+    runApp(const MaterialApp(home: WebViewDashboard()));
   } catch (e) {
     await notifier.show("$e");
     exitApp();
   }
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class WebViewDashboard extends StatefulWidget {
+  const WebViewDashboard({super.key});
 
-  // This widget is the root of your application.
+  @override
+  State<WebViewDashboard> createState() => _WebViewDashboardState();
+}
+
+class _WebViewDashboardState extends State<WebViewDashboard> {
+  late final WebViewController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    late final PlatformWebViewControllerCreationParams params;
+    if (WebViewPlatform.instance is WebKitWebViewPlatform) {
+      params = WebKitWebViewControllerCreationParams();
+    } else {
+      params = const PlatformWebViewControllerCreationParams();
+    }
+    final WebViewController controller =
+        WebViewController.fromPlatformCreationParams(params);
+    controller.loadRequest(Uri.parse(urlStr));
+    _controller = controller;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a blue toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+    return Scaffold(
+      body: WebViewWidget(controller: _controller),
     );
   }
 }
