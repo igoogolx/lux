@@ -75,15 +75,32 @@ void main(args) async {
       titleBarStyle: TitleBarStyle.hidden,
     );
 
+    var isWebviewSupported = true;
+    if(Platform.isWindows){
+      final webviewVersion = await webview_windows.WebviewController.getWebViewVersion();
+      if(webviewVersion==null){
+       isWebviewSupported = false;
+      }
+    }
+
     windowManager.waitUntilReadyToShow(windowOptions, () async {
-      await windowManager.show();
-      await windowManager.focus();
+      if(!isWebviewSupported){
+       await windowManager.hide();
+      }else{
+        await windowManager.show();
+        await windowManager.focus();
+      }
     });
 
-    if(Platform.isWindows){
-      runApp(const MaterialApp(home: WindowsWebViewDashboard()));
-    } else{
-      runApp(const MaterialApp(home: MacOSWebViewDashboard()));
+    if(!isWebviewSupported){
+      openDashboard();
+      runApp(const MaterialApp());
+    }else{
+      if(Platform.isWindows){
+        runApp(const MaterialApp(home: WindowsWebViewDashboard()));
+      } else{
+        runApp(const MaterialApp(home: MacOSWebViewDashboard()));
+      }
     }
 
   } catch (e) {
