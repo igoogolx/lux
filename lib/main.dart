@@ -67,11 +67,9 @@ void main(args) async {
     final manager = CoreManager(baseUrl, process);
     await manager.ping();
     WindowOptions windowOptions = const WindowOptions(
-      size: Size(800, 600),
+      size: Size(800, 650),
       center: true,
-      backgroundColor: Colors.transparent,
       skipTaskbar: false,
-      titleBarStyle: TitleBarStyle.hidden,
     );
 
     var isWebviewSupported = true;
@@ -152,24 +150,39 @@ class WindowsWebViewDashboard extends StatefulWidget {
 }
 
 class _WindowsWebViewDashboardState extends State<WindowsWebViewDashboard> {
-  late final webview_windows.WebviewController _controller;
+   final _controller = webview_windows.WebviewController();
 
   @override
   void initState() {
     super.initState();
-
-    final webview_windows.WebviewController controller =
-        webview_windows.WebviewController();
-    controller.loadUrl(urlStr);
-    _controller = controller;
+    initPlatformState();
   }
+  Future<void> initPlatformState() async {
+    await _controller.initialize();
+    await _controller.loadUrl(urlStr);
+    setState(() {});
+  }
+
+   Widget compositeView() {
+     if (!_controller.value.isInitialized) {
+       return const Text(
+         'Not Initialized',
+         style: TextStyle(
+           fontSize: 24.0,
+           fontWeight: FontWeight.w900,
+         ),
+       );
+     } else {
+       return  webview_windows.Webview(
+         _controller,
+       );
+     }
+   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: webview_windows.Webview(
-        _controller,
-      ),
+      body:compositeView()
     );
   }
 }
