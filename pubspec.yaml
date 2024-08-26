@@ -41,8 +41,8 @@ dependencies:
   dio: ^5.3.0
   archive: ^3.3.7
   path_provider: ^2.0.15
-  window_manager: ^0.3.5
-  package_info_plus: ^4.1.0
+  window_manager: ^0.4.2
+  package_info_plus: ^8.0.2
   args: ^2.4.2
   flutter_desktop_sleep: ^0.0.2
   local_notifier: ^0.1.5
@@ -63,7 +63,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.0
+  flutter_lints: ^4.0.0
   flutter_launcher_icons: "^0.13.1"
 
 # For information on the generic Dart part of this file, see the
