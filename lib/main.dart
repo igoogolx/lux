@@ -19,6 +19,7 @@ import 'package:webview_win_floating/webview_win_floating.dart';
 
 ProcessManager? process;
 var urlStr = '';
+var homeDir = '';
 
 void exitApp() {
   process?.exit();
@@ -46,7 +47,7 @@ void main(args) async {
     final port = await findAvailablePort(8000, 9000);
     final Directory appDocumentsDir = await getApplicationSupportDirectory();
     final Version currentVersion = Version.parse(packageInfo.version);
-    final homeDir =
+    homeDir =
         path.join(appDocumentsDir.path, '${currentVersion.major}.0');
     var corePath = path.join(Paths.assetsBin.path, LuxCoreName.name);
     if (Platform.isMacOS) {
@@ -114,7 +115,9 @@ class _WebViewDashboardState extends State<WebViewDashboard> {
     if (WebViewPlatform.instance is WebKitWebViewPlatform) {
       params = WebKitWebViewControllerCreationParams();
     } else {
-      params = const PlatformWebViewControllerCreationParams();
+      String cacheDir = path.join(homeDir, 'cache_webview');
+      params = WindowsPlatformWebViewControllerCreationParams(
+          userDataFolder: cacheDir);
     }
     final WebViewController controller =
         WebViewController.fromPlatformCreationParams(params);
@@ -129,4 +132,3 @@ class _WebViewDashboardState extends State<WebViewDashboard> {
     );
   }
 }
-
