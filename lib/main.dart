@@ -89,7 +89,7 @@ void main(args) async {
       openDashboard();
       runApp(const MaterialApp());
     } else {
-      runApp(const MaterialApp(home: MacOSWebViewDashboard()));
+      runApp(const MaterialApp(home: WebViewDashboard()));
     }
   } catch (e) {
     await notifier.show("$e");
@@ -97,14 +97,14 @@ void main(args) async {
   }
 }
 
-class MacOSWebViewDashboard extends StatefulWidget {
-  const MacOSWebViewDashboard({super.key});
+class WebViewDashboard extends StatefulWidget {
+  const WebViewDashboard({super.key});
 
   @override
-  State<MacOSWebViewDashboard> createState() => _MacOSWebViewDashboardState();
+  State<WebViewDashboard> createState() => _WebViewDashboardState();
 }
 
-class _MacOSWebViewDashboardState extends State<MacOSWebViewDashboard> {
+class _WebViewDashboardState extends State<WebViewDashboard> {
   late final WebViewController _controller;
 
   @override
