@@ -13,6 +13,9 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:version/version.dart';
 import 'package:flutter_single_instance/flutter_single_instance.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
+import 'package:webview_win_floating/webview_win_floating.dart';
 
 ProcessManager? process;
 var urlStr = '';
@@ -33,7 +36,6 @@ void main(args) async {
 
   try {
     await windowManager.ensureInitialized();
-    initSystemTray(openDashboard, exitApp);
     if (Platform.isWindows &&
         !await FlutterSingleInstance.platform.isFirstInstance()) {
       await notifier.show("App is already running");
@@ -44,8 +46,8 @@ void main(args) async {
     final port = await findAvailablePort(8000, 9000);
     final Directory appDocumentsDir = await getApplicationSupportDirectory();
     final Version currentVersion = Version.parse(packageInfo.version);
-    final homeDir = path.join(appDocumentsDir.path,
-        '${currentVersion.major}.0');
+    final homeDir =
+        path.join(appDocumentsDir.path, '${currentVersion.major}.0');
     var corePath = path.join(Paths.assetsBin.path, LuxCoreName.name);
     if (Platform.isMacOS) {
       var owner = await getFileOwner(corePath);
@@ -64,51 +66,67 @@ void main(args) async {
     urlStr = '$baseUrl/?client_version=$currentVersion';
     final manager = CoreManager(baseUrl, process);
     await manager.ping();
-    openDashboard();
     WindowOptions windowOptions = const WindowOptions(
-      size: Size(800, 600),
+      size: Size(800, 650),
       center: true,
-      backgroundColor: Colors.transparent,
       skipTaskbar: false,
-      titleBarStyle: TitleBarStyle.hidden,
     );
+
+    var isWebviewSupported = true;
+
     windowManager.waitUntilReadyToShow(windowOptions, () async {
-      await windowManager.hide();
+      if (!isWebviewSupported) {
+        await windowManager.hide();
+      } else {
+        await windowManager.show();
+        await windowManager.focus();
+      }
     });
-    runApp(const MyApp());
+
+    initSystemTray(openDashboard, exitApp, isWebviewSupported);
+
+    if (!isWebviewSupported) {
+      openDashboard();
+      runApp(const MaterialApp());
+    } else {
+      runApp(const MaterialApp(home: WebViewDashboard()));
+    }
   } catch (e) {
     await notifier.show("$e");
     exitApp();
   }
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class WebViewDashboard extends StatefulWidget {
+  const WebViewDashboard({super.key});
 
-  // This widget is the root of your application.
+  @override
+  State<WebViewDashboard> createState() => _WebViewDashboardState();
+}
+
+class _WebViewDashboardState extends State<WebViewDashboard> {
+  late final WebViewController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    late final PlatformWebViewControllerCreationParams params;
+    if (WebViewPlatform.instance is WebKitWebViewPlatform) {
+      params = WebKitWebViewControllerCreationParams();
+    } else {
+      params = const PlatformWebViewControllerCreationParams();
+    }
+    final WebViewController controller =
+        WebViewController.fromPlatformCreationParams(params);
+    controller.loadRequest(Uri.parse(urlStr));
+    _controller = controller;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a blue toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+    return Scaffold(
+      body: WebViewWidget(controller: _controller),
     );
   }
 }
+
