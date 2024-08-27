@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lux/core_manager.dart';
 import 'package:lux/elevate.dart';
@@ -16,7 +15,7 @@ import 'package:version/version.dart';
 import 'package:flutter_single_instance/flutter_single_instance.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
-import 'package:webview_windows/webview_windows.dart' as webview_windows;
+import 'package:webview_win_floating/webview_win_floating.dart';
 
 ProcessManager? process;
 var urlStr = '';
@@ -74,13 +73,6 @@ void main(args) async {
     );
 
     var isWebviewSupported = true;
-    if (Platform.isWindows) {
-      final webviewVersion =
-          await webview_windows.WebviewController.getWebViewVersion();
-      if (webviewVersion == null) {
-        isWebviewSupported = false;
-      }
-    }
 
     windowManager.waitUntilReadyToShow(windowOptions, () async {
       if (!isWebviewSupported) {
@@ -97,11 +89,7 @@ void main(args) async {
       openDashboard();
       runApp(const MaterialApp());
     } else {
-      if (Platform.isWindows) {
-        runApp(const MaterialApp(home: WindowsWebViewDashboard()));
-      } else {
-        runApp(const MaterialApp(home: MacOSWebViewDashboard()));
-      }
+      runApp(const MaterialApp(home: MacOSWebViewDashboard()));
     }
   } catch (e) {
     await notifier.show("$e");
@@ -142,75 +130,3 @@ class _MacOSWebViewDashboardState extends State<MacOSWebViewDashboard> {
   }
 }
 
-class WindowsWebViewDashboard extends StatefulWidget {
-  const WindowsWebViewDashboard({super.key});
-
-  @override
-  State<WindowsWebViewDashboard> createState() =>
-      _WindowsWebViewDashboardState();
-}
-
-class _WindowsWebViewDashboardState extends State<WindowsWebViewDashboard> {
-  final _controller = webview_windows.WebviewController();
-  late double pointX = 0;
-  late double pointY = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    initPlatformState();
-  }
-
-  _initScrollJs() {
-    _controller.executeScript(
-        "function eleCanScroll(ele) { if (ele.scrollTop > 0) { return ele; } else { ele.scrollTop++; const top = ele.scrollTop; top && (ele.scrollTop = 0); if(top > 0){ return ele; }else{  return eleCanScroll( ele.parentElement); } } }");
-  }
-
-  Future<void> initPlatformState() async {
-    await _controller.initialize();
-    await _controller.loadUrl(urlStr);
-    _initScrollJs();
-    setState(() {});
-  }
-
-  Widget compositeView() {
-    if (!_controller.value.isInitialized) {
-      return const Text(
-        'Not Initialized',
-        style: TextStyle(
-          fontSize: 24.0,
-          fontWeight: FontWeight.w900,
-        ),
-      );
-    } else {
-      return Listener(
-        onPointerSignal: (signal) {
-          if (signal is PointerScrollEvent) {
-            _setWebViewScroll(
-                pointX, pointY, signal.scrollDelta.dx, signal.scrollDelta.dy);
-          }
-        },
-        onPointerHover: (ev) {
-          pointX = ev.localPosition.dx;
-          pointY = ev.localPosition.dy;
-        },
-        child: webview_windows.Webview(
-          _controller,
-        ),
-      );
-    }
-  }
-
-  _setWebViewScroll(double x, double y, double dx, double dy) {
-    debugPrint('_setWebViewScroll------$x----$y-------$dx---------$dy');
-    _controller.executeScript(
-        "var el = document.elementFromPoint($x,$y);  var el2 = eleCanScroll(el); el2.scrollBy($dx,$dy);");
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body:compositeView()
-    );
-  }
-}
