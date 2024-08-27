@@ -5,10 +5,12 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   flutter_desktop_sleep
   flutter_window_close
+  fullscreen_window
   local_notifier
   screen_retriever
   system_tray
   url_launcher_windows
+  webview_win_floating
   webview_windows
   window_manager
 )

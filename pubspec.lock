@@ -177,6 +177,14 @@ packages:
       url: "https://github.com/igoogolx/flutter_window_close.git"
     source: git
     version: "0.2.2"
+  fullscreen_window:
+    dependency: transitive
+    description:
+      name: fullscreen_window
+      sha256: b3502f890a875de6cd300b06cfc542e089a324faef6c4fb5d5528f9e2ea68d8d
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   http:
     dependency: transitive
     description:
@@ -582,6 +590,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.15.0"
+  webview_win_floating:
+    dependency: "direct main"
+    description:
+      name: webview_win_floating
+      sha256: "00a2d0b4b72d8c3a41e392a9179c72fe99de31f9be5d0fdfdfe28efff3eecc81"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.8"
   webview_windows:
     dependency: "direct main"
     description:
