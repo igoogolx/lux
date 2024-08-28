@@ -2,8 +2,8 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:system_tray/system_tray.dart';
 
-Future<void> initSystemTray(
-    void Function() openDashboard, exitApp, bool isWebviewSupported) async {
+Future<void> initSystemTray(void Function() openDashboard, exitApp, focusWindow,
+    bool isWebviewSupported) async {
   String path = Platform.isWindows ? 'assets/app_icon.ico' : 'assets/tray.icns';
 
   final SystemTray systemTray = SystemTray();
@@ -35,9 +35,25 @@ Future<void> initSystemTray(
   systemTray.registerSystemTrayEventHandler((eventName) {
     debugPrint("eventName: $eventName");
     if (eventName == kSystemTrayEventClick) {
-      Platform.isWindows ? openDashboard() : systemTray.popUpContextMenu();
+      if (Platform.isWindows) {
+        if (isWebviewSupported) {
+          focusWindow();
+        } else {
+          openDashboard();
+        }
+      } else {
+        systemTray.popUpContextMenu();
+      }
     } else if (eventName == kSystemTrayEventRightClick) {
-      Platform.isWindows ? systemTray.popUpContextMenu() : openDashboard();
+      if (!Platform.isWindows) {
+        if (isWebviewSupported) {
+          focusWindow();
+        } else {
+          openDashboard();
+        }
+      } else {
+        systemTray.popUpContextMenu();
+      }
     }
   });
 }

@@ -47,8 +47,7 @@ void main(args) async {
     final port = await findAvailablePort(8000, 9000);
     final Directory appDocumentsDir = await getApplicationSupportDirectory();
     final Version currentVersion = Version.parse(packageInfo.version);
-    homeDir =
-        path.join(appDocumentsDir.path, '${currentVersion.major}.0');
+    homeDir = path.join(appDocumentsDir.path, '${currentVersion.major}.0');
     var corePath = path.join(Paths.assetsBin.path, LuxCoreName.name);
     if (Platform.isMacOS) {
       var owner = await getFileOwner(corePath);
@@ -84,7 +83,9 @@ void main(args) async {
       }
     });
 
-    initSystemTray(openDashboard, exitApp, isWebviewSupported);
+    initSystemTray(openDashboard, exitApp, () {
+      windowManager.focus();
+    }, isWebviewSupported);
 
     if (!isWebviewSupported) {
       openDashboard();
