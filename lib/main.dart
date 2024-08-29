@@ -26,11 +26,6 @@ void exitApp() {
   exit(0);
 }
 
-void openDashboard() async {
-  final Uri url = Uri.parse(urlStr);
-  launchUrl(url);
-}
-
 void main(args) async {
   WidgetsFlutterBinding.ensureInitialized();
   await notifier.ensureInitialized();
@@ -72,27 +67,16 @@ void main(args) async {
       skipTaskbar: false,
     );
 
-    var isWebviewSupported = true;
-
     windowManager.waitUntilReadyToShow(windowOptions, () async {
-      if (!isWebviewSupported) {
-        await windowManager.hide();
-      } else {
-        await windowManager.show();
-        await windowManager.focus();
-      }
+      await windowManager.show();
+      await windowManager.focus();
     });
 
-    initSystemTray(openDashboard, exitApp, () {
+    initSystemTray(exitApp, () {
       windowManager.focus();
-    }, isWebviewSupported);
+    });
 
-    if (!isWebviewSupported) {
-      openDashboard();
-      runApp(const MaterialApp());
-    } else {
-      runApp(const MaterialApp(home: WebViewDashboard()));
-    }
+    runApp(const MaterialApp(home: WebViewDashboard()));
   } catch (e) {
     await notifier.show("$e");
     exitApp();

@@ -2,8 +2,10 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:system_tray/system_tray.dart';
 
-Future<void> initSystemTray(void Function() openDashboard, exitApp, focusWindow,
-    bool isWebviewSupported) async {
+Future<void> initSystemTray(
+  exitApp,
+  focusWindow,
+) async {
   String path = Platform.isWindows ? 'assets/app_icon.ico' : 'assets/tray.icns';
 
   final SystemTray systemTray = SystemTray();
@@ -19,13 +21,6 @@ Future<void> initSystemTray(void Function() openDashboard, exitApp, focusWindow,
     MenuItemLabel(label: 'Exit', onClicked: (menuItem) => exitApp()),
   ];
 
-  if (!isWebviewSupported) {
-    menuItems.insert(
-        1,
-        MenuItemLabel(
-            label: 'Dashboard', onClicked: (menuItem) => openDashboard()));
-  }
-
   await menu.buildFrom(menuItems);
 
   // set context menu
@@ -36,21 +31,13 @@ Future<void> initSystemTray(void Function() openDashboard, exitApp, focusWindow,
     debugPrint("eventName: $eventName");
     if (eventName == kSystemTrayEventClick) {
       if (Platform.isWindows) {
-        if (isWebviewSupported) {
-          focusWindow();
-        } else {
-          openDashboard();
-        }
+        focusWindow();
       } else {
         systemTray.popUpContextMenu();
       }
     } else if (eventName == kSystemTrayEventRightClick) {
       if (!Platform.isWindows) {
-        if (isWebviewSupported) {
-          focusWindow();
-        } else {
-          openDashboard();
-        }
+        focusWindow();
       } else {
         systemTray.popUpContextMenu();
       }
