@@ -18,6 +18,7 @@ import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 import 'package:webview_win_floating/webview_win_floating.dart';
 
 ProcessManager? process;
+var baseUrl = '';
 var urlStr = '';
 var homeDir = '';
 
@@ -57,7 +58,7 @@ void main(args) async {
     process = ProcessManager(corePath, ['-home_dir=$homeDir', '-port=$port']);
     await process?.run();
     process?.watchExit();
-    final baseUrl = 'http://localhost:$port';
+    baseUrl = 'http://localhost:$port';
     urlStr = '$baseUrl/?client_version=$currentVersion';
     final manager = CoreManager(baseUrl, process);
     await manager.ping();
@@ -106,6 +107,19 @@ class _WebViewDashboardState extends State<WebViewDashboard> {
     }
     final WebViewController controller =
         WebViewController.fromPlatformCreationParams(params);
+
+    controller.setNavigationDelegate(
+      NavigationDelegate(
+        onNavigationRequest: (NavigationRequest request) {
+          if (request.url.startsWith(baseUrl)) {
+            return NavigationDecision.navigate;
+          }
+          launchUrl(Uri.parse(request.url));
+          return NavigationDecision.prevent;
+        },
+      ),
+    );
+
     controller.loadRequest(Uri.parse(urlStr));
     _controller = controller;
   }
