@@ -18,17 +18,13 @@ import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 import 'package:webview_win_floating/webview_win_floating.dart';
 
 ProcessManager? process;
+var baseUrl = '';
 var urlStr = '';
 var homeDir = '';
 
 void exitApp() {
   process?.exit();
   exit(0);
-}
-
-void openDashboard() async {
-  final Uri url = Uri.parse(urlStr);
-  launchUrl(url);
 }
 
 void main(args) async {
@@ -62,7 +58,7 @@ void main(args) async {
     process = ProcessManager(corePath, ['-home_dir=$homeDir', '-port=$port']);
     await process?.run();
     process?.watchExit();
-    final baseUrl = 'http://localhost:$port';
+    baseUrl = 'http://localhost:$port';
     urlStr = '$baseUrl/?client_version=$currentVersion';
     final manager = CoreManager(baseUrl, process);
     await manager.ping();
@@ -72,27 +68,16 @@ void main(args) async {
       skipTaskbar: false,
     );
 
-    var isWebviewSupported = true;
-
     windowManager.waitUntilReadyToShow(windowOptions, () async {
-      if (!isWebviewSupported) {
-        await windowManager.hide();
-      } else {
-        await windowManager.show();
-        await windowManager.focus();
-      }
+      await windowManager.show();
+      await windowManager.focus();
     });
 
-    initSystemTray(openDashboard, exitApp, () {
+    initSystemTray(exitApp, () {
       windowManager.focus();
-    }, isWebviewSupported);
+    });
 
-    if (!isWebviewSupported) {
-      openDashboard();
-      runApp(const MaterialApp());
-    } else {
-      runApp(const MaterialApp(home: WebViewDashboard()));
-    }
+    runApp(const MaterialApp(home: WebViewDashboard()));
   } catch (e) {
     await notifier.show("$e");
     exitApp();
@@ -122,6 +107,19 @@ class _WebViewDashboardState extends State<WebViewDashboard> {
     }
     final WebViewController controller =
         WebViewController.fromPlatformCreationParams(params);
+
+    controller.setNavigationDelegate(
+      NavigationDelegate(
+        onNavigationRequest: (NavigationRequest request) {
+          if (request.url.startsWith(baseUrl)) {
+            return NavigationDecision.navigate;
+          }
+          launchUrl(Uri.parse(request.url));
+          return NavigationDecision.prevent;
+        },
+      ),
+    );
+
     controller.loadRequest(Uri.parse(urlStr));
     _controller = controller;
   }
