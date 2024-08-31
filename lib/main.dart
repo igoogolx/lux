@@ -74,6 +74,7 @@ void main(args) async {
     });
 
     initSystemTray(exitApp, () {
+      windowManager.show();
       windowManager.focus();
     });
 
@@ -91,12 +92,25 @@ class WebViewDashboard extends StatefulWidget {
   State<WebViewDashboard> createState() => _WebViewDashboardState();
 }
 
-class _WebViewDashboardState extends State<WebViewDashboard> {
+class _WebViewDashboardState extends State<WebViewDashboard>
+    with WindowListener {
   late final WebViewController _controller;
+
+  void _init() async {
+    windowManager.addListener(this);
+    await windowManager.setPreventClose(true);
+    setState(() {});
+  }
+
+  @override
+  void onWindowClose() async {
+    await windowManager.hide();
+  }
 
   @override
   void initState() {
     super.initState();
+    _init();
     late final PlatformWebViewControllerCreationParams params;
     if (WebViewPlatform.instance is WebKitWebViewPlatform) {
       params = WebKitWebViewControllerCreationParams();
