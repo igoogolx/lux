@@ -73,10 +73,12 @@ void main(args) async {
       await windowManager.focus();
     });
 
-    initSystemTray(exitApp, () {
-      windowManager.show();
-      windowManager.focus();
-    });
+    if (Platform.isWindows) {
+      initSystemTray(exitApp, () {
+        windowManager.show();
+        windowManager.focus();
+      });
+    }
 
     runApp(const MaterialApp(home: WebViewDashboard()));
   } catch (e) {
