@@ -107,11 +107,17 @@ class _WebViewDashboardState extends State<WebViewDashboard>
   @override
   void onWindowClose() async {
     if (Platform.isMacOS) {
-      if (await windowManager.isMaximized()) {
-        await windowManager.unmaximize();
+      if (await windowManager.isFullScreen()) {
+        await windowManager.setFullScreen(false);
+        //FIXME: remove delay
+        await Future.delayed(const Duration(seconds: 1));
+        await windowManager.hide();
+      } else {
+        await windowManager.hide();
       }
+    } else {
+      await windowManager.hide();
     }
-    await windowManager.hide();
   }
 
   @override
