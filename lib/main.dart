@@ -106,6 +106,11 @@ class _WebViewDashboardState extends State<WebViewDashboard>
 
   @override
   void onWindowClose() async {
+    if (Platform.isMacOS) {
+      if (await windowManager.isMaximized()) {
+        await windowManager.unmaximize();
+      }
+    }
     await windowManager.hide();
   }
 
