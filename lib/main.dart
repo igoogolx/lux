@@ -73,10 +73,12 @@ void main(args) async {
       await windowManager.focus();
     });
 
-    initSystemTray(exitApp, () {
-      windowManager.show();
-      windowManager.focus();
-    });
+    if (Platform.isWindows) {
+      initSystemTray(exitApp, () {
+        windowManager.show();
+        windowManager.focus();
+      });
+    }
 
     runApp(const MaterialApp(home: WebViewDashboard()));
   } catch (e) {
@@ -104,7 +106,18 @@ class _WebViewDashboardState extends State<WebViewDashboard>
 
   @override
   void onWindowClose() async {
-    await windowManager.hide();
+    if (Platform.isMacOS) {
+      if (await windowManager.isFullScreen()) {
+        await windowManager.setFullScreen(false);
+        //FIXME: remove delay
+        await Future.delayed(const Duration(seconds: 1));
+        await windowManager.minimize();
+      } else {
+        await windowManager.minimize();
+      }
+    } else {
+      await windowManager.hide();
+    }
   }
 
   @override
