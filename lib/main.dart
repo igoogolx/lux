@@ -111,9 +111,9 @@ class _WebViewDashboardState extends State<WebViewDashboard>
         await windowManager.setFullScreen(false);
         //FIXME: remove delay
         await Future.delayed(const Duration(seconds: 1));
-        await windowManager.hide();
+        await windowManager.minimize();
       } else {
-        await windowManager.hide();
+        await windowManager.minimize();
       }
     } else {
       await windowManager.hide();
