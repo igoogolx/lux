@@ -128,7 +128,7 @@ Project Link: [https://github.com/igoogolx/lux](https://github.com/igoogolx/lux)
 ## Sponsors
 
 <a href="https://jb.gg/OpenSourceSupport">
-<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="Jet Brains Logo" width="100" height="100">
+<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.png" alt="JetBrains logo.">
 </a>
 
 Thanks to Jetbrains provided license!
