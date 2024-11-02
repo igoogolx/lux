@@ -68,9 +68,8 @@ void main(args) async {
       skipTaskbar: false,
     );
 
+
     windowManager.waitUntilReadyToShow(windowOptions, () async {
-      await windowManager.show();
-      await windowManager.focus();
     });
 
     if (Platform.isWindows) {
@@ -144,6 +143,10 @@ class _WebViewDashboardState extends State<WebViewDashboard>
           launchUrl(Uri.parse(request.url));
           return NavigationDecision.prevent;
         },
+        onPageFinished: (String url) async{
+          await windowManager.show();
+          await windowManager.focus();
+        }
       ),
     );
 
