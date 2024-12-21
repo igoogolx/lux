@@ -16,6 +16,9 @@ import 'package:flutter_single_instance/flutter_single_instance.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 import 'package:webview_win_floating/webview_win_floating.dart';
+import 'package:uuid/uuid.dart';
+
+var uuid = Uuid();
 
 ProcessManager? process;
 var baseUrl = '';
@@ -55,12 +58,14 @@ void main(args) async {
         }
       }
     }
-    process = ProcessManager(corePath, ['-home_dir=$homeDir', '-port=$port']);
+    var secret = uuid.v4();
+    process = ProcessManager(
+        corePath, ['-home_dir=$homeDir', '-port=$port', '-secret=$secret']);
     await process?.run();
     process?.watchExit();
     baseUrl = 'http://localhost:$port';
-    urlStr = '$baseUrl/?client_version=$currentVersion';
-    final manager = CoreManager(baseUrl, process);
+    urlStr = '$baseUrl/?client_version=$currentVersion&token=$secret';
+    final manager = CoreManager(baseUrl, process, secret);
     await manager.ping();
     WindowOptions windowOptions = const WindowOptions(
       size: Size(800, 650),
@@ -68,9 +73,7 @@ void main(args) async {
       skipTaskbar: false,
     );
 
-
-    windowManager.waitUntilReadyToShow(windowOptions, () async {
-    });
+    windowManager.waitUntilReadyToShow(windowOptions, () async {});
 
     if (Platform.isWindows) {
       initSystemTray(exitApp, () {
@@ -135,19 +138,16 @@ class _WebViewDashboardState extends State<WebViewDashboard>
         WebViewController.fromPlatformCreationParams(params);
 
     controller.setNavigationDelegate(
-      NavigationDelegate(
-        onNavigationRequest: (NavigationRequest request) {
-          if (request.url.startsWith(baseUrl)) {
-            return NavigationDecision.navigate;
-          }
-          launchUrl(Uri.parse(request.url));
-          return NavigationDecision.prevent;
-        },
-        onPageFinished: (String url) async{
-          await windowManager.show();
-          await windowManager.focus();
+      NavigationDelegate(onNavigationRequest: (NavigationRequest request) {
+        if (request.url.startsWith(baseUrl)) {
+          return NavigationDecision.navigate;
         }
-      ),
+        launchUrl(Uri.parse(request.url));
+        return NavigationDecision.prevent;
+      }, onPageFinished: (String url) async {
+        await windowManager.show();
+        await windowManager.focus();
+      }),
     );
 
     controller.loadRequest(Uri.parse(urlStr));

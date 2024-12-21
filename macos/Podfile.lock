@@ -11,11 +11,14 @@ PODS:
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - screen_retriever (0.0.1):
+  - screen_retriever_macos (0.0.1):
     - FlutterMacOS
   - system_tray (0.0.1):
     - FlutterMacOS
   - url_launcher_macos (0.0.1):
+    - FlutterMacOS
+  - webview_flutter_wkwebview (0.0.1):
+    - Flutter
     - FlutterMacOS
   - window_manager (0.2.0):
     - FlutterMacOS
@@ -27,9 +30,10 @@ DEPENDENCIES:
   - local_notifier (from `Flutter/ephemeral/.symlinks/plugins/local_notifier/macos`)
   - package_info_plus (from `Flutter/ephemeral/.symlinks/plugins/package_info_plus/macos`)
   - path_provider_foundation (from `Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin`)
-  - screen_retriever (from `Flutter/ephemeral/.symlinks/plugins/screen_retriever/macos`)
+  - screen_retriever_macos (from `Flutter/ephemeral/.symlinks/plugins/screen_retriever_macos/macos`)
   - system_tray (from `Flutter/ephemeral/.symlinks/plugins/system_tray/macos`)
   - url_launcher_macos (from `Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos`)
+  - webview_flutter_wkwebview (from `Flutter/ephemeral/.symlinks/plugins/webview_flutter_wkwebview/darwin`)
   - window_manager (from `Flutter/ephemeral/.symlinks/plugins/window_manager/macos`)
 
 EXTERNAL SOURCES:
@@ -45,12 +49,14 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/package_info_plus/macos
   path_provider_foundation:
     :path: Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin
-  screen_retriever:
-    :path: Flutter/ephemeral/.symlinks/plugins/screen_retriever/macos
+  screen_retriever_macos:
+    :path: Flutter/ephemeral/.symlinks/plugins/screen_retriever_macos/macos
   system_tray:
     :path: Flutter/ephemeral/.symlinks/plugins/system_tray/macos
   url_launcher_macos:
     :path: Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos
+  webview_flutter_wkwebview:
+    :path: Flutter/ephemeral/.symlinks/plugins/webview_flutter_wkwebview/darwin
   window_manager:
     :path: Flutter/ephemeral/.symlinks/plugins/window_manager/macos
 
@@ -59,13 +65,14 @@ SPEC CHECKSUMS:
   flutter_window_close: ee4a6b81ca6fafe93b7cba48b0a18976e3f48e39
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
   local_notifier: e9506bc66fc70311e8bc7291fb70f743c081e4ff
-  package_info_plus: 02d7a575e80f194102bef286361c6c326e4c29ce
-  path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
-  screen_retriever: 59634572a57080243dd1bf715e55b6c54f241a38
+  package_info_plus: 12f1c5c2cfe8727ca46cbd0b26677728972d9a5b
+  path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
+  screen_retriever_macos: 776e0fa5d42c6163d2bf772d22478df4b302b161
   system_tray: e53c972838c69589ff2e77d6d3abfd71332f9e5d
-  url_launcher_macos: d2691c7dd33ed713bf3544850a623080ec693d95
+  url_launcher_macos: c82c93949963e55b228a30115bd219499a6fe404
+  webview_flutter_wkwebview: 0982481e3d9c78fd5c6f62a002fcd24fc791f1e4
   window_manager: 3a1844359a6295ab1e47659b1a777e36773cd6e8
 
 PODFILE CHECKSUM: 236401fc2c932af29a9fcf0e97baeeb2d750d367
 
-COCOAPODS: 1.14.2
+COCOAPODS: 1.15.2
