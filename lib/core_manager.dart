@@ -7,7 +7,6 @@ import 'package:flutter_window_close/flutter_window_close.dart';
 import 'package:lux/notifier.dart';
 import 'package:lux/process_manager.dart';
 
-
 Future<int> findAvailablePort(int startPort, int endPort) async {
   for (int port = startPort; port <= endPort; port++) {
     try {
@@ -31,22 +30,23 @@ Future<Map<String, dynamic>> parseJson(String text) {
 }
 
 class CoreManager {
+  final String token;
   final ProcessManager? coreProcess;
   final String baseUrl;
   final FlutterDesktopSleep flutterDesktopSleep = FlutterDesktopSleep();
   final dio = Dio();
-  var needRestart= false;
+  var needRestart = false;
 
   Future<void> powerMonitorHandler(String? s) async {
     if (s != null) {
       if (s == 'sleep') {
         final managerRes = await dio.get('$baseUrl/manager');
         var isStarted = managerRes.data['isStarted'];
-        if(isStarted){
+        if (isStarted) {
           final settingRes = await dio.get('$baseUrl/setting');
           var mode = settingRes.data['setting']['mode'];
-          if (mode=="tun") {
-            needRestart=true;
+          if (mode == "tun") {
+            needRestart = true;
             await dio.post('$baseUrl/manager/stop');
           }
         }
@@ -64,13 +64,14 @@ class CoreManager {
     }
   }
 
-  CoreManager(this.baseUrl, this.coreProcess) {
+  CoreManager(this.baseUrl, this.coreProcess, this.token) {
     dio.transformer = BackgroundTransformer()..jsonDecodeCallback = parseJson;
     dio.options.receiveTimeout = const Duration(seconds: 1);
-    if(Platform.isMacOS){
+    dio.options.headers = {HttpHeaders.authorizationHeader: 'Bear $token'};
+    if (Platform.isMacOS) {
       flutterDesktopSleep.setWindowSleepHandler(powerMonitorHandler);
     }
-    if(Platform.isWindows){
+    if (Platform.isWindows) {
       FlutterWindowClose.setWindowShouldCloseHandler(powerMonitorHandler);
     }
   }
