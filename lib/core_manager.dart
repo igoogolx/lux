@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_desktop_sleep/flutter_desktop_sleep.dart';
 import 'package:flutter_window_close/flutter_window_close.dart';
 import 'package:lux/notifier.dart';
 import 'package:lux/process_manager.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 Future<int> findAvailablePort(int startPort, int endPort) async {
   for (int port = startPort; port <= endPort; port++) {
@@ -47,12 +49,18 @@ class CoreManager {
           var mode = settingRes.data['setting']['mode'];
           if (mode == "tun") {
             needRestart = true;
-            await dio.post('$baseUrl/manager/stop');
+            await stop();
           }
         }
       } else if (s == 'woke_up') {
         if (needRestart) {
           needRestart = false;
+          final List<ConnectivityResult> connectivityResult =
+              await (Connectivity().checkConnectivity());
+          if (connectivityResult.contains(ConnectivityResult.none)) {
+            notifier.show("No available network. Disconnected");
+            return;
+          }
           await Future.delayed(const Duration(seconds: 2));
           await dio.post('$baseUrl/manager/start');
           notifier.show("Reconnected");
@@ -74,6 +82,24 @@ class CoreManager {
     if (Platform.isWindows) {
       FlutterWindowClose.setWindowShouldCloseHandler(powerMonitorHandler);
     }
+
+    Connectivity()
+        .onConnectivityChanged
+        .listen((List<ConnectivityResult> result) async {
+      // Received changes in available connectivity types!
+
+      if (result.contains(ConnectivityResult.none)) {
+        final managerRes = await dio.get('$baseUrl/manager');
+        var isStarted = managerRes.data['isStarted'];
+        if (isStarted) {
+          await stop();
+          notifier.show("No available network. Disconnected");
+        }
+      }
+      if (kDebugMode) {
+        print(result);
+      }
+    });
   }
 
   Future<void> makeRequestUntilSuccess(String url) async {
@@ -100,6 +126,10 @@ class CoreManager {
 
   Future<void> ping() async {
     await makeRequestUntilSuccess('$baseUrl/ping');
+  }
+
+  Future<void> stop() async {
+    await dio.post('$baseUrl/manager/stop');
   }
 
   Future<void> restart() async {
