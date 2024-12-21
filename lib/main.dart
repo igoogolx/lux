@@ -64,7 +64,7 @@ void main(args) async {
     await process?.run();
     process?.watchExit();
     baseUrl = 'http://localhost:$port';
-    urlStr = '$baseUrl/?client_version=$currentVersion';
+    urlStr = '$baseUrl/?client_version=$currentVersion&token=$secret';
     final manager = CoreManager(baseUrl, process);
     await manager.ping();
     WindowOptions windowOptions = const WindowOptions(
