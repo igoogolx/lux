@@ -11,7 +11,7 @@ final dio = Dio();
 
 // https://github.com/dart-lang/sdk/issues/31610
 final assetsPath =
-    path.normalize(path.join(Platform.script.toFilePath(), '../../assets'));
+path.normalize(path.join(Platform.script.toFilePath(), '../../assets'));
 final binDir = Directory(path.join(assetsPath, 'bin'));
 
 const rawCoreName = 'itun2socks';
@@ -69,14 +69,19 @@ Future downloadLatestCore(String arch) async {
 const targetArch = 'target-arch';
 
 void main(List<String> arguments) async {
-  final parser = ArgParser()..addOption(targetArch, defaultsTo: '', abbr: 'a');
+  try {
+    final parser = ArgParser()
+      ..addOption(targetArch, defaultsTo: '', abbr: 'a');
 
-  ArgResults argResults = parser.parse(arguments);
+    ArgResults argResults = parser.parse(arguments);
 
-  print(argResults[targetArch]);
-  if ((await binDir.exists())) {
-    await binDir.delete(recursive: true);
+    print(argResults[targetArch]);
+    if ((await binDir.exists())) {
+      await binDir.delete(recursive: true);
+    }
+    await binDir.create();
+    await downloadLatestCore(argResults[targetArch] as String);
+  } catch(e) {
+    exit(1);
   }
-  await binDir.create();
-  await downloadLatestCore(argResults[targetArch] as String);
 }
