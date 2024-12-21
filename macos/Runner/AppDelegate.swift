@@ -2,7 +2,7 @@ import Cocoa
 import FlutterMacOS
 import flutter_desktop_sleep
 
-@NSApplicationMain
+@main
 class AppDelegate: FlutterAppDelegate {
   var _windowManager = FlutterDesktopSleepPlugin()
 
