@@ -30,10 +30,10 @@ jobs:
           echo Version: $VERSION
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           npm install -g appdmg
-          dart run scripts/init.dart -a 'arm64'
+          dart run scripts/init.dart -a 'arm64' -s ${{ secrets.GITHUB_TOKEN }} 
           flutter_distributor release --name ${{ matrix.os }}
           mv dist/${VERSION}/lux-${VERSION}+${VERSION}-macos.dmg dist/${VERSION}/lux-${VERSION}-arm64-macos.dmg
-          dart run scripts/init.dart -a 'amd64'
+          dart run scripts/init.dart -a 'amd64' -s ${{ secrets.GITHUB_TOKEN }} 
           flutter_distributor release --name ${{ matrix.os }}
           mv dist/${VERSION}/lux-${VERSION}+${VERSION}-macos.dmg dist/${VERSION}/lux-${VERSION}-amd64-macos.dmg
 
