@@ -82,6 +82,7 @@ void main(List<String> arguments) async {
     await binDir.create();
     await downloadLatestCore(argResults[targetArch] as String);
   } catch(e) {
+    print(e);
     exit(1);
   }
 }
