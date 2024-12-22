@@ -74,8 +74,15 @@ class CoreManager {
 
   CoreManager(this.baseUrl, this.coreProcess, this.token) {
     dio.transformer = BackgroundTransformer()..jsonDecodeCallback = parseJson;
-    dio.options.receiveTimeout = const Duration(seconds: 1);
-    dio.options.headers = {HttpHeaders.authorizationHeader: 'Bear $token'};
+    dio.options.receiveTimeout = const Duration(seconds: 3);
+    dio.interceptors.add(InterceptorsWrapper(onRequest:
+        (RequestOptions options, RequestInterceptorHandler handler) async {
+      final customHeaders = {
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      };
+      options.headers.addAll(customHeaders);
+      return handler.next(options);
+    }));
     if (Platform.isMacOS) {
       flutterDesktopSleep.setWindowSleepHandler(powerMonitorHandler);
     }
