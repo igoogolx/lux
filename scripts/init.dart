@@ -7,17 +7,17 @@ import 'package:path/path.dart' as path;
 import 'package:lux/const/const.dart';
 import 'package:args/args.dart';
 
-final dio = Dio();
-
 // https://github.com/dart-lang/sdk/issues/31610
 final assetsPath =
-path.normalize(path.join(Platform.script.toFilePath(), '../../assets'));
+    path.normalize(path.join(Platform.script.toFilePath(), '../../assets'));
 final binDir = Directory(path.join(assetsPath, 'bin'));
 
 const rawCoreName = 'itun2socks';
 const rawCoreVersion = '1.22.1';
 
-Future downloadLatestCore(String arch) async {
+Future downloadLatestCore(String arch, String token) async {
+  final dio = Dio();
+  dio.options.headers = {HttpHeaders.authorizationHeader: 'Bear $token}'};
   var releaseArch = LuxCoreName.arch;
   if (arch.isNotEmpty) {
     releaseArch = arch;
@@ -67,21 +67,24 @@ Future downloadLatestCore(String arch) async {
 }
 
 const targetArch = 'target-arch';
+const secret = 'secret';
 
 void main(List<String> arguments) async {
   try {
     final parser = ArgParser()
-      ..addOption(targetArch, defaultsTo: '', abbr: 'a');
+      ..addOption(targetArch, defaultsTo: '', abbr: 'a')
+      ..addOption(secret, defaultsTo: '', abbr: 's');
 
     ArgResults argResults = parser.parse(arguments);
 
-    print(argResults[targetArch]);
     if ((await binDir.exists())) {
       await binDir.delete(recursive: true);
     }
     await binDir.create();
-    await downloadLatestCore(argResults[targetArch] as String);
-  } catch(e) {
+    await downloadLatestCore(
+        argResults[targetArch] as String, argResults[secret]);
+  } catch (e) {
+    print(e);
     exit(1);
   }
 }
