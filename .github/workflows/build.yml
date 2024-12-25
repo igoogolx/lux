@@ -11,7 +11,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest, macos-14]
+        os: [windows-latest, macos-14, macos-13]
 
     steps:
       - uses: actions/checkout@v4
@@ -33,6 +33,13 @@ jobs:
           dart run scripts/init.dart -a 'arm64' -s ${{ secrets.GITHUB_TOKEN }} 
           flutter_distributor release --name ${{ matrix.os }}
           mv dist/${VERSION}/lux-${VERSION}+${VERSION}-macos.dmg dist/${VERSION}/lux-${VERSION}-arm64-macos.dmg
+
+      - if: matrix.os == 'macos-13'
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          echo Version: $VERSION
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          npm install -g appdmg
           dart run scripts/init.dart -a 'amd64' -s ${{ secrets.GITHUB_TOKEN }} 
           flutter_distributor release --name ${{ matrix.os }}
           mv dist/${VERSION}/lux-${VERSION}+${VERSION}-macos.dmg dist/${VERSION}/lux-${VERSION}-amd64-macos.dmg
