@@ -12,7 +12,6 @@ import 'package:path/path.dart' as path;
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:version/version.dart';
-import 'package:flutter_single_instance/flutter_single_instance.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 import 'package:webview_win_floating/webview_win_floating.dart';
@@ -36,11 +35,7 @@ void main(args) async {
 
   try {
     await windowManager.ensureInitialized();
-    if (Platform.isWindows &&
-        !await FlutterSingleInstance.platform.isFirstInstance()) {
-      await notifier.show("App is already running");
-      exitApp();
-    }
+
 
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     final port = await findAvailablePort(8000, 9000);
