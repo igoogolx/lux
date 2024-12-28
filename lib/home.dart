@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:lux/dashboard.dart';
+import 'package:lux/progress_indicator.dart';
 import 'package:window_manager/window_manager.dart';
 
 class Home extends StatefulWidget {
@@ -66,7 +67,7 @@ class _HomeState extends State<Home> with WindowListener {
   Widget build(BuildContext context) {
     var preUrl = dashboardUrl ?? widget.urlStr;
     return Scaffold(
-      body: isWebviewHidden ? Text("loading") : WebViewDashboard(widget.homeDir, widget.baseUrl,preUrl,onChanged)
+      body: isWebviewHidden ? AppProgressIndicator() : WebViewDashboard(widget.homeDir, widget.baseUrl,preUrl,onChanged)
     );
   }
 }
