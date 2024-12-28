@@ -19,38 +19,14 @@ class WebViewDashboard extends StatefulWidget {
   State<WebViewDashboard> createState() => _WebViewDashboardState();
 }
 
-class _WebViewDashboardState extends State<WebViewDashboard>
-    with WindowListener {
+class _WebViewDashboardState extends State<WebViewDashboard> {
   late final WebViewController _controller;
 
   _WebViewDashboardState();
 
-  void _init() async {
-    windowManager.addListener(this);
-    await windowManager.setPreventClose(true);
-    setState(() {});
-  }
-
-  @override
-  void onWindowClose() async {
-    if (Platform.isMacOS) {
-      if (await windowManager.isFullScreen()) {
-        await windowManager.setFullScreen(false);
-        //FIXME: remove delay
-        await Future.delayed(const Duration(seconds: 1));
-        await windowManager.minimize();
-      } else {
-        await windowManager.minimize();
-      }
-    } else {
-      await windowManager.hide();
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-    _init();
     late final PlatformWebViewControllerCreationParams params;
     if (WebViewPlatform.instance is WebKitWebViewPlatform) {
       params = WebKitWebViewControllerCreationParams();
