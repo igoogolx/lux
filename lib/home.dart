@@ -39,9 +39,6 @@ class _HomeState extends State<Home> with WindowListener {
 
   @override
   void onWindowClose() async {
-    setState(() {
-      isWebviewHidden= true;
-    });
     if (Platform.isMacOS) {
       if (await windowManager.isFullScreen()) {
         await windowManager.setFullScreen(false);
@@ -54,6 +51,9 @@ class _HomeState extends State<Home> with WindowListener {
     } else {
       await windowManager.hide();
     }
+    setState(() {
+      isWebviewHidden= true;
+    });
   }
 
   @override
