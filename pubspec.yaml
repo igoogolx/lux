@@ -51,7 +51,6 @@ dependencies:
       url: https://github.com/igoogolx/flutter_window_close.git
       ref: main # branch name
   version: ^3.0.2
-  flutter_single_instance: ^0.0.1
   webview_flutter: ^4.9.0
   webview_flutter_wkwebview: ^3.15.0
   webview_win_floating: ^2.2.8

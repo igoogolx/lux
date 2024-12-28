@@ -174,14 +174,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.0.0"
-  flutter_single_instance:
-    dependency: "direct main"
-    description:
-      name: flutter_single_instance
-      sha256: fda1cc378b0ef61f50eb92fc41e3a7dba8b0e1564ade3a0ea7f4c3ff59b1b4cd
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
