@@ -1,22 +1,23 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_single_instance/flutter_single_instance.dart';
+import 'package:lux/const/const.dart';
 import 'package:lux/core_manager.dart';
 import 'package:lux/elevate.dart';
 import 'package:lux/notifier.dart';
 import 'package:lux/process_manager.dart';
 import 'package:lux/tray.dart';
-import 'package:path_provider/path_provider.dart';
-import 'dart:io';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:lux/const/const.dart';
-import 'package:path/path.dart' as path;
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:window_manager/window_manager.dart';
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:uuid/uuid.dart';
 import 'package:version/version.dart';
-import 'package:flutter_single_instance/flutter_single_instance.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 import 'package:webview_win_floating/webview_win_floating.dart';
-import 'package:uuid/uuid.dart';
+import 'package:window_manager/window_manager.dart';
 
 var uuid = Uuid();
 
