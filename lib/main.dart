@@ -5,6 +5,7 @@ import 'package:flutter_single_instance/flutter_single_instance.dart';
 import 'package:lux/const/const.dart';
 import 'package:lux/core_manager.dart';
 import 'package:lux/elevate.dart';
+import 'package:lux/home.dart';
 import 'package:lux/notifier.dart';
 import 'package:lux/process_manager.dart';
 import 'package:lux/tray.dart';
@@ -15,7 +16,6 @@ import 'package:uuid/uuid.dart';
 import 'package:version/version.dart';
 import 'package:window_manager/window_manager.dart';
 
-import 'dashboard.dart';
 
 var uuid = Uuid();
 
@@ -81,7 +81,7 @@ void main(args) async {
       });
     }
 
-    runApp(MaterialApp(home: WebViewDashboard(homeDir,baseUrl,urlStr)));
+    runApp(MaterialApp(home: Home(homeDir,baseUrl,urlStr)));
   } catch (e) {
     await notifier.show("$e");
     exitApp();
