@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_single_instance/flutter_single_instance.dart';
 import 'package:lux/const/const.dart';
 import 'package:lux/core_manager.dart';
 import 'package:lux/elevate.dart';
@@ -35,11 +34,7 @@ void main(args) async {
 
   try {
     await windowManager.ensureInitialized();
-    if (Platform.isWindows &&
-        !await FlutterSingleInstance.platform.isFirstInstance()) {
-      await notifier.show("App is already running");
-      exitApp();
-    }
+
 
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     final port = await findAvailablePort(8000, 9000);
