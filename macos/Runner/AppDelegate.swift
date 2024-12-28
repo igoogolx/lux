@@ -14,4 +14,8 @@ class AppDelegate: FlutterAppDelegate {
     let controller : FlutterViewController = mainFlutterWindow?.contentViewController as! FlutterViewController
     return _windowManager.applicationShouldTerminate(controller);
     }
+
+    override func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
+      return true
+    }
 }
