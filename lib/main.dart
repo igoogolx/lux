@@ -11,13 +11,11 @@ import 'package:lux/tray.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
 import 'package:version/version.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
-import 'package:webview_win_floating/webview_win_floating.dart';
 import 'package:window_manager/window_manager.dart';
+
+import 'dashboard.dart';
 
 var uuid = Uuid();
 
@@ -83,82 +81,12 @@ void main(args) async {
       });
     }
 
-    runApp(const MaterialApp(home: WebViewDashboard()));
+    runApp(MaterialApp(home: WebViewDashboard(homeDir,baseUrl,urlStr)));
   } catch (e) {
     await notifier.show("$e");
     exitApp();
   }
 }
 
-class WebViewDashboard extends StatefulWidget {
-  const WebViewDashboard({super.key});
 
-  @override
-  State<WebViewDashboard> createState() => _WebViewDashboardState();
-}
 
-class _WebViewDashboardState extends State<WebViewDashboard>
-    with WindowListener {
-  late final WebViewController _controller;
-
-  void _init() async {
-    windowManager.addListener(this);
-    await windowManager.setPreventClose(true);
-    setState(() {});
-  }
-
-  @override
-  void onWindowClose() async {
-    if (Platform.isMacOS) {
-      if (await windowManager.isFullScreen()) {
-        await windowManager.setFullScreen(false);
-        //FIXME: remove delay
-        await Future.delayed(const Duration(seconds: 1));
-        await windowManager.minimize();
-      } else {
-        await windowManager.minimize();
-      }
-    } else {
-      await windowManager.hide();
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _init();
-    late final PlatformWebViewControllerCreationParams params;
-    if (WebViewPlatform.instance is WebKitWebViewPlatform) {
-      params = WebKitWebViewControllerCreationParams();
-    } else {
-      String cacheDir = path.join(homeDir, 'cache_webview');
-      params = WindowsPlatformWebViewControllerCreationParams(
-          userDataFolder: cacheDir);
-    }
-    final WebViewController controller =
-        WebViewController.fromPlatformCreationParams(params);
-
-    controller.setNavigationDelegate(
-      NavigationDelegate(onNavigationRequest: (NavigationRequest request) {
-        if (request.url.startsWith(baseUrl)) {
-          return NavigationDecision.navigate;
-        }
-        launchUrl(Uri.parse(request.url));
-        return NavigationDecision.prevent;
-      }, onPageFinished: (String url) async {
-        await windowManager.show();
-        await windowManager.focus();
-      }),
-    );
-
-    controller.loadRequest(Uri.parse(urlStr));
-    _controller = controller;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: WebViewWidget(controller: _controller),
-    );
-  }
-}
