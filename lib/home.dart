@@ -16,6 +16,14 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with WindowListener {
 
+  bool isWebviewHidden = false;
+
+  String? dashboardUrl;
+
+  void onChanged(String newUrl){
+    dashboardUrl= newUrl;
+  }
+
   void _init() async {
     windowManager.addListener(this);
     await windowManager.setPreventClose(true);
@@ -30,6 +38,9 @@ class _HomeState extends State<Home> with WindowListener {
 
   @override
   void onWindowClose() async {
+    setState(() {
+      isWebviewHidden= true;
+    });
     if (Platform.isMacOS) {
       if (await windowManager.isFullScreen()) {
         await windowManager.setFullScreen(false);
@@ -45,9 +56,17 @@ class _HomeState extends State<Home> with WindowListener {
   }
 
   @override
+  void onWindowFocus() async {
+    setState(() {
+      isWebviewHidden= false;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    var preUrl = dashboardUrl ?? widget.urlStr;
     return Scaffold(
-      body:WebViewDashboard(widget.homeDir, widget.baseUrl, widget.urlStr)
+      body: isWebviewHidden ? Text("loading") : WebViewDashboard(widget.homeDir, widget.baseUrl,preUrl,onChanged)
     );
   }
 }

@@ -12,17 +12,29 @@ class WebViewDashboard extends StatefulWidget {
   final String baseUrl;
   final String urlStr;
   final String homeDir;
+  final ValueChanged<String> onUrlChanged;
 
-  const WebViewDashboard(this.homeDir, this.baseUrl, this.urlStr, {super.key});
+  const WebViewDashboard(this.homeDir, this.baseUrl, this.urlStr, this.onUrlChanged, {super.key});
 
   @override
   State<WebViewDashboard> createState() => _WebViewDashboardState();
 }
 
 class _WebViewDashboardState extends State<WebViewDashboard> {
-  late final WebViewController _controller;
+  late WebViewController? _controller;
 
   _WebViewDashboardState();
+
+  @override
+  void dispose() async {
+    super.dispose();
+    var curUrl  = await _controller?.currentUrl();
+    if(curUrl!=null){
+     widget.onUrlChanged(curUrl);
+    }
+    _controller=null;
+  }
+
 
   @override
   void initState() {
@@ -41,6 +53,7 @@ class _WebViewDashboardState extends State<WebViewDashboard> {
     controller.setNavigationDelegate(
       NavigationDelegate(onNavigationRequest: (NavigationRequest request) {
         if (request.url.startsWith(widget.baseUrl)) {
+          widget.onUrlChanged(request.url);
           return NavigationDecision.navigate;
         }
         launchUrl(Uri.parse(request.url));
@@ -57,8 +70,11 @@ class _WebViewDashboardState extends State<WebViewDashboard> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: WebViewWidget(controller: _controller),
-    );
+    if(_controller !=null){
+      return Scaffold(
+        body: WebViewWidget(controller: _controller as WebViewController),
+      );
+    }
+    return Text("Disposed");
   }
 }
