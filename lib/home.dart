@@ -48,12 +48,13 @@ class _HomeState extends State<Home> with WindowListener {
       } else {
         await windowManager.minimize();
       }
+      setState(() {
+        isWebviewHidden= true;
+      });
     } else {
       await windowManager.hide();
     }
-    setState(() {
-      isWebviewHidden= true;
-    });
+
   }
 
   @override
