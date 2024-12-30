@@ -17,7 +17,7 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator>
   void initState() {
     controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 1000),
+      duration: const Duration(seconds: 1),
     )..addListener(() {
       setState(() {});
     });
