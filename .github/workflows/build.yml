@@ -69,6 +69,7 @@ jobs:
           mkdir artifact
           mv windows-latest-artifact/*/* artifact/
           mv macos-14-artifact/*/* artifact/
+          mv macos-13-artifact/*/* artifact/
 
       - name: Generate checksum
         uses: jmgilman/actions-generate-checksum@v1
