@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:system_tray/system_tray.dart';
 
 Future<void> initSystemTray(
+  void Function() openDashboard,
   exitApp,
   focusWindow,
 ) async {
@@ -18,6 +19,7 @@ Future<void> initSystemTray(
   final Menu menu = Menu();
   final List<MenuItemBase> menuItems = [
     MenuItemLabel(label: 'Lux', enabled: false),
+    MenuItemLabel(label: 'Web Dashboard',  onClicked: (menuItem) => openDashboard()),
     MenuItemLabel(label: 'Exit', onClicked: (menuItem) => exitApp()),
   ];
 

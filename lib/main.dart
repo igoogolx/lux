@@ -14,7 +14,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:version/version.dart';
 import 'package:window_manager/window_manager.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 
 var uuid = Uuid();
 
@@ -26,6 +26,11 @@ var homeDir = '';
 void exitApp() {
   process?.exit();
   exit(0);
+}
+
+void openDashboard() async {
+  final Uri url = Uri.parse(urlStr);
+  launchUrl(url);
 }
 
 void main(args) async {
@@ -70,7 +75,7 @@ void main(args) async {
     windowManager.waitUntilReadyToShow(windowOptions, () async {});
 
     if (Platform.isWindows) {
-      initSystemTray(exitApp, () {
+      initSystemTray(openDashboard,exitApp, () {
         windowManager.show();
         windowManager.focus();
       });
