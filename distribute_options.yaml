@@ -12,3 +12,10 @@ releases:
         package:
           platform: macos
           target: dmg
+
+  - name: macos-13
+    jobs:
+      - name: release-dev-macos
+        package:
+          platform: macos
+          target: dmg
