@@ -17,8 +17,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with WindowListener {
 
 
-  String? dashboardUrl;
-
 
   void _init() async {
     windowManager.addListener(this);
@@ -51,9 +49,8 @@ class _HomeState extends State<Home> with WindowListener {
 
   @override
   Widget build(BuildContext context) {
-    var preUrl = dashboardUrl ?? widget.urlStr;
     return Scaffold(
-      body: WebViewDashboard(widget.homeDir, widget.baseUrl,preUrl)
+      body: WebViewDashboard(widget.homeDir, widget.baseUrl, widget.urlStr)
     );
   }
 }
