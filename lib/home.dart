@@ -16,7 +16,6 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with WindowListener {
 
-  bool isWebviewHidden = false;
 
   String? dashboardUrl;
 
