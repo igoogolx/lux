@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:lux/dashboard.dart';
-import 'package:lux/progress_indicator.dart';
 import 'package:window_manager/window_manager.dart';
 
 class Home extends StatefulWidget {
@@ -17,13 +16,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with WindowListener {
 
-  bool isWebviewHidden = false;
 
-  String? dashboardUrl;
-
-  void onChanged(String newUrl){
-    dashboardUrl= newUrl;
-  }
 
   void _init() async {
     windowManager.addListener(this);
@@ -48,27 +41,16 @@ class _HomeState extends State<Home> with WindowListener {
       } else {
         await windowManager.minimize();
       }
-      setState(() {
-        isWebviewHidden= true;
-      });
     } else {
       await windowManager.hide();
     }
-
   }
 
-  @override
-  void onWindowFocus() async {
-    setState(() {
-      isWebviewHidden= false;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
-    var preUrl = dashboardUrl ?? widget.urlStr;
     return Scaffold(
-      body: isWebviewHidden ? AppProgressIndicator() : WebViewDashboard(widget.homeDir, widget.baseUrl,preUrl,onChanged)
+      body: WebViewDashboard(widget.homeDir, widget.baseUrl, widget.urlStr)
     );
   }
 }
