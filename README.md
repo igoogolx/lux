@@ -24,7 +24,8 @@ A light desktop tun proxy client.
 <b>Download for </b>
 macOS
 ·
-Windows( required [webview2](https://developer.microsoft.com/en-us/microsoft-edge/webview2) )
+Windows(require  <a href="https://developer.microsoft.com/en-us/microsoft-edge/webview2">webview2</a>)
+
 <br />
   <p align="center">
     <a href="https://github.com/igoogolx/lux/issues">Report Bug</a>
