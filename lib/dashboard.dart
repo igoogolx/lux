@@ -1,65 +1,85 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
-import 'package:webview_win_floating/webview_plugin.dart';
 import 'package:window_manager/window_manager.dart';
-import 'package:path/path.dart' as path;
 
 class WebViewDashboard extends StatefulWidget {
   final String baseUrl;
   final String urlStr;
-  final String homeDir;
+  final WebViewEnvironment? webViewEnvironment;
 
-  const WebViewDashboard(this.homeDir, this.baseUrl, this.urlStr,  {super.key});
+  const WebViewDashboard(this.baseUrl, this.urlStr, this.webViewEnvironment,
+      {super.key});
 
   @override
-  State<WebViewDashboard> createState() => _WebViewDashboardState();
+  State<WebViewDashboard> createState() => _WebViewDashboard();
 }
 
-class _WebViewDashboardState extends State<WebViewDashboard> {
-  late WebViewController? _controller;
+class _WebViewDashboard extends State<WebViewDashboard> {
+  final GlobalKey webViewKey = GlobalKey();
 
-  _WebViewDashboardState();
+  InAppWebViewController? webViewController;
+  InAppWebViewSettings settings = InAppWebViewSettings(
+    isInspectable: kDebugMode,
+  );
 
   @override
   void initState() {
     super.initState();
-    late final PlatformWebViewControllerCreationParams params;
-    if (WebViewPlatform.instance is WebKitWebViewPlatform) {
-      params = WebKitWebViewControllerCreationParams();
-    } else {
-      String cacheDir = path.join(widget.homeDir, 'cache_webview');
-      params = WindowsPlatformWebViewControllerCreationParams(
-          userDataFolder: cacheDir);
-    }
-    final WebViewController controller =
-        WebViewController.fromPlatformCreationParams(params);
+  }
 
-    controller.setNavigationDelegate(
-      NavigationDelegate(onNavigationRequest: (NavigationRequest request) {
-        if (request.url.startsWith(widget.baseUrl)) {
-          return NavigationDecision.navigate;
-        }
-        launchUrl(Uri.parse(request.url));
-        return NavigationDecision.prevent;
-      }, onPageFinished: (String url) async {
-        await windowManager.show();
-        await windowManager.focus();
-      }),
-    );
-
-    controller.loadRequest(Uri.parse(widget.urlStr));
-    _controller = controller;
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if(_controller !=null){
-      return Scaffold(
-        body: WebViewWidget(controller: _controller as WebViewController),
-      );
-    }
-    return Text("Disposed");
+    return InAppWebView(
+      key: webViewKey,
+      webViewEnvironment: widget.webViewEnvironment,
+      initialUrlRequest: URLRequest(url: WebUri(widget.urlStr)),
+      initialSettings: settings,
+
+      onWebViewCreated: (controller) {
+        webViewController = controller;
+        controller.addJavaScriptHandler(handlerName: 'open', callback: (args) {
+          if(args.isNotEmpty){
+            if(args[0] is String){
+              var filePath = args[0] as String;
+              final Uri fileUrl = Uri.parse(filePath);
+              launchUrl(fileUrl);
+            }
+          }
+        });
+      },
+      shouldOverrideUrlLoading: (controller, navigationAction) async {
+        var uri = navigationAction.request.url!;
+
+        if (uri.toString().startsWith(widget.baseUrl)) {
+          return NavigationActionPolicy.ALLOW;
+        }
+
+        if (!["http", "https", "file", "chrome", "data", "javascript", "about"]
+            .contains(uri.scheme)) {
+          if (await canLaunchUrl(uri)) {
+            await launchUrl(
+              uri,
+            );
+            return NavigationActionPolicy.CANCEL;
+          }
+        }
+
+        return NavigationActionPolicy.ALLOW;
+      },
+      onReceivedError: (controller, request, error) {},
+      onProgressChanged: (controller, progress) {
+        if (progress == 100) {
+          windowManager.show();
+          windowManager.focus();
+        }
+      },
+    );
   }
 }

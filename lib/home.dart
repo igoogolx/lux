@@ -1,23 +1,22 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:lux/dashboard.dart';
 import 'package:window_manager/window_manager.dart';
 
 class Home extends StatefulWidget {
   final String baseUrl;
   final String urlStr;
-  final String homeDir;
+  final WebViewEnvironment? webViewEnvironment;
+  final bool isWebViewAvailable;
 
-  const Home(this.homeDir, this.baseUrl, this.urlStr, {super.key});
+  const Home(this.baseUrl, this.urlStr, this.webViewEnvironment,this.isWebViewAvailable, {super.key});
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> with WindowListener {
-
-
-
   void _init() async {
     windowManager.addListener(this);
     await windowManager.setPreventClose(true);
@@ -46,11 +45,14 @@ class _HomeState extends State<Home> with WindowListener {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
+    if(!widget.isWebViewAvailable){
+      windowManager.focus();
+      return Scaffold(body: Center(child: Text("WebView is not available.") ,));
+    }
     return Scaffold(
-      body: WebViewDashboard(widget.homeDir, widget.baseUrl, widget.urlStr)
-    );
+        body: WebViewDashboard(
+            widget.baseUrl, widget.urlStr, widget.webViewEnvironment));
   }
 }
