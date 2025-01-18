@@ -8,6 +8,7 @@
 
 #include <connectivity_plus/connectivity_plus_windows_plugin.h>
 #include <flutter_desktop_sleep/flutter_desktop_sleep_plugin_c_api.h>
+#include <flutter_inappwebview_windows/flutter_inappwebview_windows_plugin_c_api.h>
 #include <flutter_window_close/flutter_window_close_plugin.h>
 #include <fullscreen_window/fullscreen_window_plugin_c_api.h>
 #include <local_notifier/local_notifier_plugin.h>
@@ -22,6 +23,8 @@ void RegisterPlugins(flutter::PluginRegistry* registry) {
       registry->GetRegistrarForPlugin("ConnectivityPlusWindowsPlugin"));
   FlutterDesktopSleepPluginCApiRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("FlutterDesktopSleepPluginCApi"));
+  FlutterInappwebviewWindowsPluginCApiRegisterWithRegistrar(
+      registry->GetRegistrarForPlugin("FlutterInappwebviewWindowsPluginCApi"));
   FlutterWindowClosePluginRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("FlutterWindowClosePlugin"));
   FullscreenWindowPluginCApiRegisterWithRegistrar(
