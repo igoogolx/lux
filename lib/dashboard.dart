@@ -41,8 +41,18 @@ class _WebViewDashboard extends State<WebViewDashboard> {
       webViewEnvironment: widget.webViewEnvironment,
       initialUrlRequest: URLRequest(url: WebUri(widget.urlStr)),
       initialSettings: settings,
-      onWebViewCreated: (controller) async {
+
+      onWebViewCreated: (controller) {
         webViewController = controller;
+        controller.addJavaScriptHandler(handlerName: 'open', callback: (args) {
+          if(args.isNotEmpty){
+            if(args[0] is String){
+              var filePath = args[0] as String;
+              final Uri fileUrl = Uri.parse(filePath);
+              launchUrl(fileUrl);
+            }
+          }
+        });
       },
       shouldOverrideUrlLoading: (controller, navigationAction) async {
         var uri = navigationAction.request.url!;
