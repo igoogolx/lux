@@ -61,17 +61,12 @@ class _WebViewDashboard extends State<WebViewDashboard> {
           return NavigationActionPolicy.ALLOW;
         }
 
-        if (!["http", "https", "file", "chrome", "data", "javascript", "about"]
-            .contains(uri.scheme)) {
-          if (await canLaunchUrl(uri)) {
-            await launchUrl(
-              uri,
-            );
-            return NavigationActionPolicy.CANCEL;
-          }
+        if (await canLaunchUrl(uri)) {
+          await launchUrl(
+            uri,
+          );
         }
-
-        return NavigationActionPolicy.ALLOW;
+        return NavigationActionPolicy.CANCEL;
       },
       onReceivedError: (controller, request, error) {},
       onProgressChanged: (controller, progress) {
