@@ -42,6 +42,11 @@ void main(args) async {
   await notifier.ensureInitialized();
 
   try {
+    final Directory appDocumentsDir = await getApplicationSupportDirectory();
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    final Version currentVersion = Version.parse(packageInfo.version);
+    homeDir = path.join(appDocumentsDir.path, '${currentVersion.major}.0');
+
     if (Platform.isWindows) {
       final availableVersion = await WebViewEnvironment.getAvailableVersion();
       isWebviewAvailable = availableVersion != null;
@@ -52,11 +57,8 @@ void main(args) async {
 
     await windowManager.ensureInitialized();
 
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
     final port = await findAvailablePort(8000, 9000);
-    final Directory appDocumentsDir = await getApplicationSupportDirectory();
-    final Version currentVersion = Version.parse(packageInfo.version);
-    homeDir = path.join(appDocumentsDir.path, '${currentVersion.major}.0');
+
     var corePath = path.join(Paths.assetsBin.path, LuxCoreName.name);
     if (Platform.isMacOS) {
       var owner = await getFileOwner(corePath);
