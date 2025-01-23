@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:lux/const/const.dart';
 import 'package:lux/core_manager.dart';
 import 'package:lux/elevate.dart';
@@ -12,10 +11,10 @@ import 'package:lux/tray.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
 import 'package:version/version.dart';
 import 'package:window_manager/window_manager.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 var uuid = Uuid();
 
@@ -34,22 +33,13 @@ void openDashboard() async {
   launchUrl(url);
 }
 
-WebViewEnvironment? webViewEnvironment;
-var isWebviewAvailable = true;
-
 void main(args) async {
   WidgetsFlutterBinding.ensureInitialized();
   await notifier.ensureInitialized();
 
   try {
-    if (Platform.isWindows) {
-      final availableVersion = await WebViewEnvironment.getAvailableVersion();
-      isWebviewAvailable = availableVersion != null;
-      webViewEnvironment = await WebViewEnvironment.create(
-          settings: WebViewEnvironmentSettings(userDataFolder: homeDir));
-    }
-
     await windowManager.ensureInitialized();
+
 
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     final port = await findAvailablePort(8000, 9000);
@@ -85,15 +75,18 @@ void main(args) async {
     windowManager.waitUntilReadyToShow(windowOptions, () async {});
 
     if (Platform.isWindows) {
-      initSystemTray(openDashboard, exitApp, () {
+      initSystemTray(openDashboard,exitApp, () {
         windowManager.show();
         windowManager.focus();
       });
     }
 
-    runApp(MaterialApp(home: Home(baseUrl, urlStr, webViewEnvironment,isWebviewAvailable)));
+    runApp(MaterialApp(home: Home(homeDir,baseUrl,urlStr)));
   } catch (e) {
     await notifier.show("$e");
     exitApp();
   }
 }
+
+
+

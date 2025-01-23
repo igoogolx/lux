@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.28.0-beat.1
+version: 1.27.3
 
 environment:
   sdk: '>=3.0.6 <4.0.0'
@@ -51,9 +51,11 @@ dependencies:
       url: https://github.com/igoogolx/flutter_window_close.git
       ref: main # branch name
   version: ^3.0.2
+  webview_flutter: ^4.9.0
+  webview_flutter_wkwebview: ^3.15.0
+  webview_win_floating: ^2.2.8
   uuid: ^3.0.7
   connectivity_plus: ^6.1.1
-  flutter_inappwebview: ^6.1.5
 
 
 dev_dependencies:
