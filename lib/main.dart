@@ -45,9 +45,8 @@ void main(args) async {
     if (Platform.isWindows) {
       final availableVersion = await WebViewEnvironment.getAvailableVersion();
       isWebviewAvailable = availableVersion != null;
-      String cacheDir = path.join(homeDir, 'cache_webview');
       webViewEnvironment = await WebViewEnvironment.create(
-          settings: WebViewEnvironmentSettings(userDataFolder: cacheDir));
+          settings: WebViewEnvironmentSettings(userDataFolder: homeDir));
     }
 
     await windowManager.ensureInitialized();
