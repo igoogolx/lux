@@ -16,7 +16,7 @@
 [![Downloads][downloads-shield]][downloads-url]
 
 <h3 align="center">Lux</h3>
-A light desktop tun proxy client.
+The light desktop proxy client.
 <br />
 <a href="https://igoogolx.github.io/lux-docs/"><strong>lux-docs »</strong></a>
 <br />
@@ -72,7 +72,7 @@ See the [docs](https://igoogolx.github.io/lux-docs/docs/category/getting-started
 This project is using what I'm calling the "FGRT" stack (Flutter, Go, React, TypeScript).
 
 * React on Flutter? Here flutter is not responsible for UI. It's more like a launcher: 
-  start the core process and open the webpage in browser.
+  start the core process and open the webpage in webview.
 * The core (itun2socks) is written in pure Go.
 
 
