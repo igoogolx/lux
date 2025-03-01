@@ -8,9 +8,9 @@ import 'package:lux/home.dart';
 import 'package:lux/notifier.dart';
 import 'package:lux/process_manager.dart';
 import 'package:lux/tray.dart';
+import 'package:lux/utils.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path/path.dart' as path;
-import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:version/version.dart';
 import 'package:window_manager/window_manager.dart';
@@ -43,9 +43,8 @@ void main(args) async {
 
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     final port = await findAvailablePort(8000, 9000);
-    final Directory appDocumentsDir = await getApplicationSupportDirectory();
     final Version currentVersion = Version.parse(packageInfo.version);
-    homeDir = path.join(appDocumentsDir.path, '${currentVersion.major}.0');
+    homeDir = await getHomeDir();
     var corePath = path.join(Paths.assetsBin.path, LuxCoreName.name);
     if (Platform.isMacOS) {
       var owner = await getFileOwner(corePath);
