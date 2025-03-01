@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
+import 'package:path/path.dart' as p;
+import 'const/const.dart';
 
 
 class ProcessManager {
@@ -12,7 +14,12 @@ class ProcessManager {
   ProcessManager(this.path, this.args);
 
   Future<void> run() async {
-    process = await Process.start(path, args);
+    if(Platform.isWindows){
+      var gsudoPath = p.join(Paths.assetsBin.path, "gsudo.exe");
+      process = await Process.start(gsudoPath, [path, ...args]);
+    }else{
+      process = await Process.start(path, args);
+    }
     process?.stdout.transform(utf8.decoder).forEach(debugPrint);
   }
   void exit(){
