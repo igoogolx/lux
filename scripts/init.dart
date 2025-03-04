@@ -14,7 +14,7 @@ final binDir = Directory(path.join(assetsPath, 'bin'));
 
 const rawCoreName = 'itun2socks';
 const rawCoreVersion = '1.27.4-beat.0';
-const gsudoVersion = '2.5.1';
+const gsudoVersion = '2.6.0';
 
 
 Future downloadGsudo(String token) async {
