@@ -23,8 +23,8 @@ var baseUrl = '';
 var urlStr = '';
 var homeDir = '';
 
-void exitApp() {
-  coreManager?.exitCore();
+void exitApp() async {
+  await coreManager?.exitCore();
   exit(0);
 }
 
