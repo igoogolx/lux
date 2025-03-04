@@ -18,13 +18,13 @@ import 'package:url_launcher/url_launcher.dart';
 
 var uuid = Uuid();
 
-ProcessManager? process;
+CoreManager? coreManager;
 var baseUrl = '';
 var urlStr = '';
 var homeDir = '';
 
 void exitApp() {
-  process?.exit();
+  coreManager?.exitCore();
   exit(0);
 }
 
@@ -57,14 +57,14 @@ void main(args) async {
       }
     }
     var secret = uuid.v4();
-    process = ProcessManager(
+    final process = ProcessManager(
         corePath, ['-home_dir=$homeDir', '-port=$port', '-secret=$secret']);
-    await process?.run();
-    process?.watchExit();
+    await process.run();
+    process.watchExit();
     baseUrl = 'http://localhost:$port';
     urlStr = '$baseUrl/?client_version=$currentVersion&token=$secret';
-    final manager = CoreManager(baseUrl, process, secret);
-    await manager.ping();
+    coreManager = CoreManager(baseUrl, process, secret);
+    await coreManager?.ping();
     WindowOptions windowOptions = const WindowOptions(
       size: Size(800, 650),
       center: true,

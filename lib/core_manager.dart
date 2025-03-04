@@ -66,12 +66,7 @@ class CoreManager {
           notifier.show("Reconnected");
         }
       } else if (s == 'terminate_app') {
-        try{
-          exitCore();
-          coreProcess?.exit();
-        } catch (e) {
-          debugPrint(e.toString());
-        }
+        exitCore();
         exit(0);
       }
     }
@@ -145,7 +140,16 @@ class CoreManager {
   }
 
   Future<void> exitCore() async {
-    await dio.post('$baseUrl/manager/exit');
+    try {
+      await dio.post('$baseUrl/manager/exit');
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+    try{
+      coreProcess?.exit();
+    }catch(e){
+      debugPrint(e.toString());
+    }
   }
 
   Future<void> restart() async {
