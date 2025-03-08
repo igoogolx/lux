@@ -13,7 +13,7 @@ final assetsPath =
 final binDir = Directory(path.join(assetsPath, 'bin'));
 
 const rawCoreName = 'itun2socks';
-const rawCoreVersion = '1.27.4-beat.2';
+const rawCoreVersion = '1.27.4-beat.3';
 const gsudoVersion = '2.6.0';
 
 
@@ -112,9 +112,11 @@ void main(List<String> arguments) async {
     }
     await binDir.create();
 
-    if(Platform.isWindows){
-      await downloadGsudo(argResults[secret]);
-    }
+    //TODO: v1.30.0
+
+    // if(Platform.isWindows){
+    //   await downloadGsudo(argResults[secret]);
+    // }
 
     await downloadLatestCore(
         argResults[targetArch] as String, argResults[secret]);

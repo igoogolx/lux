@@ -14,12 +14,15 @@ class ProcessManager {
   ProcessManager(this.path, this.args);
 
   Future<void> run() async {
-    if(Platform.isWindows){
-      var gsudoPath = p.join(Paths.assetsBin.path, "gsudo.exe");
-      process = await Process.start(gsudoPath, [path, ...args]);
-    }else{
-      process = await Process.start(path, args);
-    }
+    //TODO: v1.30.0
+
+    // if(Platform.isWindows){
+    //   var gsudoPath = p.join(Paths.assetsBin.path, "gsudo.exe");
+    //   process = await Process.start(gsudoPath, [path, ...args]);
+    // }else{
+    // }
+
+    process = await Process.start(path, args);
     process?.stdout.transform(utf8.decoder).forEach(debugPrint);
   }
   void exit(){
