@@ -8,6 +8,6 @@ display_name:  Lux
 create_desktop_icon: true
 install_dir_name: '{autopf}\lux'
 script_template: setup.iss
-setup_icon_file: ..\..\assets\app_icon.ico
+setup_icon_file: assets\app_icon.ico
 locales:
   - en
