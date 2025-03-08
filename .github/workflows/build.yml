@@ -32,7 +32,7 @@ jobs:
           npm install -g appdmg
           dart run scripts/init.dart -a 'arm64' -s ${{ secrets.GITHUB_TOKEN }} 
           flutter_distributor release --name ${{ matrix.os }}
-          mv dist/${VERSION}/lux-${VERSION}+${VERSION}-macos.dmg dist/${VERSION}/lux-${VERSION}-arm64-macos.dmg
+          mv dist/${VERSION}/lux-${VERSION}-macos.dmg dist/${VERSION}/lux-${VERSION}-arm64-macos.dmg
 
       - if: matrix.os == 'macos-13'
         run: |
