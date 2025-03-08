@@ -112,9 +112,11 @@ void main(List<String> arguments) async {
     }
     await binDir.create();
 
-    if(Platform.isWindows){
-      await downloadGsudo(argResults[secret]);
-    }
+    //TODO: v1.30.0
+
+    // if(Platform.isWindows){
+    //   await downloadGsudo(argResults[secret]);
+    // }
 
     await downloadLatestCore(
         argResults[targetArch] as String, argResults[secret]);
