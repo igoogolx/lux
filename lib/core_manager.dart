@@ -44,7 +44,7 @@ class CoreManager {
       if (s == 'sleep') {
         final managerRes = await dio.get('$baseUrl/manager');
         var isStarted = managerRes.data['isStarted'];
-        if (isStarted) {
+        if (isStarted is bool && isStarted) {
           final settingRes = await dio.get('$baseUrl/setting');
           var mode = settingRes.data['setting']['mode'];
           if (mode == "tun") {
@@ -62,7 +62,7 @@ class CoreManager {
             return;
           }
           await Future.delayed(const Duration(seconds: 2));
-          await dio.post('$baseUrl/manager/start');
+          await start();
           notifier.show("Reconnected");
         }
       } else if (s == 'terminate_app') {
@@ -98,7 +98,7 @@ class CoreManager {
       if (result.contains(ConnectivityResult.none)) {
         final managerRes = await dio.get('$baseUrl/manager');
         var isStarted = managerRes.data['isStarted'];
-        if (isStarted) {
+        if (isStarted is bool && isStarted) {
           await stop();
           notifier.show("No available network. Disconnected");
         }
@@ -137,6 +137,10 @@ class CoreManager {
 
   Future<void> stop() async {
     await dio.post('$baseUrl/manager/stop');
+  }
+
+  Future<void> start() async {
+    await dio.post('$baseUrl/manager/start');
   }
 
   Future<void> exitCore() async {

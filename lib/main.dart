@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:launch_at_startup/launch_at_startup.dart';
 import 'package:lux/const/const.dart';
+import 'package:lux/core_config.dart';
 import 'package:lux/core_manager.dart';
 import 'package:lux/elevate.dart';
 import 'package:lux/home.dart';
@@ -31,6 +33,40 @@ void exitApp() async {
 void openDashboard() async {
   final Uri url = Uri.parse(urlStr);
   launchUrl(url);
+}
+
+void setAutoConnect() async {
+  var isAutoConnect = await readAutoConnect();
+  if(isAutoConnect){
+    try {
+      await coreManager?.start();
+  notifier.show("Connect on open");
+  }catch(e){
+  notifier.show("Fail to connect on open: $e");
+  }
+}
+}
+
+void setAutoLaunch() async {
+  if(Platform.isMacOS){
+    var isAutoLaunch = await readAutoLaunch();
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    launchAtStartup.setup(
+      appName: packageInfo.appName,
+      appPath: Platform.resolvedExecutable,
+    );
+    var isEnabled = await launchAtStartup.isEnabled();
+    if(isAutoLaunch && !isEnabled){
+      await launchAtStartup.enable();
+    }else{
+      await launchAtStartup.disable();
+  }
+}
+}
+
+void initClient() {
+  setAutoConnect();
+  setAutoLaunch();
 }
 
 void main(args) async {
@@ -65,6 +101,10 @@ void main(args) async {
     urlStr = '$baseUrl/?client_version=$currentVersion&token=$secret';
     coreManager = CoreManager(baseUrl, process, secret);
     await coreManager?.ping();
+
+
+    initClient();
+
     WindowOptions windowOptions = const WindowOptions(
       size: Size(800, 650),
       center: true,
