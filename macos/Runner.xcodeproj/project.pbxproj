@@ -30,6 +30,7 @@
 		3BF077F1B774008AFACDB990 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69F1635BCA26D70464CB9EBB /* Pods_Runner.framework */; };
 		58D3022204686DE8EF2AEB82 /* Pods_RunnerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 726D8EF5DAB8D40467DE7A56 /* Pods_RunnerTests.framework */; };
 		8CF04FA52D7DA43300447BC9 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 8CF04FA42D7DA43300447BC9 /* LaunchAtLogin */; };
+		8CF04FA72D7DA82E00447BC9 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 8CF04FA62D7DA82E00447BC9 /* LaunchAtLogin */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,6 +105,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8CF04FA72D7DA82E00447BC9 /* LaunchAtLogin in Frameworks */,
 				8CF04FA52D7DA43300447BC9 /* LaunchAtLogin in Frameworks */,
 				3BF077F1B774008AFACDB990 /* Pods_Runner.framework in Frameworks */,
 			);
@@ -806,6 +808,11 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		8CF04FA42D7DA43300447BC9 /* LaunchAtLogin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8CF04FA32D7DA43300447BC9 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */;
+			productName = LaunchAtLogin;
+		};
+		8CF04FA62D7DA82E00447BC9 /* LaunchAtLogin */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 8CF04FA32D7DA43300447BC9 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */;
 			productName = LaunchAtLogin;
