@@ -62,7 +62,7 @@ class CoreManager {
             return;
           }
           await Future.delayed(const Duration(seconds: 2));
-          await dio.post('$baseUrl/manager/start');
+          await start();
           notifier.show("Reconnected");
         }
       } else if (s == 'terminate_app') {
@@ -137,6 +137,10 @@ class CoreManager {
 
   Future<void> stop() async {
     await dio.post('$baseUrl/manager/stop');
+  }
+
+  Future<void> start() async {
+    await dio.post('$baseUrl/manager/start');
   }
 
   Future<void> exitCore() async {
