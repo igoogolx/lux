@@ -35,17 +35,19 @@ void openDashboard() async {
   launchUrl(url);
 }
 
-void initClient() async {
+void setAutoConnect() async {
   var isAutoConnect = await readAutoConnect();
   if(isAutoConnect){
     try {
       await coreManager?.start();
-      notifier.show("Connect on open");
-    }catch(e){
-      notifier.show("Fail to connect on open: $e");
-    }
+  notifier.show("Connect on open");
+  }catch(e){
+  notifier.show("Fail to connect on open: $e");
   }
+}
+}
 
+void setAutoLaunch() async {
   if(Platform.isMacOS){
     var isAutoLaunch = await readAutoLaunch();
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -53,12 +55,18 @@ void initClient() async {
       appName: packageInfo.appName,
       appPath: Platform.resolvedExecutable,
     );
-    if(isAutoLaunch){
+    var isEnabled = await launchAtStartup.isEnabled();
+    if(isAutoLaunch && !isEnabled){
       await launchAtStartup.enable();
     }else{
       await launchAtStartup.disable();
-    }
   }
+}
+}
+
+void initClient() {
+  setAutoConnect();
+  setAutoLaunch();
 }
 
 void main(args) async {
