@@ -24,4 +24,21 @@ Future<String> readTheme() async {
   return "";
 }
 
+Future<bool> readAutoLaunch() async {
+  var setting = await readSetting();
+  if (setting.containsKey('autoLaunch') && setting['autoLaunch'] is bool) {
+    return setting['autoLaunch'] as bool;
+  }
+  return false;
+}
+
+Future<bool> readAutoConnect() async {
+  var setting = await readSetting();
+  if (setting.containsKey('autoConnect') && setting['autoConnect'] is bool) {
+    return setting['autoConnect'] as bool;
+  }
+  return false;
+}
+
+
 
