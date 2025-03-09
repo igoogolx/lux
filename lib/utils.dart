@@ -14,8 +14,11 @@ Future<String> getHomeDir() async {
 }
 
 
-Future<Map> readJsonFile(String filePath) async {
+Future<Map<String,dynamic>> readJsonFile(String filePath) async {
   var input = await File(filePath).readAsString();
   var map = jsonDecode(input);
-  return map;
+  if(map is Map<String,dynamic>){
+    return map;
+  }
+  return {};
 }

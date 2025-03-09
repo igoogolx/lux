@@ -1,18 +1,27 @@
 import 'package:lux/utils.dart';
 import 'package:path/path.dart' as path;
 
-Future<Map> readConfig() async {
+Future<Map<String,dynamic>> readConfig() async {
   var homeDir  = await getHomeDir();
   var configPath = path.join(homeDir, 'config.json');
   return await readJsonFile(configPath);
 }
 
 
-Future<Map> readSetting() async {
+Future<Map<String,dynamic>> readSetting() async {
   final config = await readConfig();
-  if (config.containsKey('setting')) {
-    return config['setting'];
+  if (config.containsKey('setting') && config['setting'] is Map<String,dynamic>) {
+    return config['setting'] as Map<String,dynamic>;
   }
   return {};
 }
+
+Future<String> readTheme() async {
+  var setting = await readSetting();
+  if (setting.containsKey('theme') && setting['theme'] is String) {
+    return setting['theme'] as String;
+  }
+  return "";
+}
+
 
