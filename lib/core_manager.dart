@@ -144,10 +144,12 @@ class CoreManager {
   }
 
   Future<void> exitCore() async {
-    try {
-      await dio.post('$baseUrl/manager/exit');
-    } catch (e) {
-      debugPrint(e.toString());
+    if(Platform.isWindows){
+      try {
+        await dio.post('$baseUrl/manager/exit');
+      } catch (e) {
+        debugPrint(e.toString());
+      }
     }
     try{
       coreProcess?.exit();
