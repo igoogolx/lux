@@ -29,6 +29,7 @@
 		33CC11132044BFA00003C045 /* MainFlutterWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CC11122044BFA00003C045 /* MainFlutterWindow.swift */; };
 		3BF077F1B774008AFACDB990 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69F1635BCA26D70464CB9EBB /* Pods_Runner.framework */; };
 		58D3022204686DE8EF2AEB82 /* Pods_RunnerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 726D8EF5DAB8D40467DE7A56 /* Pods_RunnerTests.framework */; };
+		8C2B2B4C2D805CA500DCA9F0 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 8C2B2B4B2D805CA500DCA9F0 /* LaunchAtLogin */; };
 		8CF04FA52D7DA43300447BC9 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 8CF04FA42D7DA43300447BC9 /* LaunchAtLogin */; };
 		8CF04FA72D7DA82E00447BC9 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 8CF04FA62D7DA82E00447BC9 /* LaunchAtLogin */; };
 /* End PBXBuildFile section */
@@ -107,6 +108,7 @@
 			files = (
 				8CF04FA72D7DA82E00447BC9 /* LaunchAtLogin in Frameworks */,
 				8CF04FA52D7DA43300447BC9 /* LaunchAtLogin in Frameworks */,
+				8C2B2B4C2D805CA500DCA9F0 /* LaunchAtLogin in Frameworks */,
 				3BF077F1B774008AFACDB990 /* Pods_Runner.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -251,6 +253,9 @@
 				33CC11202044C79F0003C045 /* PBXTargetDependency */,
 			);
 			name = Runner;
+			packageProductDependencies = (
+				8C2B2B4B2D805CA500DCA9F0 /* LaunchAtLogin */,
+			);
 			productName = Runner;
 			productReference = 33CC10ED2044A3C60003C045 /* Lux.app */;
 			productType = "com.apple.product-type.application";
@@ -295,7 +300,7 @@
 			);
 			mainGroup = 33CC10E42044A3C60003C045;
 			packageReferences = (
-				8CF04FA32D7DA43300447BC9 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */,
+				8C2B2B4A2D805CA500DCA9F0 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */,
 			);
 			productRefGroup = 33CC10EE2044A3C60003C045 /* Products */;
 			projectDirPath = "";
@@ -796,6 +801,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		8C2B2B4A2D805CA500DCA9F0 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/LaunchAtLogin-Modern";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		8CF04FA32D7DA43300447BC9 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sindresorhus/LaunchAtLogin-Modern";
@@ -807,6 +820,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		8C2B2B4B2D805CA500DCA9F0 /* LaunchAtLogin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8C2B2B4A2D805CA500DCA9F0 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */;
+			productName = LaunchAtLogin;
+		};
 		8CF04FA42D7DA43300447BC9 /* LaunchAtLogin */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 8CF04FA32D7DA43300447BC9 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */;
