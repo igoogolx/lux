@@ -39,6 +39,7 @@ void setAutoConnect() async {
   var isAutoConnect = await readAutoConnect();
   if(isAutoConnect){
     try {
+      await Future.delayed(const Duration(seconds: 1));
       await coreManager?.start();
   notifier.show("Connect on open");
   }catch(e){
