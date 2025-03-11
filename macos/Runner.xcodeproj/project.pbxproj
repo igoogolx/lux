@@ -295,7 +295,6 @@
 			);
 			mainGroup = 33CC10E42044A3C60003C045;
 			packageReferences = (
-				8CF04FA32D7DA43300447BC9 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */,
 			);
 			productRefGroup = 33CC10EE2044A3C60003C045 /* Products */;
 			projectDirPath = "";
