@@ -18,6 +18,7 @@ PrivilegesRequired={{PRIVILEGES_REQUIRED}}
 ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 DisableFinishedPage=yes
+AppMutex=lux.app.mutex,Global\lux.app.mutex
 
 [Languages]
 {% for locale in LOCALES %}
