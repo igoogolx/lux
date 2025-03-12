@@ -14,16 +14,20 @@ class ProcessManager {
   ProcessManager(this.path, this.args);
 
   Future<void> run() async {
-    //TODO: v1.30.0
-
-    // if(Platform.isWindows){
-    //   var gsudoPath = p.join(Paths.assetsBin.path, "gsudo.exe");
-    //   process = await Process.start(gsudoPath, [path, ...args]);
-    // }else{
-    // }
-
-    process = await Process.start(path, args);
-    process?.stdout.transform(utf8.decoder).forEach(debugPrint);
+    if(Platform.isWindows){
+      await Process.run(
+        'powershell.exe',
+        [
+          '-noprofile',
+          "Start-Process '$path' -Verb RunAs -windowstyle hidden",
+          "-ArgumentList \"${args.join(' ')}\""
+        ],
+        runInShell: false,
+      );
+    }else{
+      process = await Process.start(path, args);
+      process?.stdout.transform(utf8.decoder).forEach(debugPrint);
+    }
   }
   void exit(){
     process?.kill();
