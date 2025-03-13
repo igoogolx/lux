@@ -49,22 +49,20 @@ void setAutoConnect() async {
 }
 
 void setAutoLaunch() async {
-  if(Platform.isMacOS){
-    var isAutoLaunch = await readAutoLaunch();
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    launchAtStartup.setup(
-      appName: packageInfo.appName,
-      appPath: Platform.resolvedExecutable,
-    );
-    var isEnabled = await launchAtStartup.isEnabled();
-    if(isAutoLaunch && !isEnabled){
-      await launchAtStartup.enable();
-      return;
-    }
-    if(isEnabled && !isAutoLaunch){
-      await launchAtStartup.disable();
-    }
-}
+  var isAutoLaunch = await readAutoLaunch();
+  PackageInfo packageInfo = await PackageInfo.fromPlatform();
+  launchAtStartup.setup(
+    appName: packageInfo.appName,
+    appPath: Platform.resolvedExecutable,
+  );
+  var isEnabled = await launchAtStartup.isEnabled();
+  if(isAutoLaunch && !isEnabled){
+    await launchAtStartup.enable();
+    return;
+  }
+  if(isEnabled && !isAutoLaunch){
+    await launchAtStartup.disable();
+  }
 }
 
 void initClient() {
