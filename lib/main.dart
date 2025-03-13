@@ -59,6 +59,7 @@ void setAutoLaunch() async {
     var isEnabled = await launchAtStartup.isEnabled();
     if(isAutoLaunch && !isEnabled){
       await launchAtStartup.enable();
+      return;
     }
     if(isEnabled && !isAutoLaunch){
       await launchAtStartup.disable();
