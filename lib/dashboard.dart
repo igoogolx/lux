@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
-import 'package:webview_win_floating/webview_plugin.dart';
+import 'package:webview_win_floating/webview.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:path/path.dart' as path;
 
@@ -50,6 +50,12 @@ class _WebViewDashboardState extends State<WebViewDashboard> {
     );
 
     controller.loadRequest(Uri.parse(widget.urlStr));
+
+    if(controller is WinWebViewController){
+      WinWebViewController winWebViewController = controller as WinWebViewController;
+      winWebViewController.setStatusBar(false);
+    }
+
     _controller = controller;
   }
 
