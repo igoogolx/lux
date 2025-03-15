@@ -667,7 +667,7 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: "5690add87de6b6bd0b8cdb70e8e2fc31dab0d1e1"
+      resolved-ref: e335e032806cd4de0f1f988a044503305a6f2372
       url: "https://github.com/igoogolx/webview_win_floating.git"
     source: git
     version: "2.2.9"
