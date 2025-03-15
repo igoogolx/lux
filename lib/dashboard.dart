@@ -52,8 +52,8 @@ class _WebViewDashboardState extends State<WebViewDashboard> {
 
     controller.loadRequest(Uri.parse(widget.urlStr));
 
-    if (controller.platform is WinWebViewController) {
-      (controller.platform as WinWebViewController).setStatusBar(false);
+    if (controller.platform is WindowsPlatformWebViewController) {
+      (controller.platform as WindowsPlatformWebViewController).setStatusBar(false);
     }
 
     _controller = controller;
