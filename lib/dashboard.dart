@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -54,6 +55,9 @@ class _WebViewDashboardState extends State<WebViewDashboard> {
 
     if (controller.platform is WindowsPlatformWebViewController) {
       (controller.platform as WindowsPlatformWebViewController).setStatusBar(false);
+      if(kDebugMode){
+        (controller.platform as WindowsPlatformWebViewController).openDevTools();
+      }
     }
 
     _controller = controller;
