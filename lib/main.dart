@@ -29,7 +29,6 @@ void main(args) async {
       }
     }
 
-
     WindowOptions windowOptions = const WindowOptions(
       size: Size(800, 650),
       center: true,
@@ -39,9 +38,11 @@ void main(args) async {
     windowManager.waitUntilReadyToShow(windowOptions, () async {});
     windowManager.show();
 
-    var isDarkMode = await readTheme() ==ThemeType.dark;
+    var isDarkMode = await readTheme() == ThemeType.dark;
     runApp(MaterialApp(
-        theme:  ThemeData(scaffoldBackgroundColor: Color(isDarkMode ? 0xff292929 : 0xffffff)), //Dark mode of dashboard
+        theme: ThemeData(
+            scaffoldBackgroundColor: Color(
+                isDarkMode ? 0xff292929 : 0xffffff)), //Dark mode of dashboard
         home: Home()));
   } catch (e) {
     await notifier.show("$e");

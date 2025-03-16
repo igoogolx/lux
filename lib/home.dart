@@ -20,7 +20,6 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-
 Future<void> initClient(CoreManager? coreManager) async {
   await setAutoConnect(coreManager);
   await setAutoLaunch(coreManager);

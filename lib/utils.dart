@@ -18,11 +18,10 @@ Future<String> getHomeDir() async {
   return path.join(appDocumentsDir.path, '${currentVersion.major}.0');
 }
 
-
-Future<Map<String,dynamic>> readJsonFile(String filePath) async {
+Future<Map<String, dynamic>> readJsonFile(String filePath) async {
   var input = await File(filePath).readAsString();
   var map = jsonDecode(input);
-  if(map is Map<String,dynamic>){
+  if (map is Map<String, dynamic>) {
     return map;
   }
   return {};
@@ -31,7 +30,6 @@ Future<Map<String,dynamic>> readJsonFile(String filePath) async {
 void exitApp() async {
   exit(0);
 }
-
 
 Future<void> setAutoConnect(CoreManager? coreManager) async {
   var isAutoConnect = await readAutoConnect();
@@ -42,7 +40,7 @@ Future<void> setAutoConnect(CoreManager? coreManager) async {
       notifier.show("Connect on open");
     } catch (e) {
       String? msg = e.toString();
-      if(e is DioException){
+      if (e is DioException) {
         msg = e.message;
       }
       notifier.show("Fail to connect on open: $msg");
@@ -51,7 +49,7 @@ Future<void> setAutoConnect(CoreManager? coreManager) async {
 }
 
 Future<void> setAutoLaunch(CoreManager? coreManager) async {
-  try{
+  try {
     var isAutoLaunch = await readAutoLaunch();
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     launchAtStartup.setup(
@@ -66,9 +64,7 @@ Future<void> setAutoLaunch(CoreManager? coreManager) async {
     if (isEnabled && !isAutoLaunch) {
       await launchAtStartup.disable();
     }
-  }catch(e){
+  } catch (e) {
     notifier.show("Fail to set auto launch: $e");
   }
-
-
 }

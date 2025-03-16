@@ -1,9 +1,8 @@
-
 import 'package:local_notifier/local_notifier.dart';
 
 class Notifier {
   final _appName = "Lux";
-  Future<void> ensureInitialized()async {
+  Future<void> ensureInitialized() async {
     await localNotifier.setup(
       appName: _appName,
       // The parameter shortcutPolicy only works on Windows
@@ -11,9 +10,9 @@ class Notifier {
     );
   }
 
-  Future<void> show(String body)async{
+  Future<void> show(String body) async {
     LocalNotification notification =
-    LocalNotification(title: _appName, body: body);
+        LocalNotification(title: _appName, body: body);
     await notification.show();
   }
 }

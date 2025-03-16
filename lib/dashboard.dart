@@ -13,7 +13,7 @@ class WebViewDashboard extends StatefulWidget {
   final String urlStr;
   final String homeDir;
 
-  const WebViewDashboard(this.homeDir, this.baseUrl, this.urlStr,  {super.key});
+  const WebViewDashboard(this.homeDir, this.baseUrl, this.urlStr, {super.key});
 
   @override
   State<WebViewDashboard> createState() => _WebViewDashboardState();
@@ -54,9 +54,11 @@ class _WebViewDashboardState extends State<WebViewDashboard> {
     controller.loadRequest(Uri.parse(widget.urlStr));
 
     if (controller.platform is WindowsPlatformWebViewController) {
-      (controller.platform as WindowsPlatformWebViewController).setStatusBar(false);
-      if(kDebugMode){
-        (controller.platform as WindowsPlatformWebViewController).openDevTools();
+      (controller.platform as WindowsPlatformWebViewController)
+          .setStatusBar(false);
+      if (kDebugMode) {
+        (controller.platform as WindowsPlatformWebViewController)
+            .openDevTools();
       }
     }
 
@@ -65,7 +67,7 @@ class _WebViewDashboardState extends State<WebViewDashboard> {
 
   @override
   Widget build(BuildContext context) {
-    if(_controller !=null){
+    if (_controller != null) {
       return Scaffold(
         body: WebViewWidget(controller: _controller as WebViewController),
       );

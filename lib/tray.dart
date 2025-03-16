@@ -19,7 +19,8 @@ Future<void> initSystemTray(
   final Menu menu = Menu();
   final List<MenuItemBase> menuItems = [
     MenuItemLabel(label: 'Lux', enabled: false),
-    MenuItemLabel(label: 'Web Dashboard',  onClicked: (menuItem) => openDashboard()),
+    MenuItemLabel(
+        label: 'Web Dashboard', onClicked: (menuItem) => openDashboard()),
     MenuItemLabel(label: 'Exit', onClicked: (menuItem) => exitApp()),
   ];
 

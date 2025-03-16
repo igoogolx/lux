@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 
-
 class ProcessManager {
   Process? process;
 
@@ -12,7 +11,7 @@ class ProcessManager {
   ProcessManager(this.path, this.args);
 
   Future<void> run() async {
-    if(Platform.isWindows){
+    if (Platform.isWindows) {
       await Process.run(
         'powershell.exe',
         [
@@ -22,15 +21,17 @@ class ProcessManager {
         ],
         runInShell: false,
       );
-    }else{
+    } else {
       process = await Process.start(path, args);
       process?.stdout.transform(utf8.decoder).forEach(debugPrint);
     }
   }
-  void exit(){
+
+  void exit() {
     process?.kill();
   }
-  void watchExit(){
+
+  void watchExit() {
     // watch process kill
     // ref https://github.com/dart-lang/sdk/issues/12170
     if (Platform.isMacOS) {
