@@ -15,7 +15,8 @@ import 'package:version/version.dart';
 import 'package:window_manager/window_manager.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  final String theme;
+  const Home(this.theme, {super.key});
   @override
   State<Home> createState() => _HomeState();
 }
@@ -45,7 +46,7 @@ class _HomeState extends State<Home> with WindowListener {
     final process = ProcessManager(
         corePath, ['-home_dir=$curHomeDir', '-port=$port', '-secret=$secret']);
     var curBaseUrl = 'http://localhost:$port';
-    var curUrlStr = '$curBaseUrl/?client_version=$currentVersion&token=$secret';
+    var curUrlStr = '$curBaseUrl/?client_version=$currentVersion&token=$secret&theme=${widget.theme}';
     var coreManager = CoreManager(curBaseUrl, process, secret, () {
       setState(() {
         isReady.value = true;

@@ -39,11 +39,12 @@ void main(args) async {
     windowManager.show();
 
     var isDarkMode = await readTheme() == ThemeType.dark;
+    var theme = isDarkMode ? "dark" : "light";
     runApp(MaterialApp(
         theme: ThemeData(
             scaffoldBackgroundColor: Color(
                 isDarkMode ? 0xff292929 : 0xffffff)), //Dark mode of dashboard
-        home: Home()));
+        home: Home(theme)));
   } catch (e) {
     await notifier.show("$e");
     exitApp();
