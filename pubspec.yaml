@@ -56,6 +56,7 @@ dependencies:
   uuid: ^3.0.7
   connectivity_plus: ^6.1.1
   launch_at_startup: ^0.4.0
+  tray_manager: ^0.3.2
 
 
 dev_dependencies:
