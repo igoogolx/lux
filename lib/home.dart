@@ -9,6 +9,7 @@ import 'package:lux/tray.dart';
 import 'package:lux/utils.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path/path.dart' as path;
+import 'package:tray_manager/tray_manager.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
 import 'package:version/version.dart';
@@ -26,14 +27,16 @@ Future<void> initClient(CoreManager? coreManager) async {
   await setAutoLaunch(coreManager);
 }
 
-class _HomeState extends State<Home> with WindowListener {
+class _HomeState extends State<Home> with WindowListener, TrayListener {
   String baseUrl = "";
   String urlStr = "";
   String homeDir = "";
+  CoreManager? coreManager;
   ValueNotifier<bool> isReady = ValueNotifier<bool>(false);
   bool hasError = false;
 
   void _init() async {
+    trayManager.addListener(this);
     windowManager.addListener(this);
     await windowManager.setPreventClose(true);
     var corePath = path.join(Paths.assetsBin.path, LuxCoreName.name);
@@ -47,7 +50,7 @@ class _HomeState extends State<Home> with WindowListener {
         corePath, ['-home_dir=$curHomeDir', '-port=$port', '-secret=$secret']);
     var curBaseUrl = 'http://localhost:$port';
     var curUrlStr = '$curBaseUrl/?client_version=$currentVersion&token=$secret&theme=${widget.theme}';
-    var coreManager = CoreManager(curBaseUrl, process, secret, () {
+    coreManager = CoreManager(curBaseUrl, process, secret, () {
       setState(() {
         isReady.value = true;
         windowManager.show();
@@ -57,7 +60,7 @@ class _HomeState extends State<Home> with WindowListener {
         hasError = true;
       });
     });
-    coreManager.run();
+    coreManager?.run();
 
     setState(() {
       homeDir = curHomeDir;
@@ -66,16 +69,7 @@ class _HomeState extends State<Home> with WindowListener {
     });
 
     if (Platform.isWindows) {
-      initSystemTray(() async {
-        final Uri url = Uri.parse(urlStr);
-        launchUrl(url);
-      }, () async {
-        await coreManager.exitCore();
-        exit(0);
-      }, () {
-        windowManager.show();
-        windowManager.focus();
-      });
+      initSystemTray();
     }
 
     isReady.addListener(() {
@@ -89,6 +83,38 @@ class _HomeState extends State<Home> with WindowListener {
   void initState() {
     super.initState();
     _init();
+  }
+
+  @override
+  void dispose() {
+    trayManager.removeListener(this);
+    super.dispose();
+  }
+
+  @override
+  void onTrayIconMouseDown() {
+    windowManager.show();
+    windowManager.focus();
+  }
+
+  @override
+  void onTrayIconRightMouseDown() {
+  }
+
+  @override
+  void onTrayIconRightMouseUp() {
+    trayManager.popUpContextMenu();
+  }
+
+  @override
+  void onTrayMenuItemClick(MenuItem menuItem) async {
+    if (menuItem.key == 'open_dashboard') {
+      final Uri url = Uri.parse(urlStr);
+      launchUrl(url);
+    } else if (menuItem.key == 'exit_app') {
+      await coreManager?.exitCore();
+      exit(0);
+    }
   }
 
   @override
