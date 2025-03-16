@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:launch_at_startup/launch_at_startup.dart';
 import 'package:lux/const/const.dart';
 import 'package:lux/core_manager.dart';
 import 'package:lux/dashboard.dart';
@@ -13,6 +14,7 @@ import 'package:tray_manager/tray_manager.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
 import 'package:version/version.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 import 'package:window_manager/window_manager.dart';
 
 class Home extends StatefulWidget {
@@ -32,8 +34,10 @@ class _HomeState extends State<Home> with WindowListener, TrayListener {
   String urlStr = "";
   String homeDir = "";
   CoreManager? coreManager;
-  ValueNotifier<bool> isReady = ValueNotifier<bool>(false);
+  ValueNotifier<bool> isCoreReady = ValueNotifier<bool>(false);
+  ValueNotifier<bool> isWebviewReady = ValueNotifier<bool>(false);
   bool hasError = false;
+  Widget? dashboardWidget;
 
   void _init() async {
     trayManager.addListener(this);
@@ -52,7 +56,7 @@ class _HomeState extends State<Home> with WindowListener, TrayListener {
     var curUrlStr = '$curBaseUrl/?client_version=$currentVersion&token=$secret&theme=${widget.theme}';
     coreManager = CoreManager(curBaseUrl, process, secret, () {
       setState(() {
-        isReady.value = true;
+        isCoreReady.value = true;
         windowManager.show();
       });
     }, () {
@@ -72,11 +76,31 @@ class _HomeState extends State<Home> with WindowListener, TrayListener {
       initSystemTray();
     }
 
-    isReady.addListener(() {
-      if (isReady.value) {
+    isCoreReady.addListener(() {
+      if (isCoreReady.value) {
         initClient(coreManager);
+        dashboardWidget = WebViewDashboard(homeDir, baseUrl, urlStr,onChannelMessage);
       }
     });
+  }
+
+  onChannelMessage(JavaScriptMessage value){
+    var msg = value.message;
+    debugPrint("channel message from webview :$msg}");
+    switch(msg){
+      case 'enableAutoLaunch':{
+        launchAtStartup.enable();
+      }
+      case 'disableAutoLaunch':{
+        launchAtStartup.disable();
+      }
+      case 'openHomeDir':{
+        launchUrl(Uri.file(homeDir));
+      }
+      case 'ready':{
+        isWebviewReady.value=true;
+      }
+    }
   }
 
   @override
@@ -135,11 +159,11 @@ class _HomeState extends State<Home> with WindowListener, TrayListener {
 
   @override
   Widget build(BuildContext context) {
-    if (!isReady.value) {
+    if (!isWebviewReady.value) {
       return Scaffold(
         body: AppProgressIndicator(),
       );
     }
-    return Scaffold(body: WebViewDashboard(homeDir, baseUrl, urlStr));
+    return Scaffold(body: dashboardWidget);
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:launch_at_startup/launch_at_startup.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
@@ -13,8 +12,9 @@ class WebViewDashboard extends StatefulWidget {
   final String baseUrl;
   final String urlStr;
   final String homeDir;
+  final void Function(JavaScriptMessage) onChannelMessage;
 
-  const WebViewDashboard(this.homeDir, this.baseUrl, this.urlStr, {super.key});
+  const WebViewDashboard(this.homeDir, this.baseUrl, this.urlStr, this.onChannelMessage, {super.key});
 
   @override
   State<WebViewDashboard> createState() => _WebViewDashboardState();
@@ -52,21 +52,7 @@ class _WebViewDashboardState extends State<WebViewDashboard> {
       }),
     );
 
-    controller.addJavaScriptChannel('ClientChannel', onMessageReceived:(JavaScriptMessage value){
-      var msg = value.message;
-      debugPrint("channel message from webview :$msg}");
-      switch(msg){
-        case 'enableAutoLaunch':{
-          launchAtStartup.enable();
-        }
-        case 'disableAutoLaunch':{
-          launchAtStartup.disable();
-        }
-        case 'openHomeDir':{
-          launchUrl(Uri.file(widget.homeDir));
-        }
-      }
-    });
+    controller.addJavaScriptChannel('ClientChannel', onMessageReceived:widget.onChannelMessage);
 
     controller.loadRequest(Uri.parse(widget.urlStr));
 
