@@ -12,7 +12,6 @@
 #include <fullscreen_window/fullscreen_window_plugin_c_api.h>
 #include <local_notifier/local_notifier_plugin.h>
 #include <screen_retriever_windows/screen_retriever_windows_plugin_c_api.h>
-#include <system_tray/system_tray_plugin.h>
 #include <tray_manager/tray_manager_plugin.h>
 #include <url_launcher_windows/url_launcher_windows.h>
 #include <webview_win_floating/webview_win_floating_plugin_c_api.h>
@@ -31,8 +30,6 @@ void RegisterPlugins(flutter::PluginRegistry* registry) {
       registry->GetRegistrarForPlugin("LocalNotifierPlugin"));
   ScreenRetrieverWindowsPluginCApiRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("ScreenRetrieverWindowsPluginCApi"));
-  SystemTrayPluginRegisterWithRegistrar(
-      registry->GetRegistrarForPlugin("SystemTrayPlugin"));
   TrayManagerPluginRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("TrayManagerPlugin"));
   UrlLauncherWindowsRegisterWithRegistrar(
