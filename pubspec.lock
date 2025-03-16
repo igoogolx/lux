@@ -665,12 +665,11 @@ packages:
   webview_win_floating:
     dependency: "direct main"
     description:
-      path: "."
-      ref: master
-      resolved-ref: "25c44f18abbaab749c4b5c0127fa3e113ab4fceb"
-      url: "https://github.com/igoogolx/webview_win_floating.git"
-    source: git
-    version: "2.2.9"
+      name: webview_win_floating
+      sha256: "457aab1cca67b2070f7693de7312ebb0e6f6068fbac0a2ffb19fdd2f0720656c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.10"
   win32:
     dependency: transitive
     description:
