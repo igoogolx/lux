@@ -21,16 +21,16 @@ class Home extends StatefulWidget {
 }
 
 
-void initClient(CoreManager? coreManager) {
-  setAutoConnect(coreManager);
-  setAutoLaunch(coreManager);
+Future<void> initClient(CoreManager? coreManager) async {
+  await setAutoConnect(coreManager);
+  await setAutoLaunch(coreManager);
 }
 
 class _HomeState extends State<Home> with WindowListener {
   String baseUrl = "";
   String urlStr = "";
   String homeDir = "";
-  bool isReady = false;
+  ValueNotifier<bool> isReady = ValueNotifier<bool>(false);
   bool hasError = false;
 
   void _init() async {
@@ -49,7 +49,7 @@ class _HomeState extends State<Home> with WindowListener {
     var curUrlStr = '$curBaseUrl/?client_version=$currentVersion&token=$secret';
     var coreManager = CoreManager(curBaseUrl, process, secret, () {
       setState(() {
-        isReady = true;
+        isReady.value = true;
         windowManager.show();
       });
     }, () {
@@ -78,7 +78,11 @@ class _HomeState extends State<Home> with WindowListener {
       });
     }
 
-    initClient(coreManager);
+    isReady.addListener(() {
+      if (isReady.value) {
+        initClient(coreManager);
+      }
+    });
   }
 
   @override
@@ -105,7 +109,7 @@ class _HomeState extends State<Home> with WindowListener {
 
   @override
   Widget build(BuildContext context) {
-    if (!isReady) {
+    if (!isReady.value) {
       return AppProgressIndicator();
     }
     return Scaffold(body: WebViewDashboard(homeDir, baseUrl, urlStr));

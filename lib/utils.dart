@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:launch_at_startup/launch_at_startup.dart';
 import 'package:lux/core_config.dart';
 import 'package:lux/core_manager.dart';
@@ -32,7 +33,7 @@ void exitApp() async {
 }
 
 
-void setAutoConnect(CoreManager? coreManager) async {
+Future<void> setAutoConnect(CoreManager? coreManager) async {
   var isAutoConnect = await readAutoConnect();
   if (isAutoConnect) {
     try {
@@ -40,24 +41,34 @@ void setAutoConnect(CoreManager? coreManager) async {
       await coreManager?.start();
       notifier.show("Connect on open");
     } catch (e) {
-      notifier.show("Fail to connect on open: $e");
+      String? msg = e.toString();
+      if(e is DioException){
+        msg = e.message;
+      }
+      notifier.show("Fail to connect on open: $msg");
     }
   }
 }
 
-void setAutoLaunch(CoreManager? coreManager) async {
-  var isAutoLaunch = await readAutoLaunch();
-  PackageInfo packageInfo = await PackageInfo.fromPlatform();
-  launchAtStartup.setup(
-    appName: packageInfo.appName,
-    appPath: Platform.resolvedExecutable,
-  );
-  var isEnabled = await launchAtStartup.isEnabled();
-  if (isAutoLaunch && !isEnabled) {
-    await launchAtStartup.enable();
-    return;
+Future<void> setAutoLaunch(CoreManager? coreManager) async {
+  try{
+    var isAutoLaunch = await readAutoLaunch();
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    launchAtStartup.setup(
+      appName: packageInfo.appName,
+      appPath: Platform.resolvedExecutable,
+    );
+    var isEnabled = await launchAtStartup.isEnabled();
+    if (isAutoLaunch && !isEnabled) {
+      await launchAtStartup.enable();
+      return;
+    }
+    if (isEnabled && !isAutoLaunch) {
+      await launchAtStartup.disable();
+    }
+  }catch(e){
+    notifier.show("Fail to set auto launch: $e");
   }
-  if (isEnabled && !isAutoLaunch) {
-    await launchAtStartup.disable();
-  }
+
+
 }
