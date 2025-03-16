@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:lux/const/const.dart';
+import 'package:lux/core_config.dart';
 import 'package:lux/elevate.dart';
 import 'package:lux/home.dart';
 import 'package:lux/notifier.dart';
@@ -38,7 +39,10 @@ void main(args) async {
     windowManager.waitUntilReadyToShow(windowOptions, () async {});
     windowManager.show();
 
-    runApp(MaterialApp(home: Home()));
+    var isDarkMode = await readTheme() ==ThemeType.dark;
+    runApp(MaterialApp(
+        theme:  ThemeData(scaffoldBackgroundColor: Color(isDarkMode ? 0xff292929 : 0xffffff)), //Dark mode of dashboard
+        home: Home()));
   } catch (e) {
     await notifier.show("$e");
     exitApp();

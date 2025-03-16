@@ -110,7 +110,9 @@ class _HomeState extends State<Home> with WindowListener {
   @override
   Widget build(BuildContext context) {
     if (!isReady.value) {
-      return AppProgressIndicator();
+      return Scaffold(
+        body: AppProgressIndicator(),
+      );
     }
     return Scaffold(body: WebViewDashboard(homeDir, baseUrl, urlStr));
   }

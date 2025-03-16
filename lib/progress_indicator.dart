@@ -35,7 +35,6 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator>
   Widget build(BuildContext context) {
     return Center(
      child: CircularProgressIndicator(
-       value: controller.value,
        semanticsLabel: 'Circular progress indicator',
      ),
     );

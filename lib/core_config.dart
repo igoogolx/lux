@@ -16,12 +16,19 @@ Future<Map<String,dynamic>> readSetting() async {
   return {};
 }
 
-Future<String> readTheme() async {
+enum ThemeType {
+  light,
+  dark,
+}
+
+Future<ThemeType> readTheme() async {
   var setting = await readSetting();
   if (setting.containsKey('theme') && setting['theme'] is String) {
-    return setting['theme'] as String;
+    if( setting['theme']=='dark'){
+      return ThemeType.dark;
+    }
   }
-  return "";
+  return ThemeType.dark;
 }
 
 Future<bool> readAutoLaunch() async {
