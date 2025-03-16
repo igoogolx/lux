@@ -35,9 +35,11 @@ void main(args) async {
       skipTaskbar: false,
     );
 
-    windowManager.waitUntilReadyToShow(windowOptions, () async {});
-    windowManager.center();
-    windowManager.show();
+    windowManager.waitUntilReadyToShow(windowOptions, () async {
+      windowManager.center();
+      windowManager.show();
+    });
+
 
     var isDarkMode = await readTheme() == ThemeType.dark;
     var theme = isDarkMode ? "dark" : "light";
