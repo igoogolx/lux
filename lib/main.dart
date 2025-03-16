@@ -36,6 +36,7 @@ void main(args) async {
     );
 
     windowManager.waitUntilReadyToShow(windowOptions, () async {});
+    windowManager.center();
     windowManager.show();
 
     var isDarkMode = await readTheme() == ThemeType.dark;
