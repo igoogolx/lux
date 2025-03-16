@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:launch_at_startup/launch_at_startup.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
@@ -50,6 +51,22 @@ class _WebViewDashboardState extends State<WebViewDashboard> {
         await windowManager.focus();
       }),
     );
+
+    controller.addJavaScriptChannel('ClientChannel', onMessageReceived:(JavaScriptMessage value){
+      var msg = value.message;
+      debugPrint("channel message from webview :$msg}");
+      switch(msg){
+        case 'enableAutoLaunch':{
+          launchAtStartup.enable();
+        }
+        case 'disableAutoLaunch':{
+          launchAtStartup.disable();
+        }
+        case 'openHomeDir':{
+          launchUrl(Uri.file(widget.homeDir));
+        }
+      }
+    });
 
     controller.loadRequest(Uri.parse(widget.urlStr));
 
