@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_desktop_sleep/flutter_desktop_sleep.dart';
 import 'package:flutter_window_close/flutter_window_close.dart';
 import 'package:lux/notifier.dart';
 import 'package:lux/process_manager.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 
 Future<int> findAvailablePort(int startPort, int endPort) async {
   for (int port = startPort; port <= endPort; port++) {
@@ -35,6 +36,8 @@ class CoreManager {
   final String token;
   final ProcessManager? coreProcess;
   final String baseUrl;
+  final Function onReady;
+  final Function onError;
   final FlutterDesktopSleep flutterDesktopSleep = FlutterDesktopSleep();
   final dio = Dio();
   var needRestart = false;
@@ -72,7 +75,8 @@ class CoreManager {
     }
   }
 
-  CoreManager(this.baseUrl, this.coreProcess, this.token) {
+  CoreManager(
+      this.baseUrl, this.coreProcess, this.token, this.onReady, this.onError) {
     dio.transformer = BackgroundTransformer()..jsonDecodeCallback = parseJson;
     dio.options.receiveTimeout = const Duration(seconds: 3);
     dio.interceptors.add(InterceptorsWrapper(onRequest:
@@ -144,16 +148,16 @@ class CoreManager {
   }
 
   Future<void> exitCore() async {
-    if(Platform.isWindows){
+    if (Platform.isWindows) {
       try {
         await dio.post('$baseUrl/manager/exit');
       } catch (e) {
         debugPrint(e.toString());
       }
     }
-    try{
+    try {
       coreProcess?.exit();
-    }catch(e){
+    } catch (e) {
       debugPrint(e.toString());
     }
   }
@@ -161,5 +165,13 @@ class CoreManager {
   Future<void> restart() async {
     coreProcess?.exit();
     await coreProcess?.run();
+  }
+
+  Future<void> run() async {
+    coreProcess?.run().then((_) {
+      ping().then((value) {
+        onReady();
+      }).catchError(onError);
+    }).catchError(onError);
   }
 }
