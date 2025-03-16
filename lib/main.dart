@@ -36,6 +36,7 @@ void main(args) async {
     );
 
     windowManager.waitUntilReadyToShow(windowOptions, () async {});
+    windowManager.show();
 
     runApp(MaterialApp(home: Home()));
   } catch (e) {
