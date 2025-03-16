@@ -50,6 +50,7 @@ class _HomeState extends State<Home> with WindowListener {
     var coreManager = CoreManager(curBaseUrl, process, secret, () {
       setState(() {
         isReady = true;
+        windowManager.show();
       });
     }, () {
       setState(() {
