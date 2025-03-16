@@ -99,11 +99,11 @@ class _HomeState extends State<Home> with WindowListener, TrayListener {
 
   @override
   void onTrayIconRightMouseDown() {
+    trayManager.popUpContextMenu();
   }
 
   @override
   void onTrayIconRightMouseUp() {
-    trayManager.popUpContextMenu();
   }
 
   @override
