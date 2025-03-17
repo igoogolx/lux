@@ -27,9 +27,10 @@ class Paths {
   static Directory get assets {
     File mainFile = File(Platform.resolvedExecutable);
     String assetsPath = '../data/flutter_assets/assets';
-    if (Platform.isMacOS)
+    if (Platform.isMacOS) {
       assetsPath =
           '../../Frameworks/App.framework/Resources/flutter_assets/assets';
+    }
     return Directory(path.normalize(path.join(mainFile.path, assetsPath)));
   }
 
