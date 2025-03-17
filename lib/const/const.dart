@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 import 'package:path/path.dart' as path;
 
 class LuxCoreName {
@@ -38,3 +39,5 @@ class Paths {
     return Directory(path.join(assets.path, 'bin'));
   }
 }
+
+const darkBackgroundColor = Color(0xff292929);
