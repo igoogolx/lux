@@ -65,6 +65,13 @@ class _WebViewDashboardState extends State<WebViewDashboard> {
       }
     }
 
+    if (controller.platform is WebKitWebViewPlatform) {
+      if(kDebugMode){
+        (controller.platform as WebKitWebViewController)
+            .setInspectable(true);
+      }
+    }
+
     _controller = controller;
   }
 

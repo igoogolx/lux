@@ -40,4 +40,4 @@ class Paths {
   }
 }
 
-const darkBackgroundColor = Color(0xff292929);
+const darkBackgroundColor = Color(0xff000000);

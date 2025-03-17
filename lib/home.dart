@@ -79,7 +79,6 @@ class _HomeState extends State<Home> with WindowListener, TrayListener {
     isCoreReady.addListener(() {
       if (isCoreReady.value) {
         initClient(coreManager);
-        dashboardWidget = WebViewDashboard(homeDir, baseUrl, urlStr,onChannelMessage);
       }
     });
   }
@@ -159,11 +158,11 @@ class _HomeState extends State<Home> with WindowListener, TrayListener {
 
   @override
   Widget build(BuildContext context) {
-    if (!isWebviewReady.value) {
+    if (!isCoreReady.value) {
       return Scaffold(
         body: AppProgressIndicator(),
       );
     }
-    return Scaffold(body: dashboardWidget);
+    return Scaffold(body: WebViewDashboard(homeDir, baseUrl, urlStr,onChannelMessage));
   }
 }
