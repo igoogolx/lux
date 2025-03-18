@@ -28,7 +28,7 @@ Future<ThemeType> readTheme() async {
       return ThemeType.dark;
     }
   }
-  return ThemeType.dark;
+  return ThemeType.light;
 }
 
 Future<bool> readAutoLaunch() async {
