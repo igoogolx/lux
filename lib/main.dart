@@ -44,9 +44,10 @@ void main(args) async {
 
     var isDarkMode = await readTheme() == ThemeType.dark;
     var theme = isDarkMode ? "dark" : "light";
+    debugPrint("using theme: $theme");
     runApp(MaterialApp(
         theme: ThemeData(
-            scaffoldBackgroundColor: isDarkMode ? darkBackgroundColor : null), //Dark mode of dashboard
+            scaffoldBackgroundColor: isDarkMode ? Color(darkBackgroundColor) : null), //Dark mode of dashboard
         home: Home(theme)));
   } catch (e) {
     await notifier.show("$e");

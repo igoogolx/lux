@@ -158,11 +158,6 @@ class _HomeState extends State<Home> with WindowListener, TrayListener {
 
   @override
   Widget build(BuildContext context) {
-    if (!isCoreReady.value) {
-      return Scaffold(
-        body: AppProgressIndicator(),
-      );
-    }
-    return Scaffold(body: WebViewDashboard(homeDir, baseUrl, urlStr,onChannelMessage));
+    return Scaffold(body: !isCoreReady.value ? AppProgressIndicator() : WebViewDashboard(homeDir, baseUrl, urlStr,onChannelMessage));
   }
 }
