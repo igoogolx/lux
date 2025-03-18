@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lux/const/const.dart';
 import 'package:lux/core_config.dart';
@@ -18,7 +19,7 @@ void main(args) async {
     await windowManager.ensureInitialized();
 
     var corePath = path.join(Paths.assetsBin.path, LuxCoreName.name);
-    if (Platform.isMacOS) {
+    if (Platform.isMacOS && !kDebugMode) {
       var owner = await getFileOwner(corePath);
       if (owner != "root") {
         var code = await elevate(corePath, "Lux elevation service");
