@@ -85,7 +85,7 @@ class _HomeState extends State<Home> with WindowListener, TrayListener {
 
   onChannelMessage(JavaScriptMessage value){
     var msg = value.message;
-    debugPrint("channel message from webview :$msg}");
+    debugPrint("channel message from webview :$msg");
     switch(msg){
       case 'enableAutoLaunch':{
         launchAtStartup.enable();
