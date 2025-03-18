@@ -65,7 +65,7 @@ class _WebViewDashboardState extends State<WebViewDashboard> {
       }
     }
 
-    if (controller.platform is WebKitWebViewPlatform) {
+    if (controller.platform is WebKitWebViewController) {
       if(kDebugMode){
         (controller.platform as WebKitWebViewController)
             .setInspectable(true);
@@ -78,9 +78,7 @@ class _WebViewDashboardState extends State<WebViewDashboard> {
   @override
   Widget build(BuildContext context) {
     if (_controller != null) {
-      return Scaffold(
-        body: WebViewWidget(controller: _controller as WebViewController),
-      );
+      return WebViewWidget(controller: _controller as WebViewController);
     }
     return Text("Disposed");
   }
