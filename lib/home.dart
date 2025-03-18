@@ -54,6 +54,7 @@ class _HomeState extends State<Home> with WindowListener, TrayListener {
         corePath, ['-home_dir=$curHomeDir', '-port=$port', '-secret=$secret']);
     var curBaseUrl = 'http://localhost:$port';
     var curUrlStr = '$curBaseUrl/?client_version=$currentVersion&token=$secret&theme=${widget.theme}';
+    debugPrint("dashboard url: $curUrlStr");
     coreManager = CoreManager(curBaseUrl, process, secret, () {
       setState(() {
         isCoreReady.value = true;
