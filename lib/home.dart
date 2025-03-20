@@ -112,6 +112,7 @@ class _HomeState extends State<Home> with WindowListener, TrayListener {
   @override
   void dispose() {
     trayManager.removeListener(this);
+    windowManager.removeListener(this);
     super.dispose();
   }
 
