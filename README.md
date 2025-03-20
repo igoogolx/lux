@@ -22,7 +22,7 @@ The light desktop proxy client.
 <br />
 <br />
 <b>Download for </b>
-macOS
+macOS(require macOS 13+)
 ·
 Windows(require  <a href="https://developer.microsoft.com/en-us/microsoft-edge/webview2">webview2</a>)
 

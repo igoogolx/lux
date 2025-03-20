@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
+import 'package:webview_win_floating/webview.dart';
 import 'package:webview_win_floating/webview_plugin.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:path/path.dart' as path;
@@ -10,8 +12,9 @@ class WebViewDashboard extends StatefulWidget {
   final String baseUrl;
   final String urlStr;
   final String homeDir;
+  final void Function(JavaScriptMessage) onChannelMessage;
 
-  const WebViewDashboard(this.homeDir, this.baseUrl, this.urlStr,  {super.key});
+  const WebViewDashboard(this.homeDir, this.baseUrl, this.urlStr, this.onChannelMessage, {super.key});
 
   @override
   State<WebViewDashboard> createState() => _WebViewDashboardState();
@@ -49,16 +52,33 @@ class _WebViewDashboardState extends State<WebViewDashboard> {
       }),
     );
 
+    controller.addJavaScriptChannel('ClientChannel', onMessageReceived:widget.onChannelMessage);
+
     controller.loadRequest(Uri.parse(widget.urlStr));
+
+    if (controller.platform is WindowsPlatformWebViewController) {
+      (controller.platform as WindowsPlatformWebViewController)
+          .setStatusBar(false);
+      if (kDebugMode) {
+        (controller.platform as WindowsPlatformWebViewController)
+            .openDevTools();
+      }
+    }
+
+    if (controller.platform is WebKitWebViewController) {
+      if(kDebugMode){
+        (controller.platform as WebKitWebViewController)
+            .setInspectable(true);
+      }
+    }
+
     _controller = controller;
   }
 
   @override
   Widget build(BuildContext context) {
-    if(_controller !=null){
-      return Scaffold(
-        body: WebViewWidget(controller: _controller as WebViewController),
-      );
+    if (_controller != null) {
+      return WebViewWidget(controller: _controller as WebViewController);
     }
     return Text("Disposed");
   }

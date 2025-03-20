@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 
-
 class AppProgressIndicator extends StatefulWidget {
   const AppProgressIndicator({super.key});
 
   @override
-  State<AppProgressIndicator> createState() =>
-      _AppProgressIndicatorState();
+  State<AppProgressIndicator> createState() => _AppProgressIndicatorState();
 }
 
 class _AppProgressIndicatorState extends State<AppProgressIndicator>
@@ -19,8 +17,8 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator>
       vsync: this,
       duration: const Duration(seconds: 1),
     )..addListener(() {
-      setState(() {});
-    });
+        setState(() {});
+      });
     controller.repeat(reverse: false);
     super.initState();
   }
@@ -34,10 +32,9 @@ class _AppProgressIndicatorState extends State<AppProgressIndicator>
   @override
   Widget build(BuildContext context) {
     return Center(
-     child: CircularProgressIndicator(
-       value: controller.value,
-       semanticsLabel: 'Circular progress indicator',
-     ),
+      child: CircularProgressIndicator(
+        semanticsLabel: 'Circular progress indicator',
+      ),
     );
   }
 }

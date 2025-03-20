@@ -1,27 +1,34 @@
 import 'package:lux/utils.dart';
 import 'package:path/path.dart' as path;
 
-Future<Map<String,dynamic>> readConfig() async {
-  var homeDir  = await getHomeDir();
+Future<Map<String, dynamic>> readConfig() async {
+  var homeDir = await getHomeDir();
   var configPath = path.join(homeDir, 'config.json');
   return await readJsonFile(configPath);
 }
 
-
-Future<Map<String,dynamic>> readSetting() async {
+Future<Map<String, dynamic>> readSetting() async {
   final config = await readConfig();
-  if (config.containsKey('setting') && config['setting'] is Map<String,dynamic>) {
-    return config['setting'] as Map<String,dynamic>;
+  if (config.containsKey('setting') &&
+      config['setting'] is Map<String, dynamic>) {
+    return config['setting'] as Map<String, dynamic>;
   }
   return {};
 }
 
-Future<String> readTheme() async {
+enum ThemeType {
+  light,
+  dark,
+}
+
+Future<ThemeType> readTheme() async {
   var setting = await readSetting();
   if (setting.containsKey('theme') && setting['theme'] is String) {
-    return setting['theme'] as String;
+    if (setting['theme'] == 'dark') {
+      return ThemeType.dark;
+    }
   }
-  return "";
+  return ThemeType.light;
 }
 
 Future<bool> readAutoLaunch() async {
@@ -39,6 +46,3 @@ Future<bool> readAutoConnect() async {
   }
   return false;
 }
-
-
-
