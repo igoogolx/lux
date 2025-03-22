@@ -697,10 +697,11 @@ packages:
   webview_win_floating:
     dependency: "direct main"
     description:
-      name: webview_win_floating
-      sha256: "457aab1cca67b2070f7693de7312ebb0e6f6068fbac0a2ffb19fdd2f0720656c"
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: master
+      resolved-ref: db711ba253061c735bd23471b597089439df3512
+      url: "https://github.com/igoogolx/webview_win_floating.git"
+    source: git
     version: "2.2.10"
   win32:
     dependency: transitive
