@@ -47,7 +47,7 @@ void main(args) async {
     debugPrint("using theme: $theme");
     runApp(MaterialApp(
         theme: ThemeData(
-            scaffoldBackgroundColor: isDarkMode ? Color(darkBackgroundColor) : null), //Dark mode of dashboard
+            scaffoldBackgroundColor: isDarkMode ? Color(darkBackgroundColor) : Colors.white), //Dark mode of dashboard
         home: Home(theme)));
   } catch (e) {
     await notifier.show("$e");
