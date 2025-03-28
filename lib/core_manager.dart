@@ -38,6 +38,7 @@ class CoreManager {
   final String baseUrl;
   final Function onReady;
   final Function onError;
+  final Function onOsSleep;
   final FlutterDesktopSleep flutterDesktopSleep = FlutterDesktopSleep();
   final dio = Dio();
   var needRestart = false;
@@ -45,6 +46,7 @@ class CoreManager {
   Future<void> powerMonitorHandler(String? s) async {
     if (s != null) {
       if (s == 'sleep') {
+        onOsSleep();
         final managerRes = await dio.get('$baseUrl/manager');
         var isStarted = managerRes.data['isStarted'];
         if (isStarted is bool && isStarted) {
@@ -76,7 +78,7 @@ class CoreManager {
   }
 
   CoreManager(
-      this.baseUrl, this.coreProcess, this.token, this.onReady, this.onError) {
+      this.baseUrl, this.coreProcess, this.token, this.onReady, this.onError, this.onOsSleep) {
     dio.transformer = BackgroundTransformer()..jsonDecodeCallback = parseJson;
     dio.options.receiveTimeout = const Duration(seconds: 3);
     dio.interceptors.add(InterceptorsWrapper(onRequest:

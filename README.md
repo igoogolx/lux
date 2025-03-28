@@ -16,7 +16,7 @@
 [![Downloads][downloads-shield]][downloads-url]
 
 <h3 align="center">Lux</h3>
-The light desktop proxy client.
+A light desktop proxy app.
 <br />
 <a href="https://igoogolx.github.io/lux-docs/"><strong>lux-docs »</strong></a>
 <br />

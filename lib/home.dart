@@ -64,6 +64,13 @@ class _HomeState extends State<Home> with WindowListener, TrayListener {
       setState(() {
         hasError = true;
       });
+    }, () async {
+      if(Platform.isMacOS){
+        var isFullScreen = await windowManager.isFullScreen();
+        if (isFullScreen){
+          await windowManager.setFullScreen(false);
+        }
+      }
     });
     coreManager?.run();
 

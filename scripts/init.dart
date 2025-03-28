@@ -13,37 +13,9 @@ final assetsPath =
 final binDir = Directory(path.join(assetsPath, 'bin'));
 
 const rawCoreName = 'itun2socks';
-const rawCoreVersion = '1.27.7';
-const gsudoVersion = '2.6.0';
+const rawCoreVersion = '1.28.0';
 
 
-Future downloadGsudo(String token) async {
-  final dio = Dio();
-  dio.options.headers = {HttpHeaders.authorizationHeader: 'Bear $token'};
-  var name ="gsudo";
-  final tempFile = File(path.join(binDir.path, '$name.temp'));
-
-  print('Downloading $name');
-  await dio.download('https://github.com/gerardog/gsudo/releases/download/v$gsudoVersion/gsudo.portable.zip', tempFile.path);
-  print('Download Success');
-
-  print('Unarchiving $name');
-  final tempBytes = await tempFile.readAsBytes();
-
-
-
-  final file = ZipDecoder()
-      .decodeBytes(tempBytes)
-      .findFile('x64/gsudo.exe');
-  if (file == null) {
-    throw Exception("No Found");
-  }
-  print(file.name);
-  await File(path.join(binDir.path, '$name.exe'))
-      .writeAsBytes(file.content);
-  await tempFile.delete();
-  print('Unarchive Success');
-}
 
 Future downloadLatestCore(String arch, String token) async {
   final dio = Dio();
@@ -112,11 +84,6 @@ void main(List<String> arguments) async {
     }
     await binDir.create();
 
-    //TODO: v1.30.0
-
-    // if(Platform.isWindows){
-    //   await downloadGsudo(argResults[secret]);
-    // }
 
     await downloadLatestCore(
         argResults[targetArch] as String, argResults[secret]);
