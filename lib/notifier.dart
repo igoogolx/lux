@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:lux/const/const.dart';
 
 class Notifier {
   final _appName = "Lux";
@@ -15,7 +18,7 @@ class Notifier {
 
     WindowsInitializationSettings initializationSettingsWindows =
         WindowsInitializationSettings(
-      iconPath: "assets/app_icon.ico",
+      iconPath: Paths.appIcon,
       appName: _appName,
       appUserModelId: 'com.igoogolx.lux',
       //keep guid the same as inno setup
@@ -40,7 +43,7 @@ class Notifier {
         windows: WindowsNotificationDetails());
 
     await flutterLocalNotificationsPlugin
-        .show(id++, _appName, body, notificationDetails, payload: "");
+        .show(id++, Platform.isMacOS ? _appName : "", body, notificationDetails, payload: "");
   }
 }
 
