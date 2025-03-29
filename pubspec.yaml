@@ -56,6 +56,7 @@ dependencies:
   connectivity_plus: ^6.1.1
   launch_at_startup: ^0.4.0
   tray_manager: ^0.4.0
+  flutter_local_notifications: ^19.0.0
 
 
 dev_dependencies:
