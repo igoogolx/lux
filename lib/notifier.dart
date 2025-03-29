@@ -15,6 +15,7 @@ class Notifier {
 
     WindowsInitializationSettings initializationSettingsWindows =
         WindowsInitializationSettings(
+      iconPath: "assets/app_icon.ico",
       appName: _appName,
       appUserModelId: 'com.igoogolx.lux',
       //keep guid the same as inno setup
