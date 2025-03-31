@@ -104,6 +104,9 @@ class _HomeState extends State<Home> with WindowListener, TrayListener {
       case 'openHomeDir':{
         launchUrl(Uri.file(homeDir));
       }
+      case 'openWebDashboard':{
+        launchUrl(Uri.parse(urlStr));
+      }
       case 'ready':{
         isWebviewReady.value=true;
       }
