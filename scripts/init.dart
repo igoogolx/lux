@@ -13,7 +13,7 @@ final assetsPath =
 final binDir = Directory(path.join(assetsPath, 'bin'));
 
 const rawCoreName = 'itun2socks';
-const rawCoreVersion = '1.28.1-beat.7';
+const rawCoreVersion = '1.28.1-beat.8';
 
 
 
