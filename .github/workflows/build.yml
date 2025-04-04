@@ -22,7 +22,7 @@ jobs:
         with:
           flutter-version: '3.29.2'
           channel: 'stable'
-      - run: dart pub global activate flutter_distributor
+      - run: dart pub global activate fastforge
       - run: flutter pub get
       - if: matrix.os == 'macos-14'
         run: |
@@ -31,7 +31,7 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           npm install -g appdmg
           dart run scripts/init.dart -a 'arm64' -s ${{ secrets.GITHUB_TOKEN }} 
-          flutter_distributor release --name ${{ matrix.os }}
+          fastforge release --name ${{ matrix.os }}
           mv dist/${VERSION}/lux-${VERSION}-macos.dmg dist/${VERSION}/lux-${VERSION}-arm64-macos.dmg
 
       - if: matrix.os == 'macos-13'
@@ -41,7 +41,7 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           npm install -g appdmg
           dart run scripts/init.dart -a 'amd64' -s ${{ secrets.GITHUB_TOKEN }} 
-          flutter_distributor release --name ${{ matrix.os }}
+          fastforge release --name ${{ matrix.os }}
           mv dist/${VERSION}/lux-${VERSION}-macos.dmg dist/${VERSION}/lux-${VERSION}-amd64-macos.dmg
 
       - if: matrix.os == 'windows-latest'
@@ -51,7 +51,7 @@ jobs:
           cp -Force C:\Windows\System32\vcruntime140.dll C:\temp\dll\vcruntime140.dll
           cp -Force C:\Windows\System32\vcruntime140_1.dll C:\temp\dll\vcruntime140_1.dll
           dart run scripts/init.dart
-          flutter_distributor release --name ${{ matrix.os }}
+          fastforge release --name ${{ matrix.os }}
 
       - uses: actions/upload-artifact@v4
         with:
@@ -80,7 +80,7 @@ jobs:
       - name: GH Release
         uses: softprops/action-gh-release@v2
         with:
-          draft: true
+          prerelease: ${{ contains(github.ref, '-beat.') }}
           files: |
             checksum.txt
             artifact/*

@@ -1,19 +1,49 @@
-import 'package:local_notifier/local_notifier.dart';
+import 'dart:io';
+
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:lux/const/const.dart';
 
 class Notifier {
   final _appName = "Lux";
+  final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  var id = 0;
+
   Future<void> ensureInitialized() async {
-    await localNotifier.setup(
+    final DarwinInitializationSettings initializationSettingsDarwin =
+        DarwinInitializationSettings(
+      requestAlertPermission: false,
+      requestBadgePermission: false,
+      requestSoundPermission: false,
+    );
+
+    WindowsInitializationSettings initializationSettingsWindows =
+        WindowsInitializationSettings(
+      iconPath: Paths.appIcon,
       appName: _appName,
-      // The parameter shortcutPolicy only works on Windows
-      shortcutPolicy: ShortcutPolicy.requireCreate,
+      appUserModelId: 'com.igoogolx.lux',
+      //keep guid the same as inno setup
+      guid: '80DF132E-434A-4DAB-9BC8-48A79C8383B9',
+    );
+
+    final InitializationSettings initializationSettings =
+        InitializationSettings(
+      macOS: initializationSettingsDarwin,
+      windows: initializationSettingsWindows,
+    );
+    await flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
     );
   }
 
   Future<void> show(String body) async {
-    LocalNotification notification =
-        LocalNotification(title: _appName, body: body);
-    await notification.show();
+    NotificationDetails notificationDetails = NotificationDetails(
+        macOS: DarwinNotificationDetails(
+          categoryIdentifier: 'plainCategory',
+        ),
+        windows: WindowsNotificationDetails());
+
+    await flutterLocalNotificationsPlugin
+        .show(id++, Platform.isMacOS ? _appName : "", body, notificationDetails, payload: "");
   }
 }
 

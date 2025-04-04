@@ -2,18 +2,26 @@ import 'package:lux/utils.dart';
 import 'package:path/path.dart' as path;
 
 Future<Map<String, dynamic>> readConfig() async {
-  var homeDir = await getHomeDir();
-  var configPath = path.join(homeDir, 'config.json');
-  return await readJsonFile(configPath);
+  try{
+    var homeDir = await getHomeDir();
+    var configPath = path.join(homeDir, 'config.json');
+    return await readJsonFile(configPath);
+  }catch(e) {
+    return {};
+  }
 }
 
 Future<Map<String, dynamic>> readSetting() async {
-  final config = await readConfig();
-  if (config.containsKey('setting') &&
-      config['setting'] is Map<String, dynamic>) {
-    return config['setting'] as Map<String, dynamic>;
+  try{
+    final config = await readConfig();
+    if (config.containsKey('setting') &&
+        config['setting'] is Map<String, dynamic>) {
+      return config['setting'] as Map<String, dynamic>;
+    }
+    return {};
+  }catch(e){
+    return {};
   }
-  return {};
 }
 
 enum ThemeType {

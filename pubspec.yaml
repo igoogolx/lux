@@ -1,5 +1,5 @@
 name: lux
-description: A light desktop tun proxy client.
+description: A light desktop proxy app.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.30.1
+version: 1.31.0
 
 environment:
   sdk: '>=3.0.6 <4.0.0'
@@ -43,7 +43,6 @@ dependencies:
   package_info_plus: ^8.2.1
   args: ^2.4.2
   flutter_desktop_sleep: ^0.0.2
-  local_notifier: ^0.1.5
   flutter_window_close:
     git:
       url: https://github.com/igoogolx/flutter_window_close.git
@@ -56,6 +55,7 @@ dependencies:
   connectivity_plus: ^6.1.1
   launch_at_startup: ^0.4.0
   tray_manager: ^0.4.0
+  flutter_local_notifications: ^19.0.0
 
 
 dev_dependencies:
