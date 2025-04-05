@@ -80,8 +80,9 @@ class _HomeState extends State<Home> with WindowListener, TrayListener {
       urlStr = curUrlStr;
     });
 
-
-    initSystemTray();
+    if (Platform.isWindows) {
+      initSystemTray();
+    }
 
     isCoreReady.addListener(() {
       if (isCoreReady.value) {
@@ -127,12 +128,8 @@ class _HomeState extends State<Home> with WindowListener, TrayListener {
 
   @override
   void onTrayIconMouseDown() {
-    if(Platform.isWindows){
-      windowManager.show();
-      windowManager.focus();
-    }else{
-      trayManager.popUpContextMenu();
-    }
+    windowManager.show();
+    windowManager.focus();
   }
 
   @override
