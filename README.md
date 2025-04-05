@@ -49,10 +49,10 @@ Windows(require  <a href="https://developer.microsoft.com/en-us/microsoft-edge/w
 - [Monorepo structure](#monorepo-structure)
 - [Roadmap](#roadmap)
 - [Built With](#built-with)
+- [Acknowledgement](#acknowledgement)
 - [License](#license)
 - [Contact](#contact)
 - [Sponsors](#sponsors)
-
 
 
 ## Motivation
@@ -113,6 +113,14 @@ See the [open issues](https://github.com/igoogolx/lux/issues) for a full list of
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+
+<!-- Acknowledgement -->
+## Acknowledgement
+Lux was based on or inspired by these projects and so on:
+
+* [sing-tun](https://github.com/SagerNet/sing-tun): Simple transparent proxy library.
+* [outline-sdk](https://github.com/Jigsaw-Code/outline-sdk): SDK to build network tools based on Outline components.
+* [clash-verge-rev](https://github.com/clash-verge-rev/clash-verge-rev): A modern GUI client based on Tauri, designed to run in Windows, macOS and Linux for tailored proxy experience.
 
 <!-- LICENSE -->
 ## License
