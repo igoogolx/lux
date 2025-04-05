@@ -122,6 +122,8 @@ Lux was based on or inspired by these projects and so on:
 * [outline-sdk](https://github.com/Jigsaw-Code/outline-sdk): SDK to build network tools based on Outline components.
 * [clash-verge-rev](https://github.com/clash-verge-rev/clash-verge-rev): A modern GUI client based on Tauri, designed to run in Windows, macOS and Linux for tailored proxy experience.
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 <!-- LICENSE -->
 ## License
 
