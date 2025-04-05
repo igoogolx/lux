@@ -1,14 +1,16 @@
 name: VirusTotal
 
 on:
-  release:
-    types: [released]
+  workflow_run:
+    workflows: ["Build"]
+    types:
+      - completed
 
 jobs:
   virustotal:
     runs-on: ubuntu-latest
     steps:
-      -
+      - if: ${{ !contains(github.ref, '-beat.') }}
         name: VirusTotal Scan
         uses: crazy-max/ghaction-virustotal@v4
         with:
