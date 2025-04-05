@@ -15,6 +15,7 @@
 [![Version][version-shield]][version-url]
 [![Downloads][downloads-shield]][downloads-url]
 
+
 <h3 align="center">Lux</h3>
 A light desktop proxy app.
 <br />
@@ -34,6 +35,12 @@ Windows(require  <a href="https://developer.microsoft.com/en-us/microsoft-edge/w
   </p>
 </div>
 
+<div align="center">
+ <a href="https://igoogolx.github.io/lux-docs/docs/intro">
+    <img src="https://igoogolx.github.io/lux-docs/img/pages/home_page.png" alt="home page screenshot" width="360" >
+  </a>
+</div>
+ 
 
 
 - [Motivation](#motivation)
@@ -42,10 +49,10 @@ Windows(require  <a href="https://developer.microsoft.com/en-us/microsoft-edge/w
 - [Monorepo structure](#monorepo-structure)
 - [Roadmap](#roadmap)
 - [Built With](#built-with)
+- [Acknowledgement](#acknowledgement)
 - [License](#license)
 - [Contact](#contact)
 - [Sponsors](#sponsors)
-
 
 
 ## Motivation
@@ -107,6 +114,16 @@ See the [open issues](https://github.com/igoogolx/lux/issues) for a full list of
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
+<!-- Acknowledgement -->
+## Acknowledgement
+Lux was based on or inspired by these projects and so on:
+
+* [sing-tun](https://github.com/SagerNet/sing-tun): Simple transparent proxy library.
+* [outline-sdk](https://github.com/Jigsaw-Code/outline-sdk): SDK to build network tools based on Outline components.
+* [clash-verge-rev](https://github.com/clash-verge-rev/clash-verge-rev): A modern GUI client based on Tauri, designed to run in Windows, macOS and Linux for tailored proxy experience.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 <!-- LICENSE -->
 ## License
 
@@ -162,3 +179,4 @@ Thanks to Jetbrains provided license!
 [Go.dev]: https://img.shields.io/badge/Go-20232A?logo=go&logoColor=61DAFB
 [Golang-url]: https://go.dev/
 [Node-url]: https://nodejs.org/
+

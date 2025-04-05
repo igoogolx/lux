@@ -19,6 +19,7 @@ Future<void> initSystemTray() async {
         key: 'open_dashboard',
         label: 'Web Dashboard',
       ),
+      MenuItem.separator(),
       MenuItem(
         key: 'exit_app',
         label: 'Exit',
