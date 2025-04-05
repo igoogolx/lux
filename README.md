@@ -15,6 +15,7 @@
 [![Version][version-shield]][version-url]
 [![Downloads][downloads-shield]][downloads-url]
 
+
 <h3 align="center">Lux</h3>
 A light desktop proxy app.
 <br />
@@ -34,6 +35,12 @@ Windows(require  <a href="https://developer.microsoft.com/en-us/microsoft-edge/w
   </p>
 </div>
 
+<div align="center">
+ <a href="https://igoogolx.github.io/lux-docs/docs/intro">
+    <img src="https://igoogolx.github.io/lux-docs/img/pages/home_page.png" alt="home page screenshot" width="240" height="240">
+  </a>
+</div>
+ 
 
 
 - [Motivation](#motivation)
@@ -162,3 +169,4 @@ Thanks to Jetbrains provided license!
 [Go.dev]: https://img.shields.io/badge/Go-20232A?logo=go&logoColor=61DAFB
 [Golang-url]: https://go.dev/
 [Node-url]: https://nodejs.org/
+
