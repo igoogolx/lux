@@ -37,7 +37,7 @@ Windows(require  <a href="https://developer.microsoft.com/en-us/microsoft-edge/w
 
 <div align="center">
  <a href="https://igoogolx.github.io/lux-docs/docs/intro">
-    <img src="https://igoogolx.github.io/lux-docs/img/pages/home_page.png" alt="home page screenshot" width="240" height="240">
+    <img src="https://igoogolx.github.io/lux-docs/img/pages/home_page.png" alt="home page screenshot" width="360" >
   </a>
 </div>
  
