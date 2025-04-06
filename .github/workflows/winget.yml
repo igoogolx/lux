@@ -1,9 +1,9 @@
 name: Publish to WinGet
+
 on:
-  workflow_run:
-    workflows: ["Build"]
-    types:
-      - completed
+  release:
+    types: [published]
+
 jobs:
   publish:
     # Action can only be run on windows
