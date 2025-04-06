@@ -82,7 +82,7 @@ jobs:
         with:
           prerelease: ${{ contains(github.ref, '-beat.') }}
           draft: ${{ !contains(github.ref, '-beat.') }}
-          body_path: CHANGELOG.md
+          body_path: ${{ github.workspace }}/CHANGELOG.md
           files: |
             checksum.txt
             artifact/*
