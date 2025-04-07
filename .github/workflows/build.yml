@@ -79,7 +79,7 @@ jobs:
 
       - name: Generate changelog
         run: |
-          cp CHNAGELOG.md ${{ github.workspace }}-CHANGELOG.md
+          cp CHANGELOG.md ${{ github.workspace }}-CHANGELOG.md
 
       - name: GH Release
         uses: softprops/action-gh-release@v2
