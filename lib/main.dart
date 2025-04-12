@@ -7,9 +7,12 @@ import 'package:lux/core_config.dart';
 import 'package:lux/elevate.dart';
 import 'package:lux/home.dart';
 import 'package:lux/notifier.dart';
+import 'package:lux/tr.dart';
 import 'package:lux/utils.dart';
 import 'package:path/path.dart' as path;
 import 'package:window_manager/window_manager.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main(args) async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,9 +51,37 @@ void main(args) async {
     runApp(MaterialApp(
         theme: ThemeData(
             scaffoldBackgroundColor: isDarkMode ? Color(darkBackgroundColor) : Colors.white), //Dark mode of dashboard
-        home: Home(theme)));
+        home: Home(theme),
+        onGenerateTitle: (context) {
+          initTr(context);
+          return 'Lux';
+        },
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        Locale('en'),
+        Locale('zh'),
+      ],
+    )
+    );
   } catch (e) {
     await notifier.show("$e");
     exitApp();
+  }
+}
+
+
+class LocaleModel extends ChangeNotifier {
+  Locale? _locale;
+
+  Locale? get locale => _locale;
+
+  void set(Locale locale) {
+    _locale = locale;
+    notifyListeners();
   }
 }

@@ -80,15 +80,17 @@ class _HomeState extends State<Home> with WindowListener, TrayListener {
       urlStr = curUrlStr;
     });
 
-    if (Platform.isWindows) {
-      initSystemTray();
-    }
+
+
+    initSystemTray();
 
     isCoreReady.addListener(() {
       if (isCoreReady.value) {
         initClient(coreManager);
       }
     });
+
+
   }
 
   onChannelMessage(JavaScriptMessage value){

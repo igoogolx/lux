@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:lux/tr.dart';
 import 'package:tray_manager/tray_manager.dart';
 
 Future<void> initSystemTray() async {
@@ -17,7 +18,7 @@ Future<void> initSystemTray() async {
       MenuItem.separator(),
       MenuItem(
         key: 'open_dashboard',
-        label: 'Web Dashboard',
+        label: tr().trayDashboardLabel,
       ),
       MenuItem.separator(),
       MenuItem(
