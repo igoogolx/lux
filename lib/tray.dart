@@ -23,7 +23,7 @@ Future<void> initSystemTray() async {
       MenuItem.separator(),
       MenuItem(
         key: 'exit_app',
-        label: 'Exit',
+        label: tr().exit,
       ),
     ],
   );

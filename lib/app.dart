@@ -8,13 +8,14 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class App extends StatelessWidget {
   final String theme;
   final Color scaffoldBackgroundColor ;
+  final LocaleModel defaultLocalModel ;
 
-  const App(this.theme,this.scaffoldBackgroundColor,{super.key});
+  const App(this.theme,this.scaffoldBackgroundColor, this.defaultLocalModel,{super.key});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => LocaleModel(),
+      create: (context) => defaultLocalModel,
       child: Consumer<LocaleModel>(
         builder: (context, localeModel, child) => MaterialApp(
           theme: ThemeData(
@@ -42,11 +43,3 @@ class App extends StatelessWidget {
   }
 }
 
-class LocaleModel extends ChangeNotifier {
-  Locale _locale= const Locale('zh');
-  Locale? get locale => _locale;
-  void set(Locale locale) {
-    _locale = locale;
-    notifyListeners();
-  }
-}

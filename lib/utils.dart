@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:dio/dio.dart';
 import 'package:launch_at_startup/launch_at_startup.dart';
@@ -10,6 +11,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:version/version.dart';
+import 'package:intl/intl.dart';
 
 Future<String> getHomeDir() async {
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -67,4 +69,45 @@ Future<void> setAutoLaunch(CoreManager? coreManager) async {
   } catch (e) {
     notifier.show("Fail to set auto launch: $e");
   }
+}
+
+Future<Locale> getLocale() async {
+  var curLanguage = await readLanguage();
+  switch (curLanguage) {
+    case 'system':
+      {
+        var curLocale = Intl.getCurrentLocale();
+        if (curLocale.startsWith('zh')) {
+          return const Locale('zh');
+        } else {
+          return const Locale('en');
+        }
+      }
+    case 'en-US':
+      {
+        return const Locale('en');
+      }
+    case 'zh-CN':
+      {
+        return const Locale('zh');
+      }
+  }
+
+  return const Locale('en');
+}
+
+typedef InitI10nLabel = ({String macOSElevateServiceInfo,String macOSNotElevatedMsg} );
+
+Future<InitI10nLabel> getInitI10nLabel() async {
+  var locale = await getLocale();
+
+  if(locale==const Locale('zh')){
+    return (
+      macOSElevateServiceInfo: "Lux 权限提升服务",
+      macOSNotElevatedMsg: "核心没有以 root 身份运行"
+    );}
+  return (
+    macOSElevateServiceInfo: "Lux elevation service",
+    macOSNotElevatedMsg: "Lux_core is not run as root"
+  );
 }

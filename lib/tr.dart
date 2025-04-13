@@ -10,3 +10,13 @@ void initTr(BuildContext trContext){
 AppLocalizations tr() {
   return AppLocalizations.of(buildContext!)!;
 }
+
+
+class LocaleModel extends ChangeNotifier {
+  Locale _locale= const Locale('zh');
+  Locale? get locale => _locale;
+  void set(Locale locale) {
+    _locale = locale;
+    notifyListeners();
+  }
+}
