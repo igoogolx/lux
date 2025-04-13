@@ -117,9 +117,9 @@ class _HomeState extends State<Home> with WindowListener, TrayListener {
         isWebviewReady.value=true;
       }
       case 'changeLanguage':{
-        initSystemTray();
         var latestLocaleValue = await getLocale();
         widget.defaultLocalModel.set(latestLocaleValue);
+        initSystemTray();
       }
     }
   }
