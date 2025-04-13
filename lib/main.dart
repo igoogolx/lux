@@ -47,8 +47,8 @@ void main(args) async {
     var isDarkMode = await readTheme() == ThemeType.dark;
     var theme = isDarkMode ? "dark" : "light";
     var localeModel =  LocaleModel();
-    var defaultLocale = await getLocale();
-    localeModel.set(defaultLocale);
+    var defaultLocaleValue = await getLocale();
+    localeModel.set(defaultLocaleValue);
     runApp(App(theme, isDarkMode ? Color(darkBackgroundColor) : Colors.white,localeModel));
   } catch (e) {
     await notifier.show("$e");

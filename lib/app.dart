@@ -20,7 +20,7 @@ class App extends StatelessWidget {
         builder: (context, localeModel, child) => MaterialApp(
           theme: ThemeData(
               scaffoldBackgroundColor:scaffoldBackgroundColor ), //Dark mode of dashboard
-          home: Home(theme),
+          home: Home(theme, defaultLocalModel),
           onGenerateTitle: (context) {
             initTr(context);
             return 'Lux';
