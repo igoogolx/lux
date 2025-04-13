@@ -119,6 +119,8 @@ class _HomeState extends State<Home> with WindowListener, TrayListener {
       case 'changeLanguage':{
         var latestLocaleValue = await getLocale();
         widget.defaultLocalModel.set(latestLocaleValue);
+        //tray should be updated after material app is re-rebuilt
+        await Future.delayed(const Duration(seconds: 1));
         initSystemTray();
       }
     }
