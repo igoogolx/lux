@@ -1,4 +1,9 @@
 {
   "trayDashboardLabel": "管理面板",
-  "exit": "退出"
+  "exit": "退出",
+  "noConnectionMsg": "无网络连接，已断开",
+  "reconnectedMsg": "已重连",
+  "connectOnOpenErrMsg": "自动连接失败: {msg}",
+  "setAutoLaunchErrMsg": "设置自启动失败: {msg}",
+  "connectOnOpenMsg": "已自动连接"
 }

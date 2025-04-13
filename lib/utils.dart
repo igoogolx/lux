@@ -7,6 +7,7 @@ import 'package:launch_at_startup/launch_at_startup.dart';
 import 'package:lux/core_config.dart';
 import 'package:lux/core_manager.dart';
 import 'package:lux/notifier.dart';
+import 'package:lux/tr.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
@@ -39,13 +40,13 @@ Future<void> setAutoConnect(CoreManager? coreManager) async {
     try {
       await Future.delayed(const Duration(seconds: 1));
       await coreManager?.start();
-      notifier.show("Connect on open");
+      notifier.show(tr().connectOnOpenMsg);
     } catch (e) {
       String? msg = e.toString();
       if (e is DioException) {
         msg = e.message;
       }
-      notifier.show("Fail to connect on open: $msg");
+      notifier.show(tr().connectOnOpenErrMsg(msg.toString()));
     }
   }
 }
@@ -67,7 +68,7 @@ Future<void> setAutoLaunch(CoreManager? coreManager) async {
       await launchAtStartup.disable();
     }
   } catch (e) {
-    notifier.show("Fail to set auto launch: $e");
+    notifier.show(tr().setAutoLaunchErrMsg(e));
   }
 }
 

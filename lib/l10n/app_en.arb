@@ -1,4 +1,9 @@
 {
   "trayDashboardLabel": "Open Dashboard",
-  "exit": "Exit"
+  "exit": "Exit",
+  "noConnectionMsg": "No available network. Disconnected",
+  "reconnectedMsg": "Reconnected",
+  "connectOnOpenErrMsg": "Fail to connect on open: {msg}",
+  "setAutoLaunchErrMsg": "Fail to set auto launch: {msg}",
+  "connectOnOpenMsg": "Connect on open"
 }
