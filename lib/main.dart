@@ -46,10 +46,10 @@ void main(args) async {
 
     var isDarkMode = await readTheme() == ThemeType.dark;
     var theme = isDarkMode ? "dark" : "light";
-    var localModel =  LocaleModel();
+    var localeModel =  LocaleModel();
     var defaultLocale = await getLocale();
-    localModel.set(defaultLocale);
-    runApp(App(theme, isDarkMode ? Color(darkBackgroundColor) : Colors.white,localModel));
+    localeModel.set(defaultLocale);
+    runApp(App(theme, isDarkMode ? Color(darkBackgroundColor) : Colors.white,localeModel));
   } catch (e) {
     await notifier.show("$e");
     exitApp();
