@@ -10,4 +10,5 @@ install_dir_name: '{autopf}\lux'
 script_template: setup.iss
 setup_icon_file: assets\app_icon.ico
 locales:
-  - en
+  - lang: zh
+  - lang: en
