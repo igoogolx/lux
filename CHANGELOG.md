@@ -1,7 +1,7 @@
 ## What's Changed
 
-### Bug fixes 🐛
+### Exciting New Features 🎉
 
-* fix: typo in dashboard
+* feat: fully supports Chinese
 
 
