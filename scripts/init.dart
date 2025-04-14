@@ -29,14 +29,14 @@ Future<void> downloadFileWith(String url, String savePath) async {
 }
 
 void downloadInnoSetupChineseItransFile() async {
-  final url = 'https://raw.githubusercontent.com/jrsoftware/issrc/main/Files/Languages/Unofficial/ChineseSimplified.isl';
-  final folderPath =
-  path.normalize(path.join(Platform.script.toFilePath(), '..',"..","windows","packaging","exe"));
+  final url =
+      'https://raw.githubusercontent.com/jrsoftware/issrc/main/Files/Languages/Unofficial/ChineseSimplified.isl';
+  final folderPath = path.normalize(path.join(
+      Platform.script.toFilePath(), '..', "..", "windows", "packaging", "exe"));
   final fileName = 'ChineseSimplified.isl';
   final savePath = '$folderPath/$fileName';
   await downloadFileWith(url, savePath);
 }
-
 
 Future downloadLatestCore(String arch, String token) async {
   final dio = Dio();
@@ -105,10 +105,9 @@ void main(List<String> arguments) async {
     }
     await binDir.create();
 
-    if(Platform.isWindows){
+    if (Platform.isWindows) {
       downloadInnoSetupChineseItransFile();
     }
-
 
     await downloadLatestCore(
         argResults[targetArch] as String, argResults[secret]);
