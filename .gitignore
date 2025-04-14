@@ -49,3 +49,4 @@ app.*.map.json
 dist
 config.json
 log.txt
+ChineseSimplified.isl
