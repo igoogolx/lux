@@ -15,6 +15,27 @@ final binDir = Directory(path.join(assetsPath, 'bin'));
 const rawCoreName = 'itun2socks';
 const rawCoreVersion = '1.28.4-beat.0';
 
+Future<void> downloadFileWith(String url, String savePath) async {
+  final dio = Dio();
+  try {
+    await dio.download(
+      url,
+      savePath,
+    );
+    print('✅ File downloaded to: $savePath');
+  } catch (e) {
+    print('❌ Download failed: $e');
+  }
+}
+
+void downloadInnoSetupChineseItransFile() async {
+  final url = 'https://raw.githubusercontent.com/jrsoftware/issrc/main/Files/Languages/Unofficial/ChineseSimplified.isl';
+  final folderPath =
+  path.normalize(path.join(Platform.script.toFilePath(), '..',"..","windows","packaging","exe"));
+  final fileName = 'ChineseSimplified.isl';
+  final savePath = '$folderPath/$fileName';
+  await downloadFileWith(url, savePath);
+}
 
 
 Future downloadLatestCore(String arch, String token) async {
@@ -83,6 +104,10 @@ void main(List<String> arguments) async {
       await binDir.delete(recursive: true);
     }
     await binDir.create();
+
+    if(Platform.isWindows){
+      downloadInnoSetupChineseItransFile();
+    }
 
 
     await downloadLatestCore(
