@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:lux/home.dart';
 import 'package:lux/tr.dart';
 import 'package:provider/provider.dart';
