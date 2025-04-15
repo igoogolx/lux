@@ -11,7 +11,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest, macos-14, macos-13]
+        os: [windows-latest, macos-14, macos-13, windows-11-arm]
 
     steps:
       - uses: actions/checkout@v4
@@ -50,8 +50,19 @@ jobs:
           cp -Force C:\Windows\System32\msvcp140.dll C:\temp\dll\msvcp140.dll
           cp -Force C:\Windows\System32\vcruntime140.dll C:\temp\dll\vcruntime140.dll
           cp -Force C:\Windows\System32\vcruntime140_1.dll C:\temp\dll\vcruntime140_1.dll
-          dart run scripts/init.dart
+          dart run scripts/init.dart ${{ secrets.GITHUB_TOKEN }} 
           fastforge release --name ${{ matrix.os }}
+          Rename-Item -Path "dist\${VERSION}\lux-${VERSION}-windows-setup.exe" -NewName "lux-${VERSION}-windows-x64.exe"
+
+      - if: matrix.os == 'windows-11-arm'
+        run: |
+          mkdir -p  C:\temp\dll
+          cp -Force C:\Windows\System32\msvcp140.dll C:\temp\dll\msvcp140.dll
+          cp -Force C:\Windows\System32\vcruntime140.dll C:\temp\dll\vcruntime140.dll
+          cp -Force C:\Windows\System32\vcruntime140_1.dll C:\temp\dll\vcruntime140_1.dll
+          dart run scripts/init.dart -a 'arm64' ${{ secrets.GITHUB_TOKEN }} 
+          fastforge release --name ${{ matrix.os }}
+          Rename-Item -Path "dist\${VERSION}\lux-${VERSION}-windows-setup.exe" -NewName "lux-${VERSION}-windows-arm64.exe"
 
       - uses: actions/upload-artifact@v4
         with:
@@ -69,6 +80,7 @@ jobs:
       - run: |
           mkdir artifact
           mv windows-latest-artifact/*/* artifact/
+          mv windows-11-arm/*/* artifact/
           mv macos-14-artifact/*/* artifact/
           mv macos-13-artifact/*/* artifact/
 
