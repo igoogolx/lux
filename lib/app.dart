@@ -28,9 +28,6 @@ class App extends StatelessWidget {
           locale: localeModel.locale,
           localizationsDelegates: [
             AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: [
             Locale('en'),
