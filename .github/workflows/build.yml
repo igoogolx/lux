@@ -52,7 +52,7 @@ jobs:
           cp -Force C:\Windows\System32\vcruntime140_1.dll C:\temp\dll\vcruntime140_1.dll
           dart run scripts/init.dart ${{ secrets.GITHUB_TOKEN }} 
           fastforge release --name ${{ matrix.os }}
-          Rename-Item -Path "dist\${GITHUB_REF_NAME#v}\lux-${GITHUB_REF_NAME#v}-windows-setup.exe" -NewName "lux-${GITHUB_REF_NAME#v}-windows-x64.exe"
+          Rename-Item -Path "dist\${env:GITHUB_REF_NAME#v}\lux-${env:GITHUB_REF_NAME#v}-windows-setup.exe" -NewName "lux-${env:GITHUB_REF_NAME#v}-windows-x64.exe"
 
       - if: matrix.os == 'windows-11-arm'
         run: |
