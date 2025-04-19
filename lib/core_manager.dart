@@ -9,6 +9,7 @@ import 'package:flutter_desktop_sleep/flutter_desktop_sleep.dart';
 import 'package:flutter_window_close/flutter_window_close.dart';
 import 'package:lux/notifier.dart';
 import 'package:lux/process_manager.dart';
+import 'package:lux/tr.dart';
 
 Future<int> findAvailablePort(int startPort, int endPort) async {
   for (int port = startPort; port <= endPort; port++) {
@@ -63,12 +64,12 @@ class CoreManager {
           final List<ConnectivityResult> connectivityResult =
               await (Connectivity().checkConnectivity());
           if (connectivityResult.contains(ConnectivityResult.none)) {
-            notifier.show("No available network. Disconnected");
+            notifier.show(tr().noConnectionMsg);
             return;
           }
           await Future.delayed(const Duration(seconds: 2));
           await start();
-          notifier.show("Reconnected");
+          notifier.show(tr().reconnectedMsg);
         }
       } else if (s == 'terminate_app') {
         exitCore();
@@ -106,7 +107,7 @@ class CoreManager {
         var isStarted = managerRes.data['isStarted'];
         if (isStarted is bool && isStarted) {
           await stop();
-          notifier.show("No available network. Disconnected");
+          notifier.show(tr().noConnectionMsg);
         }
       }
       if (kDebugMode) {

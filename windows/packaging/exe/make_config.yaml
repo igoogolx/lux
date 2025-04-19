@@ -11,3 +11,4 @@ script_template: setup.iss
 setup_icon_file: assets\app_icon.ico
 locales:
   - en
+  - zh

@@ -2,11 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:lux/app.dart';
 import 'package:lux/const/const.dart';
 import 'package:lux/core_config.dart';
 import 'package:lux/elevate.dart';
-import 'package:lux/home.dart';
 import 'package:lux/notifier.dart';
+import 'package:lux/tr.dart';
 import 'package:lux/utils.dart';
 import 'package:path/path.dart' as path;
 import 'package:window_manager/window_manager.dart';
@@ -22,9 +23,10 @@ void main(args) async {
     if (Platform.isMacOS && !kDebugMode) {
       var owner = await getFileOwner(corePath);
       if (owner != "root") {
-        var code = await elevate(corePath, "Lux elevation service");
+        var i10nLabel = await getInitI10nLabel();
+        var code = await elevate(corePath, i10nLabel.macOSElevateServiceInfo);
         if (code != 0) {
-          notifier.show("App is not run as root");
+          notifier.show(i10nLabel.macOSElevateServiceInfo);
           exitApp();
         }
       }
@@ -44,13 +46,14 @@ void main(args) async {
 
     var isDarkMode = await readTheme() == ThemeType.dark;
     var theme = isDarkMode ? "dark" : "light";
-    debugPrint("using theme: $theme");
-    runApp(MaterialApp(
-        theme: ThemeData(
-            scaffoldBackgroundColor: isDarkMode ? Color(darkBackgroundColor) : Colors.white), //Dark mode of dashboard
-        home: Home(theme)));
+    var localeModel =  LocaleModel();
+    var defaultLocaleValue = await getLocale();
+    localeModel.set(defaultLocaleValue);
+    runApp(App(theme, isDarkMode ? Color(darkBackgroundColor) : Colors.white,localeModel));
   } catch (e) {
     await notifier.show("$e");
     exitApp();
   }
 }
+
+

@@ -6,6 +6,7 @@ import 'package:lux/core_manager.dart';
 import 'package:lux/dashboard.dart';
 import 'package:lux/process_manager.dart';
 import 'package:lux/progress_indicator.dart';
+import 'package:lux/tr.dart';
 import 'package:lux/tray.dart';
 import 'package:lux/utils.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -19,7 +20,10 @@ import 'package:window_manager/window_manager.dart';
 
 class Home extends StatefulWidget {
   final String theme;
-  const Home(this.theme, {super.key});
+  final LocaleModel defaultLocalModel ;
+
+  const Home(this.theme, this.defaultLocalModel, {super.key});
+
   @override
   State<Home> createState() => _HomeState();
 }
@@ -52,7 +56,7 @@ class _HomeState extends State<Home> with WindowListener, TrayListener {
     final Version currentVersion = Version.parse(packageInfo.version);
     final process = ProcessManager(
         corePath, ['-home_dir=$curHomeDir', '-port=$port', '-secret=$secret']);
-    var curBaseUrl = 'http://localhost:$port';
+    var curBaseUrl = 'http://127.0.0.1:$port';
     var curUrlStr = '$curBaseUrl/?client_version=$currentVersion&token=$secret&theme=${widget.theme}';
     debugPrint("dashboard url: $curUrlStr");
     coreManager = CoreManager(curBaseUrl, process, secret, () {
@@ -80,7 +84,9 @@ class _HomeState extends State<Home> with WindowListener, TrayListener {
       urlStr = curUrlStr;
     });
 
-    if (Platform.isWindows) {
+
+
+    if(Platform.isWindows){
       initSystemTray();
     }
 
@@ -89,9 +95,11 @@ class _HomeState extends State<Home> with WindowListener, TrayListener {
         initClient(coreManager);
       }
     });
+
+
   }
 
-  onChannelMessage(JavaScriptMessage value){
+  onChannelMessage(JavaScriptMessage value) async {
     var msg = value.message;
     debugPrint("channel message from webview :$msg");
     switch(msg){
@@ -109,6 +117,15 @@ class _HomeState extends State<Home> with WindowListener, TrayListener {
       }
       case 'ready':{
         isWebviewReady.value=true;
+      }
+      case 'changeLanguage':{
+        var latestLocaleValue = await getLocale();
+        widget.defaultLocalModel.set(latestLocaleValue);
+        //tray should be updated after material app is re-rebuilt
+        await Future.delayed(const Duration(seconds: 1));
+        if(Platform.isWindows){
+          initSystemTray();
+        }
       }
     }
   }

@@ -54,3 +54,11 @@ Future<bool> readAutoConnect() async {
   }
   return false;
 }
+
+Future<String> readLanguage() async {
+  var setting = await readSetting();
+  if (setting.containsKey('language') && setting['language'] is String) {
+    return setting['language'] as String;
+  }
+  return 'system';
+}
