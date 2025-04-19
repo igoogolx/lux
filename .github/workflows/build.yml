@@ -78,7 +78,6 @@ jobs:
       - run: |
           mkdir artifact
           mv windows-latest-artifact/*/* artifact/
-          mv windows-11-arm/*/* artifact/
           mv macos-14-artifact/*/* artifact/
           mv macos-13-artifact/*/* artifact/
 
