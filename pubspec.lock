@@ -290,10 +290,10 @@ packages:
     dependency: "direct main"
     description:
       name: launch_at_startup
-      sha256: "983c4ed34295e06a629145bfd21f93e789530861583060ab01675b49f2729180"
+      sha256: "7db33398b76ec0ed9e27f9f4640553e239977437564046625e215be89c91f084"
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.0"
+    version: "0.5.1"
   leak_tracker:
     dependency: transitive
     description:
