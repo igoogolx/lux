@@ -18,8 +18,8 @@ void main(args) async {
 
   try {
     await windowManager.ensureInitialized();
-
     var corePath = path.join(Paths.assetsBin.path, LuxCoreName.name);
+    verifyCoreBinary(corePath);
     if (Platform.isMacOS && !kDebugMode) {
       var owner = await getFileOwner(corePath);
       if (owner != "root") {
