@@ -17,6 +17,6 @@ Future<void> verifyCoreBinary(String filePath) async{
   var checksumKey = "${LuxCoreName.platform}${LuxCoreName.arch[0].toUpperCase()}${LuxCoreName.arch.substring(1).toLowerCase()}";
   var checksum =coreBinaryChecksum[checksumKey];
   if(checksum!=value.toString()){
-    throw "Checksum of core binary is not matched. Expect $checksum, get ${value.toString()}.";
+    throw "Checksum of core binary is not matched. Expect $checksum of $checksumKey, get ${value.toString()}.";
   }
 }
