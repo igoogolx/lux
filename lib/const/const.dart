@@ -46,8 +46,4 @@ class Paths {
 
 const darkBackgroundColor = 0xff292929;
 
-const coreBinaryChecksum = {
-  "darwinArm64":"",
-  "darwinAmd64":"",
-  "windowsAmd64":"",
-};
+

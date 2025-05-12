@@ -2,7 +2,7 @@
 
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:archive/archive.dart';
+import 'package:lux/checksum.dart';
 import 'package:path/path.dart' as path;
 import 'package:lux/const/const.dart';
 import 'package:args/args.dart';
@@ -13,7 +13,7 @@ final assetsPath =
 final binDir = Directory(path.join(assetsPath, 'bin'));
 
 const rawCoreName = 'itun2socks';
-const rawCoreVersion = '1.28.4';
+const rawCoreVersion = '1.28.5-beat.0';
 
 Future<void> downloadFileWith(String url, String savePath) async {
   final dio = Dio();
@@ -55,38 +55,12 @@ Future downloadLatestCore(String arch, String token) async {
       .firstWhere((it) => (it['name'] as String).contains(luxCoreName));
 
   final String name = latest['name'];
-  final tempFile = File(path.join(binDir.path, '$name.temp'));
+  final tempFile = File(path.join(binDir.path,  LuxCoreName.name));
 
   print('Downloading $name');
   await dio.download(latest['browser_download_url'], tempFile.path);
-  print('Download Success');
-
-  print('Unarchiving $name');
-  final tempBytes = await tempFile.readAsBytes();
-  if (name.contains('.tar.gz')) {
-    final tarBytes = GZipDecoder().decodeBytes(tempBytes);
-    final file = TarDecoder()
-        .decodeBytes(tarBytes)
-        .findFile('$rawCoreName${LuxCoreName.ext}');
-    final String filePath = path.join(binDir.path, LuxCoreName.name);
-    if (file == null) {
-      throw Exception("No Found");
-    }
-    await File(path.join(binDir.path, LuxCoreName.name))
-        .writeAsBytes(file.content);
-    await Process.run('chmod', ['+x', filePath]);
-  } else {
-    final file = ZipDecoder()
-        .decodeBytes(tempBytes)
-        .findFile('$rawCoreName${LuxCoreName.ext}');
-    if (file == null) {
-      throw Exception("No Found");
-    }
-    await File(path.join(binDir.path, LuxCoreName.name))
-        .writeAsBytes(file.content);
-  }
-  await tempFile.delete();
-  print('Unarchive Success');
+  print('Download $name Success');
+  verifyCoreBinary(tempFile.path);
 }
 
 const targetArch = 'target-arch';

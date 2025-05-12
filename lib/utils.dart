@@ -114,12 +114,3 @@ Future<InitI10nLabel> getInitI10nLabel() async {
   );
 }
 
-Future<void> verifyCoreBinary(String filePath) async{
-  var input = File(filePath);
-  if (!input.existsSync()) {
-    throw "File $filePath does not exist.";
-  }
-  var value = await sha256.bind(input.openRead()).first;
-  debugPrint("${LuxCoreName.platform}${LuxCoreName.arch}");
-  debugPrint(value.toString());
-}

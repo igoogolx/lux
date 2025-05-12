@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lux/app.dart';
+import 'package:lux/checksum.dart';
 import 'package:lux/const/const.dart';
 import 'package:lux/core_config.dart';
 import 'package:lux/elevate.dart';
