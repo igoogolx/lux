@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:launch_at_startup/launch_at_startup.dart';
-import 'package:lux/const/const.dart';
 import 'package:lux/core_config.dart';
 import 'package:lux/core_manager.dart';
 import 'package:lux/notifier.dart';
@@ -13,7 +12,6 @@ import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:version/version.dart';
 import 'package:intl/intl.dart';
-import 'package:crypto/crypto.dart';
 
 Future<String> getHomeDir() async {
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
