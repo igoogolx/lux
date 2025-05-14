@@ -22,7 +22,7 @@ Future<void> verifyCoreBinary(String filePath) async {
     validChecksums.add(darwinAmd64Checksum);
     validChecksums.add(darwinArm64Checksum);
   }
-  if (validChecksums.contains(curChecksum)) {
+  if (!validChecksums.contains(curChecksum)) {
     throw "Checksum of core binary is not matched. Expect $validChecksums, get $curChecksum.";
   }
 }
