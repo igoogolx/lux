@@ -60,7 +60,7 @@ Future downloadLatestCore(String arch, String token) async {
   print('Downloading $name');
   await dio.download(latest['browser_download_url'], tempFile.path);
   print('Download $name Success');
-  verifyCoreBinary(tempFile.path);
+  await verifyCoreBinary(tempFile.path);
 }
 
 const targetArch = 'target-arch';

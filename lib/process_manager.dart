@@ -16,7 +16,7 @@ class ProcessManager {
   ProcessManager(this.path, this.args);
 
   Future<void> run() async {
-    verifyCoreBinary(path);
+    await verifyCoreBinary(path);
     if (Platform.isWindows) {
       process = await Process.start(
         'powershell.exe',
