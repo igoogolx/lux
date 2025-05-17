@@ -27,14 +27,16 @@ class ProcessManager {
         ],
         runInShell: false,
       );
-    } else if(!kDebugMode) {
-      var owner = await getFileOwner(path);
-      if (owner != "root") {
-        var i10nLabel = await getInitI10nLabel();
-        var code = await elevate(path, i10nLabel.macOSElevateServiceInfo);
-        if (code != 0) {
-          notifier.show(i10nLabel.macOSElevateServiceInfo);
-          exitApp();
+    } else  {
+      if(!kDebugMode){
+        var owner = await getFileOwner(path);
+        if (owner != "root") {
+          var i10nLabel = await getInitI10nLabel();
+          var code = await elevate(path, i10nLabel.macOSElevateServiceInfo);
+          if (code != 0) {
+            notifier.show(i10nLabel.macOSElevateServiceInfo);
+            exitApp();
+          }
         }
       }
       process = await Process.start(path, args);
