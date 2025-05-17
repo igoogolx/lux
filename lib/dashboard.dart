@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -6,6 +8,7 @@ import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 import 'package:webview_win_floating/webview.dart';
 import 'package:webview_win_floating/webview_plugin.dart';
 import 'package:path/path.dart' as path;
+import 'package:window_manager/window_manager.dart';
 
 class WebViewDashboard extends StatefulWidget {
   final String baseUrl;
@@ -19,7 +22,7 @@ class WebViewDashboard extends StatefulWidget {
   State<WebViewDashboard> createState() => _WebViewDashboardState();
 }
 
-class _WebViewDashboardState extends State<WebViewDashboard> {
+class _WebViewDashboardState extends State<WebViewDashboard> with WindowListener {
   late WebViewController? _controller;
 
   _WebViewDashboardState();
@@ -27,6 +30,7 @@ class _WebViewDashboardState extends State<WebViewDashboard> {
   @override
   void initState() {
     super.initState();
+    windowManager.addListener(this);
     late final PlatformWebViewControllerCreationParams params;
     if (WebViewPlatform.instance is WebKitWebViewPlatform) {
       params = WebKitWebViewControllerCreationParams();
@@ -71,6 +75,19 @@ class _WebViewDashboardState extends State<WebViewDashboard> {
     }
 
     _controller = controller;
+  }
+
+  @override
+  void dispose() {
+    windowManager.removeListener(this);
+    super.dispose();
+  }
+
+  @override
+  void onWindowClose() async {
+    if (Platform.isMacOS) {
+      _controller?.reload();
+    }
   }
 
   @override
