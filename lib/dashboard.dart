@@ -5,7 +5,6 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 import 'package:webview_win_floating/webview.dart';
 import 'package:webview_win_floating/webview_plugin.dart';
-import 'package:window_manager/window_manager.dart';
 import 'package:path/path.dart' as path;
 
 class WebViewDashboard extends StatefulWidget {
@@ -46,9 +45,6 @@ class _WebViewDashboardState extends State<WebViewDashboard> {
         }
         launchUrl(Uri.parse(request.url));
         return NavigationDecision.prevent;
-      }, onPageFinished: (String url) async {
-        await windowManager.show();
-        await windowManager.focus();
       }),
     );
 
