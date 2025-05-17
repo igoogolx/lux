@@ -61,6 +61,7 @@ Future downloadLatestCore(String arch, String token) async {
   await dio.download(latest['browser_download_url'], tempFile.path);
   print('Download $name Success');
   await verifyCoreBinary(tempFile.path);
+  await Process.run('chmod', ['+x', tempFile.path]);
 }
 
 const targetArch = 'target-arch';
