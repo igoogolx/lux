@@ -4,4 +4,7 @@
 
 * fix: core file privilege escalation vulnerability
 
+### Other changes
+
+* perf: reduce memory usage on macOS
 
