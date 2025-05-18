@@ -4,7 +4,6 @@ import 'package:launch_at_startup/launch_at_startup.dart';
 import 'package:lux/const/const.dart';
 import 'package:lux/core_manager.dart';
 import 'package:lux/dashboard.dart';
-import 'package:lux/notifier.dart';
 import 'package:lux/process_manager.dart';
 import 'package:lux/progress_indicator.dart';
 import 'package:lux/tr.dart';
@@ -21,7 +20,7 @@ import 'package:window_manager/window_manager.dart';
 
 class Home extends StatefulWidget {
   final String theme;
-  final LocaleModel defaultLocalModel;
+  final LocaleModel defaultLocalModel ;
 
   const Home(this.theme, this.defaultLocalModel, {super.key});
 
@@ -45,92 +44,82 @@ class _HomeState extends State<Home> with WindowListener, TrayListener {
   Widget? dashboardWidget;
 
   void _init() async {
-    try {
-      trayManager.addListener(this);
-      windowManager.addListener(this);
-      await windowManager.setPreventClose(true);
-      var corePath = path.join(Paths.assetsBin.path, LuxCoreName.name);
-      var curHomeDir = await getHomeDir();
-      final port = await findAvailablePort(8000, 9000);
-      var uuid = Uuid();
-      var secret = uuid.v4();
-      PackageInfo packageInfo = await PackageInfo.fromPlatform();
-      final Version currentVersion = Version.parse(packageInfo.version);
-      final process = ProcessManager(corePath,
-          ['-home_dir=$curHomeDir', '-port=$port', '-secret=$secret']);
-      var curBaseUrl = 'http://127.0.0.1:$port';
-      var curUrlStr =
-          '$curBaseUrl/?client_version=$currentVersion&token=$secret&theme=${widget.theme}';
-      debugPrint("dashboard url: $curUrlStr");
-      coreManager = CoreManager(curBaseUrl, process, secret, () {
-        setState(() {
-          isCoreReady.value = true;
-          windowManager.show();
-        });
-      }, () async {
-        if (Platform.isMacOS) {
-          var isFullScreen = await windowManager.isFullScreen();
-          if (isFullScreen) {
-            await windowManager.setFullScreen(false);
-          }
-        }
-      });
-
+    trayManager.addListener(this);
+    windowManager.addListener(this);
+    await windowManager.setPreventClose(true);
+    var corePath = path.join(Paths.assetsBin.path, LuxCoreName.name);
+    var curHomeDir = await getHomeDir();
+    final port = await findAvailablePort(8000, 9000);
+    var uuid = Uuid();
+    var secret = uuid.v4();
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    final Version currentVersion = Version.parse(packageInfo.version);
+    final process = ProcessManager(
+        corePath, ['-home_dir=$curHomeDir', '-port=$port', '-secret=$secret']);
+    var curBaseUrl = 'http://127.0.0.1:$port';
+    var curUrlStr = '$curBaseUrl/?client_version=$currentVersion&token=$secret&theme=${widget.theme}';
+    debugPrint("dashboard url: $curUrlStr");
+    coreManager = CoreManager(curBaseUrl, process, secret, () {
       setState(() {
-        homeDir = curHomeDir;
-        baseUrl = curBaseUrl;
-        urlStr = curUrlStr;
+        isCoreReady.value = true;
+        windowManager.show();
       });
-
-      if (Platform.isWindows) {
-        initSystemTray();
-      }
-
-      isCoreReady.addListener(() {
-        if (isCoreReady.value) {
-          initClient(coreManager);
+    },  () async {
+      if(Platform.isMacOS){
+        var isFullScreen = await windowManager.isFullScreen();
+        if (isFullScreen){
+          await windowManager.setFullScreen(false);
         }
-      });
-      await coreManager?.run();
-    } catch (e) {
-      notifier.show(e.toString());
+      }
+    });
+
+    setState(() {
+      homeDir = curHomeDir;
+      baseUrl = curBaseUrl;
+      urlStr = curUrlStr;
+    });
+
+
+    if(Platform.isWindows){
+      initSystemTray();
     }
+
+    isCoreReady.addListener(() {
+      if (isCoreReady.value) {
+        initClient(coreManager);
+      }
+    });
+    await coreManager?.run();
   }
 
   onChannelMessage(JavaScriptMessage value) async {
     var msg = value.message;
     debugPrint("channel message from webview :$msg");
-    switch (msg) {
-      case 'enableAutoLaunch':
-        {
-          launchAtStartup.enable();
+    switch(msg){
+      case 'enableAutoLaunch':{
+        launchAtStartup.enable();
+      }
+      case 'disableAutoLaunch':{
+        launchAtStartup.disable();
+      }
+      case 'openHomeDir':{
+        launchUrl(Uri.file(homeDir));
+      }
+      case 'openWebDashboard':{
+        launchUrl(Uri.parse(urlStr));
+      }
+      case 'ready':{
+        isWebviewReady.value=true;
+      }
+      case 'changeLanguage':{
+        var latestLocaleValue = await getLocale();
+        widget.defaultLocalModel.set(latestLocaleValue);
+        //tray should be updated after material app is re-rebuilt
+        await Future.delayed(const Duration(seconds: 1));
+        if(Platform.isWindows){
+          initSystemTray();
         }
-      case 'disableAutoLaunch':
-        {
-          launchAtStartup.disable();
-        }
-      case 'openHomeDir':
-        {
-          launchUrl(Uri.file(homeDir));
-        }
-      case 'openWebDashboard':
-        {
-          launchUrl(Uri.parse(urlStr));
-        }
-      case 'ready':
-        {
-          isWebviewReady.value = true;
-        }
-      case 'changeLanguage':
-        {
-          var latestLocaleValue = await getLocale();
-          widget.defaultLocalModel.set(latestLocaleValue);
-          //tray should be updated after material app is re-rebuilt
-          await Future.delayed(const Duration(seconds: 1));
-          if (Platform.isWindows) {
-            initSystemTray();
-          }
-        }
+      }
     }
   }
 
@@ -159,7 +148,8 @@ class _HomeState extends State<Home> with WindowListener, TrayListener {
   }
 
   @override
-  void onTrayIconRightMouseUp() {}
+  void onTrayIconRightMouseUp() {
+  }
 
   @override
   void onTrayMenuItemClick(MenuItem menuItem) async {
@@ -190,9 +180,6 @@ class _HomeState extends State<Home> with WindowListener, TrayListener {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: !isCoreReady.value
-            ? AppProgressIndicator()
-            : WebViewDashboard(homeDir, baseUrl, urlStr, onChannelMessage));
+    return Scaffold(body: !isCoreReady.value ? AppProgressIndicator() : WebViewDashboard(homeDir, baseUrl, urlStr,onChannelMessage));
   }
 }
