@@ -38,7 +38,6 @@ class CoreManager {
   final ProcessManager? coreProcess;
   final String baseUrl;
   final Function onReady;
-  final Function onError;
   final Function onOsSleep;
   final FlutterDesktopSleep flutterDesktopSleep = FlutterDesktopSleep();
   final dio = Dio();
@@ -79,7 +78,7 @@ class CoreManager {
   }
 
   CoreManager(
-      this.baseUrl, this.coreProcess, this.token, this.onReady, this.onError, this.onOsSleep) {
+      this.baseUrl, this.coreProcess, this.token, this.onReady,  this.onOsSleep) {
     dio.transformer = BackgroundTransformer()..jsonDecodeCallback = parseJson;
     dio.options.receiveTimeout = const Duration(seconds: 3);
     dio.interceptors.add(InterceptorsWrapper(onRequest:
@@ -174,7 +173,7 @@ class CoreManager {
     coreProcess?.run().then((_) {
       ping().then((value) {
         onReady();
-      }).catchError(onError);
-    }).catchError(onError);
+      });
+    });
   }
 }

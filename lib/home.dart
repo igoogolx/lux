@@ -64,11 +64,7 @@ class _HomeState extends State<Home> with WindowListener, TrayListener {
         isCoreReady.value = true;
         windowManager.show();
       });
-    }, () {
-      setState(() {
-        hasError = true;
-      });
-    }, () async {
+    },  () async {
       if(Platform.isMacOS){
         var isFullScreen = await windowManager.isFullScreen();
         if (isFullScreen){
@@ -76,14 +72,12 @@ class _HomeState extends State<Home> with WindowListener, TrayListener {
         }
       }
     });
-    coreManager?.run();
 
     setState(() {
       homeDir = curHomeDir;
       baseUrl = curBaseUrl;
       urlStr = curUrlStr;
     });
-
 
 
     if(Platform.isWindows){
@@ -95,8 +89,7 @@ class _HomeState extends State<Home> with WindowListener, TrayListener {
         initClient(coreManager);
       }
     });
-
-
+    await coreManager?.run();
   }
 
   onChannelMessage(JavaScriptMessage value) async {
