@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:lux/app.dart';
 import 'package:lux/const/const.dart';
@@ -10,6 +12,11 @@ import 'package:window_manager/window_manager.dart';
 void main(args) async {
   WidgetsFlutterBinding.ensureInitialized();
   await notifier.ensureInitialized();
+
+  PlatformDispatcher.instance.onError = (error, stack) {
+    notifier.show(error.toString());
+    return true;
+  };
 
   try {
     await windowManager.ensureInitialized();
