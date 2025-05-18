@@ -16,8 +16,8 @@ class ProcessManager {
   ProcessManager(this.path, this.args);
 
   Future<void> run() async {
-    await verifyCoreBinary(path);
     if (Platform.isWindows) {
+      await verifyCoreBinary(path);
       process = await Process.start(
         'powershell.exe',
         [
@@ -31,6 +31,7 @@ class ProcessManager {
       if(!kDebugMode){
         var owner = await getFileOwner(path);
         if (owner != "root") {
+          await verifyCoreBinary(path);
           var i10nLabel = await getInitI10nLabel();
           var code = await elevate(path, i10nLabel.macOSElevateServiceInfo);
           if (code != 0) {
