@@ -1,6 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:lux/checksum.dart';
+import 'package:lux/notifier.dart';
+import 'package:lux/utils.dart';
+
+import 'elevate.dart';
 
 class ProcessManager {
   Process? process;
@@ -12,7 +17,8 @@ class ProcessManager {
 
   Future<void> run() async {
     if (Platform.isWindows) {
-      await Process.run(
+      await verifyCoreBinary(path);
+      process = await Process.start(
         'powershell.exe',
         [
           '-noprofile',
@@ -21,7 +27,19 @@ class ProcessManager {
         ],
         runInShell: false,
       );
-    } else {
+    } else  {
+      if(!kDebugMode){
+        var owner = await getFileOwner(path);
+        if (owner != "root") {
+          await verifyCoreBinary(path);
+          var i10nLabel = await getInitI10nLabel();
+          var code = await elevate(path, i10nLabel.macOSElevateServiceInfo);
+          if (code != 0) {
+            notifier.show(i10nLabel.macOSElevateServiceInfo);
+            exitApp();
+          }
+        }
+      }
       process = await Process.start(path, args);
       process?.stdout.transform(utf8.decoder).forEach(debugPrint);
     }

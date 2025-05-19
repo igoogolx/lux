@@ -25,6 +25,7 @@ jobs:
       - run: dart pub global activate fastforge
       - run: flutter pub get
       - if: matrix.os == 'macos-14'
+        name: Build mac arm64 installer
         run: |
           VERSION=${GITHUB_REF_NAME#v}
           echo Version: $VERSION
@@ -35,6 +36,7 @@ jobs:
           mv dist/${VERSION}/lux-${VERSION}-macos.dmg dist/${VERSION}/lux-${VERSION}-arm64-macos.dmg
 
       - if: matrix.os == 'macos-13'
+        name: Build mac amd64 installer
         run: |
           VERSION=${GITHUB_REF_NAME#v}
           echo Version: $VERSION
@@ -45,6 +47,7 @@ jobs:
           mv dist/${VERSION}/lux-${VERSION}-macos.dmg dist/${VERSION}/lux-${VERSION}-amd64-macos.dmg
 
       - if: matrix.os == 'windows-latest'
+        name: Build windows x64 installer
         run: |
           mkdir -p  C:\temp\dll
           cp -Force C:\Windows\System32\msvcp140.dll C:\temp\dll\msvcp140.dll

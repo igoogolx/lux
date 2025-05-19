@@ -1,13 +1,14 @@
 ## What's Changed
 
-### Exciting New Features 🎉
+### Breaking changes
 
-* feat: fully supports Chinese
-* feat: improve UI of Data page
+feat: remove system network stack
 
 ### Bug fixes 🐛
 
-* fix: typo in dashboard
-* fix: unexpected loading on windows
+* fix: core file privilege escalation vulnerability
 
+### Other changes
+
+* perf: reduce memory usage on macOS
 

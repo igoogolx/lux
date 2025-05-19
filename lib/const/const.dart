@@ -45,3 +45,5 @@ class Paths {
 }
 
 const darkBackgroundColor = 0xff292929;
+
+

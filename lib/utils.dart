@@ -1,8 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:ui';
-
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:launch_at_startup/launch_at_startup.dart';
 import 'package:lux/core_config.dart';
 import 'package:lux/core_manager.dart';
@@ -112,3 +111,4 @@ Future<InitI10nLabel> getInitI10nLabel() async {
     macOSNotElevatedMsg: "Lux_core is not run as root"
   );
 }
+
