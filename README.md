@@ -57,8 +57,10 @@ Windows(require  <a href="https://developer.microsoft.com/en-us/microsoft-edge/w
 
 ## Motivation
 
-There are many great proxy clients available on GitHub. However, some of them are a little hard to use or not open sourced.
-As a proxy tool, I think it should be easy to use. Open source technology is the only way to ensure we retain absolute control over the data.
+There are many great proxy clients available on GitHub.
+However, some of them are a little hard to use or not open-sourced.
+As a proxy tool, I think it should be easy to use.
+And open source technology is the only way to ensure we retain absolute control over the data.
 
 
 
