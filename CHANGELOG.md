@@ -2,13 +2,8 @@
 
 ### Breaking changes
 
-feat: remove system network stack
-
-### Bug fixes 🐛
-
-* fix: core file privilege escalation vulnerability
+feat: remove dhcp dns client
 
 ### Other changes
 
-* perf: reduce memory usage on macOS
-
+*chore: upgrade deps
