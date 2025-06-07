@@ -2,13 +2,13 @@
 
 ### Breaking changes
 
-feat: remove system network stack
+* feat: remove dhcp dns client
 
 ### Bug fixes 🐛
 
-* fix: core file privilege escalation vulnerability
+* fix: CORS security vulnerability
 
 ### Other changes
 
-* perf: reduce memory usage on macOS
-
+* chore: update dependencies
+* perf: reduce memory usage
