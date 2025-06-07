@@ -1,9 +1,10 @@
 ## What's Changed
 
-### Breaking changes
+### Bug fixes 🐛
 
-feat: remove dhcp dns client
+* fix: CORS security vulnerability
 
 ### Other changes
 
-*chore: upgrade deps
+* chore: update dependencies
+* perf: reduce memory usage
