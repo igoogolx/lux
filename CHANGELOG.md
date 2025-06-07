@@ -1,5 +1,9 @@
 ## What's Changed
 
+### Breaking changes
+
+* feat: remove dhcp dns client
+
 ### Bug fixes 🐛
 
 * fix: CORS security vulnerability
