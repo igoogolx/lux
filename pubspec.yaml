@@ -39,7 +39,7 @@ dependencies:
   path: ^1.8.3
   dio: ^5.3.0
   path_provider: ^2.0.15
-  window_manager: ^0.4.2
+  window_manager: ^0.5.0
   package_info_plus: ^8.2.1
   args: ^2.4.2
   flutter_desktop_sleep: ^0.0.2
