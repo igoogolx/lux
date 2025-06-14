@@ -127,9 +127,10 @@ class CoreManager {
         if (response.statusCode == 200) {
           return; // Exit the function if the request succeeds
         } else {
-          makeRequestUntilSuccess(url);
+          await makeRequestUntilSuccess(url);
         }
       } catch (e) {
+        Future.delayed(const Duration(milliseconds: 150));
         debugPrint(e.toString());
       }
     }
