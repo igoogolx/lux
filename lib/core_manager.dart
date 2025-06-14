@@ -119,7 +119,7 @@ class CoreManager {
     final stopwatch = Stopwatch();
     stopwatch.start(); // Start the stopwatch
 
-    while (stopwatch.elapsedMilliseconds < 3000) {
+    while (stopwatch.elapsedMilliseconds < 5000) {
       try {
         final response = await dio.get(url);
 
