@@ -52,7 +52,7 @@ class CoreManager {
         if (isStarted is bool && isStarted) {
           final settingRes = await dio.get('$baseUrl/setting');
           var mode = settingRes.data['setting']['mode'];
-          if (mode == "tun") {
+          if (mode == "tun" || mode == "mixed") {
             needRestart = true;
             await stop();
           }
@@ -77,8 +77,8 @@ class CoreManager {
     }
   }
 
-  CoreManager(
-      this.baseUrl, this.coreProcess, this.token, this.onReady,  this.onOsSleep) {
+  CoreManager(this.baseUrl, this.coreProcess, this.token, this.onReady,
+      this.onOsSleep) {
     dio.transformer = BackgroundTransformer()..jsonDecodeCallback = parseJson;
     dio.options.receiveTimeout = const Duration(seconds: 3);
     dio.interceptors.add(InterceptorsWrapper(onRequest:
