@@ -1,13 +1,7 @@
 ## What's Changed
 
-### New changes
+### New features
 
-* feat: update UI of nav
+* feat: support mixed mode
 
-### Bug fixes 🐛
 
-* fix: timeout for init core
-
-### Other changes
-
-* chore: update dependencies
