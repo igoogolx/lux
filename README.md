@@ -14,7 +14,7 @@
 [![Build Status][build-shield]][build-url]
 [![Version][version-shield]][version-url]
 [![Downloads][downloads-shield]][downloads-url]
-
+[![Winget Version][winget-shield]][winget-url]
 
 <h3 align="center">Lux</h3>
 A light desktop proxy app.
@@ -181,4 +181,5 @@ Thanks to Jetbrains provided license!
 [Go.dev]: https://img.shields.io/badge/Go-20232A?logo=go&logoColor=61DAFB
 [Golang-url]: https://go.dev/
 [Node-url]: https://nodejs.org/
-
+[winget-shield]: https://img.shields.io/winget/v/igoogolx.lux
+[winget-url]: https://github.com/microsoft/winget-cli
