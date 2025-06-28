@@ -119,7 +119,7 @@ class CoreManager {
     final stopwatch = Stopwatch();
     stopwatch.start(); // Start the stopwatch
 
-    while (stopwatch.elapsedMilliseconds < 3000) {
+    while (stopwatch.elapsedMilliseconds < 10000) {
       try {
         final response = await dio.get(url);
 
@@ -127,9 +127,10 @@ class CoreManager {
         if (response.statusCode == 200) {
           return; // Exit the function if the request succeeds
         } else {
-          makeRequestUntilSuccess(url);
+          await makeRequestUntilSuccess(url);
         }
       } catch (e) {
+        Future.delayed(const Duration(milliseconds: 150));
         debugPrint(e.toString());
       }
     }
