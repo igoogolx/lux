@@ -1,14 +1,13 @@
 ## What's Changed
 
-### Breaking changes
+### New changes
 
-* feat: remove dhcp dns client
+* feat: update UI of nav
 
 ### Bug fixes 🐛
 
-* fix: CORS security vulnerability
+* fix: timeout for init core
 
 ### Other changes
 
 * chore: update dependencies
-* perf: reduce memory usage
