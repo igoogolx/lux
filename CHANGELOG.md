@@ -2,6 +2,6 @@
 
 ### New features
 
-* fix: tun setting is hidden in mixed mode
+* fix: invalid rule engine in mixed mode
 
 
