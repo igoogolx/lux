@@ -2,6 +2,6 @@
 
 ### New features
 
-* feat: support mixed mode
+* fix: tun setting is hidden in mixed mode
 
 
