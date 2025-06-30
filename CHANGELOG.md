@@ -2,6 +2,6 @@
 
 ### New features
 
-* fix: invalid rule engine in mixed mode
+* feat: [mixed mode](https://igoogolx.github.io/lux-docs/docs/configuration/mode)
 
 
