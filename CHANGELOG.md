@@ -1,12 +1,8 @@
 ## What's Changed
 
-### New changes
+### New features
 
-* feat: update UI of nav
-
-### Bug fixes 🐛
-
-* fix: timeout for init core
+* feat: [mixed mode](https://igoogolx.github.io/lux-docs/docs/configuration/mode)
 
 ### Other changes
 
