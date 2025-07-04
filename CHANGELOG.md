@@ -2,8 +2,8 @@
 
 ### New features
 
-* feat: [mixed mode](https://igoogolx.github.io/lux-docs/docs/configuration/mode)
+* feat: update default mode to mixed
 
 ### Other changes
 
-* chore: update dependencies
+* fix: System Proxy is not reset correctly
