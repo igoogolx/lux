@@ -2,8 +2,13 @@
 
 ### New features
 
-* feat: update default mode to mixed
+* feat: support [fake ip](https://igoogolx.github.io/lux-docs/docs/configuration/dns/#fake-ip) for Tun
+* feat: check for update forcefully
+
+### Bug fixes 🐛
+
+* fix: fail to check for update in beat version
 
 ### Other changes
 
-* fix: System Proxy is not reset correctly
+* chore: update dependencies
