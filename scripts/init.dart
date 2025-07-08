@@ -13,7 +13,7 @@ final assetsPath =
 final binDir = Directory(path.join(assetsPath, 'bin'));
 
 const rawCoreName = 'itun2socks';
-const rawCoreVersion = '1.30.0-beat.0';
+const rawCoreVersion = '1.30.0';
 
 Future<void> downloadFileWith(String url, String savePath) async {
   final dio = Dio();
