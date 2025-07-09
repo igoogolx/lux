@@ -6,7 +6,7 @@ const darwinArm64Checksum =
 const darwinAmd64Checksum =
     "75a4e629a7ea1ff6b20144dcf0e83e8b4033a193184858e3a144c00f9d16c736";
 const windowsAmd64Checksum =
-    "ae7ef91215b23c341629918d5579d4f44917973787ef0b9f8c7bfe61d9d8cf9a";
+    "76c55135c3f9b382f0fd31e786302c2765664bfab3c50b8f042ed8ee27f102c0";
 
 Future<void> verifyCoreBinary(String filePath) async {
   var input = File(filePath);
