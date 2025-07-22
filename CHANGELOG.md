@@ -2,9 +2,8 @@
 
 ### Bug fixes 🐛
 
-* fix: fail to read clipboard for importing proxy
-* fix: nav icon is not clickable
+* fix: system proxy not working when Allow Lan is enabled
 
 ### Other Changes
 
-* chore: mark Fake Ip as normal feature
+* chore: upgrade dependencies
