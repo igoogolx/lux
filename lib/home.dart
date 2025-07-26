@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:launch_at_startup/launch_at_startup.dart';
 import 'package:lux/const/const.dart';
 import 'package:lux/core_manager.dart';
-import 'package:lux/dashboard.dart';
+import 'package:lux/webview_dashboard.dart';
 import 'package:lux/process_manager.dart';
 import 'package:lux/progress_indicator.dart';
 import 'package:lux/tr.dart';
