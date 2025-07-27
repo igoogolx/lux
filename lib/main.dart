@@ -32,17 +32,16 @@ void main(args) async {
       windowManager.show();
     });
 
-
     var isDarkMode = await readTheme() == ThemeType.dark;
-    var theme = isDarkMode ? "dark" : "light";
-    var localeModel =  LocaleModel();
+    var theme = isDarkMode ? ThemeMode.dark : ThemeMode.light;
+    var clientMode = await readClientMode();
+    var localeModel = LocaleModel();
     var defaultLocaleValue = await getLocale();
     localeModel.set(defaultLocaleValue);
-    runApp(App(theme, isDarkMode ? Color(darkBackgroundColor) : Colors.white,localeModel));
+    runApp(App(theme, isDarkMode ? Color(darkBackgroundColor) : Colors.white,
+        localeModel, clientMode));
   } catch (e) {
     await notifier.show("$e");
     exitApp();
   }
 }
-
-

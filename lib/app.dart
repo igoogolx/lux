@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lux/core_config.dart';
 import 'package:lux/home.dart';
 import 'package:lux/tr.dart';
 import 'package:provider/provider.dart';
@@ -6,11 +7,14 @@ import 'package:provider/provider.dart';
 import 'l10n/app_localizations.dart';
 
 class App extends StatelessWidget {
-  final String theme;
-  final Color scaffoldBackgroundColor ;
-  final LocaleModel defaultLocalModel ;
+  final ThemeMode theme;
+  final Color scaffoldBackgroundColor;
+  final LocaleModel defaultLocalModel;
+  final ClientMode clientMode;
 
-  const App(this.theme,this.scaffoldBackgroundColor, this.defaultLocalModel,{super.key});
+  const App(this.theme, this.scaffoldBackgroundColor, this.defaultLocalModel,
+      this.clientMode,
+      {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +22,10 @@ class App extends StatelessWidget {
       create: (context) => defaultLocalModel,
       child: Consumer<LocaleModel>(
         builder: (context, localeModel, child) => MaterialApp(
-          theme: ThemeData(
-              scaffoldBackgroundColor:scaffoldBackgroundColor ), //Dark mode of dashboard
-          home: Home(theme, defaultLocalModel),
+          themeMode: ThemeMode.light,
+          theme: ThemeData.light(), //Dark mode of dashboard
+          darkTheme: ThemeData.dark(),
+          home: Home(theme, defaultLocalModel, clientMode),
           onGenerateTitle: (context) {
             initTr(context);
             return 'Lux';
@@ -33,10 +38,8 @@ class App extends StatelessWidget {
             Locale('en'),
             Locale('zh'),
           ],
-        )
-        ,
+        ),
       ),
     );
   }
 }
-
