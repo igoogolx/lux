@@ -51,7 +51,7 @@ Future<ClientMode> readClientMode() async {
       return ClientMode.light;
     }
   }
-  return ClientMode.webview;
+  return ClientMode.light;
 }
 
 Future<bool> readAutoLaunch() async {

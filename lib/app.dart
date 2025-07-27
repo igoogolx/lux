@@ -23,8 +23,11 @@ class App extends StatelessWidget {
       child: Consumer<LocaleModel>(
         builder: (context, localeModel, child) => MaterialApp(
           themeMode: ThemeMode.light,
-          theme: ThemeData.light(), //Dark mode of dashboard
-          darkTheme: ThemeData.dark(),
+          theme: ThemeData(
+              brightness: Brightness.light,
+              useMaterial3: true,
+              scaffoldBackgroundColor: Colors.white),
+          darkTheme: ThemeData(brightness: Brightness.dark, useMaterial3: true),
           home: Home(theme, defaultLocalModel, clientMode),
           onGenerateTitle: (context) {
             initTr(context);

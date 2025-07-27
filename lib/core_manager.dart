@@ -177,6 +177,12 @@ class CoreManager {
     return ProxyList.fromJson(proxiesRes.data);
   }
 
+  Future<RuleList> getRuleList() async {
+    final rulesRes = await dio.get('$baseUrl/rules');
+    debugPrint('rulesRes: ${rulesRes.data}');
+    return RuleList.fromJson(rulesRes.data);
+  }
+
   Future<void> selectProxy(String id) async {
     await dio.post('$baseUrl/selected/proxy', data: {'id': id});
   }
@@ -253,21 +259,17 @@ class ProxyList {
       {'proxies': proxies.map((asset) => asset.toJson()).toList()};
 }
 
-class RuleItem {
-  final String id;
-  final String value;
+class RuleList {
+  final List<String> rules;
+  String selectedId;
 
-  RuleItem(
-    this.id,
-    this.value,
-  );
+  RuleList(this.rules, this.selectedId);
 
-  RuleItem.fromJson(Map<String, dynamic> json)
-      : id = (json['id'] as String),
-        value = (json['value'] as String);
+  RuleList.fromJson(Map<String, dynamic> json)
+      : rules = json['rules'] != null
+            ? (json['rules'] as List).map((asset) => asset as String).toList()
+            : <String>[],
+        selectedId = (json['selectedId'] as String);
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'value': value,
-      };
+  Map<String, dynamic> toJson() => {'rules': rules};
 }
