@@ -5,5 +5,10 @@
   "reconnectedMsg": "已重连",
   "connectOnOpenErrMsg": "自动连接失败: {msg}",
   "setAutoLaunchErrMsg": "设置自启动失败: {msg}",
-  "connectOnOpenMsg": "已自动连接"
+  "connectOnOpenMsg": "已自动连接",
+  "proxyAllRuleLabel": "Proxy All",
+  "proxyGFWRuleLabel": "Proxy GFW",
+  "bypassCNRuleLabel": "Bypass CN",
+  "bypassAllRuleLabel": "Bypass All",
+  "goWebDashboardTip":"Go To Web Dashboard"
 }

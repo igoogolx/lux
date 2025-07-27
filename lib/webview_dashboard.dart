@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart' as path;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 import 'package:webview_win_floating/webview.dart';
 import 'package:webview_win_floating/webview_plugin.dart';
-import 'package:path/path.dart' as path;
 import 'package:window_manager/window_manager.dart';
 
 class WebViewDashboard extends StatefulWidget {
@@ -16,13 +16,16 @@ class WebViewDashboard extends StatefulWidget {
   final String homeDir;
   final void Function(JavaScriptMessage) onChannelMessage;
 
-  const WebViewDashboard(this.homeDir, this.baseUrl, this.urlStr, this.onChannelMessage, {super.key});
+  const WebViewDashboard(
+      this.homeDir, this.baseUrl, this.urlStr, this.onChannelMessage,
+      {super.key});
 
   @override
   State<WebViewDashboard> createState() => _WebViewDashboardState();
 }
 
-class _WebViewDashboardState extends State<WebViewDashboard> with WindowListener {
+class _WebViewDashboardState extends State<WebViewDashboard>
+    with WindowListener {
   late WebViewController? _controller;
 
   _WebViewDashboardState();
@@ -52,7 +55,8 @@ class _WebViewDashboardState extends State<WebViewDashboard> with WindowListener
       }),
     );
 
-    controller.addJavaScriptChannel('ClientChannel', onMessageReceived:widget.onChannelMessage);
+    controller.addJavaScriptChannel('ClientChannel',
+        onMessageReceived: widget.onChannelMessage);
 
     controller.loadRequest(Uri.parse(widget.urlStr));
 
@@ -68,9 +72,8 @@ class _WebViewDashboardState extends State<WebViewDashboard> with WindowListener
     }
 
     if (controller.platform is WebKitWebViewController) {
-      if(kDebugMode){
-        (controller.platform as WebKitWebViewController)
-            .setInspectable(true);
+      if (kDebugMode) {
+        (controller.platform as WebKitWebViewController).setInspectable(true);
       }
     }
 
@@ -86,7 +89,16 @@ class _WebViewDashboardState extends State<WebViewDashboard> with WindowListener
   @override
   void onWindowClose() async {
     if (Platform.isMacOS) {
-      _controller?.reload();
+      if (await windowManager.isFullScreen()) {
+        await windowManager.setFullScreen(false);
+        //FIXME: remove delay
+        await Future.delayed(const Duration(seconds: 1));
+        await windowManager.minimize();
+      } else {
+        await windowManager.minimize();
+      }
+    } else {
+      await windowManager.hide();
     }
   }
 

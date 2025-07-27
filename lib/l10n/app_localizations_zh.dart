@@ -32,4 +32,19 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get connectOnOpenMsg => '已自动连接';
+
+  @override
+  String get proxyAllRuleLabel => 'Proxy All';
+
+  @override
+  String get proxyGFWRuleLabel => 'Proxy GFW';
+
+  @override
+  String get bypassCNRuleLabel => 'Bypass CN';
+
+  @override
+  String get bypassAllRuleLabel => 'Bypass All';
+
+  @override
+  String get goWebDashboardTip => 'Go To Web Dashboard';
 }

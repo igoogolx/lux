@@ -3,6 +3,7 @@ import 'dart:collection';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:lux/tr.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -26,6 +27,11 @@ class _DashboardState extends State<Dashboard> with WindowListener {
   String curProxyInfo = "";
   ProxyList proxyList = ProxyList(<ProxyItem>[], "");
   RuleList ruleList = RuleList(<String>[], "");
+  bool isLoadingSwitch = false;
+  bool isLoadingProxyList = false;
+  bool isLoadingRuleList = false;
+  bool isLoadingProxyRadio = false;
+  bool isLoadingRuleDropdown = false;
 
   Timer timer = Timer(Duration.zero, () {});
   final dio = Dio();
@@ -35,32 +41,8 @@ class _DashboardState extends State<Dashboard> with WindowListener {
   @override
   void initState() {
     super.initState();
-
-    const oneSec = Duration(seconds: 1);
-    timer = Timer.periodic(oneSec, (Timer t) {
-      widget.coreManager.getIsStarted().then((value) {
-        setState(() {
-          isStarted = value;
-        });
-      });
-      widget.coreManager.getCurProxyInfo().then((value) {
-        setState(() {
-          curProxyInfo = value;
-        });
-      });
-      widget.coreManager.getProxyList().then((value) {
-        setState(() {
-          proxyList = value;
-        });
-      });
-      widget.coreManager.getRuleList().then((value) {
-        setState(() {
-          ruleList = value;
-        });
-      });
-    });
-
     windowManager.addListener(this);
+    refreshData();
   }
 
   @override
@@ -71,19 +53,57 @@ class _DashboardState extends State<Dashboard> with WindowListener {
   }
 
   @override
-  void onWindowClose() async {}
+  void onWindowClose() async {
+    await windowManager.hide();
+  }
+
+  @override
+  void onWindowFocus() {
+    refreshData();
+  }
+
+  Future<void> refreshData() async {
+    widget.coreManager.getIsStarted().then((value) {
+      setState(() {
+        isStarted = value;
+      });
+    });
+    widget.coreManager.getCurProxyInfo().then((value) {
+      setState(() {
+        curProxyInfo = value;
+      });
+    });
+    widget.coreManager.getProxyList().then((value) {
+      setState(() {
+        proxyList = value;
+      });
+    });
+    widget.coreManager.getRuleList().then((value) {
+      setState(() {
+        ruleList = value;
+      });
+    });
+  }
 
   void onSwitchChanged(bool value) async {
-    debugPrint("Switch changed: $value");
-    if (value) {
-      await widget.coreManager.start();
+    try {
       setState(() {
-        isStarted = true;
+        isLoadingSwitch = true;
       });
-    } else {
-      await widget.coreManager.stop();
+      if (value) {
+        await widget.coreManager.start();
+        setState(() {
+          isStarted = true;
+        });
+      } else {
+        await widget.coreManager.stop();
+        setState(() {
+          isStarted = false;
+        });
+      }
+    } finally {
       setState(() {
-        isStarted = false;
+        isLoadingSwitch = false;
       });
     }
   }
@@ -96,28 +116,63 @@ class _DashboardState extends State<Dashboard> with WindowListener {
     if (id == null) {
       return;
     }
-    await widget.coreManager.selectProxy(id);
-    setState(() {
-      proxyList.selectedId = id;
-    });
+    try {
+      setState(() {
+        isLoadingProxyRadio = true;
+      });
+      await widget.coreManager.selectProxy(id);
+      setState(() {
+        proxyList.selectedId = id;
+      });
+    } finally {
+      setState(() {
+        isLoadingProxyRadio = false;
+      });
+    }
   }
 
   Future<void> handleSelectRule(String? id) async {
     if (id == null) {
       return;
     }
-    await widget.coreManager.selectRule(id);
-    setState(() {
-      ruleList.selectedId = id;
-    });
+    try {
+      setState(() {
+        isLoadingRuleDropdown = true;
+      });
+      await widget.coreManager.selectRule(id);
+      setState(() {
+        ruleList.selectedId = id;
+      });
+    } finally {
+      setState(() {
+        isLoadingRuleDropdown = false;
+      });
+    }
+  }
+
+  String getRuleLabel(String name) {
+    switch (name) {
+      case "proxy_all":
+        return tr().proxyAllRuleLabel;
+      case "proxy_gfw":
+        return tr().proxyGFWRuleLabel;
+      case "bypass_cn":
+        return tr().bypassCNRuleLabel;
+      case "bypass_all":
+        return tr().bypassAllRuleLabel;
+      default:
+        return name;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final List<DropdownMenuEntry<String>> menuEntries =
         UnmodifiableListView<DropdownMenuEntry<String>>(
-      ruleList.rules.map<DropdownMenuEntry<String>>(
-          (String name) => DropdownMenuEntry(value: name, label: name)),
+      ruleList.rules.map<DropdownMenuEntry<String>>((String name) {
+        String label = getRuleLabel(name);
+        return DropdownMenuEntry(value: name, label: label);
+      }),
     );
 
     return Scaffold(
@@ -125,19 +180,21 @@ class _DashboardState extends State<Dashboard> with WindowListener {
           title: Row(
         children: [
           IconButton(
-              tooltip: "Go to Web Dashboard",
+              tooltip: tr().goWebDashboardTip,
               onPressed: openWebDashboard,
               icon: const Icon(
                 Icons.settings,
                 size: 20,
               )),
+          SizedBox(width: 8),
           SizedBox(
             height: 32,
             child: FittedBox(
               fit: BoxFit.fill,
               child: DropdownMenu<String>(
+                width: 160,
                 initialSelection: ruleList.selectedId,
-                onSelected: handleSelectRule,
+                onSelected: isLoadingRuleDropdown ? null : handleSelectRule,
                 dropdownMenuEntries: menuEntries,
               ),
             ),
@@ -147,6 +204,7 @@ class _DashboardState extends State<Dashboard> with WindowListener {
             curProxyInfo,
             style: TextStyle(fontSize: 14),
           ),
+          SizedBox(width: 8),
           SizedBox(
             width: 48,
             child: FittedBox(
@@ -154,7 +212,7 @@ class _DashboardState extends State<Dashboard> with WindowListener {
               child: Switch(
                 value: isStarted,
                 activeColor: Colors.blue,
-                onChanged: onSwitchChanged,
+                onChanged: isLoadingSwitch ? null : onSwitchChanged,
               ),
             ),
           ),
@@ -162,27 +220,28 @@ class _DashboardState extends State<Dashboard> with WindowListener {
       )),
       body: proxyList.proxies.isEmpty
           ? SizedBox()
-          : ListView.builder(
+          : ListView.separated(
               padding: EdgeInsetsGeometry.all(0),
               itemCount: proxyList.proxies.length,
-              prototypeItem: RadioListTile<String>(
-                title: Text(proxyList.proxies.first.name,
-                    style: TextStyle(fontSize: 14)),
-                value: proxyList.proxies.first.id,
-                groupValue: proxyList.selectedId,
-                onChanged: handleSelectProxy,
-              ),
               itemBuilder: (context, index) {
-                return ListTile(
-                    title: RadioListTile<String>(
+                return RadioListTile<String>(
                   title: Text(
                     proxyList.proxies[index].name,
                     style: TextStyle(fontSize: 14),
                   ),
                   value: proxyList.proxies[index].id,
                   groupValue: proxyList.selectedId,
-                  onChanged: handleSelectProxy,
-                ));
+                  onChanged: isLoadingProxyRadio ? null : handleSelectProxy,
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return Divider(
+                  color: Colors.grey, // Customize divider color
+                  height: 1, // Control the space the divider takes up
+                  thickness: 1, // Control the line's thickness
+                  indent: 20, // Left padding
+                  endIndent: 20, // Right padding
+                );
               },
             ),
     );

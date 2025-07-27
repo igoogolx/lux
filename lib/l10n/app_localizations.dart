@@ -139,6 +139,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Connect on open'**
   String get connectOnOpenMsg;
+
+  /// No description provided for @proxyAllRuleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Proxy All'**
+  String get proxyAllRuleLabel;
+
+  /// No description provided for @proxyGFWRuleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Proxy GFW'**
+  String get proxyGFWRuleLabel;
+
+  /// No description provided for @bypassCNRuleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Bypass CN'**
+  String get bypassCNRuleLabel;
+
+  /// No description provided for @bypassAllRuleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Bypass All'**
+  String get bypassAllRuleLabel;
+
+  /// No description provided for @goWebDashboardTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to web dashboard'**
+  String get goWebDashboardTip;
 }
 
 class _AppLocalizationsDelegate

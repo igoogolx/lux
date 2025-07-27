@@ -32,4 +32,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get connectOnOpenMsg => 'Connect on open';
+
+  @override
+  String get proxyAllRuleLabel => 'Proxy All';
+
+  @override
+  String get proxyGFWRuleLabel => 'Proxy GFW';
+
+  @override
+  String get bypassCNRuleLabel => 'Bypass CN';
+
+  @override
+  String get bypassAllRuleLabel => 'Bypass All';
+
+  @override
+  String get goWebDashboardTip => 'Go to web dashboard';
 }

@@ -38,7 +38,7 @@ Future<void> initClient(CoreManager? coreManager) async {
   await setAutoLaunch(coreManager);
 }
 
-class _HomeState extends State<Home> with WindowListener, TrayListener {
+class _HomeState extends State<Home> with TrayListener {
   String baseUrl = "";
   String urlStr = "";
   String homeDir = "";
@@ -50,7 +50,6 @@ class _HomeState extends State<Home> with WindowListener, TrayListener {
 
   void _init() async {
     trayManager.addListener(this);
-    windowManager.addListener(this);
     await windowManager.setPreventClose(true);
     var corePath = path.join(Paths.assetsBin.path, LuxCoreName.name);
     var curHomeDir = await getHomeDir();
@@ -143,7 +142,6 @@ class _HomeState extends State<Home> with WindowListener, TrayListener {
   @override
   void dispose() {
     trayManager.removeListener(this);
-    windowManager.removeListener(this);
     super.dispose();
   }
 
@@ -159,9 +157,6 @@ class _HomeState extends State<Home> with WindowListener, TrayListener {
   }
 
   @override
-  void onTrayIconRightMouseUp() {}
-
-  @override
   void onTrayMenuItemClick(MenuItem menuItem) async {
     if (menuItem.key == 'open_dashboard') {
       final Uri url = Uri.parse(urlStr);
@@ -169,22 +164,6 @@ class _HomeState extends State<Home> with WindowListener, TrayListener {
     } else if (menuItem.key == 'exit_app') {
       await coreManager?.exitCore();
       exit(0);
-    }
-  }
-
-  @override
-  void onWindowClose() async {
-    if (Platform.isMacOS) {
-      if (await windowManager.isFullScreen()) {
-        await windowManager.setFullScreen(false);
-        //FIXME: remove delay
-        await Future.delayed(const Duration(seconds: 1));
-        await windowManager.minimize();
-      } else {
-        await windowManager.minimize();
-      }
-    } else {
-      await windowManager.hide();
     }
   }
 

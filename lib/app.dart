@@ -26,7 +26,18 @@ class App extends StatelessWidget {
           theme: ThemeData(
               brightness: Brightness.light,
               useMaterial3: true,
-              scaffoldBackgroundColor: Colors.white),
+              scaffoldBackgroundColor: Colors.white,
+              dropdownMenuTheme: DropdownMenuThemeData(
+                  inputDecorationTheme: InputDecorationTheme(
+                      border: OutlineInputBorder(),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.grey,
+                        ),
+                      ))),
+              appBarTheme: AppBarTheme(
+                  backgroundColor: Colors.white,
+                  surfaceTintColor: Colors.white)),
           darkTheme: ThemeData(brightness: Brightness.dark, useMaterial3: true),
           home: Home(theme, defaultLocalModel, clientMode),
           onGenerateTitle: (context) {

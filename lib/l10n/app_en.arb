@@ -5,5 +5,10 @@
   "reconnectedMsg": "Reconnected",
   "connectOnOpenErrMsg": "Fail to connect on open: {msg}",
   "setAutoLaunchErrMsg": "Fail to set auto launch: {msg}",
-  "connectOnOpenMsg": "Connect on open"
+  "connectOnOpenMsg": "Connect on open",
+  "proxyAllRuleLabel": "Proxy All",
+  "proxyGFWRuleLabel": "Proxy GFW",
+  "bypassCNRuleLabel": "Bypass CN",
+  "bypassAllRuleLabel": "Bypass All",
+  "goWebDashboardTip":"Go to web dashboard"
 }
