@@ -27,7 +27,17 @@ class App extends StatelessWidget {
               brightness: Brightness.light,
               useMaterial3: true,
               scaffoldBackgroundColor: Colors.white,
+              radioTheme: RadioThemeData(fillColor:
+                  WidgetStateProperty.resolveWith<Color>(
+                      (Set<WidgetState> states) {
+                if (states.contains(WidgetState.disabled)) {
+                  return Colors.blue.withValues();
+                }
+                return Colors.blue;
+              })),
               dropdownMenuTheme: DropdownMenuThemeData(
+                  textStyle:
+                      TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   inputDecorationTheme: InputDecorationTheme(
                       border: OutlineInputBorder(),
                       enabledBorder: OutlineInputBorder(
