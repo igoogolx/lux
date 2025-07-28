@@ -217,32 +217,34 @@ class _DashboardState extends State<Dashboard> with WindowListener {
               ),
             ],
           )),
-      body: proxyList.proxies.isEmpty
-          ? SizedBox()
-          : ListView.separated(
-              padding: EdgeInsetsGeometry.all(0),
-              itemCount: proxyList.proxies.length,
-              itemBuilder: (context, index) {
-                return RadioListTile<String>(
-                  title: Text(
-                    proxyList.proxies[index].name,
-                    style: TextStyle(fontSize: 14),
-                  ),
-                  value: proxyList.proxies[index].id,
-                  groupValue: proxyList.selectedId,
-                  onChanged: isLoadingProxyRadio ? null : handleSelectProxy,
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) {
-                return Divider(
-                  color: Colors.grey, // Customize divider color
-                  height: 1, // Control the space the divider takes up
-                  thickness: 1, // Control the line's thickness
-                  indent: 20, // Left padding
-                  endIndent: 20, // Right padding
-                );
-              },
-            ),
+      body: Card(
+        child: proxyList.proxies.isEmpty
+            ? SizedBox()
+            : ListView.separated(
+                padding: EdgeInsetsGeometry.all(0),
+                itemCount: proxyList.proxies.length,
+                itemBuilder: (context, index) {
+                  return RadioListTile<String>(
+                    title: Text(
+                      proxyList.proxies[index].name,
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    value: proxyList.proxies[index].id,
+                    groupValue: proxyList.selectedId,
+                    onChanged: isLoadingProxyRadio ? null : handleSelectProxy,
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return Divider(
+                    color: Colors.grey, // Customize divider color
+                    height: 1, // Control the space the divider takes up
+                    thickness: 1, // Control the line's thickness
+                    indent: 20, // Left padding
+                    endIndent: 20, // Right padding
+                  );
+                },
+              ),
+      ),
     );
   }
 }
