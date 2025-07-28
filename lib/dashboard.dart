@@ -123,6 +123,10 @@ class _DashboardState extends State<Dashboard> with WindowListener {
       await widget.coreManager.selectProxy(id);
       setState(() {
         proxyList.selectedId = id;
+        var curProxy = proxyList.proxies.firstWhere((p) => p.id == id);
+        curProxyInfo = curProxy.name.isNotEmpty
+            ? curProxy.name
+            : "${curProxy.server}:${curProxy.port}";
       });
     } finally {
       setState(() {
