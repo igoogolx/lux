@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:lux/app.dart';
-import 'package:lux/const/const.dart';
 import 'package:lux/core_config.dart';
 import 'package:lux/notifier.dart';
 import 'package:lux/tr.dart';
@@ -38,8 +37,7 @@ void main(args) async {
     var localeModel = LocaleModel();
     var defaultLocaleValue = await getLocale();
     localeModel.set(defaultLocaleValue);
-    runApp(App(theme, isDarkMode ? Color(darkBackgroundColor) : Colors.white,
-        localeModel, clientMode));
+    runApp(App(theme, localeModel, clientMode));
   } catch (e) {
     await notifier.show("$e");
     exitApp();

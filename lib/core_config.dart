@@ -46,12 +46,13 @@ enum ClientMode {
 
 Future<ClientMode> readClientMode() async {
   var setting = await readSetting();
-  if (setting.containsKey('clientMode') && setting['clientMode'] is String) {
-    if (setting['clientMode'] == 'light') {
+  if (setting.containsKey('lightClientMode') &&
+      setting['lightClientMode'] is bool) {
+    if (setting['lightClientMode']) {
       return ClientMode.light;
     }
   }
-  return ClientMode.light;
+  return ClientMode.webview;
 }
 
 Future<bool> readAutoLaunch() async {

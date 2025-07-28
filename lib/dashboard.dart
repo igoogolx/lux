@@ -218,6 +218,7 @@ class _DashboardState extends State<Dashboard> with WindowListener {
             ],
           )),
       body: Card(
+        margin: EdgeInsetsGeometry.only(left: 6, right: 6, top: 8, bottom: 8),
         child: proxyList.proxies.isEmpty
             ? SizedBox()
             : ListView.separated(
@@ -226,8 +227,10 @@ class _DashboardState extends State<Dashboard> with WindowListener {
                 itemBuilder: (context, index) {
                   return RadioListTile<String>(
                     title: Text(
-                      proxyList.proxies[index].name,
-                      style: TextStyle(fontSize: 14),
+                      proxyList.proxies[index].name.isNotEmpty
+                          ? proxyList.proxies[index].name
+                          : "${proxyList.proxies[index].server}:${proxyList.proxies[index].port}",
+                      style: TextStyle(fontSize: 12),
                     ),
                     value: proxyList.proxies[index].id,
                     groupValue: proxyList.selectedId,
@@ -236,7 +239,6 @@ class _DashboardState extends State<Dashboard> with WindowListener {
                 },
                 separatorBuilder: (BuildContext context, int index) {
                   return Divider(
-                    color: Colors.grey, // Customize divider color
                     height: 1, // Control the space the divider takes up
                     thickness: 1, // Control the line's thickness
                     indent: 20, // Left padding

@@ -9,13 +9,10 @@ import 'l10n/app_localizations.dart';
 
 class App extends StatelessWidget {
   final ThemeMode theme;
-  final Color scaffoldBackgroundColor;
   final LocaleModel defaultLocalModel;
   final ClientMode clientMode;
 
-  const App(this.theme, this.scaffoldBackgroundColor, this.defaultLocalModel,
-      this.clientMode,
-      {super.key});
+  const App(this.theme, this.defaultLocalModel, this.clientMode, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +20,7 @@ class App extends StatelessWidget {
       create: (context) => defaultLocalModel,
       child: Consumer<LocaleModel>(
         builder: (context, localeModel, child) => MaterialApp(
-          themeMode: ThemeMode.light,
+          themeMode: theme,
           theme: AppTheme.light,
           darkTheme: AppTheme.dark,
           home: Home(theme, defaultLocalModel, clientMode),
