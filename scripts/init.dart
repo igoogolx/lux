@@ -1,11 +1,12 @@
 // ignore_for_file: avoid_print
 
 import 'dart:io';
+
+import 'package:args/args.dart';
 import 'package:dio/dio.dart';
 import 'package:lux/checksum.dart';
-import 'package:path/path.dart' as path;
 import 'package:lux/const/const.dart';
-import 'package:args/args.dart';
+import 'package:path/path.dart' as path;
 
 // https://github.com/dart-lang/sdk/issues/31610
 final assetsPath =
@@ -13,7 +14,7 @@ final assetsPath =
 final binDir = Directory(path.join(assetsPath, 'bin'));
 
 const rawCoreName = 'itun2socks';
-const rawCoreVersion = '1.30.4';
+const rawCoreVersion = '1.31.0-beat.1';
 
 Future<void> downloadFileWith(String url, String savePath) async {
   final dio = Dio();
@@ -55,13 +56,13 @@ Future downloadLatestCore(String arch, String token) async {
       .firstWhere((it) => (it['name'] as String).contains(luxCoreName));
 
   final String name = latest['name'];
-  final tempFile = File(path.join(binDir.path,  LuxCoreName.name));
+  final tempFile = File(path.join(binDir.path, LuxCoreName.name));
 
   print('Downloading $name');
   await dio.download(latest['browser_download_url'], tempFile.path);
   print('Download $name Success');
   await verifyCoreBinary(tempFile.path);
-  if(Platform.isMacOS){
+  if (Platform.isMacOS) {
     await Process.run('chmod', ['+x', tempFile.path]);
   }
 }

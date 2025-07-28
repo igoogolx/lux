@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-const version = '1.30.4';
+const version = '1.31.0-beat.1';
 
 class ReleaseAsset {
   final String digest;
