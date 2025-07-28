@@ -167,7 +167,7 @@ abstract class AppLocalizations {
   /// No description provided for @goWebDashboardTip.
   ///
   /// In en, this message translates to:
-  /// **'Go to web dashboard'**
+  /// **'Open web dashboard'**
   String get goWebDashboardTip;
 }
 

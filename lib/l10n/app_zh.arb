@@ -6,9 +6,9 @@
   "connectOnOpenErrMsg": "自动连接失败: {msg}",
   "setAutoLaunchErrMsg": "设置自启动失败: {msg}",
   "connectOnOpenMsg": "已自动连接",
-  "proxyAllRuleLabel": "Proxy All",
-  "proxyGFWRuleLabel": "Proxy GFW",
-  "bypassCNRuleLabel": "Bypass CN",
-  "bypassAllRuleLabel": "Bypass All",
-  "goWebDashboardTip":"Go To Web Dashboard"
+  "proxyAllRuleLabel": "代理全部",
+  "proxyGFWRuleLabel": "代理 GFW",
+  "bypassCNRuleLabel": "绕过 CN",
+  "bypassAllRuleLabel": "绕过全部",
+  "goWebDashboardTip":"打开 Web 管理面板"
 }

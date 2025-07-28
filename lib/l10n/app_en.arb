@@ -10,5 +10,5 @@
   "proxyGFWRuleLabel": "Proxy GFW",
   "bypassCNRuleLabel": "Bypass CN",
   "bypassAllRuleLabel": "Bypass All",
-  "goWebDashboardTip":"Go to web dashboard"
+  "goWebDashboardTip":"Open web dashboard"
 }

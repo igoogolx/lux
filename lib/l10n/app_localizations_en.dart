@@ -46,5 +46,5 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bypassAllRuleLabel => 'Bypass All';
 
   @override
-  String get goWebDashboardTip => 'Go to web dashboard';
+  String get goWebDashboardTip => 'Open web dashboard';
 }
