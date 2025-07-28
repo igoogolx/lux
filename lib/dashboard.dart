@@ -177,47 +177,46 @@ class _DashboardState extends State<Dashboard> with WindowListener {
 
     return Scaffold(
       appBar: AppBar(
-          title: Row(
-        children: [
-          IconButton(
+          leading: IconButton(
               tooltip: tr().goWebDashboardTip,
               onPressed: openWebDashboard,
               icon: const Icon(
                 Icons.settings,
                 size: 20,
               )),
-          SizedBox(width: 8),
-          SizedBox(
-            height: 32,
-            child: FittedBox(
-              fit: BoxFit.fill,
-              child: DropdownMenu<String>(
-                width: 160,
-                initialSelection: ruleList.selectedId,
-                onSelected: isLoadingRuleDropdown ? null : handleSelectRule,
-                dropdownMenuEntries: menuEntries,
+          title: Row(
+            children: [
+              SizedBox(
+                height: 32,
+                child: FittedBox(
+                  fit: BoxFit.fill,
+                  child: DropdownMenu<String>(
+                    width: 160,
+                    initialSelection: ruleList.selectedId,
+                    onSelected: isLoadingRuleDropdown ? null : handleSelectRule,
+                    dropdownMenuEntries: menuEntries,
+                  ),
+                ),
               ),
-            ),
-          ),
-          Spacer(),
-          Text(
-            curProxyInfo,
-            style: TextStyle(fontSize: 14),
-          ),
-          SizedBox(width: 8),
-          SizedBox(
-            width: 48,
-            child: FittedBox(
-              fit: BoxFit.fill,
-              child: Switch(
-                value: isStarted,
-                activeColor: Colors.blue,
-                onChanged: isLoadingSwitch ? null : onSwitchChanged,
+              Spacer(),
+              Text(
+                curProxyInfo,
+                style: TextStyle(fontSize: 14),
               ),
-            ),
-          ),
-        ],
-      )),
+              SizedBox(width: 8),
+              SizedBox(
+                width: 48,
+                child: FittedBox(
+                  fit: BoxFit.fill,
+                  child: Switch(
+                    value: isStarted,
+                    activeColor: Colors.blue,
+                    onChanged: isLoadingSwitch ? null : onSwitchChanged,
+                  ),
+                ),
+              ),
+            ],
+          )),
       body: proxyList.proxies.isEmpty
           ? SizedBox()
           : ListView.separated(
