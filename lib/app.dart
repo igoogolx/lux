@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:lux/core_config.dart';
 import 'package:lux/home.dart';
 import 'package:lux/theme.dart';
@@ -31,6 +32,9 @@ class App extends StatelessWidget {
           locale: localeModel.locale,
           localizationsDelegates: [
             AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: [
             Locale('en'),

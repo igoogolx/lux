@@ -169,6 +169,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Open web dashboard'**
   String get goWebDashboardTip;
+
+  /// No description provided for @tunModeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Tun'**
+  String get tunModeLabel;
+
+  /// No description provided for @systemModeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get systemModeLabel;
+
+  /// No description provided for @mixedModeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Mixed'**
+  String get mixedModeLabel;
+
+  /// No description provided for @proxyModeTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'System proxy usually only supports TCP and is not accepted by all applications, but Tun can handle all traffic. Mixed enables Tun and System at the same time'**
+  String get proxyModeTooltip;
 }
 
 class _AppLocalizationsDelegate

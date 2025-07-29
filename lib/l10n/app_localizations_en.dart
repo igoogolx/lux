@@ -47,4 +47,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get goWebDashboardTip => 'Open web dashboard';
+
+  @override
+  String get tunModeLabel => 'Tun';
+
+  @override
+  String get systemModeLabel => 'System';
+
+  @override
+  String get mixedModeLabel => 'Mixed';
+
+  @override
+  String get proxyModeTooltip =>
+      'System proxy usually only supports TCP and is not accepted by all applications, but Tun can handle all traffic. Mixed enables Tun and System at the same time';
 }

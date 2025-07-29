@@ -33,6 +33,7 @@ class _DashboardState extends State<Dashboard> with WindowListener {
   bool isLoadingRuleList = false;
   bool isLoadingProxyRadio = false;
   bool isLoadingRuleDropdown = false;
+  ProxyMode proxyMode = ProxyMode.tun;
 
   Timer timer = Timer(Duration.zero, () {});
   final dio = Dio();
@@ -90,6 +91,11 @@ class _DashboardState extends State<Dashboard> with WindowListener {
     widget.coreManager.getRuleList().then((value) {
       setState(() {
         ruleList = value;
+      });
+    });
+    widget.coreManager.getMode().then((value) {
+      setState(() {
+        proxyMode = value;
       });
     });
   }
@@ -178,6 +184,17 @@ class _DashboardState extends State<Dashboard> with WindowListener {
     }
   }
 
+  String getModeLabel(ProxyMode value) {
+    switch (value) {
+      case ProxyMode.tun:
+        return tr().tunModeLabel;
+      case ProxyMode.system:
+        return tr().systemModeLabel;
+      default:
+        return tr().mixedModeLabel;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final List<DropdownMenuEntry<String>> menuEntries =
@@ -209,6 +226,17 @@ class _DashboardState extends State<Dashboard> with WindowListener {
                     dropdownMenuEntries: menuEntries,
                     textStyle: TextStyle(fontSize: 20),
                   ),
+                ),
+              ),
+              SizedBox(width: 4),
+              Tooltip(
+                message: tr().proxyModeTooltip,
+                child: Chip(
+                  label: Text(
+                    getModeLabel(proxyMode),
+                    style: TextStyle(color: Color.fromRGBO(17, 94, 163, 1)),
+                  ),
+                  backgroundColor: Color.fromRGBO(235, 243, 252, 1),
                 ),
               ),
               Spacer(),

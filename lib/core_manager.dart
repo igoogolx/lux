@@ -191,6 +191,19 @@ class CoreManager {
     await dio.post('$baseUrl/selected/rule', data: {'id': id});
   }
 
+  Future<ProxyMode> getMode() async {
+    final setting = await dio.get('$baseUrl/setting');
+    if (setting.data.containsKey('mode') && setting.data['mode'] is String) {
+      if (setting.data['mode'] == 'tun') {
+        return ProxyMode.tun;
+      }
+      if (setting.data['mode'] == 'system') {
+        return ProxyMode.system;
+      }
+    }
+    return ProxyMode.mixed;
+  }
+
   Future<void> exitCore() async {
     if (Platform.isWindows) {
       try {
@@ -273,3 +286,5 @@ class RuleList {
 
   Map<String, dynamic> toJson() => {'rules': rules};
 }
+
+enum ProxyMode { tun, system, mixed }
