@@ -184,21 +184,21 @@ class _DashboardState extends State<Dashboard> with WindowListener {
           leading: IconButton(
               tooltip: tr().goWebDashboardTip,
               onPressed: openWebDashboard,
+              padding: EdgeInsetsGeometry.all(0),
               icon: const Icon(
                 Icons.settings,
-                size: 20,
               )),
           title: Row(
             children: [
               SizedBox(
                 height: 32,
                 child: FittedBox(
-                  fit: BoxFit.fill,
                   child: DropdownMenu<String>(
                     width: 160,
                     initialSelection: ruleList.selectedId,
                     onSelected: isLoadingRuleDropdown ? null : handleSelectRule,
                     dropdownMenuEntries: menuEntries,
+                    textStyle: TextStyle(fontSize: 20),
                   ),
                 ),
               ),
@@ -211,10 +211,8 @@ class _DashboardState extends State<Dashboard> with WindowListener {
               SizedBox(
                 width: 48,
                 child: FittedBox(
-                  fit: BoxFit.fill,
                   child: Switch(
                     value: isStarted,
-                    activeColor: Colors.blue,
                     onChanged: isLoadingSwitch ? null : onSwitchChanged,
                   ),
                 ),
