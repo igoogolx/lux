@@ -1,9 +1,8 @@
 ## What's Changed
 
-### Bug fixes 🐛
+### New features
 
-* fix: system proxy not working when Allow Lan is enabled
-* fix: fail to check for update since v1.35.0
+* feat: [Light Client Mode](https://igoogolx.github.io/lux-docs/docs/configuration/light_client_mode)
 
 ### Other Changes
 
