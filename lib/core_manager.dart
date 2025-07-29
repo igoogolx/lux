@@ -179,7 +179,6 @@ class CoreManager {
 
   Future<RuleList> getRuleList() async {
     final rulesRes = await dio.get('$baseUrl/rules');
-    debugPrint('rulesRes: ${rulesRes.data}');
     return RuleList.fromJson(rulesRes.data);
   }
 
