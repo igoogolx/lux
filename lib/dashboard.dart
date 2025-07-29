@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +55,15 @@ class _DashboardState extends State<Dashboard> with WindowListener {
 
   @override
   void onWindowClose() async {
-    await windowManager.hide();
+    if (Platform.isMacOS) {
+      if (await windowManager.isFullScreen()) {
+        await windowManager.setFullScreen(false);
+        await Future.delayed(const Duration(seconds: 1));
+      }
+      await windowManager.hide();
+    } else {
+      await windowManager.hide();
+    }
   }
 
   @override
