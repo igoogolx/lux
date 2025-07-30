@@ -220,7 +220,7 @@ class _DashboardState extends State<Dashboard> with WindowListener {
                 height: 32,
                 child: FittedBox(
                   child: DropdownMenu<String>(
-                    width: 160,
+                    width: 168,
                     initialSelection: ruleList.selectedId,
                     onSelected: isLoadingRuleDropdown ? null : handleSelectRule,
                     dropdownMenuEntries: menuEntries,
