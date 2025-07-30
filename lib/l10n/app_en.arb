@@ -5,5 +5,15 @@
   "reconnectedMsg": "Reconnected",
   "connectOnOpenErrMsg": "Fail to connect on open: {msg}",
   "setAutoLaunchErrMsg": "Fail to set auto launch: {msg}",
-  "connectOnOpenMsg": "Connect on open"
+  "connectOnOpenMsg": "Connect on open",
+  "proxyAllRuleLabel": "Proxy All",
+  "proxyGFWRuleLabel": "Proxy GFW",
+  "bypassCNRuleLabel": "Bypass CN",
+  "bypassAllRuleLabel": "Bypass All",
+  "goWebDashboardTip":"Open web dashboard",
+  "tunModeLabel": "Tun",
+  "systemModeLabel": "System",
+  "mixedModeLabel": "Mixed",
+  "proxyModeTooltip": "System proxy usually only supports TCP and is not accepted by all applications, but Tun can handle all traffic. Mixed enables Tun and System at the same time",
+  "newVersionMessage": "New available version!"
 }

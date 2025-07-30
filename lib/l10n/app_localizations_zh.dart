@@ -32,4 +32,35 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get connectOnOpenMsg => '已自动连接';
+
+  @override
+  String get proxyAllRuleLabel => '代理全部';
+
+  @override
+  String get proxyGFWRuleLabel => '代理 GFW';
+
+  @override
+  String get bypassCNRuleLabel => '绕过 CN';
+
+  @override
+  String get bypassAllRuleLabel => '绕过全部';
+
+  @override
+  String get goWebDashboardTip => '打开 Web 管理面板';
+
+  @override
+  String get tunModeLabel => 'Tun';
+
+  @override
+  String get systemModeLabel => '系统代理';
+
+  @override
+  String get mixedModeLabel => '混合';
+
+  @override
+  String get proxyModeTooltip =>
+      'System proxy 通常只支持 TCP 而且不是全部应用都支持, 但是 Tun 能够代理全部流量。混合模式同时开启 Tun 和 System';
+
+  @override
+  String get newVersionMessage => '有新版本可用';
 }

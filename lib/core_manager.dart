@@ -150,6 +150,59 @@ class CoreManager {
     await dio.post('$baseUrl/manager/start');
   }
 
+  Future<bool> getIsStarted() async {
+    final managerRes = await dio.get('$baseUrl/manager');
+    var isStarted = managerRes.data['isStarted'];
+    if (isStarted is bool) {
+      return isStarted;
+    }
+    return false;
+  }
+
+  Future<String> getCurProxyInfo() async {
+    final managerRes = await dio.get('$baseUrl/proxies/cur-proxy');
+    var name = managerRes.data['name'];
+    if (name is String && name.isNotEmpty) {
+      return name;
+    }
+    var addr = managerRes.data['addr'];
+    if (addr is String && addr.isNotEmpty) {
+      return addr;
+    }
+    return "";
+  }
+
+  Future<ProxyList> getProxyList() async {
+    final proxiesRes = await dio.get('$baseUrl/proxies');
+    return ProxyList.fromJson(proxiesRes.data);
+  }
+
+  Future<RuleList> getRuleList() async {
+    final rulesRes = await dio.get('$baseUrl/rules');
+    return RuleList.fromJson(rulesRes.data);
+  }
+
+  Future<void> selectProxy(String id) async {
+    await dio.post('$baseUrl/selected/proxy', data: {'id': id});
+  }
+
+  Future<void> selectRule(String id) async {
+    await dio.post('$baseUrl/selected/rule', data: {'id': id});
+  }
+
+  Future<ProxyMode> getMode() async {
+    final setting = await dio.get('$baseUrl/setting');
+    if (setting.data.containsKey('mode') && setting.data['mode'] is String) {
+      if (setting.data['mode'] == 'tun') {
+        return ProxyMode.tun;
+      }
+      if (setting.data['mode'] == 'system') {
+        return ProxyMode.system;
+      }
+    }
+    return ProxyMode.mixed;
+  }
+
   Future<void> exitCore() async {
     if (Platform.isWindows) {
       try {
@@ -178,3 +231,59 @@ class CoreManager {
     });
   }
 }
+
+class ProxyItem {
+  final String id;
+  final String name;
+  final String? server;
+  final int? port;
+
+  ProxyItem(this.id, this.name, this.server, this.port);
+
+  ProxyItem.fromJson(Map<String, dynamic> json)
+      : id = (json['id'] as String),
+        name = (json['name'] as String),
+        server = (json['server'] as String),
+        port = (json['port'] as int);
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+      };
+}
+
+class ProxyList {
+  final List<ProxyItem> proxies;
+  String selectedId;
+
+  ProxyList(this.proxies, this.selectedId);
+
+  ProxyList.fromJson(Map<String, dynamic> json)
+      : proxies = json['proxies'] != null
+            ? (json['proxies'] as List)
+                .map((asset) =>
+                    ProxyItem.fromJson(asset as Map<String, dynamic>))
+                .toList()
+            : <ProxyItem>[],
+        selectedId = (json['selectedId'] as String);
+
+  Map<String, dynamic> toJson() =>
+      {'proxies': proxies.map((asset) => asset.toJson()).toList()};
+}
+
+class RuleList {
+  final List<String> rules;
+  String selectedId;
+
+  RuleList(this.rules, this.selectedId);
+
+  RuleList.fromJson(Map<String, dynamic> json)
+      : rules = json['rules'] != null
+            ? (json['rules'] as List).map((asset) => asset as String).toList()
+            : <String>[],
+        selectedId = (json['selectedId'] as String);
+
+  Map<String, dynamic> toJson() => {'rules': rules};
+}
+
+enum ProxyMode { tun, system, mixed }

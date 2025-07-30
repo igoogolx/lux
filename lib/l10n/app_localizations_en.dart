@@ -32,4 +32,35 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get connectOnOpenMsg => 'Connect on open';
+
+  @override
+  String get proxyAllRuleLabel => 'Proxy All';
+
+  @override
+  String get proxyGFWRuleLabel => 'Proxy GFW';
+
+  @override
+  String get bypassCNRuleLabel => 'Bypass CN';
+
+  @override
+  String get bypassAllRuleLabel => 'Bypass All';
+
+  @override
+  String get goWebDashboardTip => 'Open web dashboard';
+
+  @override
+  String get tunModeLabel => 'Tun';
+
+  @override
+  String get systemModeLabel => 'System';
+
+  @override
+  String get mixedModeLabel => 'Mixed';
+
+  @override
+  String get proxyModeTooltip =>
+      'System proxy usually only supports TCP and is not accepted by all applications, but Tun can handle all traffic. Mixed enables Tun and System at the same time';
+
+  @override
+  String get newVersionMessage => 'New available version!';
 }
