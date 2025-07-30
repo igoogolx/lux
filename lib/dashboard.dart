@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:lux/tr.dart';
+import 'package:lux/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -69,6 +70,7 @@ class _DashboardState extends State<Dashboard> with WindowListener {
 
   @override
   void onWindowFocus() {
+    checkForUpdate();
     refreshData();
   }
 

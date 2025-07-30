@@ -193,6 +193,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'System proxy usually only supports TCP and is not accepted by all applications, but Tun can handle all traffic. Mixed enables Tun and System at the same time'**
   String get proxyModeTooltip;
+
+  /// No description provided for @newVersionMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'New available version!'**
+  String get newVersionMessage;
 }
 
 class _AppLocalizationsDelegate

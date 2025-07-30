@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import 'package:launch_at_startup/launch_at_startup.dart';
 import 'package:lux/core_config.dart';
 import 'package:lux/core_manager.dart';
@@ -11,7 +13,6 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:version/version.dart';
-import 'package:intl/intl.dart';
 
 Future<String> getHomeDir() async {
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -96,19 +97,52 @@ Future<Locale> getLocale() async {
   return const Locale('en');
 }
 
-typedef InitI10nLabel = ({String macOSElevateServiceInfo,String macOSNotElevatedMsg} );
+typedef InitI10nLabel = ({
+  String macOSElevateServiceInfo,
+  String macOSNotElevatedMsg
+});
 
 Future<InitI10nLabel> getInitI10nLabel() async {
   var locale = await getLocale();
 
-  if(locale==const Locale('zh')){
+  if (locale == const Locale('zh')) {
     return (
       macOSElevateServiceInfo: "Lux 权限提升服务",
       macOSNotElevatedMsg: "核心没有以 root 身份运行"
-    );}
+    );
+  }
   return (
     macOSElevateServiceInfo: "Lux elevation service",
     macOSNotElevatedMsg: "Lux_core is not run as root"
   );
 }
 
+Function compareVersion = (String a, String b) {
+  var versionA = Version.parse(a);
+  var versionB = Version.parse(b);
+  return versionA.compareTo(versionB);
+};
+
+Future<void> checkForUpdate() async {
+  try {
+    debugPrint('compare: ${compareVersion('1.0.1', '1.0.1')}');
+    debugPrint('compare: ${compareVersion('1.0.1', '1.0.1-beat.0')}');
+    debugPrint('compare: ${compareVersion('1.0.1', '1.0.2')}');
+    final dio = Dio();
+    var latestReleaseRes = await dio
+        .get('https://api.github.com/repos/igoogolx/lux/releases/latest');
+    if (latestReleaseRes.data.containsKey('tag_name') &&
+        latestReleaseRes.data['tag_name'] is String) {
+      var latestVersion = latestReleaseRes.data['tag_name'].replaceAll('v', '');
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      var currentVersion = packageInfo.version;
+      debugPrint(
+          'latest version: $latestVersion, current version: $currentVersion');
+      if (compareVersion(latestVersion, currentVersion) == 1) {
+        notifier.show(tr().newVersionMessage);
+      }
+    }
+  } catch (e) {
+    debugPrint('error checking for updates: $e');
+  }
+}
