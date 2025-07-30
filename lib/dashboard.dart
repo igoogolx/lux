@@ -46,6 +46,7 @@ class _DashboardState extends State<Dashboard> with WindowListener {
     super.initState();
     windowManager.addListener(this);
     refreshData();
+    checkForUpdate();
   }
 
   @override
@@ -70,7 +71,6 @@ class _DashboardState extends State<Dashboard> with WindowListener {
 
   @override
   void onWindowFocus() {
-    checkForUpdate();
     refreshData();
   }
 
