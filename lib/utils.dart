@@ -125,9 +125,6 @@ Function compareVersion = (String a, String b) {
 
 Future<void> checkForUpdate() async {
   try {
-    debugPrint('compare: ${compareVersion('1.0.1', '1.0.1')}');
-    debugPrint('compare: ${compareVersion('1.0.1', '1.0.1-beat.0')}');
-    debugPrint('compare: ${compareVersion('1.0.1', '1.0.2')}');
     final dio = Dio();
     var latestReleaseRes = await dio
         .get('https://api.github.com/repos/igoogolx/lux/releases/latest');
