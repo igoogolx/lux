@@ -57,11 +57,8 @@ Windows(require  <a href="https://developer.microsoft.com/en-us/microsoft-edge/w
 
 ## Motivation
 
-There are many great proxy clients available on GitHub.
-However, some of them are a little hard to use or not open-sourced.
-As a proxy tool, I think it should be easy to use.
-And open source technology is the only way to ensure we retain absolute control over the data.
-
+* A proxy tool should be easy to use
+* Open source technology is the only way to ensure we retain absolute control over the data
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -81,7 +78,7 @@ See the [docs](https://igoogolx.github.io/lux-docs/docs/category/getting-started
 This project is using what I'm calling the "FGRT" stack (Flutter, Go, React, TypeScript).
 
 * React on Flutter? Here flutter is not responsible for UI. It's more like a launcher: 
-  start the core process and open the webpage in webview.
+  start the core process and open the dashboard in webview.
 * The core (itun2socks) is written in pure Go.
 
 
