@@ -234,7 +234,8 @@ class _DashboardState extends State<Dashboard> with WindowListener {
                 child: Chip(
                   label: Text(
                     getModeLabel(proxyMode),
-                    style: TextStyle(color: Color.fromRGBO(17, 94, 163, 1)),
+                    style: TextStyle(
+                        color: Color.fromRGBO(17, 94, 163, 1), fontSize: 14),
                   ),
                   backgroundColor: Color.fromRGBO(235, 243, 252, 1),
                 ),
