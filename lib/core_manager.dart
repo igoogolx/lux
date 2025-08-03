@@ -10,6 +10,7 @@ import 'package:flutter_window_close/flutter_window_close.dart';
 import 'package:lux/notifier.dart';
 import 'package:lux/process_manager.dart';
 import 'package:lux/tr.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 Future<int> findAvailablePort(int startPort, int endPort) async {
   for (int port = startPort; port <= endPort; port++) {
@@ -43,8 +44,9 @@ class CoreManager {
   final FlutterDesktopSleep flutterDesktopSleep = FlutterDesktopSleep();
   final dio = Dio();
   var needRestart = false;
-  String baseHttpUrl = '';
-  String baseWsUrl = '';
+  late String baseHttpUrl;
+  late String baseWsUrl;
+  WebSocketChannel? _trafficChannel;
 
   Future<void> powerMonitorHandler(String? s) async {
     if (s != null) {
@@ -235,6 +237,13 @@ class CoreManager {
       });
     });
   }
+
+  Future<WebSocketChannel?> getTrafficChannel() async {
+    _trafficChannel ??=
+        WebSocketChannel.connect(Uri.parse('$baseWsUrl/traffic?token=$token'));
+
+    return _trafficChannel;
+  }
 }
 
 class ProxyItem {
@@ -289,6 +298,77 @@ class RuleList {
         selectedId = (json['selectedId'] as String);
 
   Map<String, dynamic> toJson() => {'rules': rules};
+}
+
+// Define the data classes
+class Speed {
+  final Proxy proxy;
+  final Direct direct;
+
+  Speed({required this.proxy, required this.direct});
+
+  factory Speed.fromJson(Map<String, dynamic> json) {
+    return Speed(
+      proxy: Proxy.fromJson(json['proxy']),
+      direct: Direct.fromJson(json['direct']),
+    );
+  }
+}
+
+class Total {
+  final Proxy proxy;
+  final Direct direct;
+
+  Total({required this.proxy, required this.direct});
+
+  factory Total.fromJson(Map<String, dynamic> json) {
+    return Total(
+      proxy: Proxy.fromJson(json['proxy']),
+      direct: Direct.fromJson(json['direct']),
+    );
+  }
+}
+
+class Proxy {
+  final int upload;
+  final int download;
+
+  Proxy({required this.upload, required this.download});
+
+  factory Proxy.fromJson(Map<String, dynamic> json) {
+    return Proxy(
+      upload: json['upload'],
+      download: json['download'],
+    );
+  }
+}
+
+class Direct {
+  final int upload;
+  final int download;
+
+  Direct({required this.upload, required this.download});
+
+  factory Direct.fromJson(Map<String, dynamic> json) {
+    return Direct(
+      upload: json['upload'],
+      download: json['download'],
+    );
+  }
+}
+
+class TrafficData {
+  final Speed speed;
+  final Total total;
+
+  TrafficData({required this.speed, required this.total});
+
+  factory TrafficData.fromJson(Map<String, dynamic> json) {
+    return TrafficData(
+      speed: Speed.fromJson(json['speed']),
+      total: Total.fromJson(json['total']),
+    );
+  }
 }
 
 enum ProxyMode { tun, system, mixed }

@@ -61,7 +61,7 @@ class _HomeState extends State<Home> with TrayListener {
     final process = ProcessManager(
         corePath, ['-home_dir=$curHomeDir', '-port=$port', '-secret=$secret']);
     var curBaseUrl = '127.0.0.1:$port';
-    var curHttpUrl = 'http://127.0.0.1:$curBaseUrl';
+    var curHttpUrl = 'http://$curBaseUrl';
     var curUrlStr =
         '$curHttpUrl/?client_version=$currentVersion&token=$secret&theme=${widget.theme == ThemeMode.dark ? 'dark' : 'light'}';
     debugPrint("dashboard url: $curUrlStr");

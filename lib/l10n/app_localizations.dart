@@ -199,6 +199,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'New available version!'**
   String get newVersionMessage;
+
+  /// No description provided for @uploadLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'upload'**
+  String get uploadLabel;
+
+  /// No description provided for @downloadLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'download'**
+  String get downloadLabel;
+
+  /// No description provided for @proxyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Proxy'**
+  String get proxyLabel;
+
+  /// No description provided for @bypassLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Direct'**
+  String get bypassLabel;
 }
 
 class _AppLocalizationsDelegate

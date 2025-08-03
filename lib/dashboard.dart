@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:lux/tr.dart';
 import 'package:lux/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'core_manager.dart';
@@ -24,6 +26,30 @@ class Dashboard extends StatefulWidget {
   State<Dashboard> createState() => _DashboardState();
 }
 
+class TrafficState {
+  final TrafficData rawData;
+
+  TrafficState({required this.rawData});
+
+  String get download {
+    var download = rawData.speed.proxy.download + rawData.speed.direct.download;
+    return formatBytes(download);
+  }
+
+  String get downloadMsg {
+    return "${tr().proxyLabel}: ${formatBytes(rawData.speed.proxy.download)}/s\n\n${tr().bypassLabel}: ${formatBytes(rawData.speed.direct.download)}/s";
+  }
+
+  String get upload {
+    var upload = rawData.speed.proxy.upload + rawData.speed.direct.upload;
+    return formatBytes(upload);
+  }
+
+  String get uploadMsg {
+    return "${tr().proxyLabel}: ${formatBytes(rawData.speed.proxy.upload)}/s\n\n${tr().bypassLabel}: ${formatBytes(rawData.speed.direct.upload)}/s";
+  }
+}
+
 class _DashboardState extends State<Dashboard> with WindowListener {
   bool isStarted = false;
   String curProxyInfo = "";
@@ -35,6 +61,8 @@ class _DashboardState extends State<Dashboard> with WindowListener {
   bool isLoadingProxyRadio = false;
   bool isLoadingRuleDropdown = false;
   ProxyMode proxyMode = ProxyMode.tun;
+  TrafficState? trafficData;
+  WebSocketChannel? trafficChannel;
 
   Timer timer = Timer(Duration.zero, () {});
   final dio = Dio();
@@ -46,6 +74,7 @@ class _DashboardState extends State<Dashboard> with WindowListener {
     super.initState();
     windowManager.addListener(this);
     refreshData();
+
     checkForUpdate();
   }
 
@@ -54,6 +83,7 @@ class _DashboardState extends State<Dashboard> with WindowListener {
     windowManager.removeListener(this);
     super.dispose();
     timer.cancel();
+    trafficChannel?.sink.close();
   }
 
   @override
@@ -110,6 +140,18 @@ class _DashboardState extends State<Dashboard> with WindowListener {
   }
 
   Future<void> refreshData() async {
+    if (trafficChannel == null) {
+      widget.coreManager.getTrafficChannel().then((channel) {
+        trafficChannel = channel;
+        trafficChannel?.stream.listen((message) {
+          TrafficData value = TrafficData.fromJson(json.decode(message));
+          setState(() {
+            trafficData = TrafficState(rawData: value);
+          });
+        });
+      });
+    }
+
     if (!isLoadingSwitch) {
       refreshIsStarted();
     }
@@ -308,13 +350,39 @@ class _DashboardState extends State<Dashboard> with WindowListener {
         decoration: BoxDecoration(
             border: Border(
           top: BorderSide(
-            color: Colors.grey.shade100,
+            color: Theme.of(context).dividerColor,
             width: 1.0,
           ),
         )),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
+            Tooltip(
+              message: trafficData?.uploadMsg,
+              child: Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  Icon(Icons.arrow_upward_sharp, size: 14),
+                  Text(trafficData?.upload != null
+                      ? "${trafficData?.upload}/s"
+                      : "0 B/s"),
+                ],
+              ),
+            ),
+            SizedBox(width: 8),
+            Tooltip(
+              message: trafficData?.downloadMsg,
+              child: Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  Icon(Icons.arrow_downward_sharp, size: 14),
+                  Text(trafficData?.download != null
+                      ? "${trafficData?.download}/s"
+                      : "0 B/s"),
+                ],
+              ),
+            ),
+            SizedBox(width: 24),
             Tooltip(
               message: tr().proxyModeTooltip,
               child: Text(
