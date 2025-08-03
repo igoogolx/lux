@@ -358,7 +358,7 @@ class _DashboardState extends State<Dashboard> with WindowListener {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Tooltip(
-              message: trafficData?.uploadMsg,
+              message: trafficData?.uploadMsg ?? "",
               child: Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
@@ -371,7 +371,7 @@ class _DashboardState extends State<Dashboard> with WindowListener {
             ),
             SizedBox(width: 8),
             Tooltip(
-              message: trafficData?.downloadMsg,
+              message: trafficData?.downloadMsg ?? "",
               child: Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
