@@ -60,11 +60,11 @@ class _HomeState extends State<Home> with TrayListener {
     final Version currentVersion = Version.parse(packageInfo.version);
     final process = ProcessManager(
         corePath, ['-home_dir=$curHomeDir', '-port=$port', '-secret=$secret']);
-    var curBaseUrl = 'http://127.0.0.1:$port';
+    var curHttpUrl = 'http://127.0.0.1:$port';
     var curUrlStr =
-        '$curBaseUrl/?client_version=$currentVersion&token=$secret&theme=${widget.theme == ThemeMode.dark ? 'dark' : 'light'}';
+        '$curHttpUrl/?client_version=$currentVersion&token=$secret&theme=${widget.theme == ThemeMode.dark ? 'dark' : 'light'}';
     debugPrint("dashboard url: $curUrlStr");
-    coreManager = CoreManager(curBaseUrl, process, secret, () {
+    coreManager = CoreManager(curHttpUrl, process, secret, () {
       setState(() {
         isCoreReady.value = true;
         windowManager.show();
@@ -80,7 +80,7 @@ class _HomeState extends State<Home> with TrayListener {
 
     setState(() {
       homeDir = curHomeDir;
-      baseUrl = curBaseUrl;
+      baseUrl = curHttpUrl;
       urlStr = curUrlStr;
     });
 
