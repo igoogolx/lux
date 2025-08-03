@@ -2,13 +2,10 @@
 
 ### New features
 
-* feat: [Light Client Mode](https://igoogolx.github.io/lux-docs/docs/configuration/light_client_mode)
-
+* feat: app bottom bar in Light Client Mode
 
 ### Bug fixes 🐛
 
-* fix: fail to upgrade form winget
+* fix: invalid app state when window is focused
 
-### Other Changes
 
-* chore: upgrade dependencies
