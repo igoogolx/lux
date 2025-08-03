@@ -231,17 +231,6 @@ class _DashboardState extends State<Dashboard> with WindowListener {
                 ),
               ),
               SizedBox(width: 4),
-              Tooltip(
-                message: tr().proxyModeTooltip,
-                child: Chip(
-                  label: Text(
-                    getModeLabel(proxyMode),
-                    style: TextStyle(
-                        color: Color.fromRGBO(17, 94, 163, 1), fontSize: 14),
-                  ),
-                  backgroundColor: Color.fromRGBO(235, 243, 252, 1),
-                ),
-              ),
               Spacer(),
               Text(
                 curProxyInfo,
@@ -288,6 +277,27 @@ class _DashboardState extends State<Dashboard> with WindowListener {
                   );
                 },
               ),
+      ),
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.only(top: 2, bottom: 2, left: 4, right: 4),
+        decoration: BoxDecoration(
+            border: Border(
+          top: BorderSide(
+            color: Colors.grey.shade100,
+            width: 1.0,
+          ),
+        )),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Tooltip(
+              message: tr().proxyModeTooltip,
+              child: Text(
+                getModeLabel(proxyMode),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
