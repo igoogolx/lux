@@ -74,32 +74,57 @@ class _DashboardState extends State<Dashboard> with WindowListener {
     refreshData();
   }
 
+  Future<void> refreshIsStarted() async {
+    final value = await widget.coreManager.getIsStarted();
+    setState(() {
+      isStarted = value;
+    });
+  }
+
+  Future<void> refreshCurProxyInfo() async {
+    final value = await widget.coreManager.getCurProxyInfo();
+    setState(() {
+      curProxyInfo = value;
+    });
+  }
+
+  Future<void> refreshProxyList() async {
+    final value = await widget.coreManager.getProxyList();
+    setState(() {
+      proxyList = value;
+    });
+  }
+
+  Future<void> refreshRuleList() async {
+    final value = await widget.coreManager.getRuleList();
+    setState(() {
+      ruleList = value;
+    });
+  }
+
+  Future<void> refreshMode() async {
+    final value = await widget.coreManager.getMode();
+    setState(() {
+      proxyMode = value;
+    });
+  }
+
   Future<void> refreshData() async {
-    widget.coreManager.getIsStarted().then((value) {
-      setState(() {
-        isStarted = value;
-      });
-    });
-    widget.coreManager.getCurProxyInfo().then((value) {
-      setState(() {
-        curProxyInfo = value;
-      });
-    });
-    widget.coreManager.getProxyList().then((value) {
-      setState(() {
-        proxyList = value;
-      });
-    });
-    widget.coreManager.getRuleList().then((value) {
-      setState(() {
-        ruleList = value;
-      });
-    });
-    widget.coreManager.getMode().then((value) {
-      setState(() {
-        proxyMode = value;
-      });
-    });
+    if (!isLoadingSwitch) {
+      refreshIsStarted();
+    }
+
+    refreshCurProxyInfo();
+
+    if (!isLoadingProxyRadio) {
+      refreshProxyList();
+    }
+
+    if (!isLoadingRuleDropdown) {
+      refreshRuleList();
+    }
+
+    refreshMode();
   }
 
   void onSwitchChanged(bool value) async {
