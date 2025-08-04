@@ -48,6 +48,22 @@ class TrafficState {
   String get uploadMsg {
     return "${tr().proxyLabel}: ${formatBytes(rawData.speed.proxy.upload)}/s\n\n${tr().bypassLabel}: ${formatBytes(rawData.speed.direct.upload)}/s";
   }
+
+  String get total {
+    var total = rawData.total.proxy.upload +
+        rawData.total.proxy.download +
+        rawData.speed.direct.upload +
+        rawData.speed.direct.download;
+    return formatBytes(total);
+  }
+
+  String get totalMsg {
+    var proxyTotal =
+        formatBytes(rawData.total.proxy.upload + rawData.total.proxy.download);
+    var directTotal = formatBytes(
+        rawData.total.direct.upload + rawData.total.direct.download);
+    return "${tr().proxyLabel}: $proxyTotal\n\n${tr().bypassLabel}: $directTotal";
+  }
 }
 
 class _DashboardState extends State<Dashboard> with WindowListener {
@@ -365,6 +381,12 @@ class _DashboardState extends State<Dashboard> with WindowListener {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
+            Tooltip(
+              message: trafficData?.totalMsg ?? "",
+              child: Text(
+                  trafficData?.total != null ? "${trafficData?.total}" : "0 B"),
+            ),
+            SizedBox(width: 16),
             Tooltip(
               message: trafficData?.uploadMsg ?? "",
               child: Wrap(
