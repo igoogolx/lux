@@ -315,35 +315,43 @@ class _DashboardState extends State<Dashboard> with WindowListener {
               ),
             ],
           )),
-      body: Card(
-        margin: EdgeInsetsGeometry.only(left: 6, right: 6, top: 8, bottom: 8),
-        child: proxyList.proxies.isEmpty
-            ? SizedBox()
-            : ListView.separated(
-                padding: EdgeInsetsGeometry.all(0),
-                itemCount: proxyList.proxies.length,
-                itemBuilder: (context, index) {
-                  return RadioListTile<String>(
-                    title: Text(
-                      proxyList.proxies[index].name.isNotEmpty
-                          ? proxyList.proxies[index].name
-                          : "${proxyList.proxies[index].server}:${proxyList.proxies[index].port}",
-                      style: TextStyle(fontSize: 12),
-                    ),
-                    value: proxyList.proxies[index].id,
-                    groupValue: proxyList.selectedId,
-                    onChanged: isLoadingProxyRadio ? null : handleSelectProxy,
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return Divider(
-                    height: 1, // Control the space the divider takes up
-                    thickness: 1, // Control the line's thickness
-                    indent: 20, // Left padding
-                    endIndent: 20, // Right padding
-                  );
-                },
-              ),
+      body: ListView(
+        children: [
+          Card(
+            margin:
+                EdgeInsetsGeometry.only(left: 6, right: 6, top: 8, bottom: 8),
+            child: proxyList.proxies.isEmpty
+                ? SizedBox()
+                : ListView.separated(
+                    shrinkWrap: true,
+                    physics: ClampingScrollPhysics(),
+                    padding: EdgeInsetsGeometry.all(0),
+                    itemCount: proxyList.proxies.length,
+                    itemBuilder: (context, index) {
+                      return RadioListTile<String>(
+                        title: Text(
+                          proxyList.proxies[index].name.isNotEmpty
+                              ? proxyList.proxies[index].name
+                              : "${proxyList.proxies[index].server}:${proxyList.proxies[index].port}",
+                          style: TextStyle(fontSize: 12),
+                        ),
+                        value: proxyList.proxies[index].id,
+                        groupValue: proxyList.selectedId,
+                        onChanged:
+                            isLoadingProxyRadio ? null : handleSelectProxy,
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return Divider(
+                        height: 1, // Control the space the divider takes up
+                        thickness: 1, // Control the line's thickness
+                        indent: 20, // Left padding
+                        endIndent: 20, // Right padding
+                      );
+                    },
+                  ),
+          )
+        ],
       ),
       bottomNavigationBar: Container(
         padding: const EdgeInsets.only(top: 2, bottom: 2, left: 4, right: 4),
