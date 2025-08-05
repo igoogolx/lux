@@ -10,6 +10,7 @@ import 'package:flutter_window_close/flutter_window_close.dart';
 import 'package:lux/notifier.dart';
 import 'package:lux/process_manager.dart';
 import 'package:lux/tr.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 Future<int> findAvailablePort(int startPort, int endPort) async {
   for (int port = startPort; port <= endPort; port++) {
@@ -37,20 +38,24 @@ class CoreManager {
   final String token;
   final ProcessManager? coreProcess;
   final String baseUrl;
+
   final Function onReady;
   final Function onOsSleep;
   final FlutterDesktopSleep flutterDesktopSleep = FlutterDesktopSleep();
   final dio = Dio();
   var needRestart = false;
+  late String baseHttpUrl;
+  late String baseWsUrl;
+  WebSocketChannel? _trafficChannel;
 
   Future<void> powerMonitorHandler(String? s) async {
     if (s != null) {
       if (s == 'sleep') {
         onOsSleep();
-        final managerRes = await dio.get('$baseUrl/manager');
+        final managerRes = await dio.get('$baseHttpUrl/manager');
         var isStarted = managerRes.data['isStarted'];
         if (isStarted is bool && isStarted) {
-          final settingRes = await dio.get('$baseUrl/setting');
+          final settingRes = await dio.get('$baseHttpUrl/setting');
           var mode = settingRes.data['setting']['mode'];
           if (mode == "tun" || mode == "mixed") {
             needRestart = true;
@@ -79,6 +84,8 @@ class CoreManager {
 
   CoreManager(this.baseUrl, this.coreProcess, this.token, this.onReady,
       this.onOsSleep) {
+    baseHttpUrl = "http://$baseUrl";
+    baseWsUrl = "ws://$baseUrl";
     dio.transformer = BackgroundTransformer()..jsonDecodeCallback = parseJson;
     dio.options.receiveTimeout = const Duration(seconds: 3);
     dio.interceptors.add(InterceptorsWrapper(onRequest:
@@ -102,7 +109,7 @@ class CoreManager {
       // Received changes in available connectivity types!
 
       if (result.contains(ConnectivityResult.none)) {
-        final managerRes = await dio.get('$baseUrl/manager');
+        final managerRes = await dio.get('$baseHttpUrl/manager');
         var isStarted = managerRes.data['isStarted'];
         if (isStarted is bool && isStarted) {
           await stop();
@@ -139,19 +146,19 @@ class CoreManager {
   }
 
   Future<void> ping() async {
-    await makeRequestUntilSuccess('$baseUrl/ping');
+    await makeRequestUntilSuccess('$baseHttpUrl/ping');
   }
 
   Future<void> stop() async {
-    await dio.post('$baseUrl/manager/stop');
+    await dio.post('$baseHttpUrl/manager/stop');
   }
 
   Future<void> start() async {
-    await dio.post('$baseUrl/manager/start');
+    await dio.post('$baseHttpUrl/manager/start');
   }
 
   Future<bool> getIsStarted() async {
-    final managerRes = await dio.get('$baseUrl/manager');
+    final managerRes = await dio.get('$baseHttpUrl/manager');
     var isStarted = managerRes.data['isStarted'];
     if (isStarted is bool) {
       return isStarted;
@@ -160,7 +167,7 @@ class CoreManager {
   }
 
   Future<String> getCurProxyInfo() async {
-    final managerRes = await dio.get('$baseUrl/proxies/cur-proxy');
+    final managerRes = await dio.get('$baseHttpUrl/proxies/cur-proxy');
     var name = managerRes.data['name'];
     if (name is String && name.isNotEmpty) {
       return name;
@@ -173,25 +180,25 @@ class CoreManager {
   }
 
   Future<ProxyList> getProxyList() async {
-    final proxiesRes = await dio.get('$baseUrl/proxies');
+    final proxiesRes = await dio.get('$baseHttpUrl/proxies');
     return ProxyList.fromJson(proxiesRes.data);
   }
 
   Future<RuleList> getRuleList() async {
-    final rulesRes = await dio.get('$baseUrl/rules');
+    final rulesRes = await dio.get('$baseHttpUrl/rules');
     return RuleList.fromJson(rulesRes.data);
   }
 
   Future<void> selectProxy(String id) async {
-    await dio.post('$baseUrl/selected/proxy', data: {'id': id});
+    await dio.post('$baseHttpUrl/selected/proxy', data: {'id': id});
   }
 
   Future<void> selectRule(String id) async {
-    await dio.post('$baseUrl/selected/rule', data: {'id': id});
+    await dio.post('$baseHttpUrl/selected/rule', data: {'id': id});
   }
 
   Future<ProxyMode> getMode() async {
-    final setting = await dio.get('$baseUrl/setting');
+    final setting = await dio.get('$baseHttpUrl/setting');
     if (setting.data.containsKey('mode') && setting.data['mode'] is String) {
       if (setting.data['mode'] == 'tun') {
         return ProxyMode.tun;
@@ -206,7 +213,7 @@ class CoreManager {
   Future<void> exitCore() async {
     if (Platform.isWindows) {
       try {
-        await dio.post('$baseUrl/manager/exit');
+        await dio.post('$baseHttpUrl/manager/exit');
       } catch (e) {
         debugPrint(e.toString());
       }
@@ -229,6 +236,13 @@ class CoreManager {
         onReady();
       });
     });
+  }
+
+  Future<WebSocketChannel?> getTrafficChannel() async {
+    _trafficChannel ??=
+        WebSocketChannel.connect(Uri.parse('$baseWsUrl/traffic?token=$token'));
+
+    return _trafficChannel;
   }
 }
 
@@ -284,6 +298,77 @@ class RuleList {
         selectedId = (json['selectedId'] as String);
 
   Map<String, dynamic> toJson() => {'rules': rules};
+}
+
+// Define the data classes
+class Speed {
+  final Proxy proxy;
+  final Direct direct;
+
+  Speed({required this.proxy, required this.direct});
+
+  factory Speed.fromJson(Map<String, dynamic> json) {
+    return Speed(
+      proxy: Proxy.fromJson(json['proxy']),
+      direct: Direct.fromJson(json['direct']),
+    );
+  }
+}
+
+class Total {
+  final Proxy proxy;
+  final Direct direct;
+
+  Total({required this.proxy, required this.direct});
+
+  factory Total.fromJson(Map<String, dynamic> json) {
+    return Total(
+      proxy: Proxy.fromJson(json['proxy']),
+      direct: Direct.fromJson(json['direct']),
+    );
+  }
+}
+
+class Proxy {
+  final int upload;
+  final int download;
+
+  Proxy({required this.upload, required this.download});
+
+  factory Proxy.fromJson(Map<String, dynamic> json) {
+    return Proxy(
+      upload: json['upload'],
+      download: json['download'],
+    );
+  }
+}
+
+class Direct {
+  final int upload;
+  final int download;
+
+  Direct({required this.upload, required this.download});
+
+  factory Direct.fromJson(Map<String, dynamic> json) {
+    return Direct(
+      upload: json['upload'],
+      download: json['download'],
+    );
+  }
+}
+
+class TrafficData {
+  final Speed speed;
+  final Total total;
+
+  TrafficData({required this.speed, required this.total});
+
+  factory TrafficData.fromJson(Map<String, dynamic> json) {
+    return TrafficData(
+      speed: Speed.fromJson(json['speed']),
+      total: Total.fromJson(json['total']),
+    );
+  }
 }
 
 enum ProxyMode { tun, system, mixed }

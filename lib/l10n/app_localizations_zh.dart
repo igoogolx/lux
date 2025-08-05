@@ -63,4 +63,16 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get newVersionMessage => '有新版本可用';
+
+  @override
+  String get uploadLabel => '上传';
+
+  @override
+  String get downloadLabel => '下载';
+
+  @override
+  String get proxyLabel => '代理';
+
+  @override
+  String get bypassLabel => '直连';
 }

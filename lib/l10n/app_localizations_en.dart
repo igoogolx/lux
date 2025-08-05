@@ -63,4 +63,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get newVersionMessage => 'New available version!';
+
+  @override
+  String get uploadLabel => 'upload';
+
+  @override
+  String get downloadLabel => 'download';
+
+  @override
+  String get proxyLabel => 'Proxy';
+
+  @override
+  String get bypassLabel => 'Direct';
 }

@@ -15,5 +15,9 @@
   "systemModeLabel": "系统代理",
   "mixedModeLabel": "混合",
   "proxyModeTooltip": "System proxy 通常只支持 TCP 而且不是全部应用都支持, 但是 Tun 能够代理全部流量。混合模式同时开启 Tun 和 System",
-  "newVersionMessage": "有新版本可用"
+  "newVersionMessage": "有新版本可用",
+  "uploadLabel": "上传",
+  "downloadLabel": "下载",
+  "proxyLabel": "代理",
+  "bypassLabel": "直连"
 }

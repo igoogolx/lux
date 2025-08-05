@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:lux/tr.dart';
 import 'package:lux/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'core_manager.dart';
@@ -24,6 +26,46 @@ class Dashboard extends StatefulWidget {
   State<Dashboard> createState() => _DashboardState();
 }
 
+class TrafficState {
+  final TrafficData rawData;
+
+  TrafficState({required this.rawData});
+
+  String get download {
+    var download = rawData.speed.proxy.download + rawData.speed.direct.download;
+    return formatBytes(download);
+  }
+
+  String get downloadMsg {
+    return "${tr().proxyLabel}: ${formatBytes(rawData.speed.proxy.download)}/s\n\n${tr().bypassLabel}: ${formatBytes(rawData.speed.direct.download)}/s";
+  }
+
+  String get upload {
+    var upload = rawData.speed.proxy.upload + rawData.speed.direct.upload;
+    return formatBytes(upload);
+  }
+
+  String get uploadMsg {
+    return "${tr().proxyLabel}: ${formatBytes(rawData.speed.proxy.upload)}/s\n\n${tr().bypassLabel}: ${formatBytes(rawData.speed.direct.upload)}/s";
+  }
+
+  String get total {
+    var total = rawData.total.proxy.upload +
+        rawData.total.proxy.download +
+        rawData.speed.direct.upload +
+        rawData.speed.direct.download;
+    return formatBytes(total);
+  }
+
+  String get totalMsg {
+    var proxyTotal =
+        formatBytes(rawData.total.proxy.upload + rawData.total.proxy.download);
+    var directTotal = formatBytes(
+        rawData.total.direct.upload + rawData.total.direct.download);
+    return "${tr().proxyLabel}: $proxyTotal\n\n${tr().bypassLabel}: $directTotal";
+  }
+}
+
 class _DashboardState extends State<Dashboard> with WindowListener {
   bool isStarted = false;
   String curProxyInfo = "";
@@ -35,6 +77,8 @@ class _DashboardState extends State<Dashboard> with WindowListener {
   bool isLoadingProxyRadio = false;
   bool isLoadingRuleDropdown = false;
   ProxyMode proxyMode = ProxyMode.tun;
+  TrafficState? trafficData;
+  WebSocketChannel? trafficChannel;
 
   Timer timer = Timer(Duration.zero, () {});
   final dio = Dio();
@@ -46,6 +90,7 @@ class _DashboardState extends State<Dashboard> with WindowListener {
     super.initState();
     windowManager.addListener(this);
     refreshData();
+
     checkForUpdate();
   }
 
@@ -54,6 +99,7 @@ class _DashboardState extends State<Dashboard> with WindowListener {
     windowManager.removeListener(this);
     super.dispose();
     timer.cancel();
+    trafficChannel?.sink.close();
   }
 
   @override
@@ -74,32 +120,69 @@ class _DashboardState extends State<Dashboard> with WindowListener {
     refreshData();
   }
 
+  Future<void> refreshIsStarted() async {
+    final value = await widget.coreManager.getIsStarted();
+    setState(() {
+      isStarted = value;
+    });
+  }
+
+  Future<void> refreshCurProxyInfo() async {
+    final value = await widget.coreManager.getCurProxyInfo();
+    setState(() {
+      curProxyInfo = value;
+    });
+  }
+
+  Future<void> refreshProxyList() async {
+    final value = await widget.coreManager.getProxyList();
+    setState(() {
+      proxyList = value;
+    });
+  }
+
+  Future<void> refreshRuleList() async {
+    final value = await widget.coreManager.getRuleList();
+    setState(() {
+      ruleList = value;
+    });
+  }
+
+  Future<void> refreshMode() async {
+    final value = await widget.coreManager.getMode();
+    setState(() {
+      proxyMode = value;
+    });
+  }
+
   Future<void> refreshData() async {
-    widget.coreManager.getIsStarted().then((value) {
-      setState(() {
-        isStarted = value;
+    if (trafficChannel == null) {
+      widget.coreManager.getTrafficChannel().then((channel) {
+        trafficChannel = channel;
+        trafficChannel?.stream.listen((message) {
+          TrafficData value = TrafficData.fromJson(json.decode(message));
+          setState(() {
+            trafficData = TrafficState(rawData: value);
+          });
+        });
       });
-    });
-    widget.coreManager.getCurProxyInfo().then((value) {
-      setState(() {
-        curProxyInfo = value;
-      });
-    });
-    widget.coreManager.getProxyList().then((value) {
-      setState(() {
-        proxyList = value;
-      });
-    });
-    widget.coreManager.getRuleList().then((value) {
-      setState(() {
-        ruleList = value;
-      });
-    });
-    widget.coreManager.getMode().then((value) {
-      setState(() {
-        proxyMode = value;
-      });
-    });
+    }
+
+    if (!isLoadingSwitch) {
+      refreshIsStarted();
+    }
+
+    refreshCurProxyInfo();
+
+    if (!isLoadingProxyRadio) {
+      refreshProxyList();
+    }
+
+    if (!isLoadingRuleDropdown) {
+      refreshRuleList();
+    }
+
+    refreshMode();
   }
 
   void onSwitchChanged(bool value) async {
@@ -222,7 +305,7 @@ class _DashboardState extends State<Dashboard> with WindowListener {
                 height: 32,
                 child: FittedBox(
                   child: DropdownMenu<String>(
-                    width: 168,
+                    width: 180,
                     initialSelection: ruleList.selectedId,
                     onSelected: isLoadingRuleDropdown ? null : handleSelectRule,
                     dropdownMenuEntries: menuEntries,
@@ -231,17 +314,6 @@ class _DashboardState extends State<Dashboard> with WindowListener {
                 ),
               ),
               SizedBox(width: 4),
-              Tooltip(
-                message: tr().proxyModeTooltip,
-                child: Chip(
-                  label: Text(
-                    getModeLabel(proxyMode),
-                    style: TextStyle(
-                        color: Color.fromRGBO(17, 94, 163, 1), fontSize: 14),
-                  ),
-                  backgroundColor: Color.fromRGBO(235, 243, 252, 1),
-                ),
-              ),
               Spacer(),
               Text(
                 curProxyInfo,
@@ -259,35 +331,96 @@ class _DashboardState extends State<Dashboard> with WindowListener {
               ),
             ],
           )),
-      body: Card(
-        margin: EdgeInsetsGeometry.only(left: 6, right: 6, top: 8, bottom: 8),
-        child: proxyList.proxies.isEmpty
-            ? SizedBox()
-            : ListView.separated(
-                padding: EdgeInsetsGeometry.all(0),
-                itemCount: proxyList.proxies.length,
-                itemBuilder: (context, index) {
-                  return RadioListTile<String>(
-                    title: Text(
-                      proxyList.proxies[index].name.isNotEmpty
-                          ? proxyList.proxies[index].name
-                          : "${proxyList.proxies[index].server}:${proxyList.proxies[index].port}",
-                      style: TextStyle(fontSize: 12),
-                    ),
-                    value: proxyList.proxies[index].id,
-                    groupValue: proxyList.selectedId,
-                    onChanged: isLoadingProxyRadio ? null : handleSelectProxy,
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return Divider(
-                    height: 1, // Control the space the divider takes up
-                    thickness: 1, // Control the line's thickness
-                    indent: 20, // Left padding
-                    endIndent: 20, // Right padding
-                  );
-                },
+      body: ListView(
+        children: [
+          Card(
+            margin:
+                EdgeInsetsGeometry.only(left: 6, right: 6, top: 8, bottom: 8),
+            child: proxyList.proxies.isEmpty
+                ? SizedBox()
+                : ListView.separated(
+                    shrinkWrap: true,
+                    physics: ClampingScrollPhysics(),
+                    padding: EdgeInsetsGeometry.all(0),
+                    itemCount: proxyList.proxies.length,
+                    itemBuilder: (context, index) {
+                      return RadioListTile<String>(
+                        title: Text(
+                          proxyList.proxies[index].name.isNotEmpty
+                              ? proxyList.proxies[index].name
+                              : "${proxyList.proxies[index].server}:${proxyList.proxies[index].port}",
+                          style: TextStyle(fontSize: 12),
+                        ),
+                        value: proxyList.proxies[index].id,
+                        groupValue: proxyList.selectedId,
+                        onChanged:
+                            isLoadingProxyRadio ? null : handleSelectProxy,
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return Divider(
+                        height: 1, // Control the space the divider takes up
+                        thickness: 1, // Control the line's thickness
+                        indent: 20, // Left padding
+                        endIndent: 20, // Right padding
+                      );
+                    },
+                  ),
+          )
+        ],
+      ),
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.only(top: 2, bottom: 2, left: 4, right: 4),
+        decoration: BoxDecoration(
+            border: Border(
+          top: BorderSide(
+            color: Theme.of(context).dividerColor,
+            width: 1.0,
+          ),
+        )),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Tooltip(
+              message: trafficData?.totalMsg ?? "",
+              child: Text(
+                  trafficData?.total != null ? "${trafficData?.total}" : "0 B"),
+            ),
+            SizedBox(width: 16),
+            Tooltip(
+              message: trafficData?.uploadMsg ?? "",
+              child: Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  Icon(Icons.arrow_upward_sharp, size: 14),
+                  Text(trafficData?.upload != null
+                      ? "${trafficData?.upload}/s"
+                      : "0 B/s"),
+                ],
               ),
+            ),
+            SizedBox(width: 8),
+            Tooltip(
+              message: trafficData?.downloadMsg ?? "",
+              child: Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  Icon(Icons.arrow_downward_sharp, size: 14),
+                  Text(trafficData?.download != null
+                      ? "${trafficData?.download}/s"
+                      : "0 B/s"),
+                ],
+              ),
+            ),
+            SizedBox(width: 24),
+            Tooltip(
+              message: tr().proxyModeTooltip,
+              child: Text(
+                getModeLabel(proxyMode),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
