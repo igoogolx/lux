@@ -1,14 +1,12 @@
 import 'dart:async';
 import 'dart:collection';
-import 'dart:convert';
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:lux/tr.dart';
 import 'package:lux/utils.dart';
+import 'package:lux/widget/app_bottom_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'core_manager.dart';
@@ -26,46 +24,6 @@ class Dashboard extends StatefulWidget {
   State<Dashboard> createState() => _DashboardState();
 }
 
-class TrafficState {
-  final TrafficData rawData;
-
-  TrafficState({required this.rawData});
-
-  String get download {
-    var download = rawData.speed.proxy.download + rawData.speed.direct.download;
-    return formatBytes(download);
-  }
-
-  String get downloadMsg {
-    return "${tr().proxyLabel}: ${formatBytes(rawData.speed.proxy.download)}/s\n\n${tr().bypassLabel}: ${formatBytes(rawData.speed.direct.download)}/s";
-  }
-
-  String get upload {
-    var upload = rawData.speed.proxy.upload + rawData.speed.direct.upload;
-    return formatBytes(upload);
-  }
-
-  String get uploadMsg {
-    return "${tr().proxyLabel}: ${formatBytes(rawData.speed.proxy.upload)}/s\n\n${tr().bypassLabel}: ${formatBytes(rawData.speed.direct.upload)}/s";
-  }
-
-  String get total {
-    var total = rawData.total.proxy.upload +
-        rawData.total.proxy.download +
-        rawData.speed.direct.upload +
-        rawData.speed.direct.download;
-    return formatBytes(total);
-  }
-
-  String get totalMsg {
-    var proxyTotal =
-        formatBytes(rawData.total.proxy.upload + rawData.total.proxy.download);
-    var directTotal = formatBytes(
-        rawData.total.direct.upload + rawData.total.direct.download);
-    return "${tr().proxyLabel}: $proxyTotal\n\n${tr().bypassLabel}: $directTotal";
-  }
-}
-
 class _DashboardState extends State<Dashboard> with WindowListener {
   bool isStarted = false;
   String curProxyInfo = "";
@@ -76,12 +34,6 @@ class _DashboardState extends State<Dashboard> with WindowListener {
   bool isLoadingRuleList = false;
   bool isLoadingProxyRadio = false;
   bool isLoadingRuleDropdown = false;
-  ProxyMode proxyMode = ProxyMode.tun;
-  TrafficState? trafficData;
-  WebSocketChannel? trafficChannel;
-
-  Timer timer = Timer(Duration.zero, () {});
-  final dio = Dio();
 
   _DashboardState();
 
@@ -98,8 +50,6 @@ class _DashboardState extends State<Dashboard> with WindowListener {
   void dispose() {
     windowManager.removeListener(this);
     super.dispose();
-    timer.cancel();
-    trafficChannel?.sink.close();
   }
 
   @override
@@ -148,26 +98,7 @@ class _DashboardState extends State<Dashboard> with WindowListener {
     });
   }
 
-  Future<void> refreshMode() async {
-    final value = await widget.coreManager.getMode();
-    setState(() {
-      proxyMode = value;
-    });
-  }
-
   Future<void> refreshData() async {
-    if (trafficChannel == null) {
-      widget.coreManager.getTrafficChannel().then((channel) {
-        trafficChannel = channel;
-        trafficChannel?.stream.listen((message) {
-          TrafficData value = TrafficData.fromJson(json.decode(message));
-          setState(() {
-            trafficData = TrafficState(rawData: value);
-          });
-        });
-      });
-    }
-
     if (!isLoadingSwitch) {
       refreshIsStarted();
     }
@@ -181,8 +112,6 @@ class _DashboardState extends State<Dashboard> with WindowListener {
     if (!isLoadingRuleDropdown) {
       refreshRuleList();
     }
-
-    refreshMode();
   }
 
   void onSwitchChanged(bool value) async {
@@ -266,17 +195,6 @@ class _DashboardState extends State<Dashboard> with WindowListener {
         return tr().bypassAllRuleLabel;
       default:
         return name;
-    }
-  }
-
-  String getModeLabel(ProxyMode value) {
-    switch (value) {
-      case ProxyMode.tun:
-        return tr().tunModeLabel;
-      case ProxyMode.system:
-        return tr().systemModeLabel;
-      default:
-        return tr().mixedModeLabel;
     }
   }
 
@@ -369,59 +287,7 @@ class _DashboardState extends State<Dashboard> with WindowListener {
           )
         ],
       ),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.only(top: 2, bottom: 2, left: 4, right: 4),
-        decoration: BoxDecoration(
-            border: Border(
-          top: BorderSide(
-            color: Theme.of(context).dividerColor,
-            width: 1.0,
-          ),
-        )),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Tooltip(
-              message: trafficData?.totalMsg ?? "",
-              child: Text(
-                  trafficData?.total != null ? "${trafficData?.total}" : "0 B"),
-            ),
-            SizedBox(width: 16),
-            Tooltip(
-              message: trafficData?.uploadMsg ?? "",
-              child: Wrap(
-                crossAxisAlignment: WrapCrossAlignment.center,
-                children: [
-                  Icon(Icons.arrow_upward_sharp, size: 14),
-                  Text(trafficData?.upload != null
-                      ? "${trafficData?.upload}/s"
-                      : "0 B/s"),
-                ],
-              ),
-            ),
-            SizedBox(width: 8),
-            Tooltip(
-              message: trafficData?.downloadMsg ?? "",
-              child: Wrap(
-                crossAxisAlignment: WrapCrossAlignment.center,
-                children: [
-                  Icon(Icons.arrow_downward_sharp, size: 14),
-                  Text(trafficData?.download != null
-                      ? "${trafficData?.download}/s"
-                      : "0 B/s"),
-                ],
-              ),
-            ),
-            SizedBox(width: 24),
-            Tooltip(
-              message: tr().proxyModeTooltip,
-              child: Text(
-                getModeLabel(proxyMode),
-              ),
-            ),
-          ],
-        ),
-      ),
+      bottomNavigationBar: AppBottomBar(widget.coreManager),
     );
   }
 }
