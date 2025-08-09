@@ -158,7 +158,11 @@ class CoreManager {
   }
 
   Future<bool> getIsStarted() async {
-    final managerRes = await dio.get('$baseHttpUrl/manager');
+    final managerRes = await dio.get('$baseHttpUrl/manager',
+        options: Options(
+          sendTimeout: const Duration(seconds: 10),
+          receiveTimeout: const Duration(seconds: 10),
+        ));
     var isStarted = managerRes.data['isStarted'];
     if (isStarted is bool) {
       return isStarted;
