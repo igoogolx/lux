@@ -1,6 +1,6 @@
 ## What's Changed
 
-### New changes
+### New features
 
 * feat: limit traffic data of bottom bar to KB
 
