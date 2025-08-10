@@ -210,15 +210,23 @@ class CoreManager {
   }
 
   Future<ProxyMode> getMode() async {
-    final setting = await dio.get('$baseHttpUrl/setting');
-    if (setting.data.containsKey('mode') && setting.data['mode'] is String) {
-      if (setting.data['mode'] == 'tun') {
+    final settingRes = await dio.get('$baseHttpUrl/setting');
+    if (!(settingRes.data.containsKey('setting') &&
+        settingRes.data['setting'] is Map<String, dynamic>)) {
+      return ProxyMode.mixed;
+    }
+
+    var setting = settingRes.data['setting'];
+
+    if (setting.containsKey('mode') && setting['mode'] is String) {
+      if (setting['mode'] == 'tun') {
         return ProxyMode.tun;
       }
-      if (setting.data['mode'] == 'system') {
+      if (setting['mode'] == 'system') {
         return ProxyMode.system;
       }
     }
+
     return ProxyMode.mixed;
   }
 
