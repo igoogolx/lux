@@ -130,6 +130,10 @@ class _HomeState extends State<Home> with TrayListener {
             initSystemTray();
           }
         }
+      case 'exitApp':
+        {
+          exitApp();
+        }
     }
   }
 
