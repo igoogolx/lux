@@ -2,6 +2,7 @@
 
 ### New features
 
+* feat: hide the window on launch at startup
 * feat: limit traffic data of bottom bar to KB
 
 ### Bug fixes 🐛
