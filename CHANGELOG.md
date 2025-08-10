@@ -1,11 +1,17 @@
 ## What's Changed
 
-### New features
+### New changes
 
-* feat: app bottom bar in Light Client Mode
+* feat: limit traffic data of bottom bar to KB
 
 ### Bug fixes 🐛
 
-* fix: invalid app state when window is focused
+* fix: fail to start because of api timeout
+
+
+### Other changes
+
+* chore: upgrade dependencies
+* perf: improve memory usage
 
 
