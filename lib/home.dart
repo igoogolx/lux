@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:launch_at_startup/launch_at_startup.dart';
 import 'package:lux/const/const.dart';
-import 'package:lux/core_manager.dart';
+import 'package:lux/core_manager.dart' hide ProxyMode;
 import 'package:lux/dashboard.dart';
 import 'package:lux/process_manager.dart';
 import 'package:lux/progress_indicator.dart';
@@ -58,8 +58,15 @@ class _HomeState extends State<Home> with TrayListener {
     var secret = uuid.v4();
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     final Version currentVersion = Version.parse(packageInfo.version);
+    var needElevate = true;
+    if (Platform.isWindows) {
+      final proxyMode = await readProxyMode();
+      needElevate = proxyMode != ProxyMode.system;
+    }
     final process = ProcessManager(
-        corePath, ['-home_dir=$curHomeDir', '-port=$port', '-secret=$secret']);
+        corePath,
+        ['-home_dir=$curHomeDir', '-port=$port', '-secret=$secret'],
+        needElevate);
     var curBaseUrl = '127.0.0.1:$port';
     var curHttpUrl = 'http://$curBaseUrl';
     var curUrlStr =
