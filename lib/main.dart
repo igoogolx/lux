@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -29,7 +30,8 @@ void main(List<String> args) async {
 
     windowManager.waitUntilReadyToShow(windowOptions, () async {
       windowManager.center();
-      var isLaunchFromStartUp = args.contains(launchFromStartupArg);
+      var isLaunchFromStartUp =
+          Platform.isWindows && args.contains(launchFromStartupArg);
       if (!isLaunchFromStartUp) {
         windowManager.show();
       } else {
