@@ -21,6 +21,7 @@ class _AppBottomBarState extends State<AppBottomBar> with WindowListener {
   ProxyMode proxyMode = ProxyMode.tun;
   TrafficState? trafficData;
   WebSocketChannel? trafficChannel;
+  bool isWindowHidden = false;
 
   Future<void> refreshMode() async {
     final value = await widget.coreManager.getMode();
@@ -37,6 +38,9 @@ class _AppBottomBarState extends State<AppBottomBar> with WindowListener {
       widget.coreManager.getTrafficChannel().then((channel) {
         trafficChannel = channel;
         trafficChannel?.stream.listen((message) {
+          if (isWindowHidden) {
+            return;
+          }
           TrafficData value = TrafficData.fromJson(json.decode(message));
           setState(() {
             trafficData = TrafficState(rawData: value);
@@ -48,7 +52,13 @@ class _AppBottomBarState extends State<AppBottomBar> with WindowListener {
 
   @override
   void onWindowFocus() {
+    isWindowHidden = false;
     refreshMode();
+  }
+
+  @override
+  void onWindowClose() {
+    isWindowHidden = true;
   }
 
   @override
