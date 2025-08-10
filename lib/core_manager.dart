@@ -150,15 +150,27 @@ class CoreManager {
   }
 
   Future<void> stop() async {
-    await dio.post('$baseHttpUrl/manager/stop');
+    await dio.post('$baseHttpUrl/manager/stop',
+        options: Options(
+          sendTimeout: const Duration(seconds: 10),
+          receiveTimeout: const Duration(seconds: 10),
+        ));
   }
 
   Future<void> start() async {
-    await dio.post('$baseHttpUrl/manager/start');
+    await dio.post('$baseHttpUrl/manager/start',
+        options: Options(
+          sendTimeout: const Duration(seconds: 10),
+          receiveTimeout: const Duration(seconds: 10),
+        ));
   }
 
   Future<bool> getIsStarted() async {
-    final managerRes = await dio.get('$baseHttpUrl/manager');
+    final managerRes = await dio.get('$baseHttpUrl/manager',
+        options: Options(
+          sendTimeout: const Duration(seconds: 10),
+          receiveTimeout: const Duration(seconds: 10),
+        ));
     var isStarted = managerRes.data['isStarted'];
     if (isStarted is bool) {
       return isStarted;

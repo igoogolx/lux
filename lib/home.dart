@@ -68,7 +68,6 @@ class _HomeState extends State<Home> with TrayListener {
     coreManager = CoreManager(curBaseUrl, process, secret, () {
       setState(() {
         isCoreReady.value = true;
-        windowManager.show();
       });
     }, () async {
       if (Platform.isMacOS) {
@@ -130,6 +129,10 @@ class _HomeState extends State<Home> with TrayListener {
           if (Platform.isWindows) {
             initSystemTray();
           }
+        }
+      case 'exitApp':
+        {
+          exitApp();
         }
     }
   }

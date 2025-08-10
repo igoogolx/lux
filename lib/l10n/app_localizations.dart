@@ -223,6 +223,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Direct'**
   String get bypassLabel;
+
+  /// No description provided for @launchAtStartUpMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Running in background'**
+  String get launchAtStartUpMessage;
 }
 
 class _AppLocalizationsDelegate

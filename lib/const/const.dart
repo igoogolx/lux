@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:path/path.dart' as path;
 
 class LuxCoreName {
@@ -37,13 +38,13 @@ class Paths {
   static Directory get assetsBin {
     return Directory(path.join(assets.path, 'bin'));
   }
+
   static String get appIcon {
-    return path.join(assets.path, Platform.isWindows
-        ? 'app_icon.ico'
-        : 'tray.icns');
+    return path.join(
+        assets.path, Platform.isWindows ? 'app_icon.ico' : 'tray.icns');
   }
 }
 
 const darkBackgroundColor = 0xff292929;
 
-
+const launchFromStartupArg = 'launch_from_startup';

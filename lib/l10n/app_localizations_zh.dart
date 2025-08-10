@@ -75,4 +75,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get bypassLabel => '直连';
+
+  @override
+  String get launchAtStartUpMessage => '正在后台运行';
 }

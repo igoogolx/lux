@@ -2,10 +2,17 @@
 
 ### New features
 
-* feat: app bottom bar in Light Client Mode
+* feat: hide the window on launch at startup on windows
+* feat: limit traffic data of bottom bar to KB
 
 ### Bug fixes 🐛
 
-* fix: invalid app state when window is focused
+* fix: fail to start because of api timeout
+
+
+### Other changes
+
+* chore: upgrade dependencies
+* perf: improve memory usage
 
 
