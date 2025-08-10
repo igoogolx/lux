@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:launch_at_startup/launch_at_startup.dart';
+import 'package:lux/const/const.dart';
 import 'package:lux/core_config.dart';
 import 'package:lux/core_manager.dart';
 import 'package:lux/notifier.dart';
@@ -58,6 +59,7 @@ Future<void> setAutoLaunch(CoreManager? coreManager) async {
     launchAtStartup.setup(
       appName: packageInfo.appName,
       appPath: Platform.resolvedExecutable,
+      args: [launchFromStartupArg],
     );
     var isEnabled = await launchAtStartup.isEnabled();
     if (isAutoLaunch && !isEnabled) {
