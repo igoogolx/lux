@@ -30,7 +30,7 @@ void main(List<String> args) async {
     windowManager.waitUntilReadyToShow(windowOptions, () async {
       windowManager.center();
       var isLaunchFromStartUp = args.contains(launchFromStartupArg);
-      if (isLaunchFromStartUp) {
+      if (!isLaunchFromStartUp) {
         windowManager.show();
       }
     });
