@@ -75,4 +75,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get bypassLabel => 'Direct';
+
+  @override
+  String get launchAtStartUpMessage => 'Running in background';
 }

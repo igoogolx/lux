@@ -19,5 +19,6 @@
   "uploadLabel": "上传",
   "downloadLabel": "下载",
   "proxyLabel": "代理",
-  "bypassLabel": "直连"
+  "bypassLabel": "直连",
+  "launchAtStartUpMessage": "正在后台运行"
 }

@@ -19,5 +19,6 @@
   "uploadLabel": "upload",
   "downloadLabel": "download",
   "proxyLabel": "Proxy",
-  "bypassLabel": "Direct"
+  "bypassLabel": "Direct",
+  "launchAtStartUpMessage": "Running in background"
 }

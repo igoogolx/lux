@@ -32,6 +32,8 @@ void main(List<String> args) async {
       var isLaunchFromStartUp = args.contains(launchFromStartupArg);
       if (!isLaunchFromStartUp) {
         windowManager.show();
+      } else {
+        notifier.show(tr().launchAtStartUpMessage);
       }
     });
 
