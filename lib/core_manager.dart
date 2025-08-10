@@ -47,6 +47,7 @@ class CoreManager {
   late String baseHttpUrl;
   late String baseWsUrl;
   WebSocketChannel? _trafficChannel;
+  WebSocketChannel? _runtimeStatusChannel;
 
   Future<void> powerMonitorHandler(String? s) async {
     if (s != null) {
@@ -264,6 +265,13 @@ class CoreManager {
 
     return _trafficChannel;
   }
+
+  Future<WebSocketChannel?> getRuntimeStatusChannel() async {
+    _runtimeStatusChannel ??= WebSocketChannel.connect(
+        Uri.parse('$baseWsUrl/heartbeat/runtime-status?token=$token'));
+
+    return _runtimeStatusChannel;
+  }
 }
 
 class ProxyItem {
@@ -392,3 +400,20 @@ class TrafficData {
 }
 
 enum ProxyMode { tun, system, mixed }
+
+class RuntimeStatus {
+  final String addr;
+  final String name;
+  final bool isStarted;
+
+  RuntimeStatus(
+      {required this.addr, required this.name, required this.isStarted});
+
+  factory RuntimeStatus.fromJson(Map<String, dynamic> json) {
+    return RuntimeStatus(
+      addr: json['addr'] is String ? json['addr'] : '',
+      name: json['name'] is String ? json['name'] : '',
+      isStarted: json['isStarted'] is bool ? json['isStarted'] : false,
+    );
+  }
+}
