@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:lux/progress_indicator.dart';
 import 'package:lux/utils.dart';
 import 'package:lux/widget/app_body.dart';
 import 'package:lux/widget/app_bottom_bar.dart';
@@ -25,6 +26,7 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> with WindowListener {
   String curProxyInfo = "";
+  bool isWindowHidden = false;
 
   _DashboardState();
 
@@ -52,6 +54,16 @@ class _DashboardState extends State<Dashboard> with WindowListener {
     } else {
       await windowManager.hide();
     }
+    setState(() {
+      isWindowHidden = true;
+    });
+  }
+
+  @override
+  void onWindowFocus() {
+    setState(() {
+      isWindowHidden = false;
+    });
   }
 
   void onCurProxyInfoChange(String info) {
@@ -62,6 +74,9 @@ class _DashboardState extends State<Dashboard> with WindowListener {
 
   @override
   Widget build(BuildContext context) {
+    if (isWindowHidden) {
+      return const AppProgressIndicator();
+    }
     return Scaffold(
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(50),
