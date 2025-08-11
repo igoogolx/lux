@@ -1,7 +1,9 @@
 import 'dart:collection';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:window_manager/window_manager.dart';
 
 import '../core_manager.dart';
@@ -31,6 +33,7 @@ class _State extends State<AppHeaderBar> with WindowListener {
   bool isLoadingSwitch = false;
   bool isLoadingRuleList = false;
   bool isLoadingRuleDropdown = false;
+  WebSocketChannel? runtimeStatusChannel;
 
   void openWebDashboard() {
     launchUrl(Uri.parse(widget.urlStr));
@@ -129,6 +132,7 @@ class _State extends State<AppHeaderBar> with WindowListener {
   @override
   void dispose() {
     windowManager.removeListener(this);
+    runtimeStatusChannel?.sink.close();
     super.dispose();
   }
 
@@ -137,6 +141,20 @@ class _State extends State<AppHeaderBar> with WindowListener {
     super.initState();
     windowManager.addListener(this);
     refreshData();
+
+    if (runtimeStatusChannel == null) {
+      widget.coreManager.getRuntimeStatusChannel().then((channel) {
+        runtimeStatusChannel = channel;
+        runtimeStatusChannel?.stream.listen((message) {
+          RuntimeStatus value = RuntimeStatus.fromJson(json.decode(message));
+          setState(() {
+            if (!isLoadingSwitch) {
+              isStarted = value.isStarted;
+            }
+          });
+        });
+      });
+    }
   }
 
   @override

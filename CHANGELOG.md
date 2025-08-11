@@ -1,18 +1,17 @@
 ## What's Changed
 
-### New features
+### New changes
 
-* feat: hide the window on launch at startup on windows
-* feat: limit traffic data of bottom bar to KB
+* feat: sync runtime status
 
 ### Bug fixes 🐛
 
-* fix: fail to start because of api timeout
+* fix: invalid mode on light client mode
 
 
 ### Other changes
 
-* chore: upgrade dependencies
-* perf: improve memory usage
+* fix: set 2s timeout of auto connecting to avoid unavailable network
+
 
 
