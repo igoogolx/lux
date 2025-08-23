@@ -2,7 +2,8 @@
 
 ### New changes
 
-* feat: sync runtime status
+* feat: remove UAC prompt for System mode on Windows
+* feat: set Light Client Mode as default
 
 ### Bug fixes 🐛
 
@@ -11,7 +12,6 @@
 
 ### Other changes
 
-* fix: set 2s timeout of auto connecting to avoid unavailable network
-
+* chore: upgrade dependencies
 
 
