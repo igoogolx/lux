@@ -33,6 +33,7 @@ class _AppBottomBarState extends State<AppBottomBar> with WindowListener {
   @override
   void initState() {
     super.initState();
+    refreshMode();
     windowManager.addListener(this);
     if (trafficChannel == null) {
       widget.coreManager.getTrafficChannel().then((channel) {
