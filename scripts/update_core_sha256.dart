@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-const version = '1.31.1-beat.0';
+import 'constant.dart';
 
 class ReleaseAsset {
   final String digest;
@@ -39,14 +39,14 @@ Future<void> getSha256() async {
   final dio = Dio();
   try {
     var response = await dio.get(
-      "https://api.github.com/repos/igoogolx/itun2socks/releases/tags/v$version",
+      "https://api.github.com/repos/igoogolx/itun2socks/releases/tags/v$rawCoreVersion",
     );
     var release = Release.fromJson(response.data);
     for (var asset in release.assets) {
       if (<String>[
-        "itun2socks_${version}_darwin_arm64",
-        "itun2socks_${version}_darwin_amd64",
-        "itun2socks_${version}_windows_amd64.exe"
+        "itun2socks_${rawCoreVersion}_darwin_arm64",
+        "itun2socks_${rawCoreVersion}_darwin_amd64",
+        "itun2socks_${rawCoreVersion}_windows_amd64.exe"
       ].contains(asset.name)) {
         print('${asset.name}: ${asset.digest}');
       }

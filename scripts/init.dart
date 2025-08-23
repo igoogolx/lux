@@ -8,13 +8,14 @@ import 'package:lux/checksum.dart';
 import 'package:lux/const/const.dart';
 import 'package:path/path.dart' as path;
 
+import 'constant.dart';
+
 // https://github.com/dart-lang/sdk/issues/31610
 final assetsPath =
     path.normalize(path.join(Platform.script.toFilePath(), '../../assets'));
 final binDir = Directory(path.join(assetsPath, 'bin'));
 
 const rawCoreName = 'itun2socks';
-const rawCoreVersion = '1.31.1-beat.0';
 
 Future<void> downloadFileWith(String url, String savePath) async {
   final dio = Dio();
