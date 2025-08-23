@@ -39,7 +39,7 @@ Future<void> setAutoConnect(CoreManager? coreManager) async {
   var isAutoConnect = await readAutoConnect();
   if (isAutoConnect) {
     try {
-      await Future.delayed(const Duration(seconds: 1));
+      await Future.delayed(const Duration(seconds: 2));
       await coreManager?.start();
       notifier.show(tr().connectOnOpenMsg);
     } catch (e) {
