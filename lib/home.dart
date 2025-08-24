@@ -65,7 +65,7 @@ class _HomeState extends State<Home> with TrayListener {
     }
     final process = ProcessManager(
         corePath,
-        ['-home_dir=$curHomeDir', '-port=$port', '-secret=$secret'],
+        ["-home_dir=`\"$curHomeDir`\"", '-port=$port', '-secret=$secret'],
         needElevate);
     var curBaseUrl = '127.0.0.1:$port';
     var curHttpUrl = 'http://$curBaseUrl';
