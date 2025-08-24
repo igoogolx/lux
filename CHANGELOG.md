@@ -9,6 +9,7 @@
 
 * fix: invalid mode on light client mode
 * fix: invalid path handling of core on windows https://github.com/igoogolx/lux/issues/150
+* fix: latency for setting system proxy on macOS
 
 
 ### Other changes
