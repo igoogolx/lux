@@ -59,14 +59,14 @@ class _HomeState extends State<Home> with TrayListener {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     final Version currentVersion = Version.parse(packageInfo.version);
     var needElevate = true;
+    var homeDirArg = '-home_dir=$curHomeDir';
     if (Platform.isWindows) {
+      homeDirArg = "-home_dir=`\"$curHomeDir`\"";
       final proxyMode = await readProxyMode();
       needElevate = proxyMode != ProxyMode.system;
     }
     final process = ProcessManager(
-        corePath,
-        ["-home_dir=`\"$curHomeDir`\"", '-port=$port', '-secret=$secret'],
-        needElevate);
+        corePath, [homeDirArg, '-port=$port', '-secret=$secret'], needElevate);
     var curBaseUrl = '127.0.0.1:$port';
     var curHttpUrl = 'http://$curBaseUrl';
     var curUrlStr =
