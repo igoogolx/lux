@@ -20,5 +20,6 @@
   "downloadLabel": "download",
   "proxyLabel": "Proxy",
   "bypassLabel": "Direct",
-  "launchAtStartUpMessage": "Running in background"
+  "launchAtStartUpMessage": "Running in background",
+  "notElevated": "Not running with elevated permissions."
 }

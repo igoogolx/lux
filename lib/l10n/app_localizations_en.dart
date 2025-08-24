@@ -78,4 +78,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get launchAtStartUpMessage => 'Running in background';
+
+  @override
+  String get notElevated => 'Not running with elevated permissions.';
 }

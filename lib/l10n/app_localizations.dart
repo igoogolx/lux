@@ -229,6 +229,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Running in background'**
   String get launchAtStartUpMessage;
+
+  /// No description provided for @notElevated.
+  ///
+  /// In en, this message translates to:
+  /// **'Not running with elevated permissions.'**
+  String get notElevated;
 }
 
 class _AppLocalizationsDelegate
