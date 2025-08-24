@@ -45,7 +45,6 @@ class _HomeState extends State<Home> with TrayListener {
   CoreManager? coreManager;
   ValueNotifier<bool> isCoreReady = ValueNotifier<bool>(false);
   ValueNotifier<bool> isWebviewReady = ValueNotifier<bool>(false);
-  bool hasError = false;
   Widget? dashboardWidget;
 
   void _init() async {
