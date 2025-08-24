@@ -8,6 +8,7 @@
 ### Bug fixes 🐛
 
 * fix: invalid mode on light client mode
+* fix: invalid path handling of core on windows https://github.com/igoogolx/lux/issues/150
 
 
 ### Other changes
