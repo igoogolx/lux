@@ -3,14 +3,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:launch_at_startup/launch_at_startup.dart';
 import 'package:lux/const/const.dart';
-import 'package:lux/core_manager.dart';
+import 'package:lux/core_manager.dart' hide ProxyMode;
 import 'package:lux/dashboard.dart';
 import 'package:lux/process_manager.dart';
-import 'package:lux/progress_indicator.dart';
 import 'package:lux/tr.dart';
 import 'package:lux/tray.dart';
 import 'package:lux/utils.dart';
 import 'package:lux/webview_dashboard.dart';
+import 'package:lux/widget/progress_indicator.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path/path.dart' as path;
 import 'package:tray_manager/tray_manager.dart';
@@ -45,7 +45,6 @@ class _HomeState extends State<Home> with TrayListener {
   CoreManager? coreManager;
   ValueNotifier<bool> isCoreReady = ValueNotifier<bool>(false);
   ValueNotifier<bool> isWebviewReady = ValueNotifier<bool>(false);
-  bool hasError = false;
   Widget? dashboardWidget;
 
   void _init() async {
@@ -58,8 +57,15 @@ class _HomeState extends State<Home> with TrayListener {
     var secret = uuid.v4();
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     final Version currentVersion = Version.parse(packageInfo.version);
+    var needElevate = true;
+    var homeDirArg = '-home_dir=$curHomeDir';
+    if (Platform.isWindows) {
+      homeDirArg = "-home_dir=`\"$curHomeDir`\"";
+      final proxyMode = await readProxyMode();
+      needElevate = proxyMode != ProxyMode.system;
+    }
     final process = ProcessManager(
-        corePath, ['-home_dir=$curHomeDir', '-port=$port', '-secret=$secret']);
+        corePath, [homeDirArg, '-port=$port', '-secret=$secret'], needElevate);
     var curBaseUrl = '127.0.0.1:$port';
     var curHttpUrl = 'http://$curBaseUrl';
     var curUrlStr =

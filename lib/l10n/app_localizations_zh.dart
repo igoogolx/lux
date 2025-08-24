@@ -78,4 +78,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get launchAtStartUpMessage => '正在后台运行';
+
+  @override
+  String get notElevated => '没有以管理员权限运行';
 }

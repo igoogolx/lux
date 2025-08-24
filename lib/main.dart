@@ -1,10 +1,12 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:lux/app.dart';
 import 'package:lux/const/const.dart';
 import 'package:lux/core_config.dart';
+import 'package:lux/error.dart';
 import 'package:lux/notifier.dart';
 import 'package:lux/tr.dart';
 import 'package:lux/utils.dart';
@@ -15,6 +17,17 @@ void main(List<String> args) async {
   await notifier.ensureInitialized();
 
   PlatformDispatcher.instance.onError = (error, stack) {
+    if (error is DioException) {
+      if (error.response?.data is Map<String, dynamic>) {
+        final coreHttpError = CoreHttpError.fromJson(error.response?.data);
+        if (coreHttpError.code == coreHttpErrorNotElevatedCode) {
+          notifier.show(tr().notElevated);
+        } else {
+          notifier.show(coreHttpError.message);
+        }
+        return true;
+      }
+    }
     notifier.show(error.toString());
     return true;
   };

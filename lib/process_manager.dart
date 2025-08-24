@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:lux/checksum.dart';
 import 'package:lux/notifier.dart';
@@ -12,23 +13,36 @@ class ProcessManager {
 
   final String path;
   final List<String> args;
+  final bool needElevate;
 
-  ProcessManager(this.path, this.args);
+  ProcessManager(this.path, this.args, this.needElevate);
 
   Future<void> run() async {
     if (Platform.isWindows) {
       await verifyCoreBinary(path);
-      process = await Process.start(
-        'powershell.exe',
-        [
+      List<String> processArgs = [];
+
+      if (needElevate) {
+        processArgs = [
           '-noprofile',
           "Start-Process '$path' -Verb RunAs -windowstyle hidden",
           "-ArgumentList \"${args.join(' ')}\""
-        ],
+        ];
+      } else {
+        processArgs = [
+          '-noprofile',
+          "Start-Process '$path'  -windowstyle hidden",
+          "-ArgumentList \"${args.join(' ')}\""
+        ];
+      }
+
+      process = await Process.start(
+        'powershell.exe',
+        processArgs,
         runInShell: false,
       );
-    } else  {
-      if(!kDebugMode){
+    } else {
+      if (!kDebugMode) {
         var owner = await getFileOwner(path);
         if (owner != "root") {
           await verifyCoreBinary(path);

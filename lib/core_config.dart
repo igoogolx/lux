@@ -78,3 +78,21 @@ Future<String> readLanguage() async {
   }
   return 'system';
 }
+
+enum ProxyMode { tun, system, mixed }
+
+Future<ProxyMode> readProxyMode() async {
+  var setting = await readSetting();
+  if (setting.containsKey('mode') && setting['mode'] is String) {
+    var mode = setting['mode'] as String;
+    switch (mode) {
+      case 'system':
+        return ProxyMode.system;
+      case 'tun':
+        return ProxyMode.tun;
+      case 'mixed':
+        return ProxyMode.mixed;
+    }
+  }
+  return ProxyMode.tun;
+}

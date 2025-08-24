@@ -20,5 +20,6 @@
   "downloadLabel": "下载",
   "proxyLabel": "代理",
   "bypassLabel": "直连",
-  "launchAtStartUpMessage": "正在后台运行"
+  "launchAtStartUpMessage": "正在后台运行",
+  "notElevated": "没有以管理员权限运行"
 }
