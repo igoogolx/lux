@@ -13,6 +13,7 @@ import 'package:lux/tr.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
+import 'package:pubspec_parse/pubspec_parse.dart';
 import 'package:version/version.dart';
 
 Future<String> getHomeDir() async {
@@ -133,8 +134,7 @@ Future<void> checkForUpdate() async {
     if (latestReleaseRes.data.containsKey('tag_name') &&
         latestReleaseRes.data['tag_name'] is String) {
       var latestVersion = latestReleaseRes.data['tag_name'].replaceAll('v', '');
-      PackageInfo packageInfo = await PackageInfo.fromPlatform();
-      var currentVersion = packageInfo.version;
+      var currentVersion = getAppVersion();
       debugPrint(
           'latest version: $latestVersion, current version: $currentVersion');
       if (compareVersion(latestVersion, currentVersion) == 1) {
@@ -152,4 +152,19 @@ String formatBytes(int bytes) {
     return '${(bytes / (1024 * 1024)).toStringAsFixed(1)} MB';
   }
   return '${(bytes / (1024 * 1024 * 1024)).toStringAsFixed(1)} GB';
+}
+
+Future<String> getAppVersion() async {
+  try {
+    String pubspec = File('pubspec.yaml').readAsStringSync();
+    final parsed = Pubspec.parse(pubspec);
+    if (parsed.version is String) {
+      final version = parsed.version as String;
+      return version;
+    }
+    throw "invalid version";
+  } catch (e) {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    return packageInfo.version;
+  }
 }

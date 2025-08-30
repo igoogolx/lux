@@ -11,7 +11,6 @@ import 'package:lux/tray.dart';
 import 'package:lux/utils.dart';
 import 'package:lux/webview_dashboard.dart';
 import 'package:lux/widget/progress_indicator.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path/path.dart' as path;
 import 'package:tray_manager/tray_manager.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -55,8 +54,7 @@ class _HomeState extends State<Home> with TrayListener {
     final port = await findAvailablePort(8000, 9000);
     var uuid = Uuid();
     var secret = uuid.v4();
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    final Version currentVersion = Version.parse(packageInfo.version);
+    final Version currentVersion = Version.parse(await getAppVersion());
     var needElevate = true;
     var homeDirArg = '-home_dir=$curHomeDir';
     if (Platform.isWindows) {
