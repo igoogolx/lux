@@ -17,6 +17,7 @@ import 'package:tray_manager/tray_manager.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
 import 'package:version/version.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -44,8 +45,9 @@ class _HomeState extends State<Home> with TrayListener {
   ValueNotifier<bool> isCoreReady = ValueNotifier<bool>(false);
   ValueNotifier<bool> isWebviewReady = ValueNotifier<bool>(false);
   Widget? dashboardWidget;
+  WebSocketChannel? eventChannel;
 
-  void _init(ThemeMode theme) async {
+  void _init(AppStateModel appState) async {
     trayManager.addListener(this);
     await windowManager.setPreventClose(true);
     var corePath = path.join(Paths.assetsBin.path, LuxCoreName.name);
@@ -66,12 +68,28 @@ class _HomeState extends State<Home> with TrayListener {
     var curBaseUrl = '127.0.0.1:$port';
     var curHttpUrl = 'http://$curBaseUrl';
     var curUrlStr =
-        '$curHttpUrl/?client_version=$currentVersion&token=$secret&theme=${theme == ThemeMode.dark ? 'dark' : 'light'}';
+        '$curHttpUrl/?client_version=$currentVersion&token=$secret&theme=${appState.theme == ThemeMode.dark ? 'dark' : 'light'}';
     debugPrint("dashboard url: $curUrlStr");
     coreManager = CoreManager(curBaseUrl, process, secret, () {
       setState(() {
         isCoreReady.value = true;
       });
+      if (eventChannel == null) {
+        coreManager?.getEventChannel().then((channel) {
+          eventChannel = channel;
+          eventChannel?.stream.listen((message) async {
+            if (message is! String) {
+              return;
+            }
+            if (message == "update_setting") {
+              var isDarkMode = await readTheme() == ThemeType.dark;
+              var theme = isDarkMode ? ThemeMode.dark : ThemeMode.light;
+              appState.updateLocale(await getLocale());
+              appState.updateTheme(theme);
+            }
+          });
+        });
+      }
     }, () async {
       if (Platform.isMacOS) {
         var isFullScreen = await windowManager.isFullScreen();
@@ -143,7 +161,7 @@ class _HomeState extends State<Home> with TrayListener {
   @override
   void initState() {
     super.initState();
-    _init(Provider.of<AppStateModel>(context, listen: false).theme);
+    _init(Provider.of<AppStateModel>(context, listen: false));
   }
 
   @override

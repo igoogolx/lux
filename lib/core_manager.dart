@@ -48,6 +48,7 @@ class CoreManager {
   late String baseWsUrl;
   WebSocketChannel? _trafficChannel;
   WebSocketChannel? _runtimeStatusChannel;
+  WebSocketChannel? _eventChannel;
 
   Future<void> powerMonitorHandler(String? s) async {
     if (s != null) {
@@ -271,6 +272,13 @@ class CoreManager {
         Uri.parse('$baseWsUrl/heartbeat/runtime-status?token=$token'));
 
     return _runtimeStatusChannel;
+  }
+
+  Future<WebSocketChannel?> getEventChannel() async {
+    _eventChannel ??=
+        WebSocketChannel.connect(Uri.parse('$baseWsUrl/event?token=$token'));
+
+    return _eventChannel;
   }
 }
 
