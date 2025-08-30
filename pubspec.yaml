@@ -63,6 +63,7 @@ dependencies:
   crypto: ^3.0.6
   flex_color_scheme: ^8.2.0
   web_socket_channel: ^3.0.3
+  pubspec_parse: ^1.5.0
 
 
 dev_dependencies:
