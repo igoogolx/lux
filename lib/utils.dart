@@ -158,8 +158,8 @@ Future<String> getAppVersion() async {
   try {
     String pubspec = File('pubspec.yaml').readAsStringSync();
     final parsed = loadYaml(pubspec);
-    if (parsed.version is String) {
-      final version = parsed.version as String;
+    if (parsed['version'] is String) {
+      final version = parsed['version'] as String;
       return version;
     }
     throw "invalid version";
