@@ -134,7 +134,7 @@ Future<void> checkForUpdate() async {
     if (latestReleaseRes.data.containsKey('tag_name') &&
         latestReleaseRes.data['tag_name'] is String) {
       var latestVersion = latestReleaseRes.data['tag_name'].replaceAll('v', '');
-      var currentVersion = getAppVersion();
+      var currentVersion = await getAppVersion();
       debugPrint(
           'latest version: $latestVersion, current version: $currentVersion');
       if (compareVersion(latestVersion, currentVersion) == 1) {
