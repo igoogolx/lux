@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 import 'l10n/app_localizations.dart';
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
   final ThemeMode theme;
   final LocaleModel defaultLocalModel;
   final ClientMode clientMode;
@@ -16,15 +16,32 @@ class App extends StatelessWidget {
   const App(this.theme, this.defaultLocalModel, this.clientMode, {super.key});
 
   @override
+  State<App> createState() => _App();
+}
+
+class _App extends State<App> {
+  ThemeMode curTheme = ThemeMode.system;
+  late LocaleModel curLocaleModel;
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      curTheme = widget.theme;
+      curLocaleModel = widget.defaultLocalModel;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => defaultLocalModel,
+      create: (context) => widget.defaultLocalModel,
       child: Consumer<LocaleModel>(
         builder: (context, localeModel, child) => MaterialApp(
-          themeMode: theme,
+          themeMode: curTheme,
           theme: AppTheme.light,
           darkTheme: AppTheme.dark,
-          home: Home(theme, defaultLocalModel, clientMode),
+          home: Home(curTheme, curLocaleModel, widget.clientMode),
           onGenerateTitle: (context) {
             initTr(context);
             return 'Lux';
