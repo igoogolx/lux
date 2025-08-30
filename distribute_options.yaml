@@ -6,7 +6,7 @@ releases:
         package:
           platform: windows
           target: exe
-  - name: macos-14
+  - name: macos-15
     jobs:
       - name: release-dev-macos
         package:

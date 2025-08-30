@@ -11,7 +11,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest, macos-14, macos-13]
+        os: [windows-latest, macos-15, macos-13]
 
     steps:
       - uses: actions/checkout@v4
@@ -24,7 +24,7 @@ jobs:
           channel: 'stable'
       - run: dart pub global activate fastforge
       - run: flutter pub get
-      - if: matrix.os == 'macos-14'
+      - if: matrix.os == 'macos-15'
         name: Build mac arm64 installer
         run: |
           VERSION=${GITHUB_REF_NAME#v}
@@ -81,7 +81,7 @@ jobs:
       - run: |
           mkdir artifact
           mv windows-latest-artifact/*/* artifact/
-          mv macos-14-artifact/*/* artifact/
+          mv macos-15-artifact/*/* artifact/
           mv macos-13-artifact/*/* artifact/
 
       - name: Generate checksum
