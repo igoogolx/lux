@@ -13,8 +13,8 @@ import 'package:lux/tr.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
-import 'package:pubspec_parse/pubspec_parse.dart';
 import 'package:version/version.dart';
+import 'package:yaml/yaml.dart';
 
 Future<String> getHomeDir() async {
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -157,7 +157,7 @@ String formatBytes(int bytes) {
 Future<String> getAppVersion() async {
   try {
     String pubspec = File('pubspec.yaml').readAsStringSync();
-    final parsed = Pubspec.parse(pubspec);
+    final parsed = loadYaml(pubspec);
     if (parsed.version is String) {
       final version = parsed.version as String;
       return version;
