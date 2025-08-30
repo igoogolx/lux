@@ -156,7 +156,7 @@ String formatBytes(int bytes) {
 
 Future<String> getAppVersion() async {
   try {
-    String pubspec = File('pubspec.yaml').readAsStringSync();
+    String pubspec = File(Paths.pubspec).readAsStringSync();
     final parsed = loadYaml(pubspec);
     if (parsed['version'] is String) {
       final version = parsed['version'] as String;
