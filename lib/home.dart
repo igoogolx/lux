@@ -100,7 +100,7 @@ class _HomeState extends State<Home> with TrayListener {
   }
 
   Future<void> onChannelMessage(
-      JavaScriptMessage value, BuildContext context) async {
+      JavaScriptMessage value, AppStateModel appState) async {
     var msg = value.message;
     debugPrint("channel message from webview :$msg");
     switch (msg) {
@@ -127,7 +127,7 @@ class _HomeState extends State<Home> with TrayListener {
       case 'changeLanguage':
         {
           var latestLocaleValue = await getLocale();
-          Provider.of<AppStateModel>(context).updateLocale(latestLocaleValue);
+          appState.updateLocale(latestLocaleValue);
           await Future.delayed(const Duration(seconds: 1));
           if (Platform.isWindows) {
             initSystemTray();
