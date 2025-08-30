@@ -14,7 +14,7 @@ class WebViewDashboard extends StatefulWidget {
   final String baseUrl;
   final String urlStr;
   final String homeDir;
-  final void Function(JavaScriptMessage) onChannelMessage;
+  final void Function(JavaScriptMessage, BuildContext context) onChannelMessage;
 
   const WebViewDashboard(
       this.homeDir, this.baseUrl, this.urlStr, this.onChannelMessage,
@@ -56,7 +56,7 @@ class _WebViewDashboardState extends State<WebViewDashboard>
     );
 
     controller.addJavaScriptChannel('ClientChannel',
-        onMessageReceived: widget.onChannelMessage);
+        onMessageReceived: (m) => widget.onChannelMessage(m, context));
 
     controller.loadRequest(Uri.parse(widget.urlStr));
 

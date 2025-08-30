@@ -5,13 +5,14 @@ import 'package:launch_at_startup/launch_at_startup.dart';
 import 'package:lux/const/const.dart';
 import 'package:lux/core_manager.dart' hide ProxyMode;
 import 'package:lux/dashboard.dart';
+import 'package:lux/model/app.dart';
 import 'package:lux/process_manager.dart';
-import 'package:lux/tr.dart';
 import 'package:lux/tray.dart';
 import 'package:lux/utils.dart';
 import 'package:lux/webview_dashboard.dart';
 import 'package:lux/widget/progress_indicator.dart';
 import 'package:path/path.dart' as path;
+import 'package:provider/provider.dart';
 import 'package:tray_manager/tray_manager.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
@@ -22,11 +23,9 @@ import 'package:window_manager/window_manager.dart';
 import 'core_config.dart';
 
 class Home extends StatefulWidget {
-  final ThemeMode theme;
-  final LocaleModel defaultLocalModel;
   final ClientMode clientMode;
 
-  const Home(this.theme, this.defaultLocalModel, this.clientMode, {super.key});
+  const Home(this.clientMode, {super.key});
 
   @override
   State<Home> createState() => _HomeState();
@@ -46,7 +45,7 @@ class _HomeState extends State<Home> with TrayListener {
   ValueNotifier<bool> isWebviewReady = ValueNotifier<bool>(false);
   Widget? dashboardWidget;
 
-  void _init() async {
+  void _init(ThemeMode theme) async {
     trayManager.addListener(this);
     await windowManager.setPreventClose(true);
     var corePath = path.join(Paths.assetsBin.path, LuxCoreName.name);
@@ -67,7 +66,7 @@ class _HomeState extends State<Home> with TrayListener {
     var curBaseUrl = '127.0.0.1:$port';
     var curHttpUrl = 'http://$curBaseUrl';
     var curUrlStr =
-        '$curHttpUrl/?client_version=$currentVersion&token=$secret&theme=${widget.theme == ThemeMode.dark ? 'dark' : 'light'}';
+        '$curHttpUrl/?client_version=$currentVersion&token=$secret&theme=${theme == ThemeMode.dark ? 'dark' : 'light'}';
     debugPrint("dashboard url: $curUrlStr");
     coreManager = CoreManager(curBaseUrl, process, secret, () {
       setState(() {
@@ -100,7 +99,8 @@ class _HomeState extends State<Home> with TrayListener {
     await coreManager?.run();
   }
 
-  Future<void> onChannelMessage(JavaScriptMessage value) async {
+  Future<void> onChannelMessage(
+      JavaScriptMessage value, BuildContext context) async {
     var msg = value.message;
     debugPrint("channel message from webview :$msg");
     switch (msg) {
@@ -127,8 +127,7 @@ class _HomeState extends State<Home> with TrayListener {
       case 'changeLanguage':
         {
           var latestLocaleValue = await getLocale();
-          widget.defaultLocalModel.set(latestLocaleValue);
-          //tray should be updated after material app is re-rebuilt
+          Provider.of<AppStateModel>(context).updateLocale(latestLocaleValue);
           await Future.delayed(const Duration(seconds: 1));
           if (Platform.isWindows) {
             initSystemTray();
@@ -144,7 +143,7 @@ class _HomeState extends State<Home> with TrayListener {
   @override
   void initState() {
     super.initState();
-    _init();
+    _init(Provider.of<AppStateModel>(context).theme);
   }
 
   @override
