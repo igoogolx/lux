@@ -100,6 +100,7 @@ flutter:
     - assets/tray.png
     - assets/tray.icns
     - assets/bin/
+    - pubspec.yaml
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
