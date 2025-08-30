@@ -41,6 +41,7 @@ jobs:
           VERSION=${GITHUB_REF_NAME#v}
           echo Version: $VERSION
           echo "VERSION=$VERSION" >> $GITHUB_ENV
+          sed -i 's/EXCLUDED_ARCHS = x86_64/EXCLUDED_ARCHS = arm64/g' macos/Runner.xcodeproj/project.pbxproj
           npm install -g appdmg
           dart run scripts/init.dart -a 'amd64' -s ${{ secrets.GITHUB_TOKEN }} 
           fastforge release --name ${{ matrix.os }}
