@@ -143,7 +143,7 @@ class _HomeState extends State<Home> with TrayListener {
   @override
   void initState() {
     super.initState();
-    _init(Provider.of<AppStateModel>(context).theme);
+    _init(Provider.of<AppStateModel>(context, listen: false).theme);
   }
 
   @override
