@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lux/const/const.dart';
 import 'package:lux/tr.dart';
+import 'package:lux/widget/proxy_list_item.dart';
 
 import '../core_manager.dart';
 
@@ -89,15 +90,9 @@ class _ProxyListCardState extends State<ProxyListCard> {
                   padding: EdgeInsetsGeometry.all(0),
                   itemCount: proxyList.proxies.length,
                   itemBuilder: (context, index) {
-                    return RadioListTile<String>(
+                    return ProxyListItem(
                       key: Key(proxyList.proxies[index].id),
-                      title: Text(
-                        proxyList.proxies[index].name.isNotEmpty
-                            ? proxyList.proxies[index].name
-                            : "${proxyList.proxies[index].server}:${proxyList.proxies[index].port}",
-                        style: TextStyle(fontSize: 12),
-                      ),
-                      value: proxyList.proxies[index].id,
+                      item: proxyList.proxies[index],
                     );
                   },
                   separatorBuilder: (BuildContext context, int index) {
