@@ -136,6 +136,7 @@ class _HomeState extends State<Home> with TrayListener {
                 }
               case 'exit_app':
                 {
+                  await coreManager?.exitCore();
                   exitApp();
                 }
             }
