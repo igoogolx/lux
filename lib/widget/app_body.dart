@@ -81,41 +81,43 @@ class _AppBodyState extends State<AppBody> with WindowListener {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        Card(
-          margin: EdgeInsetsGeometry.only(left: 6, right: 6, top: 8, bottom: 8),
-          child: proxyList.proxies.isEmpty
-              ? SizedBox()
-              : ListView.separated(
-                  shrinkWrap: true,
-                  physics: ClampingScrollPhysics(),
-                  padding: EdgeInsetsGeometry.all(0),
-                  itemCount: proxyList.proxies.length,
-                  itemBuilder: (context, index) {
-                    return RadioListTile<String>(
-                      title: Text(
-                        proxyList.proxies[index].name.isNotEmpty
-                            ? proxyList.proxies[index].name
-                            : "${proxyList.proxies[index].server}:${proxyList.proxies[index].port}",
-                        style: TextStyle(fontSize: 12),
-                      ),
-                      value: proxyList.proxies[index].id,
-                      groupValue: proxyList.selectedId,
-                      onChanged: isLoadingProxyRadio ? null : handleSelectProxy,
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return Divider(
-                      height: 1, // Control the space the divider takes up
-                      thickness: 1, // Control the line's thickness
-                      indent: 20, // Left padding
-                      endIndent: 20, // Right padding
-                    );
-                  },
-                ),
-        )
-      ],
-    );
+    return RadioGroup<String>(
+        groupValue: proxyList.selectedId,
+        onChanged: handleSelectProxy,
+        child: ListView(
+          children: [
+            Card(
+              margin:
+                  EdgeInsetsGeometry.only(left: 6, right: 6, top: 8, bottom: 8),
+              child: proxyList.proxies.isEmpty
+                  ? SizedBox()
+                  : ListView.separated(
+                      shrinkWrap: true,
+                      physics: ClampingScrollPhysics(),
+                      padding: EdgeInsetsGeometry.all(0),
+                      itemCount: proxyList.proxies.length,
+                      itemBuilder: (context, index) {
+                        return RadioListTile<String>(
+                          title: Text(
+                            proxyList.proxies[index].name.isNotEmpty
+                                ? proxyList.proxies[index].name
+                                : "${proxyList.proxies[index].server}:${proxyList.proxies[index].port}",
+                            style: TextStyle(fontSize: 12),
+                          ),
+                          value: proxyList.proxies[index].id,
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return Divider(
+                          height: 1, // Control the space the divider takes up
+                          thickness: 1, // Control the line's thickness
+                          indent: 20, // Left padding
+                          endIndent: 20, // Right padding
+                        );
+                      },
+                    ),
+            )
+          ],
+        ));
   }
 }
