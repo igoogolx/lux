@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lux/widget/proxy_list.dart';
+import 'package:lux/widget/proxy_list_card.dart';
 import 'package:window_manager/window_manager.dart';
 
 import '../core_manager.dart';
@@ -91,7 +91,7 @@ class _AppBodyState extends State<AppBody> with WindowListener {
             : ListView.builder(
                 itemCount: proxyListGroup.groups.length,
                 itemBuilder: (context, index) {
-                  return ProxyListView(
+                  return ProxyListCard(
                     proxyList: proxyListGroup.groups[index],
                     key: Key(proxyListGroup.groups[index].url),
                   );

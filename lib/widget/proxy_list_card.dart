@@ -4,16 +4,16 @@ import 'package:lux/tr.dart';
 
 import '../core_manager.dart';
 
-class ProxyListView extends StatefulWidget {
+class ProxyListCard extends StatefulWidget {
   final ProxyList proxyList;
 
-  const ProxyListView({super.key, required this.proxyList});
+  const ProxyListCard({super.key, required this.proxyList});
 
   @override
-  State<ProxyListView> createState() => _ProxyListViewState();
+  State<ProxyListCard> createState() => _ProxyListCardState();
 }
 
-class _ProxyListViewState extends State<ProxyListView> {
+class _ProxyListCardState extends State<ProxyListCard> {
   bool isCollapsed = true;
   String? previewInfo;
 
