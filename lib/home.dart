@@ -99,7 +99,7 @@ class _HomeState extends State<Home> with TrayListener {
                   }
                   appState.updateTheme(convertTheme(message['value']));
                 }
-              case "set_Language":
+              case "set_language":
                 {
                   if (!(message.containsKey('value') &&
                       message['value'] is String)) {
