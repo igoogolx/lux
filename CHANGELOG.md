@@ -5,6 +5,7 @@
 ### New changes
 
 * feat: sync events between light client and web dashboard
+* feat: group proxies in light client mode
 
 ### Bug fixes 🐛
 
