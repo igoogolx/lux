@@ -235,6 +235,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not running with elevated permissions.'**
   String get notElevated;
+
+  /// No description provided for @localServer.
+  ///
+  /// In en, this message translates to:
+  /// **'Local Server'**
+  String get localServer;
 }
 
 class _AppLocalizationsDelegate

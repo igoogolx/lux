@@ -81,4 +81,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get notElevated => '没有以管理员权限运行';
+
+  @override
+  String get localServer => '本地服务器';
 }

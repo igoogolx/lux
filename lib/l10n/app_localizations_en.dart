@@ -81,4 +81,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notElevated => 'Not running with elevated permissions.';
+
+  @override
+  String get localServer => 'Local Server';
 }
