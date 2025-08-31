@@ -14,6 +14,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:version/version.dart';
+import 'package:yaml/yaml.dart';
 
 Future<String> getHomeDir() async {
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -74,18 +75,8 @@ Future<void> setAutoLaunch(CoreManager? coreManager) async {
   }
 }
 
-Future<Locale> getLocale() async {
-  var curLanguage = await readLanguage();
-  switch (curLanguage) {
-    case 'system':
-      {
-        var curLocale = Intl.getCurrentLocale();
-        if (curLocale.startsWith('zh')) {
-          return const Locale('zh');
-        } else {
-          return const Locale('en');
-        }
-      }
+Locale convertLocale(String locale) {
+  switch (locale) {
     case 'en-US':
       {
         return const Locale('en');
@@ -94,9 +85,21 @@ Future<Locale> getLocale() async {
       {
         return const Locale('zh');
       }
+    default:
+      {
+        var curLocale = Intl.getCurrentLocale();
+        if (curLocale.startsWith('zh')) {
+          return const Locale('zh');
+        } else {
+          return const Locale('en');
+        }
+      }
   }
+}
 
-  return const Locale('en');
+Future<Locale> getLocale() async {
+  var curLanguage = await readLanguage();
+  return convertLocale(curLanguage);
 }
 
 typedef InitI10nLabel = ({
@@ -133,8 +136,7 @@ Future<void> checkForUpdate() async {
     if (latestReleaseRes.data.containsKey('tag_name') &&
         latestReleaseRes.data['tag_name'] is String) {
       var latestVersion = latestReleaseRes.data['tag_name'].replaceAll('v', '');
-      PackageInfo packageInfo = await PackageInfo.fromPlatform();
-      var currentVersion = packageInfo.version;
+      var currentVersion = await getAppVersion();
       debugPrint(
           'latest version: $latestVersion, current version: $currentVersion');
       if (compareVersion(latestVersion, currentVersion) == 1) {
@@ -152,4 +154,19 @@ String formatBytes(int bytes) {
     return '${(bytes / (1024 * 1024)).toStringAsFixed(1)} MB';
   }
   return '${(bytes / (1024 * 1024 * 1024)).toStringAsFixed(1)} GB';
+}
+
+Future<String> getAppVersion() async {
+  try {
+    String pubspec = File(Paths.pubspec).readAsStringSync();
+    final parsed = loadYaml(pubspec);
+    if (parsed['version'] is String) {
+      final version = parsed['version'] as String;
+      return version;
+    }
+    throw "invalid version";
+  } catch (e) {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    return packageInfo.version;
+  }
 }

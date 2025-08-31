@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -5,29 +6,28 @@ import 'package:launch_at_startup/launch_at_startup.dart';
 import 'package:lux/const/const.dart';
 import 'package:lux/core_manager.dart' hide ProxyMode;
 import 'package:lux/dashboard.dart';
+import 'package:lux/model/app.dart';
 import 'package:lux/process_manager.dart';
-import 'package:lux/tr.dart';
 import 'package:lux/tray.dart';
 import 'package:lux/utils.dart';
 import 'package:lux/webview_dashboard.dart';
 import 'package:lux/widget/progress_indicator.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path/path.dart' as path;
+import 'package:provider/provider.dart';
 import 'package:tray_manager/tray_manager.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
 import 'package:version/version.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'core_config.dart';
 
 class Home extends StatefulWidget {
-  final ThemeMode theme;
-  final LocaleModel defaultLocalModel;
   final ClientMode clientMode;
 
-  const Home(this.theme, this.defaultLocalModel, this.clientMode, {super.key});
+  const Home(this.clientMode, {super.key});
 
   @override
   State<Home> createState() => _HomeState();
@@ -46,8 +46,9 @@ class _HomeState extends State<Home> with TrayListener {
   ValueNotifier<bool> isCoreReady = ValueNotifier<bool>(false);
   ValueNotifier<bool> isWebviewReady = ValueNotifier<bool>(false);
   Widget? dashboardWidget;
+  WebSocketChannel? eventChannel;
 
-  void _init() async {
+  void _init(AppStateModel appState) async {
     trayManager.addListener(this);
     await windowManager.setPreventClose(true);
     var corePath = path.join(Paths.assetsBin.path, LuxCoreName.name);
@@ -55,8 +56,7 @@ class _HomeState extends State<Home> with TrayListener {
     final port = await findAvailablePort(8000, 9000);
     var uuid = Uuid();
     var secret = uuid.v4();
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    final Version currentVersion = Version.parse(packageInfo.version);
+    final Version currentVersion = Version.parse(await getAppVersion());
     var needElevate = true;
     var homeDirArg = '-home_dir=$curHomeDir';
     if (Platform.isWindows) {
@@ -69,12 +69,80 @@ class _HomeState extends State<Home> with TrayListener {
     var curBaseUrl = '127.0.0.1:$port';
     var curHttpUrl = 'http://$curBaseUrl';
     var curUrlStr =
-        '$curHttpUrl/?client_version=$currentVersion&token=$secret&theme=${widget.theme == ThemeMode.dark ? 'dark' : 'light'}';
+        '$curHttpUrl/?client_version=$currentVersion&token=$secret&theme=${appState.theme == ThemeMode.dark ? 'dark' : 'light'}';
     debugPrint("dashboard url: $curUrlStr");
     coreManager = CoreManager(curBaseUrl, process, secret, () {
       setState(() {
         isCoreReady.value = true;
       });
+      if (eventChannel == null) {
+        coreManager?.getEventChannel().then((channel) {
+          eventChannel = channel;
+          eventChannel?.stream.listen((rawData) async {
+            if (rawData is! String) {
+              return;
+            }
+            final message = json.decode(rawData);
+            if (message is! Map<String, dynamic>) {
+              return;
+            }
+            if (!(message.containsKey('type') && message['type'] is String)) {
+              return;
+            }
+
+            switch (message['type']) {
+              case "set_theme":
+                {
+                  if (!(message.containsKey('value') &&
+                      message['value'] is String)) {
+                    return;
+                  }
+                  appState.updateTheme(convertTheme(message['value']));
+                }
+              case "set_language":
+                {
+                  if (!(message.containsKey('value') &&
+                      message['value'] is String)) {
+                    return;
+                  }
+                  appState.updateLocale(convertLocale(message['value']));
+                  if (Platform.isWindows) {
+                    initSystemTray();
+                  }
+                }
+              case "set_auto_launch":
+                {
+                  if (!(message.containsKey('value') &&
+                      message['value'] is bool)) {
+                    return;
+                  }
+                  if (message['value']) {
+                    await launchAtStartup.enable();
+                  } else {
+                    await launchAtStartup.disable();
+                  }
+                }
+              case 'open_home_dir':
+                {
+                  launchUrl(Uri.file(homeDir));
+                }
+              case 'open_web_dashboard':
+                {
+                  launchUrl(Uri.parse(urlStr));
+                }
+              case 'set_web_dashboard_is_ready':
+                {
+                  isWebviewReady.value = true;
+                }
+              case 'exit_app':
+                {
+                  await coreManager?.exitCore();
+                  exitApp();
+                }
+            }
+          });
+        });
+      }
     }, () async {
       if (Platform.isMacOS) {
         var isFullScreen = await windowManager.isFullScreen();
@@ -106,39 +174,9 @@ class _HomeState extends State<Home> with TrayListener {
     var msg = value.message;
     debugPrint("channel message from webview :$msg");
     switch (msg) {
-      case 'enableAutoLaunch':
-        {
-          launchAtStartup.enable();
-        }
-      case 'disableAutoLaunch':
-        {
-          launchAtStartup.disable();
-        }
-      case 'openHomeDir':
-        {
-          launchUrl(Uri.file(homeDir));
-        }
-      case 'openWebDashboard':
-        {
-          launchUrl(Uri.parse(urlStr));
-        }
       case 'ready':
         {
           isWebviewReady.value = true;
-        }
-      case 'changeLanguage':
-        {
-          var latestLocaleValue = await getLocale();
-          widget.defaultLocalModel.set(latestLocaleValue);
-          //tray should be updated after material app is re-rebuilt
-          await Future.delayed(const Duration(seconds: 1));
-          if (Platform.isWindows) {
-            initSystemTray();
-          }
-        }
-      case 'exitApp':
-        {
-          exitApp();
         }
     }
   }
@@ -146,7 +184,7 @@ class _HomeState extends State<Home> with TrayListener {
   @override
   void initState() {
     super.initState();
-    _init();
+    _init(Provider.of<AppStateModel>(context, listen: false));
   }
 
   @override

@@ -21,5 +21,6 @@
   "proxyLabel": "Proxy",
   "bypassLabel": "Direct",
   "launchAtStartUpMessage": "Running in background",
-  "notElevated": "Not running with elevated permissions."
+  "notElevated": "Not running with elevated permissions.",
+  "localServer": "Local Server"
 }

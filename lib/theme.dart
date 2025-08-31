@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 /// Use same major flex_color_scheme package version. If you use a
 /// lower minor version, some properties may not be supported.
 /// In that case, remove them after copying this theme to your
-/// app or upgrade the package to version 8.2.0.
+/// app or upgrade the package to version 8.3.0.
 ///
 /// Use it in a [MaterialApp] like this:
 ///

@@ -11,7 +11,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest, macos-14, macos-13]
+        os: [windows-latest, macos-15, macos-13]
 
     steps:
       - uses: actions/checkout@v4
@@ -24,7 +24,7 @@ jobs:
           channel: 'stable'
       - run: dart pub global activate fastforge
       - run: flutter pub get
-      - if: matrix.os == 'macos-14'
+      - if: matrix.os == 'macos-15'
         name: Build mac arm64 installer
         run: |
           VERSION=${GITHUB_REF_NAME#v}
@@ -41,6 +41,7 @@ jobs:
           VERSION=${GITHUB_REF_NAME#v}
           echo Version: $VERSION
           echo "VERSION=$VERSION" >> $GITHUB_ENV
+          sed -i '' 's/EXCLUDED_ARCHS = x86_64/EXCLUDED_ARCHS = arm64/g' macos/Runner.xcodeproj/project.pbxproj
           npm install -g appdmg
           dart run scripts/init.dart -a 'amd64' -s ${{ secrets.GITHUB_TOKEN }} 
           fastforge release --name ${{ matrix.os }}
@@ -81,7 +82,7 @@ jobs:
       - run: |
           mkdir artifact
           mv windows-latest-artifact/*/* artifact/
-          mv macos-14-artifact/*/* artifact/
+          mv macos-15-artifact/*/* artifact/
           mv macos-13-artifact/*/* artifact/
 
       - name: Generate checksum

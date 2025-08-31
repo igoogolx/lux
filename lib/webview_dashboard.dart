@@ -56,7 +56,9 @@ class _WebViewDashboardState extends State<WebViewDashboard>
     );
 
     controller.addJavaScriptChannel('ClientChannel',
-        onMessageReceived: widget.onChannelMessage);
+        onMessageReceived: (m) => widget.onChannelMessage(
+              m,
+            ));
 
     controller.loadRequest(Uri.parse(widget.urlStr));
 

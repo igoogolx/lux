@@ -7,6 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_desktop_sleep/flutter_desktop_sleep.dart';
 import 'package:flutter_window_close/flutter_window_close.dart';
+import 'package:lux/const/const.dart';
 import 'package:lux/notifier.dart';
 import 'package:lux/process_manager.dart';
 import 'package:lux/tr.dart';
@@ -48,6 +49,7 @@ class CoreManager {
   late String baseWsUrl;
   WebSocketChannel? _trafficChannel;
   WebSocketChannel? _runtimeStatusChannel;
+  WebSocketChannel? _eventChannel;
 
   Future<void> powerMonitorHandler(String? s) async {
     if (s != null) {
@@ -192,9 +194,9 @@ class CoreManager {
     return "";
   }
 
-  Future<ProxyList> getProxyList() async {
+  Future<ProxyListGroup> getProxyList() async {
     final proxiesRes = await dio.get('$baseHttpUrl/proxies');
-    return ProxyList.fromJson(proxiesRes.data);
+    return ProxyListGroup.fromJson(proxiesRes.data);
   }
 
   Future<RuleList> getRuleList() async {
@@ -272,6 +274,13 @@ class CoreManager {
 
     return _runtimeStatusChannel;
   }
+
+  Future<WebSocketChannel?> getEventChannel() async {
+    _eventChannel ??=
+        WebSocketChannel.connect(Uri.parse('$baseWsUrl/event?token=$token'));
+
+    return _eventChannel;
+  }
 }
 
 class ProxyItem {
@@ -279,13 +288,17 @@ class ProxyItem {
   final String name;
   final String? server;
   final int? port;
+  final String? subscriptionUrl;
 
-  ProxyItem(this.id, this.name, this.server, this.port);
+  ProxyItem(this.id, this.name, this.server, this.port, this.subscriptionUrl);
 
   ProxyItem.fromJson(Map<String, dynamic> json)
       : id = (json['id'] as String),
         name = (json['name'] as String),
         server = (json['server'] as String),
+        subscriptionUrl = (json['subscriptionUrl'] is String
+            ? json['subscriptionUrl'] as String
+            : null),
         port = (json['port'] as int);
 
   Map<String, dynamic> toJson() => {
@@ -294,20 +307,54 @@ class ProxyItem {
       };
 }
 
+class ProxyListGroup {
+  late String selectedId;
+  late List<ProxyItem> allProxies;
+  late List<ProxyList> groups;
+
+  ProxyListGroup(this.allProxies, this.selectedId, this.groups);
+
+  ProxyListGroup.fromJson(Map<String, dynamic> json) {
+    allProxies = json['proxies'] != null
+        ? (json['proxies'] as List)
+            .map((asset) => ProxyItem.fromJson(asset as Map<String, dynamic>))
+            .toList()
+        : <ProxyItem>[];
+    groups = convertListToGroup(allProxies);
+    selectedId = (json['selectedId'] as String);
+  }
+
+  List<ProxyList> convertListToGroup(List<ProxyItem> items) {
+    Map<String, List<ProxyItem>> groupMap = {};
+    for (var item in items) {
+      if (item.subscriptionUrl is String) {
+        var groupName = item.subscriptionUrl as String;
+        if (!groupMap.containsKey(groupName)) {
+          groupMap[groupName] = [];
+        }
+        groupMap[groupName]!.add(item);
+      } else {
+        if (!groupMap.containsKey(localServersGroupKey)) {
+          groupMap[localServersGroupKey] = [];
+        }
+        groupMap[localServersGroupKey]!.add(item);
+      }
+    }
+
+    List<ProxyList> groups = [];
+    groupMap.forEach((groupName, proxies) {
+      groups.add(ProxyList(proxies, groupName));
+    });
+
+    return groups;
+  }
+}
+
 class ProxyList {
   final List<ProxyItem> proxies;
-  String selectedId;
+  final String url;
 
-  ProxyList(this.proxies, this.selectedId);
-
-  ProxyList.fromJson(Map<String, dynamic> json)
-      : proxies = json['proxies'] != null
-            ? (json['proxies'] as List)
-                .map((asset) =>
-                    ProxyItem.fromJson(asset as Map<String, dynamic>))
-                .toList()
-            : <ProxyItem>[],
-        selectedId = (json['selectedId'] as String);
+  ProxyList(this.proxies, this.url);
 
   Map<String, dynamic> toJson() =>
       {'proxies': proxies.map((asset) => asset.toJson()).toList()};

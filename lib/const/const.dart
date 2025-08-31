@@ -25,14 +25,17 @@ class LuxCoreName {
 }
 
 class Paths {
-  static Directory get assets {
+  static Directory get flutterAssets {
     File mainFile = File(Platform.resolvedExecutable);
-    String assetsPath = '../data/flutter_assets/assets';
+    String assetsPath = '../data/flutter_assets';
     if (Platform.isMacOS) {
-      assetsPath =
-          '../../Frameworks/App.framework/Resources/flutter_assets/assets';
+      assetsPath = '../../Frameworks/App.framework/Resources/flutter_assets';
     }
     return Directory(path.normalize(path.join(mainFile.path, assetsPath)));
+  }
+
+  static Directory get assets {
+    return Directory(path.join(flutterAssets.path, 'assets'));
   }
 
   static Directory get assetsBin {
@@ -43,8 +46,14 @@ class Paths {
     return path.join(
         assets.path, Platform.isWindows ? 'app_icon.ico' : 'tray.icns');
   }
+
+  static String get pubspec {
+    return path.join(flutterAssets.path, "pubspec.yaml");
+  }
 }
 
 const darkBackgroundColor = 0xff292929;
 
 const launchFromStartupArg = 'launch_from_startup';
+
+const localServersGroupKey = 'local_servers';
