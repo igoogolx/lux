@@ -75,18 +75,8 @@ Future<void> setAutoLaunch(CoreManager? coreManager) async {
   }
 }
 
-Future<Locale> getLocale() async {
-  var curLanguage = await readLanguage();
-  switch (curLanguage) {
-    case 'system':
-      {
-        var curLocale = Intl.getCurrentLocale();
-        if (curLocale.startsWith('zh')) {
-          return const Locale('zh');
-        } else {
-          return const Locale('en');
-        }
-      }
+Locale convertLocale(String locale) {
+  switch (locale) {
     case 'en-US':
       {
         return const Locale('en');
@@ -95,9 +85,21 @@ Future<Locale> getLocale() async {
       {
         return const Locale('zh');
       }
+    default:
+      {
+        var curLocale = Intl.getCurrentLocale();
+        if (curLocale.startsWith('zh')) {
+          return const Locale('zh');
+        } else {
+          return const Locale('en');
+        }
+      }
   }
+}
 
-  return const Locale('en');
+Future<Locale> getLocale() async {
+  var curLanguage = await readLanguage();
+  return convertLocale(curLanguage);
 }
 
 typedef InitI10nLabel = ({

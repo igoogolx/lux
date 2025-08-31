@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -77,15 +78,66 @@ class _HomeState extends State<Home> with TrayListener {
       if (eventChannel == null) {
         coreManager?.getEventChannel().then((channel) {
           eventChannel = channel;
-          eventChannel?.stream.listen((message) async {
-            if (message is! String) {
+          eventChannel?.stream.listen((rawData) async {
+            if (rawData is! String) {
               return;
             }
-            if (message == "update_setting") {
-              var isDarkMode = await readTheme() == ThemeType.dark;
-              var theme = isDarkMode ? ThemeMode.dark : ThemeMode.light;
-              appState.updateLocale(await getLocale());
-              appState.updateTheme(theme);
+            final message = json.decode(rawData);
+            if (message is! Map<String, dynamic>) {
+              return;
+            }
+            if (!(message.containsKey('type') && message['type'] is String)) {
+              return;
+            }
+
+            switch (message['type']) {
+              case "set_theme":
+                {
+                  if (!(message.containsKey('value') &&
+                      message['value'] is String)) {
+                    return;
+                  }
+                  appState.updateTheme(convertTheme(message['value']));
+                }
+              case "set_Language":
+                {
+                  if (!(message.containsKey('value') &&
+                      message['value'] is String)) {
+                    return;
+                  }
+                  appState.updateLocale(convertLocale(message['value']));
+                  if (Platform.isWindows) {
+                    initSystemTray();
+                  }
+                }
+              case "set_auto_launch":
+                {
+                  if (!(message.containsKey('value') &&
+                      message['value'] is bool)) {
+                    return;
+                  }
+                  if (message['value']) {
+                    await launchAtStartup.enable();
+                  } else {
+                    await launchAtStartup.disable();
+                  }
+                }
+              case 'open_home_dir':
+                {
+                  launchUrl(Uri.file(homeDir));
+                }
+              case 'open_web_dashboard':
+                {
+                  launchUrl(Uri.parse(urlStr));
+                }
+              case 'set_web_dashboard_is_ready':
+                {
+                  isWebviewReady.value = true;
+                }
+              case 'exit_app':
+                {
+                  exitApp();
+                }
             }
           });
         });
@@ -117,43 +169,13 @@ class _HomeState extends State<Home> with TrayListener {
     await coreManager?.run();
   }
 
-  Future<void> onChannelMessage(
-      JavaScriptMessage value, AppStateModel appState) async {
+  Future<void> onChannelMessage(JavaScriptMessage value) async {
     var msg = value.message;
     debugPrint("channel message from webview :$msg");
     switch (msg) {
-      case 'enableAutoLaunch':
-        {
-          launchAtStartup.enable();
-        }
-      case 'disableAutoLaunch':
-        {
-          launchAtStartup.disable();
-        }
-      case 'openHomeDir':
-        {
-          launchUrl(Uri.file(homeDir));
-        }
-      case 'openWebDashboard':
-        {
-          launchUrl(Uri.parse(urlStr));
-        }
       case 'ready':
         {
           isWebviewReady.value = true;
-        }
-      case 'changeLanguage':
-        {
-          var latestLocaleValue = await getLocale();
-          appState.updateLocale(latestLocaleValue);
-          await Future.delayed(const Duration(seconds: 1));
-          if (Platform.isWindows) {
-            initSystemTray();
-          }
-        }
-      case 'exitApp':
-        {
-          exitApp();
         }
     }
   }

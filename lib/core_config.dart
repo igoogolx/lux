@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:lux/utils.dart';
 import 'package:path/path.dart' as path;
 
@@ -24,19 +25,23 @@ Future<Map<String, dynamic>> readSetting() async {
   }
 }
 
-enum ThemeType {
-  light,
-  dark,
+ThemeMode convertTheme(String theme) {
+  switch (theme) {
+    case 'dark':
+      return ThemeMode.dark;
+    case 'light':
+      return ThemeMode.light;
+    default:
+      return ThemeMode.system;
+  }
 }
 
-Future<ThemeType> readTheme() async {
+Future<ThemeMode> readTheme() async {
   var setting = await readSetting();
   if (setting.containsKey('theme') && setting['theme'] is String) {
-    if (setting['theme'] == 'dark') {
-      return ThemeType.dark;
-    }
+    return convertTheme(setting['theme']);
   }
-  return ThemeType.light;
+  return ThemeMode.system;
 }
 
 enum ClientMode {
