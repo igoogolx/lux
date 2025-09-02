@@ -18,7 +18,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
 import 'package:version/version.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'core_config.dart';
@@ -167,17 +166,6 @@ class _HomeState extends State<Home> with TrayListener {
       }
     });
     await coreManager?.run();
-  }
-
-  Future<void> onChannelMessage(JavaScriptMessage value) async {
-    var msg = value.message;
-    debugPrint("channel message from webview :$msg");
-    switch (msg) {
-      case 'ready':
-        {
-          isWebviewReady.value = true;
-        }
-    }
   }
 
   @override
