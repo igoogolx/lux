@@ -10,7 +10,6 @@ import 'package:lux/model/app.dart';
 import 'package:lux/process_manager.dart';
 import 'package:lux/tray.dart';
 import 'package:lux/utils.dart';
-import 'package:lux/webview_dashboard.dart';
 import 'package:lux/widget/progress_indicator.dart';
 import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
@@ -220,11 +219,6 @@ class _HomeState extends State<Home> with TrayListener {
     if (coreManager == null || !isCoreReady.value) {
       return Scaffold(body: AppProgressIndicator());
     }
-    if (widget.clientMode == ClientMode.light) {
-      return Dashboard(homeDir, baseUrl, urlStr, coreManager!);
-    }
-
-    return Scaffold(
-        body: WebViewDashboard(homeDir, baseUrl, urlStr, onChannelMessage));
+    return Dashboard(homeDir, baseUrl, urlStr, coreManager!);
   }
 }
