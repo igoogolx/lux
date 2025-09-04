@@ -248,6 +248,15 @@ class CoreManager {
     }
   }
 
+  Future<void> safeExit() async {
+    try {
+      await dio.post('$baseHttpUrl/manager/exit');
+      coreProcess?.exit();
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
   Future<void> restart() async {
     coreProcess?.exit();
     await coreProcess?.run();
