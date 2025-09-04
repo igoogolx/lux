@@ -153,8 +153,8 @@ class TrafficState {
   String get total {
     var total = rawData.total.proxy.upload +
         rawData.total.proxy.download +
-        rawData.speed.direct.upload +
-        rawData.speed.direct.download;
+        rawData.total.direct.upload +
+        rawData.total.direct.download;
     return formatBytes(total);
   }
 
