@@ -197,7 +197,7 @@ abstract class AppLocalizations {
   /// No description provided for @newVersionMessage.
   ///
   /// In en, this message translates to:
-  /// **'New available version!'**
+  /// **'New available version! Click to Go.'**
   String get newVersionMessage;
 
   /// No description provided for @uploadLabel.

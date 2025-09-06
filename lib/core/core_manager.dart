@@ -8,9 +8,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_desktop_sleep/flutter_desktop_sleep.dart';
 import 'package:flutter_window_close/flutter_window_close.dart';
 import 'package:lux/const/const.dart';
-import 'package:lux/notifier.dart';
-import 'package:lux/process_manager.dart';
 import 'package:lux/tr.dart';
+import 'package:lux/util/notifier.dart';
+import 'package:lux/util/process_manager.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 Future<int> findAvailablePort(int startPort, int endPort) async {

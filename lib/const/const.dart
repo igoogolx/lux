@@ -57,3 +57,5 @@ const darkBackgroundColor = 0xff292929;
 const launchFromStartupArg = 'launch_from_startup';
 
 const localServersGroupKey = 'local_servers';
+
+const latestReleaseUrl = 'https://github.com/igoogolx/lux/releases/latest';

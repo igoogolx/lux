@@ -2,13 +2,13 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:lux/utils.dart';
+import 'package:lux/util/utils.dart';
 import 'package:lux/widget/app_body.dart';
 import 'package:lux/widget/app_bottom_bar.dart';
 import 'package:lux/widget/app_header_bar.dart';
 import 'package:window_manager/window_manager.dart';
 
-import 'core_manager.dart';
+import 'core/core_manager.dart';
 
 class Dashboard extends StatefulWidget {
   final String baseUrl;

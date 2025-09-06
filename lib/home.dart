@@ -5,13 +5,12 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:launch_at_startup/launch_at_startup.dart';
 import 'package:lux/const/const.dart';
-import 'package:lux/core_manager.dart' hide ProxyMode;
+import 'package:lux/core/core_manager.dart' hide ProxyMode;
 import 'package:lux/dashboard.dart';
 import 'package:lux/model/app.dart';
-import 'package:lux/process_manager.dart';
 import 'package:lux/tray.dart';
-import 'package:lux/utils.dart';
-import 'package:lux/webview_dashboard.dart';
+import 'package:lux/util/process_manager.dart';
+import 'package:lux/util/utils.dart';
 import 'package:lux/widget/progress_indicator.dart';
 import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
@@ -20,10 +19,9 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
 import 'package:version/version.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 import 'package:window_manager/window_manager.dart';
 
-import 'core_config.dart';
+import 'core/core_config.dart';
 
 class Home extends StatefulWidget {
   final ClientMode clientMode;
@@ -172,17 +170,6 @@ class _HomeState extends State<Home> with TrayListener {
     await coreManager?.run();
   }
 
-  Future<void> onChannelMessage(JavaScriptMessage value) async {
-    var msg = value.message;
-    debugPrint("channel message from webview :$msg");
-    switch (msg) {
-      case 'ready':
-        {
-          isWebviewReady.value = true;
-        }
-    }
-  }
-
   @override
   void initState() {
     super.initState();
@@ -200,6 +187,7 @@ class _HomeState extends State<Home> with TrayListener {
   @override
   void dispose() {
     trayManager.removeListener(this);
+    _listener.dispose();
     super.dispose();
   }
 
@@ -230,11 +218,6 @@ class _HomeState extends State<Home> with TrayListener {
     if (coreManager == null || !isCoreReady.value) {
       return Scaffold(body: AppProgressIndicator());
     }
-    if (widget.clientMode == ClientMode.light) {
-      return Dashboard(homeDir, baseUrl, urlStr, coreManager!);
-    }
-
-    return Scaffold(
-        body: WebViewDashboard(homeDir, baseUrl, urlStr, onChannelMessage));
+    return Dashboard(homeDir, baseUrl, urlStr, coreManager!);
   }
 }
