@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:lux/checksum.dart';
-import 'package:lux/notifier.dart';
+import 'package:lux/util/notifier.dart';
 import 'package:lux/utils.dart';
 
 import 'elevate.dart';

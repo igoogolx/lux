@@ -7,8 +7,8 @@ import 'package:lux/app.dart';
 import 'package:lux/const/const.dart';
 import 'package:lux/core_config.dart';
 import 'package:lux/error.dart';
-import 'package:lux/notifier.dart';
 import 'package:lux/tr.dart';
+import 'package:lux/util/notifier.dart';
 import 'package:lux/utils.dart';
 import 'package:window_manager/window_manager.dart';
 
