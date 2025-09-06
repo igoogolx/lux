@@ -62,7 +62,7 @@ class AppLocalizationsZh extends AppLocalizations {
       'System proxy 通常只支持 TCP 而且不是全部应用都支持, 但是 Tun 能够代理全部流量。混合模式同时开启 Tun 和 System';
 
   @override
-  String get newVersionMessage => '有新版本可用';
+  String get newVersionMessage => '有新版本可用! 点击前往.';
 
   @override
   String get uploadLabel => '上传';

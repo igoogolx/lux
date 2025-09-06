@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:lux/const/const.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Notifier {
   final _appName = "Lux";
@@ -30,21 +32,35 @@ class Notifier {
       macOS: initializationSettingsDarwin,
       windows: initializationSettingsWindows,
     );
-    await flutterLocalNotificationsPlugin.initialize(
-      initializationSettings,
-    );
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onDidReceiveNotificationResponse: onDidReceiveNotificationResponse);
   }
 
-  Future<void> show(String body) async {
+  Future<void> show(String body, [String? payload]) async {
     NotificationDetails notificationDetails = NotificationDetails(
-        macOS: DarwinNotificationDetails(
-          categoryIdentifier: 'plainCategory',
-        ),
-        windows: WindowsNotificationDetails());
+      macOS: DarwinNotificationDetails(
+        categoryIdentifier: 'plainCategory',
+      ),
+      windows: WindowsNotificationDetails(),
+    );
 
-    await flutterLocalNotificationsPlugin
-        .show(id++, Platform.isMacOS ? _appName : "", body, notificationDetails, payload: "");
+    await flutterLocalNotificationsPlugin.show(
+        id++, Platform.isMacOS ? _appName : "", body, notificationDetails,
+        payload: payload);
+  }
+
+  void onDidReceiveNotificationResponse(
+      NotificationResponse notificationResponse) async {
+    final String? payload = notificationResponse.payload;
+    if (notificationResponse.payload != null) {
+      if (notificationResponse.payload == notifierPayloadNewRelease) {
+        launchUrl(Uri.parse(latestReleaseUrl));
+      }
+      debugPrint('notification payload: $payload');
+    }
   }
 }
+
+const notifierPayloadNewRelease = "new_release";
 
 final notifier = Notifier();

@@ -140,7 +140,7 @@ Future<void> checkForUpdate() async {
       debugPrint(
           'latest version: $latestVersion, current version: $currentVersion');
       if (compareVersion(latestVersion, currentVersion) == 1) {
-        notifier.show(tr().newVersionMessage);
+        notifier.show(tr().newVersionMessage, notifierPayloadNewRelease);
       }
     }
   } catch (e) {

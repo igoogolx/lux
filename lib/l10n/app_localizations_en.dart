@@ -62,7 +62,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'System proxy usually only supports TCP and is not accepted by all applications, but Tun can handle all traffic. Mixed enables Tun and System at the same time';
 
   @override
-  String get newVersionMessage => 'New available version!';
+  String get newVersionMessage => 'New available version! Click to Go.';
 
   @override
   String get uploadLabel => 'upload';
