@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:crypto/crypto.dart';
 
 const darwinAmd64Checksum =
-    "e10276e83bef336a6dbab724368d1bc60a04e2447e8dfc880c6e05f0ee5bd552";
+    "4241aa7dfe855013e081e61c4428b324ccc1e86e6d201bbf71cdff0178bf73a0";
 const darwinArm64Checksum =
-    "aa3548979a72572e114a9c9246e8e76a1da461c497d068162b40039f7c816fff";
+    "231e1571d1c129703b983e4f691285adbf7316ff1fbe83bd703050fcbbc55ebb";
 const windowsAmd64Checksum =
-    "6c33f26b29e2cc672c3887d20b86a4ffa2bc64b68a98bf89d37e2215b837d8fd";
+    "62303fcb68506eb3d2da2fa6333a4005934259f287829bfb7fa97b9a41c74b78";
 
 Future<void> verifyCoreBinary(String filePath) async {
   var input = File(filePath);
