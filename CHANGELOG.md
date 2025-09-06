@@ -1,12 +1,15 @@
 ## What's Changed
 
-### Bug fixes 🐛
+### Breaking changes ⚠️
 
-* fix: invalid total traffic
-* fix: fail to clean proxy config when exited on macOS
+* feat: webview is removed
+
+### New features ✨
+
+* feat: click new release notification to open latest version page
 
 ### Other changes 
 
-* note: webview will be removed in v1.39.0
+* chore: update dependencies
 
 
