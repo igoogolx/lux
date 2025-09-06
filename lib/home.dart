@@ -10,7 +10,7 @@ import 'package:lux/dashboard.dart';
 import 'package:lux/model/app.dart';
 import 'package:lux/tray.dart';
 import 'package:lux/util/process_manager.dart';
-import 'package:lux/utils.dart';
+import 'package:lux/util/utils.dart';
 import 'package:lux/widget/progress_indicator.dart';
 import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';

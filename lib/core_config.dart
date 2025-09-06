@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lux/utils.dart';
+import 'package:lux/util/utils.dart';
 import 'package:path/path.dart' as path;
 
 Future<Map<String, dynamic>> readConfig() async {

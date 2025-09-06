@@ -6,7 +6,7 @@ import 'package:window_manager/window_manager.dart';
 
 import '../core_manager.dart';
 import '../tr.dart';
-import '../utils.dart';
+import '../util/utils.dart';
 
 class AppBottomBar extends StatefulWidget {
   final CoreManager coreManager;

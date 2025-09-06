@@ -9,7 +9,7 @@ import 'package:lux/core_config.dart';
 import 'package:lux/error.dart';
 import 'package:lux/tr.dart';
 import 'package:lux/util/notifier.dart';
-import 'package:lux/utils.dart';
+import 'package:lux/util/utils.dart';
 import 'package:window_manager/window_manager.dart';
 
 void main(List<String> args) async {
