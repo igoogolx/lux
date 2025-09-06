@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:launch_at_startup/launch_at_startup.dart';
@@ -45,6 +46,7 @@ class _HomeState extends State<Home> with TrayListener {
   ValueNotifier<bool> isWebviewReady = ValueNotifier<bool>(false);
   Widget? dashboardWidget;
   WebSocketChannel? eventChannel;
+  late final AppLifecycleListener _listener;
 
   void _init(AppStateModel appState) async {
     trayManager.addListener(this);
@@ -171,7 +173,15 @@ class _HomeState extends State<Home> with TrayListener {
   @override
   void initState() {
     super.initState();
+    _listener = AppLifecycleListener(onExitRequested: _handleExitRequest);
     _init(Provider.of<AppStateModel>(context, listen: false));
+  }
+
+  Future<AppExitResponse> _handleExitRequest() async {
+    if (Platform.isMacOS) {
+      await coreManager?.safeExit();
+    }
+    return AppExitResponse.exit;
   }
 
   @override
