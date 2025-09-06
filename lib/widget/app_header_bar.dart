@@ -6,7 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:window_manager/window_manager.dart';
 
-import '../core_manager.dart';
+import '../core/core_manager.dart';
 import '../tr.dart';
 
 class AppHeaderBar extends StatefulWidget {

@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:lux/app.dart';
 import 'package:lux/const/const.dart';
-import 'package:lux/core_config.dart';
+import 'package:lux/core/core_config.dart';
 import 'package:lux/error.dart';
 import 'package:lux/tr.dart';
 import 'package:lux/util/notifier.dart';

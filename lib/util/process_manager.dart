@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:lux/checksum.dart';
+import 'package:lux/core/checksum.dart';
 import 'package:lux/util/notifier.dart';
 import 'package:lux/util/utils.dart';
 

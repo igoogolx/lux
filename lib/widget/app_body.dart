@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lux/widget/proxy_list_card.dart';
 import 'package:window_manager/window_manager.dart';
 
-import '../core_manager.dart';
+import '../core/core_manager.dart';
 
 class AppBody extends StatefulWidget {
   final CoreManager coreManager;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:lux/core_config.dart';
+import 'package:lux/core/core_config.dart';
 import 'package:lux/home.dart';
 import 'package:lux/model/app.dart';
 import 'package:lux/theme.dart';

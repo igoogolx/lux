@@ -5,7 +5,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:launch_at_startup/launch_at_startup.dart';
 import 'package:lux/const/const.dart';
-import 'package:lux/core_manager.dart' hide ProxyMode;
+import 'package:lux/core/core_manager.dart' hide ProxyMode;
 import 'package:lux/dashboard.dart';
 import 'package:lux/model/app.dart';
 import 'package:lux/tray.dart';
@@ -21,7 +21,7 @@ import 'package:version/version.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:window_manager/window_manager.dart';
 
-import 'core_config.dart';
+import 'core/core_config.dart';
 
 class Home extends StatefulWidget {
   final ClientMode clientMode;

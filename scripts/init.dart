@@ -4,8 +4,8 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:dio/dio.dart';
-import 'package:lux/checksum.dart';
 import 'package:lux/const/const.dart';
+import 'package:lux/core/checksum.dart';
 import 'package:path/path.dart' as path;
 
 import 'constant.dart';

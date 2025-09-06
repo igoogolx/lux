@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lux/core_manager.dart';
+import 'package:lux/core/core_manager.dart';
 
 class ProxyListItem extends StatelessWidget {
   final ProxyItem item;
