@@ -55,15 +55,17 @@ class CoreManager {
     if (s != null) {
       if (s == 'sleep') {
         onOsSleep();
-        final managerRes = await dio.get('$baseHttpUrl/manager');
-        var isStarted = managerRes.data['isStarted'];
-        if (isStarted is bool && isStarted) {
-          final settingRes = await dio.get('$baseHttpUrl/setting');
-          var mode = settingRes.data['setting']['mode'];
-          if (mode == "tun" || mode == "mixed") {
-            needRestart = true;
-            await stop();
-          }
+        var isStarted = await getIsStarted();
+        if (!isStarted) {
+          return;
+        }
+        final setting = await getSetting();
+        if (setting.keepConnectedWhenSlept) {
+          return;
+        }
+        if (setting.mode == ProxyMode.tun || setting.mode == ProxyMode.mixed) {
+          needRestart = true;
+          await stop();
         }
       } else if (s == 'woke_up') {
         if (needRestart) {
@@ -212,27 +214,6 @@ class CoreManager {
     await dio.post('$baseHttpUrl/selected/rule', data: {'id': id});
   }
 
-  Future<ProxyMode> getMode() async {
-    final settingRes = await dio.get('$baseHttpUrl/setting');
-    if (!(settingRes.data.containsKey('setting') &&
-        settingRes.data['setting'] is Map<String, dynamic>)) {
-      return ProxyMode.mixed;
-    }
-
-    var setting = settingRes.data['setting'];
-
-    if (setting.containsKey('mode') && setting['mode'] is String) {
-      if (setting['mode'] == 'tun') {
-        return ProxyMode.tun;
-      }
-      if (setting['mode'] == 'system') {
-        return ProxyMode.system;
-      }
-    }
-
-    return ProxyMode.mixed;
-  }
-
   Future<void> exitCore() async {
     if (Platform.isWindows) {
       try {
@@ -289,6 +270,32 @@ class CoreManager {
         WebSocketChannel.connect(Uri.parse('$baseWsUrl/event?token=$token'));
 
     return _eventChannel;
+  }
+
+  Future<Setting> getSetting() async {
+    final res = await dio.get('$baseHttpUrl/setting');
+    if (res.data.containsKey('setting') &&
+        res.data['setting'] is! Map<String, dynamic>) {
+      throw Exception('invalid setting data');
+    }
+    return Setting.fromJson(res.data["setting"]);
+  }
+}
+
+class Setting {
+  late final ProxyMode mode;
+  late final bool keepConnectedWhenSlept;
+
+  Setting(this.mode);
+
+  Setting.fromJson(Map<String, dynamic> json) {
+    mode = (json.containsKey('mode') && json['mode'] is String)
+        ? (json['mode'] == 'tun'
+            ? ProxyMode.tun
+            : (json['mode'] == 'system' ? ProxyMode.system : ProxyMode.mixed))
+        : ProxyMode.mixed;
+    keepConnectedWhenSlept = (json.containsKey('keepConnectedWhenSlept') &&
+        json['keepConnectedWhenSlept'] is bool);
   }
 }
 

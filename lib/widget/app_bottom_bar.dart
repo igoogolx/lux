@@ -24,9 +24,9 @@ class _AppBottomBarState extends State<AppBottomBar> with WindowListener {
   bool isWindowHidden = false;
 
   Future<void> refreshMode() async {
-    final value = await widget.coreManager.getMode();
+    final value = await widget.coreManager.getSetting();
     setState(() {
-      proxyMode = value;
+      proxyMode = value.mode;
     });
   }
 
