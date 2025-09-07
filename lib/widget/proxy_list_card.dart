@@ -3,7 +3,7 @@ import 'package:lux/const/const.dart';
 import 'package:lux/tr.dart';
 import 'package:lux/widget/proxy_list_item.dart';
 
-import '../core/core_manager.dart';
+import '../core/core_config.dart';
 
 class ProxyListCard extends StatefulWidget {
   final ProxyList proxyList;
