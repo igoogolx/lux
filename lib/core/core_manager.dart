@@ -62,6 +62,7 @@ class CoreManager {
         }
         final setting = await getSetting();
         if (setting.keepConnectedWhenSlept) {
+          debugPrint("keep connected when slept");
           return;
         }
         if (setting.mode == ProxyMode.tun || setting.mode == ProxyMode.mixed) {
@@ -275,8 +276,8 @@ class CoreManager {
 
   Future<Setting> getSetting() async {
     final res = await dio.get('$baseHttpUrl/setting');
-    if (res.data.containsKey('setting') &&
-        res.data['setting'] is! Map<String, dynamic>) {
+    if (!(res.data.containsKey('setting') &&
+        res.data['setting'] is Map<String, dynamic>)) {
       throw Exception('invalid setting data');
     }
     return Setting.fromJson(res.data["setting"]);
