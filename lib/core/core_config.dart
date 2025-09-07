@@ -297,6 +297,8 @@ class Setting {
             : (json['mode'] == 'system' ? ProxyMode.system : ProxyMode.mixed))
         : ProxyMode.mixed;
     keepConnectedWhenSlept = (json.containsKey('keepConnectedWhenSlept') &&
-        json['keepConnectedWhenSlept'] is bool);
+            json['keepConnectedWhenSlept'] is bool)
+        ? json["keepConnectedWhenSlept"]
+        : false;
   }
 }
