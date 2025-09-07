@@ -118,9 +118,9 @@ class CoreManager {
       if (result.contains(ConnectivityResult.none)) {
         var isStarted = await getIsStarted();
         if (isStarted) {
-          debugPrint("no connection, stop core");
           await stop();
           notifier.show(tr().noConnectionMsg);
+          debugPrint("no connection, stop core");
         }
       }
       if (kDebugMode) {
