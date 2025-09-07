@@ -116,9 +116,9 @@ class CoreManager {
       // Received changes in available connectivity types!
 
       if (result.contains(ConnectivityResult.none)) {
-        final managerRes = await dio.get('$baseHttpUrl/manager');
-        var isStarted = managerRes.data['isStarted'];
-        if (isStarted is bool && isStarted) {
+        var isStarted = await getIsStarted();
+        if (isStarted) {
+          debugPrint("no connection, stop core");
           await stop();
           notifier.show(tr().noConnectionMsg);
         }
