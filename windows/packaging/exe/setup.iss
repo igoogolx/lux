@@ -66,5 +66,4 @@ Name: "{autodesktop}\\{{DISPLAY_NAME}}"; Filename: "{app}\\{{EXECUTABLE_NAME}}";
 Name: "{userstartup}\\{{DISPLAY_NAME}}"; Filename: "{app}\\{{EXECUTABLE_NAME}}"; WorkingDir: "{app}"; Tasks: launchAtStartup
 
 [UninstallDelete]
-Type: filesandordirs; Name: "{app}"
 Type: filesandordirs; Name: "{localappdata}\..\Roaming\com.github.igoogolx\lux"
