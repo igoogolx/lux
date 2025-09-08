@@ -7,8 +7,8 @@
 ### New features ✨
 
 * feat: click new release notification to open latest version page
-* feat: keep connected when os is slept
 * feat: set system proxy as proxy
+* feat: delete config files during uninstallation on windows
 
 ### Other changes 
 
