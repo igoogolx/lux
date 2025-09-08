@@ -286,7 +286,6 @@ class RuntimeStatus {
 
 class Setting {
   late final ProxyMode mode;
-  late final bool keepConnectedWhenSlept;
 
   Setting(this.mode);
 
@@ -296,9 +295,6 @@ class Setting {
             ? ProxyMode.tun
             : (json['mode'] == 'system' ? ProxyMode.system : ProxyMode.mixed))
         : ProxyMode.mixed;
-    keepConnectedWhenSlept = (json.containsKey('keepConnectedWhenSlept') &&
-            json['keepConnectedWhenSlept'] is bool)
-        ? json["keepConnectedWhenSlept"]
-        : false;
+
   }
 }

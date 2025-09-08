@@ -61,10 +61,6 @@ class CoreManager {
           return;
         }
         final setting = await getSetting();
-        if (setting.keepConnectedWhenSlept) {
-          debugPrint("keep connected when slept");
-          return;
-        }
         if (setting.mode == ProxyMode.tun || setting.mode == ProxyMode.mixed) {
           needRestart = true;
           await stop();
