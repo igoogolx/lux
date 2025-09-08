@@ -67,3 +67,4 @@ Name: "{userstartup}\\{{DISPLAY_NAME}}"; Filename: "{app}\\{{EXECUTABLE_NAME}}";
 
 [UninstallDelete]
 Type: filesandordirs; Name: "{localappdata}\..\Roaming\com.github.igoogolx\lux"
+; NOTE: delete any file cautiously
