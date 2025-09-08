@@ -101,7 +101,7 @@ Future<ProxyMode> readProxyMode() async {
         return ProxyMode.mixed;
     }
   }
-  return ProxyMode.tun;
+  return ProxyMode.system;
 }
 
 class ProxyItem {
@@ -295,6 +295,5 @@ class Setting {
             ? ProxyMode.tun
             : (json['mode'] == 'system' ? ProxyMode.system : ProxyMode.mixed))
         : ProxyMode.mixed;
-
   }
 }
