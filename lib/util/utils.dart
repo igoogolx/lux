@@ -6,10 +6,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:launch_at_startup/launch_at_startup.dart';
 import 'package:lux/const/const.dart';
-import 'package:lux/core_config.dart';
-import 'package:lux/core_manager.dart';
-import 'package:lux/notifier.dart';
+import 'package:lux/core/core_config.dart';
+import 'package:lux/core/core_manager.dart';
 import 'package:lux/tr.dart';
+import 'package:lux/util/notifier.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
@@ -140,7 +140,7 @@ Future<void> checkForUpdate() async {
       debugPrint(
           'latest version: $latestVersion, current version: $currentVersion');
       if (compareVersion(latestVersion, currentVersion) == 1) {
-        notifier.show(tr().newVersionMessage);
+        notifier.show(tr().newVersionMessage, notifierPayloadNewRelease);
       }
     }
   } catch (e) {

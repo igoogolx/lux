@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:window_manager/window_manager.dart';
 
-import '../core_manager.dart';
+import '../core/core_config.dart';
+import '../core/core_manager.dart';
 import '../tr.dart';
-import '../utils.dart';
+import '../util/utils.dart';
 
 class AppBottomBar extends StatefulWidget {
   final CoreManager coreManager;
@@ -24,9 +25,9 @@ class _AppBottomBarState extends State<AppBottomBar> with WindowListener {
   bool isWindowHidden = false;
 
   Future<void> refreshMode() async {
-    final value = await widget.coreManager.getMode();
+    final value = await widget.coreManager.getSetting();
     setState(() {
-      proxyMode = value;
+      proxyMode = value.mode;
     });
   }
 

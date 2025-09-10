@@ -7,11 +7,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_desktop_sleep/flutter_desktop_sleep.dart';
 import 'package:flutter_window_close/flutter_window_close.dart';
-import 'package:lux/const/const.dart';
-import 'package:lux/notifier.dart';
-import 'package:lux/process_manager.dart';
 import 'package:lux/tr.dart';
+import 'package:lux/util/notifier.dart';
+import 'package:lux/util/process_manager.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+
+import 'core_config.dart';
 
 Future<int> findAvailablePort(int startPort, int endPort) async {
   for (int port = startPort; port <= endPort; port++) {
@@ -55,15 +56,14 @@ class CoreManager {
     if (s != null) {
       if (s == 'sleep') {
         onOsSleep();
-        final managerRes = await dio.get('$baseHttpUrl/manager');
-        var isStarted = managerRes.data['isStarted'];
-        if (isStarted is bool && isStarted) {
-          final settingRes = await dio.get('$baseHttpUrl/setting');
-          var mode = settingRes.data['setting']['mode'];
-          if (mode == "tun" || mode == "mixed") {
-            needRestart = true;
-            await stop();
-          }
+        var isStarted = await getIsStarted();
+        if (!isStarted) {
+          return;
+        }
+        final setting = await getSetting();
+        if (setting.mode == ProxyMode.tun || setting.mode == ProxyMode.mixed) {
+          needRestart = true;
+          await stop();
         }
       } else if (s == 'woke_up') {
         if (needRestart) {
@@ -112,11 +112,11 @@ class CoreManager {
       // Received changes in available connectivity types!
 
       if (result.contains(ConnectivityResult.none)) {
-        final managerRes = await dio.get('$baseHttpUrl/manager');
-        var isStarted = managerRes.data['isStarted'];
-        if (isStarted is bool && isStarted) {
+        var isStarted = await getIsStarted();
+        if (isStarted) {
           await stop();
           notifier.show(tr().noConnectionMsg);
+          debugPrint("no connection, stop core");
         }
       }
       if (kDebugMode) {
@@ -212,27 +212,6 @@ class CoreManager {
     await dio.post('$baseHttpUrl/selected/rule', data: {'id': id});
   }
 
-  Future<ProxyMode> getMode() async {
-    final settingRes = await dio.get('$baseHttpUrl/setting');
-    if (!(settingRes.data.containsKey('setting') &&
-        settingRes.data['setting'] is Map<String, dynamic>)) {
-      return ProxyMode.mixed;
-    }
-
-    var setting = settingRes.data['setting'];
-
-    if (setting.containsKey('mode') && setting['mode'] is String) {
-      if (setting['mode'] == 'tun') {
-        return ProxyMode.tun;
-      }
-      if (setting['mode'] == 'system') {
-        return ProxyMode.system;
-      }
-    }
-
-    return ProxyMode.mixed;
-  }
-
   Future<void> exitCore() async {
     if (Platform.isWindows) {
       try {
@@ -290,186 +269,13 @@ class CoreManager {
 
     return _eventChannel;
   }
-}
 
-class ProxyItem {
-  final String id;
-  final String name;
-  final String? server;
-  final int? port;
-  final String? subscriptionUrl;
-
-  ProxyItem(this.id, this.name, this.server, this.port, this.subscriptionUrl);
-
-  ProxyItem.fromJson(Map<String, dynamic> json)
-      : id = (json['id'] as String),
-        name = (json['name'] as String),
-        server = (json['server'] as String),
-        subscriptionUrl = (json['subscriptionUrl'] is String
-            ? json['subscriptionUrl'] as String
-            : null),
-        port = (json['port'] as int);
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-      };
-}
-
-class ProxyListGroup {
-  late String selectedId;
-  late List<ProxyItem> allProxies;
-  late List<ProxyList> groups;
-
-  ProxyListGroup(this.allProxies, this.selectedId, this.groups);
-
-  ProxyListGroup.fromJson(Map<String, dynamic> json) {
-    allProxies = json['proxies'] != null
-        ? (json['proxies'] as List)
-            .map((asset) => ProxyItem.fromJson(asset as Map<String, dynamic>))
-            .toList()
-        : <ProxyItem>[];
-    groups = convertListToGroup(allProxies);
-    selectedId = (json['selectedId'] as String);
-  }
-
-  List<ProxyList> convertListToGroup(List<ProxyItem> items) {
-    Map<String, List<ProxyItem>> groupMap = {};
-    for (var item in items) {
-      if (item.subscriptionUrl is String) {
-        var groupName = item.subscriptionUrl as String;
-        if (!groupMap.containsKey(groupName)) {
-          groupMap[groupName] = [];
-        }
-        groupMap[groupName]!.add(item);
-      } else {
-        if (!groupMap.containsKey(localServersGroupKey)) {
-          groupMap[localServersGroupKey] = [];
-        }
-        groupMap[localServersGroupKey]!.add(item);
-      }
+  Future<Setting> getSetting() async {
+    final res = await dio.get('$baseHttpUrl/setting');
+    if (!(res.data.containsKey('setting') &&
+        res.data['setting'] is Map<String, dynamic>)) {
+      throw Exception('invalid setting data');
     }
-
-    List<ProxyList> groups = [];
-    groupMap.forEach((groupName, proxies) {
-      groups.add(ProxyList(proxies, groupName));
-    });
-
-    return groups;
-  }
-}
-
-class ProxyList {
-  final List<ProxyItem> proxies;
-  final String url;
-
-  ProxyList(this.proxies, this.url);
-
-  Map<String, dynamic> toJson() =>
-      {'proxies': proxies.map((asset) => asset.toJson()).toList()};
-}
-
-class RuleList {
-  final List<String> rules;
-  String selectedId;
-
-  RuleList(this.rules, this.selectedId);
-
-  RuleList.fromJson(Map<String, dynamic> json)
-      : rules = json['rules'] != null
-            ? (json['rules'] as List).map((asset) => asset as String).toList()
-            : <String>[],
-        selectedId = (json['selectedId'] as String);
-
-  Map<String, dynamic> toJson() => {'rules': rules};
-}
-
-// Define the data classes
-class Speed {
-  final Proxy proxy;
-  final Direct direct;
-
-  Speed({required this.proxy, required this.direct});
-
-  factory Speed.fromJson(Map<String, dynamic> json) {
-    return Speed(
-      proxy: Proxy.fromJson(json['proxy']),
-      direct: Direct.fromJson(json['direct']),
-    );
-  }
-}
-
-class Total {
-  final Proxy proxy;
-  final Direct direct;
-
-  Total({required this.proxy, required this.direct});
-
-  factory Total.fromJson(Map<String, dynamic> json) {
-    return Total(
-      proxy: Proxy.fromJson(json['proxy']),
-      direct: Direct.fromJson(json['direct']),
-    );
-  }
-}
-
-class Proxy {
-  final int upload;
-  final int download;
-
-  Proxy({required this.upload, required this.download});
-
-  factory Proxy.fromJson(Map<String, dynamic> json) {
-    return Proxy(
-      upload: json['upload'],
-      download: json['download'],
-    );
-  }
-}
-
-class Direct {
-  final int upload;
-  final int download;
-
-  Direct({required this.upload, required this.download});
-
-  factory Direct.fromJson(Map<String, dynamic> json) {
-    return Direct(
-      upload: json['upload'],
-      download: json['download'],
-    );
-  }
-}
-
-class TrafficData {
-  final Speed speed;
-  final Total total;
-
-  TrafficData({required this.speed, required this.total});
-
-  factory TrafficData.fromJson(Map<String, dynamic> json) {
-    return TrafficData(
-      speed: Speed.fromJson(json['speed']),
-      total: Total.fromJson(json['total']),
-    );
-  }
-}
-
-enum ProxyMode { tun, system, mixed }
-
-class RuntimeStatus {
-  final String addr;
-  final String name;
-  final bool isStarted;
-
-  RuntimeStatus(
-      {required this.addr, required this.name, required this.isStarted});
-
-  factory RuntimeStatus.fromJson(Map<String, dynamic> json) {
-    return RuntimeStatus(
-      addr: json['addr'] is String ? json['addr'] : '',
-      name: json['name'] is String ? json['name'] : '',
-      isStarted: json['isStarted'] is bool ? json['isStarted'] : false,
-    );
+    return Setting.fromJson(res.data["setting"]);
   }
 }
