@@ -47,6 +47,10 @@ dependencies:
     git:
       url: https://github.com/igoogolx/flutter_window_close.git
       ref: main # branch name
+  power_monitor:
+    git:
+      url: https://github.com/igoogolx/power_monitor.git
+      ref: main
   version: ^3.0.2
   uuid: ^4.5.1
   connectivity_plus: ^6.1.1
