@@ -43,10 +43,6 @@ dependencies:
   package_info_plus: ^8.2.1
   args: ^2.4.2
   flutter_desktop_sleep: ^0.0.2
-  flutter_window_close:
-    git:
-      url: https://github.com/igoogolx/flutter_window_close.git
-      ref: main # branch name
   power_monitor:
     git:
       url: https://github.com/igoogolx/power_monitor.git

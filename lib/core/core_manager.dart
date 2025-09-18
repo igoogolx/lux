@@ -6,10 +6,10 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_desktop_sleep/flutter_desktop_sleep.dart';
-import 'package:flutter_window_close/flutter_window_close.dart';
 import 'package:lux/tr.dart';
 import 'package:lux/util/notifier.dart';
 import 'package:lux/util/process_manager.dart';
+import 'package:power_monitor/power_monitor.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import 'core_config.dart';
@@ -44,6 +44,7 @@ class CoreManager {
   final Function onReady;
   final Function onOsSleep;
   final FlutterDesktopSleep flutterDesktopSleep = FlutterDesktopSleep();
+  final PowerMonitor powerMonitor = PowerMonitor();
   final dio = Dio();
   var needRestart = false;
   late String baseHttpUrl;
@@ -103,7 +104,7 @@ class CoreManager {
       flutterDesktopSleep.setWindowSleepHandler(powerMonitorHandler);
     }
     if (Platform.isWindows) {
-      FlutterWindowClose.setWindowShouldCloseHandler(powerMonitorHandler);
+      powerMonitor.setHandler(powerMonitorHandler);
     }
 
     Connectivity()

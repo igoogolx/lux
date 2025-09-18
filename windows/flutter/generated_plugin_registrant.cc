@@ -8,7 +8,6 @@
 
 #include <connectivity_plus/connectivity_plus_windows_plugin.h>
 #include <flutter_desktop_sleep/flutter_desktop_sleep_plugin_c_api.h>
-#include <flutter_window_close/flutter_window_close_plugin.h>
 #include <power_monitor/power_monitor_plugin_c_api.h>
 #include <screen_retriever_windows/screen_retriever_windows_plugin_c_api.h>
 #include <tray_manager/tray_manager_plugin.h>
@@ -20,8 +19,6 @@ void RegisterPlugins(flutter::PluginRegistry* registry) {
       registry->GetRegistrarForPlugin("ConnectivityPlusWindowsPlugin"));
   FlutterDesktopSleepPluginCApiRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("FlutterDesktopSleepPluginCApi"));
-  FlutterWindowClosePluginRegisterWithRegistrar(
-      registry->GetRegistrarForPlugin("FlutterWindowClosePlugin"));
   PowerMonitorPluginCApiRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("PowerMonitorPluginCApi"));
   ScreenRetrieverWindowsPluginCApiRegisterWithRegistrar(
