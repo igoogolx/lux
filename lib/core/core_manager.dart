@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_desktop_sleep/flutter_desktop_sleep.dart';
 import 'package:lux/tr.dart';
 import 'package:lux/util/notifier.dart';
 import 'package:lux/util/process_manager.dart';
@@ -43,7 +42,6 @@ class CoreManager {
 
   final Function onReady;
   final Function onOsSleep;
-  final FlutterDesktopSleep flutterDesktopSleep = FlutterDesktopSleep();
   final PowerMonitor powerMonitor = PowerMonitor();
   final dio = Dio();
   var needRestart = false;
@@ -54,8 +52,11 @@ class CoreManager {
   WebSocketChannel? _eventChannel;
 
   Future<void> powerMonitorHandler(String? s) async {
-    if (s != null) {
-      if (s == 'sleep') {
+    if (s == null) {
+      return;
+    }
+    switch (s) {
+      case 'sleep':
         onOsSleep();
         var isStarted = await getIsStarted();
         if (!isStarted) {
@@ -66,11 +67,11 @@ class CoreManager {
           needRestart = true;
           await stop();
         }
-      } else if (s == 'woke_up') {
+      case 'woke_up':
         if (needRestart) {
           needRestart = false;
           final List<ConnectivityResult> connectivityResult =
-              await (Connectivity().checkConnectivity());
+          await (Connectivity().checkConnectivity());
           if (connectivityResult.contains(ConnectivityResult.none)) {
             notifier.show(tr().noConnectionMsg);
             return;
@@ -79,10 +80,11 @@ class CoreManager {
           await start();
           notifier.show(tr().reconnectedMsg);
         }
-      } else if (s == 'terminate_app') {
-        exitCore();
-        exit(0);
-      }
+      case 'user_changed':
+        var isStarted = await getIsStarted();
+        if (isStarted) {
+          await stop();
+        }
     }
   }
 
@@ -100,12 +102,7 @@ class CoreManager {
       options.headers.addAll(customHeaders);
       return handler.next(options);
     }));
-    if (Platform.isMacOS) {
-      flutterDesktopSleep.setWindowSleepHandler(powerMonitorHandler);
-    }
-    if (Platform.isWindows) {
-      powerMonitor.setHandler(powerMonitorHandler);
-    }
+    powerMonitor.setHandler(powerMonitorHandler);
 
     Connectivity()
         .onConnectivityChanged
@@ -141,8 +138,8 @@ class CoreManager {
           await makeRequestUntilSuccess(url);
         }
       } catch (e) {
-        Future.delayed(const Duration(milliseconds: 150));
-        debugPrint(e.toString());
+        await Future.delayed(const Duration(milliseconds: 150));
+        debugPrint("fail to connect to core, retry...");
       }
     }
 
