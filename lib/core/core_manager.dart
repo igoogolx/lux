@@ -111,6 +111,12 @@ class CoreManager {
       // Received changes in available connectivity types!
 
       if (result.contains(ConnectivityResult.none)) {
+        await Future.delayed(const Duration(seconds: 2));
+        final List<ConnectivityResult> connectivityResult =
+            await (Connectivity().checkConnectivity());
+        if (!connectivityResult.contains(ConnectivityResult.none)) {
+          return;
+        }
         var isStarted = await getIsStarted();
         if (isStarted) {
           await stop();
