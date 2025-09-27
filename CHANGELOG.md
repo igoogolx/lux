@@ -1,19 +1,15 @@
 ## What's Changed
 
-### Breaking changes ⚠️
-
-* feat: webview is removed
-
 ### New features ✨
 
-* feat: click new release notification to open latest version page
-* feat: set system proxy as proxy
-* feat(windows): delete config files during uninstallation
-* feat(windows): not necessary to exit app when the mode is changed from tun or mixed
-* feat(windows): remove config files after uninstalling app
+* feat: support DNS-MAP rule
+* feat: check connectivity before disconnecting for no internet
+* fix: unnecessary connections when connecting to core on init
+* fix(macOS): invalid styles of AppHeaderBar
 
 ### Other changes 
 
-* chore: update dependencies
+* chore: upgrade dependencies
+* refactor: replace flutter_desktop_close and flutter_desktop_sleep with power_monitor
 
 
