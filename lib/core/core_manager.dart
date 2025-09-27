@@ -71,7 +71,7 @@ class CoreManager {
         if (needRestart) {
           needRestart = false;
           final List<ConnectivityResult> connectivityResult =
-          await (Connectivity().checkConnectivity());
+              await (Connectivity().checkConnectivity());
           if (connectivityResult.contains(ConnectivityResult.none)) {
             notifier.show(tr().noConnectionMsg);
             return;
@@ -81,6 +81,7 @@ class CoreManager {
           notifier.show(tr().reconnectedMsg);
         }
       case 'user_changed':
+      case 'shutdown':
         var isStarted = await getIsStarted();
         if (isStarted) {
           await stop();
