@@ -73,14 +73,7 @@ class _HomeState extends State<Home> with TrayListener {
     debugPrint("dashboard url: $curUrlStr");
     coreManager = CoreManager(curBaseUrl, process, secret, () {
       _onCoreReady(appState);
-    }, () async {
-      if (Platform.isMacOS) {
-        var isFullScreen = await windowManager.isFullScreen();
-        if (isFullScreen) {
-          await windowManager.setFullScreen(false);
-        }
-      }
-    });
+    }, _onOsSleep);
 
     setState(() {
       homeDir = curHomeDir;
@@ -98,6 +91,15 @@ class _HomeState extends State<Home> with TrayListener {
       }
     });
     await coreManager?.run();
+  }
+
+  void _onOsSleep() async {
+    if (Platform.isMacOS) {
+      var isFullScreen = await windowManager.isFullScreen();
+      if (isFullScreen) {
+        await windowManager.setFullScreen(false);
+      }
+    }
   }
 
   void _onCoreReady(AppStateModel appState) {
