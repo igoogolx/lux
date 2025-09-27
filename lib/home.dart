@@ -37,7 +37,9 @@ Future<void> initClient(CoreManager? coreManager) async {
   await setAutoLaunch(coreManager);
 }
 
-class _HomeState extends State<Home> with TrayListener {
+enum AppExitReason { windowClose, shutdown }
+
+class _HomeState extends State<Home> with TrayListener, WindowListener {
   String baseUrl = "";
   String urlStr = "";
   String homeDir = "";
@@ -47,6 +49,7 @@ class _HomeState extends State<Home> with TrayListener {
   Widget? dashboardWidget;
   WebSocketChannel? eventChannel;
   late final AppLifecycleListener _listener;
+  AppExitReason? appExitReason;
 
   void _init(AppStateModel appState) async {
     trayManager.addListener(this);
@@ -73,7 +76,7 @@ class _HomeState extends State<Home> with TrayListener {
     debugPrint("dashboard url: $curUrlStr");
     coreManager = CoreManager(curBaseUrl, process, secret, () {
       _onCoreReady(appState);
-    }, _onOsSleep);
+    }, _onOsSleep, _onOsShutdown);
 
     setState(() {
       homeDir = curHomeDir;
@@ -100,6 +103,10 @@ class _HomeState extends State<Home> with TrayListener {
         await windowManager.setFullScreen(false);
       }
     }
+  }
+
+  void _onOsShutdown() async {
+    appExitReason = AppExitReason.shutdown;
   }
 
   void _onCoreReady(AppStateModel appState) {
@@ -180,12 +187,18 @@ class _HomeState extends State<Home> with TrayListener {
   void initState() {
     super.initState();
     _listener = AppLifecycleListener(onExitRequested: _handleExitRequest);
+    windowManager.addListener(this);
     _init(Provider.of<AppStateModel>(context, listen: false));
   }
 
   Future<AppExitResponse> _handleExitRequest() async {
     if (Platform.isMacOS) {
       await coreManager?.safeExit();
+    } else if (Platform.isWindows) {
+      await Future.delayed(const Duration(milliseconds: 500));
+      if (appExitReason == AppExitReason.shutdown) {
+        await coreManager?.safeExit();
+      }
     }
     return AppExitResponse.exit;
   }
@@ -193,6 +206,7 @@ class _HomeState extends State<Home> with TrayListener {
   @override
   void dispose() {
     trayManager.removeListener(this);
+    windowManager.removeListener(this);
     _listener.dispose();
     super.dispose();
   }
@@ -217,6 +231,11 @@ class _HomeState extends State<Home> with TrayListener {
       await coreManager?.exitCore();
       exit(0);
     }
+  }
+
+  @override
+  void onWindowClose() async {
+    appExitReason = AppExitReason.windowClose;
   }
 
   @override

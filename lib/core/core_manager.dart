@@ -42,6 +42,7 @@ class CoreManager {
 
   final Function onReady;
   final Function onOsSleep;
+  final Function onOsShutdown;
   final PowerMonitor powerMonitor = PowerMonitor();
   final dio = Dio();
   var needRestart = false;
@@ -81,16 +82,21 @@ class CoreManager {
           notifier.show(tr().reconnectedMsg);
         }
       case 'user_changed':
+        {
+          var isStarted = await getIsStarted();
+          if (isStarted) {
+            await stop();
+          }
+        }
       case 'shutdown':
-        var isStarted = await getIsStarted();
-        if (isStarted) {
-          await stop();
+        {
+          onOsShutdown();
         }
     }
   }
 
   CoreManager(this.baseUrl, this.coreProcess, this.token, this.onReady,
-      this.onOsSleep) {
+      this.onOsSleep, this.onOsShutdown) {
     baseHttpUrl = "http://$baseUrl";
     baseWsUrl = "ws://$baseUrl";
     dio.transformer = BackgroundTransformer()..jsonDecodeCallback = parseJson;
