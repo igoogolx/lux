@@ -48,6 +48,11 @@ jobs:
           mv dist/${VERSION}/lux-${VERSION}-macos.dmg dist/${VERSION}/lux-${VERSION}-amd64-macos.dmg
 
       - if: matrix.os == 'windows-latest'
+        name: install InnoSetup
+        shell: cmd
+        run: choco upgrade innosetup -y --no-progress
+
+      - if: matrix.os == 'windows-latest'
         name: Build windows x64 installer
         run: |
           mkdir -p  C:\temp\dll
