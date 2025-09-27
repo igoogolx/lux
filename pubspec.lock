@@ -174,14 +174,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_desktop_sleep:
-    dependency: "direct main"
-    description:
-      name: flutter_desktop_sleep
-      sha256: ad85a323d10616e342ccbc1c6455208e1de5f00946318fbef15a990928931c77
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.2"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:

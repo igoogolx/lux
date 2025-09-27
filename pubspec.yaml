@@ -42,7 +42,6 @@ dependencies:
   window_manager: ^0.5.0
   package_info_plus: ^9.0.0
   args: ^2.4.2
-  flutter_desktop_sleep: ^0.0.2
   power_monitor:
     git:
       url: https://github.com/igoogolx/power_monitor.git

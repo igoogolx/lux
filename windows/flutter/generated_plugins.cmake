@@ -4,7 +4,6 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   connectivity_plus
-  flutter_desktop_sleep
   power_monitor
   screen_retriever_windows
   tray_manager
