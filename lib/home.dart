@@ -37,8 +37,6 @@ Future<void> initClient(CoreManager? coreManager) async {
   await setAutoLaunch(coreManager);
 }
 
-enum AppExitReason { windowClose, shutdown }
-
 class _HomeState extends State<Home> with TrayListener, WindowListener {
   String baseUrl = "";
   String urlStr = "";
@@ -49,7 +47,6 @@ class _HomeState extends State<Home> with TrayListener, WindowListener {
   Widget? dashboardWidget;
   WebSocketChannel? eventChannel;
   late final AppLifecycleListener _listener;
-  AppExitReason? appExitReason;
 
   void _init(AppStateModel appState) async {
     trayManager.addListener(this);
@@ -105,8 +102,8 @@ class _HomeState extends State<Home> with TrayListener, WindowListener {
     }
   }
 
-  void _onOsShutdown() async {
-    appExitReason = AppExitReason.shutdown;
+  void _onOsShutdown() {
+    resetSystemProxy();
   }
 
   void _onCoreReady(AppStateModel appState) {
@@ -194,11 +191,6 @@ class _HomeState extends State<Home> with TrayListener, WindowListener {
   Future<AppExitResponse> _handleExitRequest() async {
     if (Platform.isMacOS) {
       await coreManager?.safeExit();
-    } else if (Platform.isWindows) {
-      await Future.delayed(const Duration(milliseconds: 500));
-      if (appExitReason == AppExitReason.shutdown) {
-        await coreManager?.safeExit();
-      }
     }
     return AppExitResponse.exit;
   }
@@ -231,11 +223,6 @@ class _HomeState extends State<Home> with TrayListener, WindowListener {
       await coreManager?.exitCore();
       exit(0);
     }
-  }
-
-  @override
-  void onWindowClose() async {
-    appExitReason = AppExitReason.windowClose;
   }
 
   @override
