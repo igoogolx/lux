@@ -11,7 +11,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest, macos-15, macos-13]
+        os: [windows-latest, macos-15, macos-15-intel]
 
     steps:
       - uses: actions/checkout@v4
@@ -35,7 +35,7 @@ jobs:
           fastforge release --name ${{ matrix.os }}
           mv dist/${VERSION}/lux-${VERSION}-macos.dmg dist/${VERSION}/lux-${VERSION}-arm64-macos.dmg
 
-      - if: matrix.os == 'macos-13'
+      - if: matrix.os == 'macos-15-intel'
         name: Build mac amd64 installer
         run: |
           VERSION=${GITHUB_REF_NAME#v}
