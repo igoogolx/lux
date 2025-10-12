@@ -2,7 +2,7 @@
 
 ### New features ✨
 
-* feat: support DNS-MAP rule
+* feat: support [DNS-MAP](https://igoogolx.github.io/lux-docs/docs/configuration/porxyRule#dns-map) rule
 * feat: check connectivity before disconnecting for no internet
 * fix: unnecessary connections when connecting to core on init
 * fix(macOS): invalid styles of AppHeaderBar
