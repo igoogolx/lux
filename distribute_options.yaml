@@ -13,7 +13,7 @@ releases:
           platform: macos
           target: dmg
 
-  - name: macos-13
+  - name: macos-15-intel
     jobs:
       - name: release-dev-macos
         package:

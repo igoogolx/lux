@@ -5,7 +5,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:launch_at_startup/launch_at_startup.dart';
 import 'package:lux/const/const.dart';
-import 'package:lux/core/core_manager.dart' hide ProxyMode;
+import 'package:lux/core/core_manager.dart';
 import 'package:lux/dashboard.dart';
 import 'package:lux/model/app.dart';
 import 'package:lux/tray.dart';
@@ -37,7 +37,7 @@ Future<void> initClient(CoreManager? coreManager) async {
   await setAutoLaunch(coreManager);
 }
 
-class _HomeState extends State<Home> with TrayListener {
+class _HomeState extends State<Home> with TrayListener, WindowListener {
   String baseUrl = "";
   String urlStr = "";
   String homeDir = "";
@@ -72,85 +72,8 @@ class _HomeState extends State<Home> with TrayListener {
         '$curHttpUrl/?client_version=$currentVersion&token=$secret&theme=${appState.theme == ThemeMode.dark ? 'dark' : 'light'}';
     debugPrint("dashboard url: $curUrlStr");
     coreManager = CoreManager(curBaseUrl, process, secret, () {
-      setState(() {
-        isCoreReady.value = true;
-      });
-      if (eventChannel == null) {
-        coreManager?.getEventChannel().then((channel) {
-          eventChannel = channel;
-          eventChannel?.stream.listen((rawData) async {
-            if (rawData is! String) {
-              return;
-            }
-            final message = json.decode(rawData);
-            if (message is! Map<String, dynamic>) {
-              return;
-            }
-            if (!(message.containsKey('type') && message['type'] is String)) {
-              return;
-            }
-
-            switch (message['type']) {
-              case "set_theme":
-                {
-                  if (!(message.containsKey('value') &&
-                      message['value'] is String)) {
-                    return;
-                  }
-                  appState.updateTheme(convertTheme(message['value']));
-                }
-              case "set_language":
-                {
-                  if (!(message.containsKey('value') &&
-                      message['value'] is String)) {
-                    return;
-                  }
-                  appState.updateLocale(convertLocale(message['value']));
-                  if (Platform.isWindows) {
-                    initSystemTray();
-                  }
-                }
-              case "set_auto_launch":
-                {
-                  if (!(message.containsKey('value') &&
-                      message['value'] is bool)) {
-                    return;
-                  }
-                  if (message['value']) {
-                    await launchAtStartup.enable();
-                  } else {
-                    await launchAtStartup.disable();
-                  }
-                }
-              case 'open_home_dir':
-                {
-                  launchUrl(Uri.file(homeDir));
-                }
-              case 'open_web_dashboard':
-                {
-                  launchUrl(Uri.parse(urlStr));
-                }
-              case 'set_web_dashboard_is_ready':
-                {
-                  isWebviewReady.value = true;
-                }
-              case 'exit_app':
-                {
-                  await coreManager?.exitCore();
-                  exitApp();
-                }
-            }
-          });
-        });
-      }
-    }, () async {
-      if (Platform.isMacOS) {
-        var isFullScreen = await windowManager.isFullScreen();
-        if (isFullScreen) {
-          await windowManager.setFullScreen(false);
-        }
-      }
-    });
+      _onCoreReady(appState);
+    }, _onOsSleep, _onOsShutdown);
 
     setState(() {
       homeDir = curHomeDir;
@@ -170,10 +93,98 @@ class _HomeState extends State<Home> with TrayListener {
     await coreManager?.run();
   }
 
+  void _onOsSleep() async {
+    if (Platform.isMacOS) {
+      var isFullScreen = await windowManager.isFullScreen();
+      if (isFullScreen) {
+        await windowManager.setFullScreen(false);
+      }
+    }
+  }
+
+  void _onOsShutdown() {
+    resetSystemProxy();
+  }
+
+  void _onCoreReady(AppStateModel appState) {
+    setState(() {
+      isCoreReady.value = true;
+    });
+    if (eventChannel == null) {
+      coreManager?.getEventChannel().then((channel) {
+        eventChannel = channel;
+        eventChannel?.stream.listen((rawData) async {
+          if (rawData is! String) {
+            return;
+          }
+          final message = json.decode(rawData);
+          if (message is! Map<String, dynamic>) {
+            return;
+          }
+          if (!(message.containsKey('type') && message['type'] is String)) {
+            return;
+          }
+
+          switch (message['type']) {
+            case "set_theme":
+              {
+                if (!(message.containsKey('value') &&
+                    message['value'] is String)) {
+                  return;
+                }
+                appState.updateTheme(convertTheme(message['value']));
+              }
+            case "set_language":
+              {
+                if (!(message.containsKey('value') &&
+                    message['value'] is String)) {
+                  return;
+                }
+                appState.updateLocale(convertLocale(message['value']));
+                if (Platform.isWindows) {
+                  initSystemTray();
+                }
+              }
+            case "set_auto_launch":
+              {
+                if (!(message.containsKey('value') &&
+                    message['value'] is bool)) {
+                  return;
+                }
+                if (message['value']) {
+                  await launchAtStartup.enable();
+                } else {
+                  await launchAtStartup.disable();
+                }
+              }
+            case 'open_home_dir':
+              {
+                launchUrl(Uri.file(homeDir));
+              }
+            case 'open_web_dashboard':
+              {
+                launchUrl(Uri.parse(urlStr));
+              }
+            case 'set_web_dashboard_is_ready':
+              {
+                isWebviewReady.value = true;
+              }
+            case 'exit_app':
+              {
+                await coreManager?.exitCore();
+                exitApp();
+              }
+          }
+        });
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     _listener = AppLifecycleListener(onExitRequested: _handleExitRequest);
+    windowManager.addListener(this);
     _init(Provider.of<AppStateModel>(context, listen: false));
   }
 
@@ -187,6 +198,7 @@ class _HomeState extends State<Home> with TrayListener {
   @override
   void dispose() {
     trayManager.removeListener(this);
+    windowManager.removeListener(this);
     _listener.dispose();
     super.dispose();
   }

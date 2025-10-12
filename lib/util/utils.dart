@@ -14,6 +14,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:version/version.dart';
+import 'package:win32_registry/win32_registry.dart';
 import 'package:yaml/yaml.dart';
 
 Future<String> getHomeDir() async {
@@ -169,4 +170,20 @@ Future<String> getAppVersion() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     return packageInfo.version;
   }
+}
+
+void resetSystemProxy() {
+  if (!Platform.isWindows) {
+    return;
+  }
+  const keyPath =
+      r'Software\Microsoft\Windows\CurrentVersion\Internet Settings';
+  final key = Registry.openPath(
+    RegistryHive.currentUser,
+    path: keyPath,
+    desiredAccessRights: AccessRights.writeOnly,
+  );
+  const dword = RegistryValue.int32('ProxyEnable', 0);
+  key.createValue(dword);
+  key.close();
 }

@@ -186,7 +186,7 @@ class _State extends State<AppHeaderBar> with WindowListener {
               height: 32,
               child: FittedBox(
                 child: DropdownMenu<String>(
-                  width: 180,
+                  width: 184,
                   initialSelection: ruleList.selectedId,
                   onSelected: isLoadingRuleDropdown ? null : handleSelectRule,
                   dropdownMenuEntries: menuEntries,

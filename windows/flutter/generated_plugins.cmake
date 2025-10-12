@@ -4,8 +4,7 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   connectivity_plus
-  flutter_desktop_sleep
-  flutter_window_close
+  power_monitor
   screen_retriever_windows
   tray_manager
   url_launcher_windows

@@ -5,11 +5,10 @@ import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_desktop_sleep/flutter_desktop_sleep.dart';
-import 'package:flutter_window_close/flutter_window_close.dart';
 import 'package:lux/tr.dart';
 import 'package:lux/util/notifier.dart';
 import 'package:lux/util/process_manager.dart';
+import 'package:power_monitor/power_monitor.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import 'core_config.dart';
@@ -43,7 +42,8 @@ class CoreManager {
 
   final Function onReady;
   final Function onOsSleep;
-  final FlutterDesktopSleep flutterDesktopSleep = FlutterDesktopSleep();
+  final Function onOsShutdown;
+  final PowerMonitor powerMonitor = PowerMonitor();
   final dio = Dio();
   var needRestart = false;
   late String baseHttpUrl;
@@ -53,8 +53,11 @@ class CoreManager {
   WebSocketChannel? _eventChannel;
 
   Future<void> powerMonitorHandler(String? s) async {
-    if (s != null) {
-      if (s == 'sleep') {
+    if (s == null) {
+      return;
+    }
+    switch (s) {
+      case 'sleep':
         onOsSleep();
         var isStarted = await getIsStarted();
         if (!isStarted) {
@@ -65,7 +68,7 @@ class CoreManager {
           needRestart = true;
           await stop();
         }
-      } else if (s == 'woke_up') {
+      case 'woke_up':
         if (needRestart) {
           needRestart = false;
           final List<ConnectivityResult> connectivityResult =
@@ -78,15 +81,22 @@ class CoreManager {
           await start();
           notifier.show(tr().reconnectedMsg);
         }
-      } else if (s == 'terminate_app') {
-        exitCore();
-        exit(0);
-      }
+      case 'user_changed':
+        {
+          var isStarted = await getIsStarted();
+          if (isStarted) {
+            await stop();
+          }
+        }
+      case 'shutdown':
+        {
+          onOsShutdown();
+        }
     }
   }
 
   CoreManager(this.baseUrl, this.coreProcess, this.token, this.onReady,
-      this.onOsSleep) {
+      this.onOsSleep, this.onOsShutdown) {
     baseHttpUrl = "http://$baseUrl";
     baseWsUrl = "ws://$baseUrl";
     dio.transformer = BackgroundTransformer()..jsonDecodeCallback = parseJson;
@@ -99,12 +109,7 @@ class CoreManager {
       options.headers.addAll(customHeaders);
       return handler.next(options);
     }));
-    if (Platform.isMacOS) {
-      flutterDesktopSleep.setWindowSleepHandler(powerMonitorHandler);
-    }
-    if (Platform.isWindows) {
-      FlutterWindowClose.setWindowShouldCloseHandler(powerMonitorHandler);
-    }
+    powerMonitor.setHandler(powerMonitorHandler);
 
     Connectivity()
         .onConnectivityChanged
@@ -112,6 +117,12 @@ class CoreManager {
       // Received changes in available connectivity types!
 
       if (result.contains(ConnectivityResult.none)) {
+        await Future.delayed(const Duration(seconds: 2));
+        final List<ConnectivityResult> connectivityResult =
+            await (Connectivity().checkConnectivity());
+        if (!connectivityResult.contains(ConnectivityResult.none)) {
+          return;
+        }
         var isStarted = await getIsStarted();
         if (isStarted) {
           await stop();
@@ -140,8 +151,8 @@ class CoreManager {
           await makeRequestUntilSuccess(url);
         }
       } catch (e) {
-        Future.delayed(const Duration(milliseconds: 150));
-        debugPrint(e.toString());
+        await Future.delayed(const Duration(milliseconds: 150));
+        debugPrint("fail to connect to core, retry...");
       }
     }
 
