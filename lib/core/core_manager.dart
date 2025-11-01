@@ -8,7 +8,6 @@ import 'package:flutter/foundation.dart';
 import 'package:lux/tr.dart';
 import 'package:lux/util/notifier.dart';
 import 'package:lux/util/process_manager.dart';
-import 'package:power_monitor/power_monitor.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import 'core_config.dart';
@@ -41,9 +40,6 @@ class CoreManager {
   final String baseUrl;
 
   final Function onReady;
-  final Function onOsSleep;
-  final Function onOsShutdown;
-  final PowerMonitor powerMonitor = PowerMonitor();
   final dio = Dio();
   var needRestart = false;
   late String baseHttpUrl;
@@ -52,51 +48,12 @@ class CoreManager {
   WebSocketChannel? _runtimeStatusChannel;
   WebSocketChannel? _eventChannel;
 
-  Future<void> powerMonitorHandler(String? s) async {
-    if (s == null) {
-      return;
-    }
-    switch (s) {
-      case 'sleep':
-        onOsSleep();
-        var isStarted = await getIsStarted();
-        if (!isStarted) {
-          return;
-        }
-        final setting = await getSetting();
-        if (setting.mode == ProxyMode.tun || setting.mode == ProxyMode.mixed) {
-          needRestart = true;
-          await stop();
-        }
-      case 'woke_up':
-        if (needRestart) {
-          needRestart = false;
-          final List<ConnectivityResult> connectivityResult =
-              await (Connectivity().checkConnectivity());
-          if (connectivityResult.contains(ConnectivityResult.none)) {
-            notifier.show(tr().noConnectionMsg);
-            return;
-          }
-          await Future.delayed(const Duration(seconds: 2));
-          await start();
-          notifier.show(tr().reconnectedMsg);
-        }
-      case 'user_changed':
-        {
-          var isStarted = await getIsStarted();
-          if (isStarted) {
-            await stop();
-          }
-        }
-      case 'shutdown':
-        {
-          onOsShutdown();
-        }
-    }
-  }
-
-  CoreManager(this.baseUrl, this.coreProcess, this.token, this.onReady,
-      this.onOsSleep, this.onOsShutdown) {
+  CoreManager(
+    this.baseUrl,
+    this.coreProcess,
+    this.token,
+    this.onReady,
+  ) {
     baseHttpUrl = "http://$baseUrl";
     baseWsUrl = "ws://$baseUrl";
     dio.transformer = BackgroundTransformer()..jsonDecodeCallback = parseJson;
@@ -109,7 +66,6 @@ class CoreManager {
       options.headers.addAll(customHeaders);
       return handler.next(options);
     }));
-    powerMonitor.setHandler(powerMonitorHandler);
 
     Connectivity()
         .onConnectivityChanged

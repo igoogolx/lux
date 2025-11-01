@@ -2,17 +2,21 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:launch_at_startup/launch_at_startup.dart';
 import 'package:lux/const/const.dart';
 import 'package:lux/core/core_manager.dart';
 import 'package:lux/dashboard.dart';
 import 'package:lux/model/app.dart';
+import 'package:lux/tr.dart';
 import 'package:lux/tray.dart';
+import 'package:lux/util/notifier.dart';
 import 'package:lux/util/process_manager.dart';
 import 'package:lux/util/utils.dart';
 import 'package:lux/widget/progress_indicator.dart';
 import 'package:path/path.dart' as path;
+import 'package:power_monitor/power_monitor.dart';
 import 'package:provider/provider.dart';
 import 'package:tray_manager/tray_manager.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -37,7 +41,8 @@ Future<void> initClient(CoreManager? coreManager) async {
   await setAutoLaunch(coreManager);
 }
 
-class _HomeState extends State<Home> with TrayListener, WindowListener {
+class _HomeState extends State<Home>
+    with TrayListener, WindowListener, PowerMonitorListener {
   String baseUrl = "";
   String urlStr = "";
   String homeDir = "";
@@ -47,6 +52,7 @@ class _HomeState extends State<Home> with TrayListener, WindowListener {
   Widget? dashboardWidget;
   WebSocketChannel? eventChannel;
   late final AppLifecycleListener _listener;
+  var needRestart = false;
 
   void _init(AppStateModel appState) async {
     trayManager.addListener(this);
@@ -73,7 +79,7 @@ class _HomeState extends State<Home> with TrayListener, WindowListener {
     debugPrint("dashboard url: $curUrlStr");
     coreManager = CoreManager(curBaseUrl, process, secret, () {
       _onCoreReady(appState);
-    }, _onOsSleep, _onOsShutdown);
+    });
 
     setState(() {
       homeDir = curHomeDir;
@@ -91,19 +97,6 @@ class _HomeState extends State<Home> with TrayListener, WindowListener {
       }
     });
     await coreManager?.run();
-  }
-
-  void _onOsSleep() async {
-    if (Platform.isMacOS) {
-      var isFullScreen = await windowManager.isFullScreen();
-      if (isFullScreen) {
-        await windowManager.setFullScreen(false);
-      }
-    }
-  }
-
-  void _onOsShutdown() {
-    resetSystemProxy();
   }
 
   void _onCoreReady(AppStateModel appState) {
@@ -185,6 +178,7 @@ class _HomeState extends State<Home> with TrayListener, WindowListener {
     super.initState();
     _listener = AppLifecycleListener(onExitRequested: _handleExitRequest);
     windowManager.addListener(this);
+    powerMonitor.addListener(this);
     _init(Provider.of<AppStateModel>(context, listen: false));
   }
 
@@ -199,6 +193,7 @@ class _HomeState extends State<Home> with TrayListener, WindowListener {
   void dispose() {
     trayManager.removeListener(this);
     windowManager.removeListener(this);
+    powerMonitor.removeListener(this);
     _listener.dispose();
     super.dispose();
   }
@@ -222,6 +217,64 @@ class _HomeState extends State<Home> with TrayListener, WindowListener {
     } else if (menuItem.key == 'exit_app') {
       await coreManager?.exitCore();
       exit(0);
+    }
+  }
+
+  @override
+  onPowerMonitorSleep() async {
+    if (Platform.isMacOS) {
+      var isFullScreen = await windowManager.isFullScreen();
+      if (isFullScreen) {
+        await windowManager.setFullScreen(false);
+      }
+    }
+    if (coreManager == null) {
+      return;
+    }
+    var isStarted = await coreManager!.getIsStarted();
+    if (!isStarted) {
+      return;
+    }
+    final setting = await coreManager!.getSetting();
+    if (setting.mode == ProxyMode.tun || setting.mode == ProxyMode.mixed) {
+      needRestart = true;
+      await coreManager!.stop();
+    }
+  }
+
+  @override
+  onPowerMonitorWokeUp() async {
+    if (coreManager == null) {
+      return;
+    }
+    if (needRestart) {
+      needRestart = false;
+      final List<ConnectivityResult> connectivityResult =
+          await (Connectivity().checkConnectivity());
+      if (connectivityResult.contains(ConnectivityResult.none)) {
+        notifier.show(tr().noConnectionMsg);
+        return;
+      }
+      await Future.delayed(const Duration(seconds: 2));
+
+      await coreManager!.start();
+      notifier.show(tr().reconnectedMsg);
+    }
+  }
+
+  @override
+  onPowerMonitorShutdown() {
+    resetSystemProxy();
+  }
+
+  @override
+  onPowerMonitorUserChanged() async {
+    if (coreManager == null) {
+      return;
+    }
+    var isStarted = await coreManager!.getIsStarted();
+    if (isStarted) {
+      await coreManager!.stop();
     }
   }
 
