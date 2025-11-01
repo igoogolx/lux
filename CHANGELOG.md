@@ -2,14 +2,11 @@
 
 ### New features ✨
 
-* feat: support [DNS-MAP](https://igoogolx.github.io/lux-docs/docs/configuration/porxyRule#dns-map) rule
-* feat: check connectivity before disconnecting for no internet
-* fix: unnecessary connections when connecting to core on init
-* fix(macOS): invalid styles of AppHeaderBar
+* fix(windows): missing restarting app alert modal when the mode is changed to Tun
+* fix: fail to request subscription url without user agent
 
 ### Other changes 
 
 * chore: upgrade dependencies
-* refactor: replace flutter_desktop_close and flutter_desktop_sleep with power_monitor
 
 
