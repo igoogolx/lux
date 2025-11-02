@@ -116,7 +116,11 @@ class CoreManager {
   }
 
   Future<void> ping() async {
-    await makeRequestUntilSuccess('$baseHttpUrl/ping');
+    try {
+      await makeRequestUntilSuccess('$baseHttpUrl/ping');
+    } catch (e) {
+      throw Exception("fail to ping core: ${e.toString()}");
+    }
   }
 
   Future<void> stop() async {
@@ -209,11 +213,9 @@ class CoreManager {
   }
 
   Future<void> run() async {
-    coreProcess?.run().then((_) {
-      ping().then((value) {
-        onReady();
-      });
-    });
+    await coreProcess?.run();
+    await ping();
+    onReady();
   }
 
   Future<WebSocketChannel?> getTrafficChannel() async {
