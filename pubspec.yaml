@@ -45,7 +45,7 @@ dependencies:
   power_monitor:
     git:
       url: https://github.com/igoogolx/power_monitor.git
-      ref: v0.0.2
+      ref: v0.0.3
   version: ^3.0.2
   uuid: ^4.5.1
   connectivity_plus: ^7.0.0

@@ -481,11 +481,11 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "v0.0.2"
-      resolved-ref: c1b6d656d885c9d636db23c33d3f6cf56c2ade11
+      ref: "v0.0.3"
+      resolved-ref: c404bf09340aaeeec2a16fad32356be476eb6e7f
       url: "https://github.com/igoogolx/power_monitor.git"
     source: git
-    version: "0.0.2"
+    version: "0.0.3"
   provider:
     dependency: "direct main"
     description:
