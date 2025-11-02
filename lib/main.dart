@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lux/app.dart';
 import 'package:lux/const/const.dart';
@@ -10,6 +11,7 @@ import 'package:lux/error.dart';
 import 'package:lux/tr.dart';
 import 'package:lux/util/notifier.dart';
 import 'package:lux/util/utils.dart';
+import 'package:lux/widget/release_mode_error_widget.dart';
 import 'package:window_manager/window_manager.dart';
 
 void main(List<String> args) async {
@@ -55,6 +57,11 @@ void main(List<String> args) async {
     final theme = await readTheme();
     final clientMode = await readClientMode();
     final defaultLocaleValue = await getLocale();
+
+    ErrorWidget.builder = (FlutterErrorDetails details) {
+      return ReleaseModeErrorWidget(details: details);
+    };
+
     runApp(App(theme, defaultLocaleValue, clientMode));
   } catch (e) {
     await notifier.show("$e");

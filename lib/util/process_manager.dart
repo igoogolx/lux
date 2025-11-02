@@ -56,6 +56,7 @@ class ProcessManager {
       }
       process = await Process.start(path, args);
       process?.stdout.transform(utf8.decoder).forEach(debugPrint);
+      process?.stderr.transform(utf8.decoder).forEach(debugPrint);
     }
   }
 
