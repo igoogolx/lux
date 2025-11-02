@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
+import 'package:path/path.dart' as p;
 
 import 'constant.dart';
 
@@ -35,27 +38,53 @@ class Release {
       {'assets': assets.map((asset) => asset.toJson()).toList()};
 }
 
-Future<void> getSha256() async {
+Future<void> replaceChecksumSectionInFile(
+    String filePath, String newContent) async {
+  String content = await File(filePath).readAsString();
+
+  final regex = RegExp(
+    r'(// checksum-start)([\s\S]*?)(// checksum-end)',
+    multiLine: true,
+  );
+
+  String replaced = content.replaceAllMapped(regex, (match) {
+    return '${match[1]}\n$newContent\n${match[3]}';
+  });
+
+  await File(filePath).writeAsString(replaced);
+}
+
+Future<String> getSha256() async {
   final dio = Dio();
+  var checksumCode = "";
   try {
     var response = await dio.get(
       "https://api.github.com/repos/igoogolx/itun2socks/releases/tags/v$rawCoreVersion",
     );
     var release = Release.fromJson(response.data);
     for (var asset in release.assets) {
-      if (<String>[
-        "itun2socks_${rawCoreVersion}_darwin_arm64",
-        "itun2socks_${rawCoreVersion}_darwin_amd64",
-        "itun2socks_${rawCoreVersion}_windows_amd64.exe"
-      ].contains(asset.name)) {
-        print('${asset.name}: ${asset.digest}');
+      switch (asset.name) {
+        case "itun2socks_${rawCoreVersion}_darwin_arm64":
+          checksumCode =
+              "$checksumCode const darwinArm64Checksum = \"${asset.digest}\";\n";
+        case "itun2socks_${rawCoreVersion}_darwin_amd64":
+          checksumCode =
+              "$checksumCode const darwinAmd64Checksum = \"${asset.digest}\";\n";
+        case "itun2socks_${rawCoreVersion}_windows_amd64.exe":
+          checksumCode =
+              "$checksumCode const windowsAmd64Checksum = \"${asset.digest}\";";
       }
     }
+    return checksumCode;
   } catch (e) {
-    print('fail to get sha256: $e');
+    return "";
   }
 }
 
 Future<void> main() async {
-  await getSha256();
+  final newCode = await getSha256();
+  await replaceChecksumSectionInFile(
+      p.join("lib", "core", "checksum.dart"), newCode);
+  print(newCode);
+  exit(1);
 }
