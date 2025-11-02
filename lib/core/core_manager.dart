@@ -5,11 +5,11 @@ import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:lux/tr.dart';
-import 'package:lux/util/notifier.dart';
 import 'package:lux/util/process_manager.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
+import '../tr.dart';
+import '../util/notifier.dart';
 import 'core_config.dart';
 
 Future<int> findAvailablePort(int startPort, int endPort) async {
@@ -80,7 +80,11 @@ class CoreManager {
           return;
         }
         var isStarted = await getIsStarted();
-        if (isStarted) {
+        if (!isStarted) {
+          return;
+        }
+        var setting = await getSetting();
+        if (setting.mode == ProxyMode.tun || setting.mode == ProxyMode.mixed) {
           await stop();
           notifier.show(tr().noConnectionMsg);
           debugPrint("no connection, stop core");
