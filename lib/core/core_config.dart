@@ -107,15 +107,18 @@ Future<ProxyMode> readProxyMode() async {
 class ProxyItem {
   final String id;
   final String name;
+  final String type;
   final String? server;
   final int? port;
   final String? subscriptionUrl;
 
-  ProxyItem(this.id, this.name, this.server, this.port, this.subscriptionUrl);
+  ProxyItem(this.id, this.name, this.server, this.port, this.subscriptionUrl,
+      this.type);
 
   ProxyItem.fromJson(Map<String, dynamic> json)
       : id = (json['id'] as String),
         name = (json['name'] as String),
+        type = (json['type'] as String),
         server = (json['server'] as String),
         subscriptionUrl = (json['subscriptionUrl'] is String
             ? json['subscriptionUrl'] as String

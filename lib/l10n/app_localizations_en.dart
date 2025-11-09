@@ -100,4 +100,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get bottomBarTip => 'Hover speed and mode text to see more info';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String get delete => 'Delete';
 }

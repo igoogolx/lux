@@ -7,15 +7,23 @@ import '../core/core_config.dart';
 
 class ProxyListCard extends StatefulWidget {
   final ProxyList proxyList;
+  final Function onCollapse;
+  final bool isCollapsed;
+  final Function(ProxyItem) onDeleteItem;
 
-  const ProxyListCard({super.key, required this.proxyList});
+  const ProxyListCard({
+    super.key,
+    required this.proxyList,
+    required this.onCollapse,
+    required this.isCollapsed,
+    required this.onDeleteItem,
+  });
 
   @override
   State<ProxyListCard> createState() => _ProxyListCardState();
 }
 
 class _ProxyListCardState extends State<ProxyListCard> {
-  bool isCollapsed = true;
   String? previewInfo;
 
   @override
@@ -50,9 +58,7 @@ class _ProxyListCardState extends State<ProxyListCard> {
             children: [
               TextButton(
                 onPressed: () {
-                  setState(() {
-                    isCollapsed = !isCollapsed;
-                  });
+                  widget.onCollapse();
                 },
                 style: ButtonStyle(
                   backgroundColor: WidgetStateProperty.resolveWith<Color?>(
@@ -68,7 +74,7 @@ class _ProxyListCardState extends State<ProxyListCard> {
                 ),
                 child: Row(
                   children: [
-                    Icon(isCollapsed
+                    Icon(widget.isCollapsed
                         ? Icons.keyboard_arrow_up
                         : Icons.keyboard_arrow_down),
                     Text(
@@ -82,7 +88,7 @@ class _ProxyListCardState extends State<ProxyListCard> {
               )
             ],
           ),
-          proxyList.proxies.isEmpty || !isCollapsed
+          proxyList.proxies.isEmpty || !widget.isCollapsed
               ? SizedBox()
               : ListView.separated(
                   shrinkWrap: true,
@@ -93,6 +99,8 @@ class _ProxyListCardState extends State<ProxyListCard> {
                     return ProxyListItem(
                       key: Key(proxyList.proxies[index].id),
                       item: proxyList.proxies[index],
+                      onDelete: () =>
+                          widget.onDeleteItem(proxyList.proxies[index]),
                     );
                   },
                   separatorBuilder: (BuildContext context, int index) {

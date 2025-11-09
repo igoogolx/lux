@@ -100,4 +100,10 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get bottomBarTip => '鼠标移动到网速和模式文本上以查看更多信息';
+
+  @override
+  String get edit => '编辑';
+
+  @override
+  String get delete => '删除';
 }

@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:lux/error.dart';
 import 'package:lux/util/process_manager.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -251,5 +250,9 @@ class CoreManager {
       throw Exception('invalid setting data');
     }
     return Setting.fromJson(res.data["setting"]);
+  }
+
+  Future<void> deleteProxies(List<String> ids) async {
+    await dio.delete('$baseHttpUrl/proxies', data: {'ids': ids});
   }
 }

@@ -26,10 +26,20 @@ class _AppBodyState extends State<AppBody> with WindowListener {
 
   bool isLoadingProxyRadio = false;
 
+  var isCollapsedMap = <String, bool>{};
+
   Future<void> refreshProxyList() async {
     final value = await widget.coreManager.getProxyList();
     setState(() {
       proxyListGroup = value;
+      for (var group in proxyListGroup.groups) {
+        var key = group.url;
+        if (!isCollapsedMap.containsKey(key)) {
+          setState(() {
+            isCollapsedMap[key] = true;
+          });
+        }
+      }
     });
   }
 
@@ -82,6 +92,23 @@ class _AppBodyState extends State<AppBody> with WindowListener {
     windowManager.removeListener(this);
   }
 
+  bool getIsCollapsed(ProxyList item) {
+    return isCollapsedMap.containsKey(item.url)
+        ? (isCollapsedMap[item.url] as bool)
+        : true;
+  }
+
+  void handleCollapse(ProxyList item) {
+    setState(() {
+      isCollapsedMap[item.url] = !getIsCollapsed(item);
+    });
+  }
+
+  void _handleDeleteItem(ProxyItem item) async {
+    await widget.coreManager.deleteProxies([item.id]);
+    await refreshData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return RadioGroup<String>(
@@ -95,6 +122,10 @@ class _AppBodyState extends State<AppBody> with WindowListener {
                   return ProxyListCard(
                     proxyList: proxyListGroup.groups[index],
                     key: Key(proxyListGroup.groups[index].url),
+                    isCollapsed: getIsCollapsed(proxyListGroup.groups[index]),
+                    onCollapse: () =>
+                        {handleCollapse(proxyListGroup.groups[index])},
+                    onDeleteItem: _handleDeleteItem,
                   );
                 },
               ));
