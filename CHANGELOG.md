@@ -4,6 +4,7 @@
 
 * feat: support editing and deleting proxy item from native UI
 * feat: handle core starting error
+* feat: tip for bottom bar
 
 ### Bug fixes 🐛
 
