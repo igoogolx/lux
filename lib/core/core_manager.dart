@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:lux/error.dart';
 import 'package:lux/util/process_manager.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
