@@ -22,5 +22,12 @@
   "bypassLabel": "Direct",
   "launchAtStartUpMessage": "Running in background",
   "notElevated": "Not running with elevated permissions.",
-  "localServer": "Local Server"
+  "localServer": "Local Server",
+  "coreRunError": "Encounter an error when starting lux_core",
+  "somethingWrong":"Something wrong",
+  "howToFix": "How to fix",
+  "elevateCoreStep":"Lux_core is not elevated successfully. Please try to do it manually: \n 1. Copy the following command and run in terminal \n 2. Restart Lux",
+  "bottomBarTip": "Hover speed and mode text to see more info",
+  "edit": "Edit",
+  "delete": "Delete"
 }

@@ -72,9 +72,11 @@ class _DashboardState extends State<Dashboard> with WindowListener {
             onCurProxyInfoChange: onCurProxyInfoChange,
           )),
       body: AppBody(
-          coreManager: widget.coreManager,
-          curProxyInfo: curProxyInfo,
-          onCurProxyInfoChange: onCurProxyInfoChange),
+        coreManager: widget.coreManager,
+        curProxyInfo: curProxyInfo,
+        onCurProxyInfoChange: onCurProxyInfoChange,
+        dashboardUrl: widget.urlStr,
+      ),
       bottomNavigationBar: AppBottomBar(widget.coreManager),
     );
   }

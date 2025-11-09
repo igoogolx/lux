@@ -3,9 +3,9 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:lux/core/checksum.dart';
-import 'package:lux/util/notifier.dart';
 import 'package:lux/util/utils.dart';
 
+import '../error.dart';
 import 'elevate.dart';
 
 class ProcessManager {
@@ -49,8 +49,7 @@ class ProcessManager {
           var i10nLabel = await getInitI10nLabel();
           var code = await elevate(path, i10nLabel.macOSElevateServiceInfo);
           if (code != 0) {
-            notifier.show(i10nLabel.macOSElevateServiceInfo);
-            exitApp();
+            throw CoreRunError("fail to elevate core, code: $code");
           }
         }
       }

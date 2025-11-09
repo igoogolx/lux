@@ -84,4 +84,26 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get localServer => 'Local Server';
+
+  @override
+  String get coreRunError => 'Encounter an error when starting lux_core';
+
+  @override
+  String get somethingWrong => 'Something wrong';
+
+  @override
+  String get howToFix => 'How to fix';
+
+  @override
+  String get elevateCoreStep =>
+      'Lux_core is not elevated successfully. Please try to do it manually: \n 1. Copy the following command and run in terminal \n 2. Restart Lux';
+
+  @override
+  String get bottomBarTip => 'Hover speed and mode text to see more info';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String get delete => 'Delete';
 }
