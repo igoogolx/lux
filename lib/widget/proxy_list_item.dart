@@ -6,10 +6,12 @@ import '../core/core_config.dart';
 class ProxyListItem extends StatefulWidget {
   final ProxyItem item;
   final Function onDelete;
+  final Function onEdit;
   const ProxyListItem({
     super.key,
     required this.item,
     required this.onDelete,
+    required this.onEdit,
   });
 
   @override
@@ -51,6 +53,7 @@ class _ProxyListItemState extends State<ProxyListItem> {
           ),
           ProxyItemActionMenu(
             onDelete: widget.onDelete,
+            onEdit: widget.onEdit,
             controller: menuController,
           )
         ],

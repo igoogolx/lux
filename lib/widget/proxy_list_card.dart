@@ -10,6 +10,7 @@ class ProxyListCard extends StatefulWidget {
   final Function onCollapse;
   final bool isCollapsed;
   final Function(ProxyItem) onDeleteItem;
+  final Function(ProxyItem) onEditItem;
 
   const ProxyListCard({
     super.key,
@@ -17,6 +18,7 @@ class ProxyListCard extends StatefulWidget {
     required this.onCollapse,
     required this.isCollapsed,
     required this.onDeleteItem,
+    required this.onEditItem,
   });
 
   @override
@@ -101,6 +103,7 @@ class _ProxyListCardState extends State<ProxyListCard> {
                       item: proxyList.proxies[index],
                       onDelete: () =>
                           widget.onDeleteItem(proxyList.proxies[index]),
+                      onEdit: () => widget.onEditItem(proxyList.proxies[index]),
                     );
                   },
                   separatorBuilder: (BuildContext context, int index) {

@@ -3,12 +3,14 @@ import 'package:lux/tr.dart';
 
 class ProxyItemActionMenu extends StatefulWidget {
   final Function onDelete;
+  final Function onEdit;
   final MenuController controller;
 
   const ProxyItemActionMenu({
     super.key,
     required this.onDelete,
     required this.controller,
+    required this.onEdit,
   });
 
   @override
@@ -30,7 +32,9 @@ class _ProxyItemActionMenuState extends State<ProxyItemActionMenu> {
         controller: widget.controller,
         menuChildren: <Widget>[
           MenuItemButton(
-              onPressed: () {},
+              onPressed: () {
+                widget.onEdit();
+              },
               child: Row(
                 children: [
                   Icon(

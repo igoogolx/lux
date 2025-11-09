@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lux/widget/proxy_list_card.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:window_manager/window_manager.dart';
 
 import '../core/core_config.dart';
@@ -8,12 +9,14 @@ import '../core/core_manager.dart';
 class AppBody extends StatefulWidget {
   final CoreManager coreManager;
   final String curProxyInfo;
+  final String dashboardUrl;
   final void Function(String) onCurProxyInfoChange;
   const AppBody(
       {super.key,
       required this.coreManager,
       required this.curProxyInfo,
-      required this.onCurProxyInfoChange});
+      required this.onCurProxyInfoChange,
+      required this.dashboardUrl});
 
   @override
   State<AppBody> createState() => _AppBodyState();
@@ -109,6 +112,11 @@ class _AppBodyState extends State<AppBody> with WindowListener {
     await refreshData();
   }
 
+  void _handleEditItem(ProxyItem item) async {
+    final editingUrl = "${widget.dashboardUrl}&mode=edit&proxyId=${item.id}";
+    launchUrl(Uri.parse(editingUrl));
+  }
+
   @override
   Widget build(BuildContext context) {
     return RadioGroup<String>(
@@ -126,6 +134,7 @@ class _AppBodyState extends State<AppBody> with WindowListener {
                     onCollapse: () =>
                         {handleCollapse(proxyListGroup.groups[index])},
                     onDeleteItem: _handleDeleteItem,
+                    onEditItem: _handleEditItem,
                   );
                 },
               ));
