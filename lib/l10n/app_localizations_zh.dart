@@ -84,4 +84,17 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get localServer => '本地服务器';
+
+  @override
+  String get coreRunError => '启动 lux_core 时遇到错误';
+
+  @override
+  String get somethingWrong => '出错了';
+
+  @override
+  String get howToFix => '修复方法';
+
+  @override
+  String get elevateCoreStep =>
+      '提升 lux_core 的权限失败。 请尝试手动提升: \n 1. 复制以下命令并在终端执行 \n 2. 重启 Lux';
 }

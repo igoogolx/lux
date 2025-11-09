@@ -241,6 +241,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Local Server'**
   String get localServer;
+
+  /// No description provided for @coreRunError.
+  ///
+  /// In en, this message translates to:
+  /// **'Encounter an error when starting lux_core'**
+  String get coreRunError;
+
+  /// No description provided for @somethingWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Something wrong'**
+  String get somethingWrong;
+
+  /// No description provided for @howToFix.
+  ///
+  /// In en, this message translates to:
+  /// **'How to fix'**
+  String get howToFix;
+
+  /// No description provided for @elevateCoreStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Lux_core is not elevated successfully. Please try to do it manually: \n 1. Copy the following command and run in terminal \n 2. Restart Lux'**
+  String get elevateCoreStep;
 }
 
 class _AppLocalizationsDelegate

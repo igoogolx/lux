@@ -53,7 +53,7 @@ class _HomeState extends State<Home>
   WebSocketChannel? eventChannel;
   late final AppLifecycleListener _listener;
   var needRestart = false;
-  String? coreError;
+  dynamic coreError;
 
   void _init(AppStateModel appState) async {
     trayManager.addListener(this);
@@ -99,7 +99,7 @@ class _HomeState extends State<Home>
     });
     coreManager?.run().catchError((e) {
       setState(() {
-        coreError = e.toString();
+        coreError = e;
       });
     });
   }
@@ -285,8 +285,8 @@ class _HomeState extends State<Home>
 
   @override
   Widget build(BuildContext context) {
-    if (coreError is String && !isCoreReady.value) {
-      throw coreError!;
+    if (coreError != null && !isCoreReady.value) {
+      throw coreError;
     }
     if (coreManager == null || !isCoreReady.value) {
       return Scaffold(body: AppProgressIndicator());

@@ -22,5 +22,9 @@
   "bypassLabel": "直连",
   "launchAtStartUpMessage": "正在后台运行",
   "notElevated": "没有以管理员权限运行",
-  "localServer": "本地服务器"
+  "localServer": "本地服务器",
+  "coreRunError": "启动 lux_core 时遇到错误",
+  "somethingWrong":"出错了",
+  "howToFix": "修复方法",
+  "elevateCoreStep":"提升 lux_core 的权限失败。 请尝试手动提升: \n 1. 复制以下命令并在终端执行 \n 2. 重启 Lux"
 }

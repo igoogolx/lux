@@ -11,7 +11,7 @@ import 'package:lux/error.dart';
 import 'package:lux/tr.dart';
 import 'package:lux/util/notifier.dart';
 import 'package:lux/util/utils.dart';
-import 'package:lux/widget/release_mode_error_widget.dart';
+import 'package:lux/widget/error/release_mode_error_widget.dart';
 import 'package:window_manager/window_manager.dart';
 
 void main(List<String> args) async {

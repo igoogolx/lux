@@ -14,3 +14,8 @@ class CoreHttpError {
 
 const coreHttpErrorDefaultCode = 0;
 const coreHttpErrorNotElevatedCode = 10000;
+
+class CoreRunError extends Error {
+  final String message;
+  CoreRunError(this.message);
+}
