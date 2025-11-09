@@ -1,1 +1,1 @@
-const rawCoreVersion = '1.32.4';
+const rawCoreVersion = '1.32.5';
