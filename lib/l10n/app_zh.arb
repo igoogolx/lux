@@ -26,5 +26,6 @@
   "coreRunError": "启动 lux_core 时遇到错误",
   "somethingWrong":"出错了",
   "howToFix": "修复方法",
-  "elevateCoreStep":"提升 lux_core 的权限失败。 请尝试手动提升: \n 1. 复制以下命令并在终端执行 \n 2. 重启 Lux"
+  "elevateCoreStep":"提升 lux_core 的权限失败。 请尝试手动提升: \n 1. 复制以下命令并在终端执行 \n 2. 重启 Lux",
+  "bottomBarTip": "鼠标移动到网速和模式文本上以查看更多信息"
 }

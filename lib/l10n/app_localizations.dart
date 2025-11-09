@@ -265,6 +265,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Lux_core is not elevated successfully. Please try to do it manually: \n 1. Copy the following command and run in terminal \n 2. Restart Lux'**
   String get elevateCoreStep;
+
+  /// No description provided for @bottomBarTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Hover speed and mode text to see more info'**
+  String get bottomBarTip;
 }
 
 class _AppLocalizationsDelegate

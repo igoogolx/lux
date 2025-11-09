@@ -85,6 +85,14 @@ class _AppBottomBarState extends State<AppBottomBar> with WindowListener {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Tooltip(
+            message: tr().bottomBarTip,
+            child: Icon(
+              Icons.help_outline,
+              size: 16,
+            ),
+          ),
+          SizedBox(width: 8),
+          Tooltip(
             message: trafficData?.totalMsg ?? "",
             child: Text(
                 trafficData?.total != null ? "${trafficData?.total}" : "0 B"),

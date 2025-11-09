@@ -97,4 +97,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get elevateCoreStep =>
       'Lux_core is not elevated successfully. Please try to do it manually: \n 1. Copy the following command and run in terminal \n 2. Restart Lux';
+
+  @override
+  String get bottomBarTip => 'Hover speed and mode text to see more info';
 }

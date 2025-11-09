@@ -97,4 +97,7 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String get elevateCoreStep =>
       '提升 lux_core 的权限失败。 请尝试手动提升: \n 1. 复制以下命令并在终端执行 \n 2. 重启 Lux';
+
+  @override
+  String get bottomBarTip => '鼠标移动到网速和模式文本上以查看更多信息';
 }
