@@ -25,7 +25,7 @@ A light desktop proxy app.
 <b>Download for </b>
 macOS(require macOS 13+)
 ·
-Windows(require  <a href="https://developer.microsoft.com/en-us/microsoft-edge/webview2">webview2</a>)
+Windows
 
 <br />
   <p align="center">
@@ -77,9 +77,7 @@ See the [docs](https://igoogolx.github.io/lux-docs/docs/category/getting-started
 
 This project is using what I'm calling the "FGRT" stack (Flutter, Go, React, TypeScript).
 
-* React on Flutter? Here flutter is not responsible for UI. It's more like a launcher: 
-  start the core process and open the dashboard in webview.
-* The core (itun2socks) is written in pure Go.
+* The lux-core (itun2socks) is written in pure Go.
 
 
 ## Monorepo structure
