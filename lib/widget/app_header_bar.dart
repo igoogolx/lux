@@ -167,6 +167,11 @@ class _State extends State<AppHeaderBar> with WindowListener {
     refreshData();
   }
 
+  void _handleAdd() async {
+    final addingUrl = "${widget.urlStr}&mode=add";
+    launchUrl(Uri.parse(addingUrl));
+  }
+
   @override
   Widget build(BuildContext context) {
     final List<DropdownMenuEntry<String>> menuEntries =
@@ -180,7 +185,6 @@ class _State extends State<AppHeaderBar> with WindowListener {
         leading: IconButton(
             tooltip: tr().goWebDashboardTip,
             onPressed: openWebDashboard,
-            padding: EdgeInsetsGeometry.all(0),
             icon: const Icon(
               Icons.settings,
             )),
@@ -199,6 +203,12 @@ class _State extends State<AppHeaderBar> with WindowListener {
               ),
             ),
             SizedBox(width: 4),
+            IconButton(
+                tooltip: tr().goWebDashboardTip,
+                onPressed: _handleAdd,
+                icon: const Icon(
+                  Icons.add,
+                )),
             Spacer(),
             Text(
               widget.curProxyInfo,
