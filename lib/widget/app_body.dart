@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lux/const/const.dart';
 import 'package:lux/model/app.dart';
 import 'package:lux/widget/proxy_list_card.dart';
 import 'package:provider/provider.dart';
@@ -123,6 +124,22 @@ class _AppBodyState extends State<AppBody> with WindowListener {
     launchUrl(Uri.parse(editingUrl));
   }
 
+  void _handleQrCode(ProxyItem item) async {
+    final editingUrl = "${widget.dashboardUrl}&mode=qrCode&proxyId=${item.id}";
+    launchUrl(Uri.parse(editingUrl));
+  }
+
+  void _handleItemChange(ProxyItemAction action, ProxyItem item) async {
+    switch (action) {
+      case ProxyItemAction.delete:
+        _handleDeleteItem(item);
+      case ProxyItemAction.edit:
+        _handleEditItem(item);
+      case ProxyItemAction.qrCode:
+        _handleQrCode(item);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return RadioGroup<String>(
@@ -139,8 +156,7 @@ class _AppBodyState extends State<AppBody> with WindowListener {
                     isCollapsed: getIsCollapsed(proxyListGroup.groups[index]),
                     onCollapse: () =>
                         {handleCollapse(proxyListGroup.groups[index])},
-                    onDeleteItem: _handleDeleteItem,
-                    onEditItem: _handleEditItem,
+                    onItemChange: _handleItemChange,
                   );
                 },
               ));

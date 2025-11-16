@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:lux/const/const.dart';
 import 'package:lux/model/app.dart';
 import 'package:lux/tr.dart';
 import 'package:provider/provider.dart';
 
 class ProxyItemActionMenu extends StatefulWidget {
-  final Function onDelete;
-  final Function onEdit;
+  final void Function(ProxyItemAction action) onClick;
   final MenuController controller;
   final String id;
 
   const ProxyItemActionMenu({
     super.key,
-    required this.onDelete,
     required this.controller,
-    required this.onEdit,
+    required this.onClick,
     required this.id,
   });
 
@@ -40,7 +39,7 @@ class _ProxyItemActionMenuState extends State<ProxyItemActionMenu> {
           menuChildren: <Widget>[
             MenuItemButton(
                 onPressed: () {
-                  widget.onEdit();
+                  widget.onClick(ProxyItemAction.edit);
                 },
                 child: Row(
                   children: [
@@ -55,7 +54,9 @@ class _ProxyItemActionMenuState extends State<ProxyItemActionMenu> {
                   ],
                 )),
             MenuItemButton(
-                onPressed: isDeleteDisabled ? null : () => widget.onDelete(),
+                onPressed: isDeleteDisabled
+                    ? null
+                    : () => widget.onClick(ProxyItemAction.delete),
                 child: Row(
                   children: [
                     Icon(
