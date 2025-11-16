@@ -52,10 +52,10 @@ class _ProxyListItemState extends State<ProxyListItem> {
             ],
           ),
           ProxyItemActionMenu(
-            onDelete: widget.onDelete,
-            onEdit: widget.onEdit,
-            controller: menuController,
-          )
+              onDelete: widget.onDelete,
+              onEdit: widget.onEdit,
+              controller: menuController,
+              id: widget.item.id)
         ],
       ),
       value: item.id,

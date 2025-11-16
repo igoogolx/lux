@@ -2,6 +2,8 @@ import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:lux/model/app.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:window_manager/window_manager.dart';
@@ -151,6 +153,8 @@ class _State extends State<AppHeaderBar> with WindowListener {
           setState(() {
             if (!isLoadingSwitch) {
               isStarted = value.isStarted;
+              Provider.of<AppStateModel>(context, listen: false)
+                  .updateIsStarted(value.isStarted);
             }
           });
         });

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lux/model/app.dart';
 import 'package:lux/widget/proxy_list_card.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -35,6 +37,8 @@ class _AppBodyState extends State<AppBody> with WindowListener {
     final value = await widget.coreManager.getProxyList();
     setState(() {
       proxyListGroup = value;
+      Provider.of<AppStateModel>(context, listen: false)
+          .updateSelectedProxyId(proxyListGroup.selectedId);
       for (var group in proxyListGroup.groups) {
         var key = group.url;
         if (!isCollapsedMap.containsKey(key)) {
@@ -63,6 +67,8 @@ class _AppBodyState extends State<AppBody> with WindowListener {
       await widget.coreManager.selectProxy(id);
       setState(() {
         proxyListGroup.selectedId = id;
+        Provider.of<AppStateModel>(context, listen: false)
+            .updateSelectedProxyId(id);
         var curProxy = proxyListGroup.allProxies.firstWhere((p) => p.id == id);
 
         var newCurProxyInfo = curProxy.name.isNotEmpty
