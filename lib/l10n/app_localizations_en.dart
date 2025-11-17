@@ -106,4 +106,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get delete => 'Delete';
+
+  @override
+  String get qrCode => 'QR Code';
+
+  @override
+  String get addProxyTip => 'Add new proxy';
 }

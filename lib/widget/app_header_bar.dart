@@ -204,7 +204,7 @@ class _State extends State<AppHeaderBar> with WindowListener {
             ),
             SizedBox(width: 4),
             IconButton(
-                tooltip: tr().goWebDashboardTip,
+                tooltip: tr().addProxyTip,
                 onPressed: _handleAdd,
                 icon: const Icon(
                   Icons.add,

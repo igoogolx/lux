@@ -8,13 +8,14 @@ class ProxyItemActionMenu extends StatefulWidget {
   final void Function(ProxyItemAction action) onClick;
   final MenuController controller;
   final String id;
+  final String type;
 
-  const ProxyItemActionMenu({
-    super.key,
-    required this.controller,
-    required this.onClick,
-    required this.id,
-  });
+  const ProxyItemActionMenu(
+      {super.key,
+      required this.controller,
+      required this.onClick,
+      required this.id,
+      required this.type});
 
   @override
   State<ProxyItemActionMenu> createState() => _ProxyItemActionMenuState();
@@ -33,52 +34,74 @@ class _ProxyItemActionMenuState extends State<ProxyItemActionMenu> {
     return Consumer<AppStateModel>(builder: (context, appState, child) {
       final isDeleteDisabled =
           !appState.isStarted && appState.selectedProxyId == widget.id;
-      return MenuAnchor(
-          childFocusNode: buttonFocusNode,
-          controller: widget.controller,
-          menuChildren: <Widget>[
+      final actionItems = <Widget>[
+        MenuItemButton(
+            onPressed: () {
+              widget.onClick(ProxyItemAction.edit);
+            },
+            child: Row(
+              children: [
+                Icon(
+                  Icons.edit_outlined,
+                  size: 16,
+                ),
+                SizedBox(
+                  width: 4,
+                ),
+                Text(tr().edit)
+              ],
+            )),
+        MenuItemButton(
+            onPressed: isDeleteDisabled
+                ? null
+                : () => widget.onClick(ProxyItemAction.delete),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.delete_outline,
+                  size: 16,
+                  color: isDeleteDisabled
+                      ? null
+                      : Theme.of(context).colorScheme.error,
+                ),
+                SizedBox(
+                  width: 4,
+                ),
+                Text(
+                  tr().delete,
+                  style: isDeleteDisabled
+                      ? null
+                      : TextStyle(color: Theme.of(context).colorScheme.error),
+                )
+              ],
+            )),
+      ];
+
+      if (widget.type == "ss") {
+        actionItems.insert(
+            1,
             MenuItemButton(
                 onPressed: () {
-                  widget.onClick(ProxyItemAction.edit);
+                  widget.onClick(ProxyItemAction.qrCode);
                 },
                 child: Row(
                   children: [
                     Icon(
-                      Icons.edit_outlined,
+                      Icons.qr_code,
                       size: 16,
                     ),
                     SizedBox(
                       width: 4,
                     ),
-                    Text(tr().edit)
+                    Text(tr().qrCode)
                   ],
-                )),
-            MenuItemButton(
-                onPressed: isDeleteDisabled
-                    ? null
-                    : () => widget.onClick(ProxyItemAction.delete),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.delete_outline,
-                      size: 16,
-                      color: isDeleteDisabled
-                          ? null
-                          : Theme.of(context).colorScheme.error,
-                    ),
-                    SizedBox(
-                      width: 4,
-                    ),
-                    Text(
-                      tr().delete,
-                      style: isDeleteDisabled
-                          ? null
-                          : TextStyle(
-                              color: Theme.of(context).colorScheme.error),
-                    )
-                  ],
-                )),
-          ],
+                )));
+      }
+
+      return MenuAnchor(
+          childFocusNode: buttonFocusNode,
+          controller: widget.controller,
+          menuChildren: actionItems,
           builder: (_, MenuController controller, Widget? child) {
             return IconButton(
               focusNode: buttonFocusNode,

@@ -53,7 +53,8 @@ class _ProxyListItemState extends State<ProxyListItem> {
           ProxyItemActionMenu(
               onClick: widget.onChange,
               controller: menuController,
-              id: widget.item.id)
+              id: widget.item.id,
+              type: widget.item.type)
         ],
       ),
       value: item.id,
