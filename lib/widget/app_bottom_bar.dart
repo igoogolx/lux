@@ -100,7 +100,7 @@ class _AppBottomBarState extends State<AppBottomBar> with WindowListener {
                   trafficData?.total != null ? "${trafficData?.total}" : "0 B"),
             ),
           ),
-          SizedBox(width: 4),
+          SizedBox(width: 8),
           Tooltip(
             message: trafficData?.uploadMsg ?? "",
             child: Wrap(
