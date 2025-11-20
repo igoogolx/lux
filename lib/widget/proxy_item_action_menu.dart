@@ -33,7 +33,7 @@ class _ProxyItemActionMenuState extends State<ProxyItemActionMenu> {
   Widget build(BuildContext context) {
     return Consumer<AppStateModel>(builder: (context, appState, child) {
       final isDeleteDisabled =
-          !appState.isStarted && appState.selectedProxyId == widget.id;
+          appState.isStarted && appState.selectedProxyId == widget.id;
       final actionItems = <Widget>[
         MenuItemButton(
             onPressed: () {
