@@ -8,6 +8,7 @@
 ### Bug fixes 🐛
 
 * fix: selected proxy can be deleted when Lux is started
+* fix: width of text in bottom bar is not fixed in native UI
 
 ### Other changes 
 
