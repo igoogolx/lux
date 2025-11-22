@@ -4,6 +4,7 @@
 
 * feat: support qr code for shadowsocks from native UI
 * feat: support adding new proxy from native UI
+* feat: display v4 ip address of local server in Setting
 
 ### Bug fixes 🐛
 
