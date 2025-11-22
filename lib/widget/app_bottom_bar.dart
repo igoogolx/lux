@@ -95,10 +95,9 @@ class _AppBottomBarState extends State<AppBottomBar> with WindowListener {
           Tooltip(
             message: trafficData?.totalMsg ?? "",
             child: SizedBox(
-              width: 64,
+              width: 68,
               child: Text(
                 trafficData?.total != null ? "${trafficData?.total}" : "0 B",
-                style: TextStyle(fontSize: 12),
               ),
             ),
           ),
@@ -110,12 +109,11 @@ class _AppBottomBarState extends State<AppBottomBar> with WindowListener {
               children: [
                 Icon(Icons.arrow_upward_sharp, size: 14),
                 SizedBox(
-                  width: 72,
+                  width: 76,
                   child: Text(
                     trafficData?.upload != null
                         ? "${trafficData?.upload}/s"
                         : "0 B/s",
-                    style: TextStyle(fontSize: 12),
                   ),
                 ),
               ],
@@ -128,12 +126,11 @@ class _AppBottomBarState extends State<AppBottomBar> with WindowListener {
               children: [
                 Icon(Icons.arrow_downward_sharp, size: 14),
                 SizedBox(
-                  width: 72,
+                  width: 76,
                   child: Text(
                     trafficData?.download != null
                         ? "${trafficData?.download}/s"
                         : "0 B/s",
-                    style: TextStyle(fontSize: 12),
                   ),
                 ),
               ],
@@ -144,7 +141,6 @@ class _AppBottomBarState extends State<AppBottomBar> with WindowListener {
             message: tr().proxyModeTooltip,
             child: Text(
               getModeLabel(proxyMode),
-              style: TextStyle(fontSize: 12),
             ),
           ),
         ],
