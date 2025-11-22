@@ -29,5 +29,7 @@
   "elevateCoreStep":"提升 lux_core 的权限失败。 请尝试手动提升: \n 1. 复制以下命令并在终端执行 \n 2. 重启 Lux",
   "bottomBarTip": "鼠标移动到网速和模式文本上以查看更多信息",
   "edit": "编辑",
-  "delete": "删除"
+  "delete": "删除",
+  "qrCode": "二维码",
+  "addProxyTip": "添加新代理"
 }

@@ -48,7 +48,6 @@ class _HomeState extends State<Home>
   String homeDir = "";
   CoreManager? coreManager;
   ValueNotifier<bool> isCoreReady = ValueNotifier<bool>(false);
-  ValueNotifier<bool> isWebviewReady = ValueNotifier<bool>(false);
   Widget? dashboardWidget;
   WebSocketChannel? eventChannel;
   late final AppLifecycleListener _listener;
@@ -162,10 +161,6 @@ class _HomeState extends State<Home>
             case 'open_web_dashboard':
               {
                 launchUrl(Uri.parse(urlStr));
-              }
-            case 'set_web_dashboard_is_ready':
-              {
-                isWebviewReady.value = true;
               }
             case 'exit_app':
               {

@@ -283,6 +283,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete'**
   String get delete;
+
+  /// No description provided for @qrCode.
+  ///
+  /// In en, this message translates to:
+  /// **'QR Code'**
+  String get qrCode;
+
+  /// No description provided for @addProxyTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Add new proxy'**
+  String get addProxyTip;
 }
 
 class _AppLocalizationsDelegate

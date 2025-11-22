@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:lux/const/const.dart';
+import 'package:lux/model/app.dart';
 import 'package:lux/widget/proxy_list_card.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -35,6 +38,8 @@ class _AppBodyState extends State<AppBody> with WindowListener {
     final value = await widget.coreManager.getProxyList();
     setState(() {
       proxyListGroup = value;
+      Provider.of<AppStateModel>(context, listen: false)
+          .updateSelectedProxyId(proxyListGroup.selectedId);
       for (var group in proxyListGroup.groups) {
         var key = group.url;
         if (!isCollapsedMap.containsKey(key)) {
@@ -63,6 +68,8 @@ class _AppBodyState extends State<AppBody> with WindowListener {
       await widget.coreManager.selectProxy(id);
       setState(() {
         proxyListGroup.selectedId = id;
+        Provider.of<AppStateModel>(context, listen: false)
+            .updateSelectedProxyId(id);
         var curProxy = proxyListGroup.allProxies.firstWhere((p) => p.id == id);
 
         var newCurProxyInfo = curProxy.name.isNotEmpty
@@ -117,6 +124,22 @@ class _AppBodyState extends State<AppBody> with WindowListener {
     launchUrl(Uri.parse(editingUrl));
   }
 
+  void _handleQrCode(ProxyItem item) async {
+    final editingUrl = "${widget.dashboardUrl}&mode=qrCode&proxyId=${item.id}";
+    launchUrl(Uri.parse(editingUrl));
+  }
+
+  void _handleItemChange(ProxyItemAction action, ProxyItem item) async {
+    switch (action) {
+      case ProxyItemAction.delete:
+        _handleDeleteItem(item);
+      case ProxyItemAction.edit:
+        _handleEditItem(item);
+      case ProxyItemAction.qrCode:
+        _handleQrCode(item);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return RadioGroup<String>(
@@ -133,8 +156,7 @@ class _AppBodyState extends State<AppBody> with WindowListener {
                     isCollapsed: getIsCollapsed(proxyListGroup.groups[index]),
                     onCollapse: () =>
                         {handleCollapse(proxyListGroup.groups[index])},
-                    onDeleteItem: _handleDeleteItem,
-                    onEditItem: _handleEditItem,
+                    onItemChange: _handleItemChange,
                   );
                 },
               ));

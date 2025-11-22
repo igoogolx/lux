@@ -2,14 +2,14 @@
 
 ### New features ✨
 
-* feat: support editing and deleting proxy item from native UI
-* feat: show proxy type in native UI
-* feat: handle core starting error
-* feat: tip for bottom bar
+* feat: support qr code for shadowsocks from native UI
+* feat: support adding new proxy from native UI
+* feat: display v4 ip address of local server in Setting
 
 ### Bug fixes 🐛
 
-* fix: collapse state of card is lost when scrolling
+* fix: selected proxy can be deleted when Lux is started
+* fix: width of text in bottom bar is not fixed in native UI
 
 ### Other changes 
 

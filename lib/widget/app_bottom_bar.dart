@@ -91,39 +91,52 @@ class _AppBottomBarState extends State<AppBottomBar> with WindowListener {
               size: 16,
             ),
           ),
-          SizedBox(width: 8),
+          SizedBox(width: 4),
           Tooltip(
             message: trafficData?.totalMsg ?? "",
-            child: Text(
-                trafficData?.total != null ? "${trafficData?.total}" : "0 B"),
+            child: SizedBox(
+              width: 68,
+              child: Text(
+                trafficData?.total != null ? "${trafficData?.total}" : "0 B",
+              ),
+            ),
           ),
-          SizedBox(width: 16),
+          SizedBox(width: 4),
           Tooltip(
             message: trafficData?.uploadMsg ?? "",
             child: Wrap(
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
                 Icon(Icons.arrow_upward_sharp, size: 14),
-                Text(trafficData?.upload != null
-                    ? "${trafficData?.upload}/s"
-                    : "0 B/s"),
+                SizedBox(
+                  width: 76,
+                  child: Text(
+                    trafficData?.upload != null
+                        ? "${trafficData?.upload}/s"
+                        : "0 B/s",
+                  ),
+                ),
               ],
             ),
           ),
-          SizedBox(width: 8),
           Tooltip(
             message: trafficData?.downloadMsg ?? "",
             child: Wrap(
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
                 Icon(Icons.arrow_downward_sharp, size: 14),
-                Text(trafficData?.download != null
-                    ? "${trafficData?.download}/s"
-                    : "0 B/s"),
+                SizedBox(
+                  width: 76,
+                  child: Text(
+                    trafficData?.download != null
+                        ? "${trafficData?.download}/s"
+                        : "0 B/s",
+                  ),
+                ),
               ],
             ),
           ),
-          SizedBox(width: 24),
+          SizedBox(width: 4),
           Tooltip(
             message: tr().proxyModeTooltip,
             child: Text(

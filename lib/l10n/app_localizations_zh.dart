@@ -106,4 +106,10 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get delete => '删除';
+
+  @override
+  String get qrCode => '二维码';
+
+  @override
+  String get addProxyTip => '添加新代理';
 }

@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:lux/widget/proxy_item_action_menu.dart';
 
+import '../const/const.dart';
 import '../core/core_config.dart';
 
 class ProxyListItem extends StatefulWidget {
   final ProxyItem item;
-  final Function onDelete;
-  final Function onEdit;
+  final void Function(ProxyItemAction action) onChange;
   const ProxyListItem({
     super.key,
     required this.item,
-    required this.onDelete,
-    required this.onEdit,
+    required this.onChange,
   });
 
   @override
@@ -52,10 +51,10 @@ class _ProxyListItemState extends State<ProxyListItem> {
             ],
           ),
           ProxyItemActionMenu(
-            onDelete: widget.onDelete,
-            onEdit: widget.onEdit,
-            controller: menuController,
-          )
+              onClick: widget.onChange,
+              controller: menuController,
+              id: widget.item.id,
+              type: widget.item.type)
         ],
       ),
       value: item.id,

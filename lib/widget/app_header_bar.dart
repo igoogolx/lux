@@ -2,6 +2,8 @@ import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:lux/model/app.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:window_manager/window_manager.dart';
@@ -151,6 +153,8 @@ class _State extends State<AppHeaderBar> with WindowListener {
           setState(() {
             if (!isLoadingSwitch) {
               isStarted = value.isStarted;
+              Provider.of<AppStateModel>(context, listen: false)
+                  .updateIsStarted(value.isStarted);
             }
           });
         });
@@ -161,6 +165,11 @@ class _State extends State<AppHeaderBar> with WindowListener {
   @override
   void onWindowFocus() {
     refreshData();
+  }
+
+  void _handleAdd() async {
+    final addingUrl = "${widget.urlStr}&mode=add";
+    launchUrl(Uri.parse(addingUrl));
   }
 
   @override
@@ -176,7 +185,6 @@ class _State extends State<AppHeaderBar> with WindowListener {
         leading: IconButton(
             tooltip: tr().goWebDashboardTip,
             onPressed: openWebDashboard,
-            padding: EdgeInsetsGeometry.all(0),
             icon: const Icon(
               Icons.settings,
             )),
@@ -195,6 +203,12 @@ class _State extends State<AppHeaderBar> with WindowListener {
               ),
             ),
             SizedBox(width: 4),
+            IconButton(
+                tooltip: tr().addProxyTip,
+                onPressed: _handleAdd,
+                icon: const Icon(
+                  Icons.add,
+                )),
             Spacer(),
             Text(
               widget.curProxyInfo,
