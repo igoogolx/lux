@@ -97,10 +97,12 @@ class _AppBottomBarState extends State<AppBottomBar> with WindowListener {
             child: SizedBox(
               width: 64,
               child: Text(
-                  trafficData?.total != null ? "${trafficData?.total}" : "0 B"),
+                trafficData?.total != null ? "${trafficData?.total}" : "0 B",
+                style: TextStyle(fontSize: 12),
+              ),
             ),
           ),
-          SizedBox(width: 8),
+          SizedBox(width: 4),
           Tooltip(
             message: trafficData?.uploadMsg ?? "",
             child: Wrap(
@@ -109,9 +111,12 @@ class _AppBottomBarState extends State<AppBottomBar> with WindowListener {
                 Icon(Icons.arrow_upward_sharp, size: 14),
                 SizedBox(
                   width: 72,
-                  child: Text(trafficData?.upload != null
-                      ? "${trafficData?.upload}/s"
-                      : "0 B/s"),
+                  child: Text(
+                    trafficData?.upload != null
+                        ? "${trafficData?.upload}/s"
+                        : "0 B/s",
+                    style: TextStyle(fontSize: 12),
+                  ),
                 ),
               ],
             ),
@@ -124,18 +129,22 @@ class _AppBottomBarState extends State<AppBottomBar> with WindowListener {
                 Icon(Icons.arrow_downward_sharp, size: 14),
                 SizedBox(
                   width: 72,
-                  child: Text(trafficData?.download != null
-                      ? "${trafficData?.download}/s"
-                      : "0 B/s"),
+                  child: Text(
+                    trafficData?.download != null
+                        ? "${trafficData?.download}/s"
+                        : "0 B/s",
+                    style: TextStyle(fontSize: 12),
+                  ),
                 ),
               ],
             ),
           ),
-          SizedBox(width: 8),
+          SizedBox(width: 4),
           Tooltip(
             message: tr().proxyModeTooltip,
             child: Text(
               getModeLabel(proxyMode),
+              style: TextStyle(fontSize: 12),
             ),
           ),
         ],
