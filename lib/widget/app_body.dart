@@ -44,6 +44,7 @@ class _AppBodyState extends State<AppBody> with WindowListener {
     setState(() {
       proxyListGroup = proxyListValue;
       subscriptionList = subscriptionListValue.value;
+      proxyListGroup.sort(subscriptionList);
       Provider.of<AppStateModel>(context, listen: false)
           .updateSelectedProxyId(proxyListGroup.selectedId);
       for (var group in proxyListGroup.groups) {

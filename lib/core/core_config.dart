@@ -172,6 +172,22 @@ class ProxyListGroup {
 
     return groups;
   }
+
+  void sort(List<SubscriptionItem> subscriptions) {
+    final sortedIds = <String>[localServersGroupKey];
+    for (var item in subscriptions) {
+      sortedIds.add(item.id);
+    }
+    final newGroups = <ProxyList>[];
+    for (var sortedId in sortedIds) {
+      var filteredGroups = groups.where((g) => g.id == sortedId);
+      var group = filteredGroups.firstOrNull;
+      if (group != null) {
+        newGroups.add(group);
+      }
+    }
+    groups = newGroups;
+  }
 }
 
 class ProxyList {
