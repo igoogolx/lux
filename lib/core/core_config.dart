@@ -316,9 +316,9 @@ class SubscriptionItem {
 
   SubscriptionItem.fromJson(Map<String, dynamic> json)
       : id = (json['id'] as String),
-        url = (json['type'] as String),
+        url = (json['url'] as String),
         name = (json['name'] as String),
-        remark = (json['server'] as String);
+        remark = (json['remark'] as String);
 
   Map<String, dynamic> toJson() => {
         'id': id,
