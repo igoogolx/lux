@@ -9,6 +9,7 @@ class ProxyListCard extends StatefulWidget {
   final ProxyList proxyList;
   final Function onCollapse;
   final bool isCollapsed;
+  final List<SubscriptionItem> subscriptionList;
 
   final void Function(ProxyItemAction action, ProxyItem item) onItemChange;
 
@@ -18,6 +19,7 @@ class ProxyListCard extends StatefulWidget {
     required this.onCollapse,
     required this.isCollapsed,
     required this.onItemChange,
+    required this.subscriptionList,
   });
 
   @override
@@ -25,21 +27,23 @@ class ProxyListCard extends StatefulWidget {
 }
 
 class _ProxyListCardState extends State<ProxyListCard> {
-  String? previewInfo;
-
-  @override
-  void initState() {
-    super.initState();
-    if (widget.proxyList.url != localServersGroupKey) {
+  String getTitle() {
+    if (widget.proxyList.id != localServersGroupKey) {
       try {
-        final parsedUrl = Uri.parse(widget.proxyList.url);
-        setState(() {
-          previewInfo = parsedUrl.host;
-        });
+        var filteredSubscriptions = widget.subscriptionList
+            .where((item) => item.id == widget.proxyList.id);
+        var curSubscription = filteredSubscriptions.firstOrNull;
+        if (curSubscription != null) {
+          if (curSubscription.name.isNotEmpty) {
+            return curSubscription.name;
+          }
+          return Uri.parse(curSubscription.url).host;
+        }
       } catch (e) {
-        debugPrint("error parsing URL: $e");
+        return "invalid proxy group title";
       }
     }
+    return tr().localServer;
   }
 
   @override
@@ -50,6 +54,7 @@ class _ProxyListCardState extends State<ProxyListCard> {
   @override
   Widget build(BuildContext context) {
     final proxyList = widget.proxyList;
+    final title = getTitle();
 
     return Card(
       margin: EdgeInsetsGeometry.only(left: 6, right: 6, top: 8, bottom: 8),
@@ -79,9 +84,7 @@ class _ProxyListCardState extends State<ProxyListCard> {
                         ? Icons.keyboard_arrow_up
                         : Icons.keyboard_arrow_down),
                     Text(
-                      previewInfo is String
-                          ? previewInfo as String
-                          : tr().localServer,
+                      title,
                       style: TextStyle(fontSize: 12),
                     )
                   ],

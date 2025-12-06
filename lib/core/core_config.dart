@@ -110,18 +110,18 @@ class ProxyItem {
   final String type;
   final String? server;
   final int? port;
-  final String? subscriptionUrl;
+  final String? subscription;
 
-  ProxyItem(this.id, this.name, this.server, this.port, this.subscriptionUrl,
-      this.type);
+  ProxyItem(
+      this.id, this.name, this.server, this.port, this.subscription, this.type);
 
   ProxyItem.fromJson(Map<String, dynamic> json)
       : id = (json['id'] as String),
         name = (json['name'] as String),
         type = (json['type'] as String),
         server = (json['server'] as String),
-        subscriptionUrl = (json['subscriptionUrl'] is String
-            ? json['subscriptionUrl'] as String
+        subscription = (json['subscription'] is String
+            ? json['subscription'] as String
             : null),
         port = (json['port'] as int);
 
@@ -151,8 +151,8 @@ class ProxyListGroup {
   List<ProxyList> convertListToGroup(List<ProxyItem> items) {
     Map<String, List<ProxyItem>> groupMap = {};
     for (var item in items) {
-      if (item.subscriptionUrl is String) {
-        var groupName = item.subscriptionUrl as String;
+      if (item.subscription is String) {
+        var groupName = item.subscription as String;
         if (!groupMap.containsKey(groupName)) {
           groupMap[groupName] = [];
         }
@@ -176,9 +176,9 @@ class ProxyListGroup {
 
 class ProxyList {
   final List<ProxyItem> proxies;
-  final String url;
+  final String id;
 
-  ProxyList(this.proxies, this.url);
+  ProxyList(this.proxies, this.id);
 
   Map<String, dynamic> toJson() =>
       {'proxies': proxies.map((asset) => asset.toJson()).toList()};
@@ -299,4 +299,48 @@ class Setting {
             : (json['mode'] == 'system' ? ProxyMode.system : ProxyMode.mixed))
         : ProxyMode.mixed;
   }
+}
+
+class SubscriptionItem {
+  final String id;
+  final String url;
+  final String name;
+  final String remark;
+
+  SubscriptionItem(
+    this.id,
+    this.url,
+    this.name,
+    this.remark,
+  );
+
+  SubscriptionItem.fromJson(Map<String, dynamic> json)
+      : id = (json['id'] as String),
+        url = (json['type'] as String),
+        name = (json['name'] as String),
+        remark = (json['server'] as String);
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'url': url,
+        'remark': remark,
+      };
+}
+
+class SubscriptionList {
+  late List<SubscriptionItem> value;
+
+  SubscriptionList(this.value);
+
+  SubscriptionList.fromJson(Map<String, dynamic> json) {
+    value = json['subscriptions'] != null
+        ? (json['subscriptions'] as List)
+            .map((asset) =>
+                SubscriptionItem.fromJson(asset as Map<String, dynamic>))
+            .toList()
+        : <SubscriptionItem>[];
+  }
+
+  Map<String, dynamic> toJson() => {'value': value};
 }

@@ -256,4 +256,9 @@ class CoreManager {
   Future<void> deleteProxies(List<String> ids) async {
     await dio.delete('$baseHttpUrl/proxies', data: {'ids': ids});
   }
+
+  Future<SubscriptionList> getSubscriptionList() async {
+    final res = await dio.get('$baseHttpUrl/proxies/subscriptions');
+    return SubscriptionList.fromJson(res.data);
+  }
 }
