@@ -170,9 +170,9 @@ class CoreManager {
     return "";
   }
 
-  Future<ProxyListGroup> getProxyList() async {
+  Future<ProxyList> getProxyList() async {
     final proxiesRes = await dio.get('$baseHttpUrl/proxies');
-    return ProxyListGroup.fromJson(proxiesRes.data);
+    return ProxyList.fromJson(proxiesRes.data);
   }
 
   Future<RuleList> getRuleList() async {

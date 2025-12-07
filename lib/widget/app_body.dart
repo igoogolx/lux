@@ -26,8 +26,10 @@ class AppBody extends StatefulWidget {
 }
 
 class _AppBodyState extends State<AppBody> with WindowListener {
-  ProxyListGroup proxyListGroup =
-      ProxyListGroup(<ProxyItem>[], "", <ProxyList>[]);
+  ProxyListGroup proxyListGroup = ProxyListGroup(
+      allProxies: <ProxyItem>[],
+      selectedId: "",
+      subscriptions: <SubscriptionItem>[]);
 
   List<SubscriptionItem> subscriptionList = <SubscriptionItem>[];
 
@@ -38,13 +40,16 @@ class _AppBodyState extends State<AppBody> with WindowListener {
   var isCollapsedMap = <String, bool>{};
 
   Future<void> refreshProxyList() async {
-    final proxyListValue = await widget.coreManager.getProxyList();
+    final proxyList = await widget.coreManager.getProxyList();
     final subscriptionListValue =
         await widget.coreManager.getSubscriptionList();
     setState(() {
-      proxyListGroup = proxyListValue;
       subscriptionList = subscriptionListValue.value;
-      proxyListGroup.sort(subscriptionList);
+      proxyListGroup = ProxyListGroup(
+          allProxies: proxyList.proxies,
+          subscriptions: subscriptionList,
+          selectedId: proxyList.id);
+
       Provider.of<AppStateModel>(context, listen: false)
           .updateSelectedProxyId(proxyListGroup.selectedId);
       for (var group in proxyListGroup.groups) {
