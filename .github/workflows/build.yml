@@ -96,6 +96,11 @@ jobs:
           patterns: |
             artifact/*
 
+      - name: Create a release
+        run: |
+          RELEASE_NOTES="Release created by [Lux](https://github.com/${{ github.repository }}) workflow run [#${{ github.run_number }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/attempts/${{ github.run_attempt }})<br/>"
+          echo "$RELEASE_NOTES" >> CHANGELOG.md
+
       - name: GH Release
         uses: softprops/action-gh-release@v2
         with:
