@@ -129,6 +129,9 @@ class _AppBodyState extends State<AppBody> with WindowListener {
   void _handleDeleteItem(ProxyItem item) async {
     await widget.coreManager.deleteProxies([item.id]);
     await refreshData();
+    if (item.id == proxyListGroup.selectedId) {
+      widget.onCurProxyInfoChange("");
+    }
   }
 
   void _handleEditItem(ProxyItem item) async {
