@@ -181,6 +181,7 @@ class _State extends State<AppHeaderBar> with WindowListener {
         return DropdownMenuEntry(value: name, label: label);
       }),
     );
+    final isSwitchDisabled = isLoadingSwitch || widget.curProxyInfo.isEmpty;
     return AppBar(
         leading: IconButton(
             tooltip: tr().goWebDashboardTip,
@@ -220,7 +221,7 @@ class _State extends State<AppHeaderBar> with WindowListener {
               child: FittedBox(
                 child: Switch(
                   value: isStarted,
-                  onChanged: isLoadingSwitch ? null : onSwitchChanged,
+                  onChanged: isSwitchDisabled ? null : onSwitchChanged,
                 ),
               ),
             ),
