@@ -83,7 +83,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get notElevated => '没有以管理员权限运行';
 
   @override
-  String get localServer => '本地服务器';
+  String get localServer => '本地节点';
 
   @override
   String get coreRunError => '启动 lux_core 时遇到错误';
