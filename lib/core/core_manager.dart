@@ -258,7 +258,7 @@ class CoreManager {
   }
 
   Future<SubscriptionList> getSubscriptionList() async {
-    final res = await dio.get('$baseHttpUrl/proxies/subscriptions');
+    final res = await dio.get('$baseHttpUrl/subscription/all');
     return SubscriptionList.fromJson(res.data);
   }
 }
