@@ -26,8 +26,13 @@ class AppBody extends StatefulWidget {
 }
 
 class _AppBodyState extends State<AppBody> with WindowListener {
-  ProxyListGroup proxyListGroup =
-      ProxyListGroup(<ProxyItem>[], "", <ProxyList>[]);
+  ProxyListGroup proxyListGroup = ProxyListGroup(
+      allProxies: <ProxyItem>[],
+      selectedId: "",
+      subscriptions: <SubscriptionItem>[]);
+
+  List<SubscriptionItem> subscriptionList = <SubscriptionItem>[];
+
   bool isLoadingProxyList = false;
 
   bool isLoadingProxyRadio = false;
@@ -35,13 +40,20 @@ class _AppBodyState extends State<AppBody> with WindowListener {
   var isCollapsedMap = <String, bool>{};
 
   Future<void> refreshProxyList() async {
-    final value = await widget.coreManager.getProxyList();
+    final proxyList = await widget.coreManager.getProxyList();
+    final subscriptionListValue =
+        await widget.coreManager.getSubscriptionList();
     setState(() {
-      proxyListGroup = value;
+      subscriptionList = subscriptionListValue.value;
+      proxyListGroup = ProxyListGroup(
+          allProxies: proxyList.proxies,
+          subscriptions: subscriptionList,
+          selectedId: proxyList.id);
+
       Provider.of<AppStateModel>(context, listen: false)
           .updateSelectedProxyId(proxyListGroup.selectedId);
       for (var group in proxyListGroup.groups) {
-        var key = group.url;
+        var key = group.id;
         if (!isCollapsedMap.containsKey(key)) {
           setState(() {
             isCollapsedMap[key] = true;
@@ -103,20 +115,23 @@ class _AppBodyState extends State<AppBody> with WindowListener {
   }
 
   bool getIsCollapsed(ProxyList item) {
-    return isCollapsedMap.containsKey(item.url)
-        ? (isCollapsedMap[item.url] as bool)
+    return isCollapsedMap.containsKey(item.id)
+        ? (isCollapsedMap[item.id] as bool)
         : true;
   }
 
   void handleCollapse(ProxyList item) {
     setState(() {
-      isCollapsedMap[item.url] = !getIsCollapsed(item);
+      isCollapsedMap[item.id] = !getIsCollapsed(item);
     });
   }
 
   void _handleDeleteItem(ProxyItem item) async {
     await widget.coreManager.deleteProxies([item.id]);
     await refreshData();
+    if (item.id == proxyListGroup.selectedId) {
+      widget.onCurProxyInfoChange("");
+    }
   }
 
   void _handleEditItem(ProxyItem item) async {
@@ -152,11 +167,12 @@ class _AppBodyState extends State<AppBody> with WindowListener {
                 itemBuilder: (context, index) {
                   return ProxyListCard(
                     proxyList: proxyListGroup.groups[index],
-                    key: Key(proxyListGroup.groups[index].url),
+                    key: Key(proxyListGroup.groups[index].id),
                     isCollapsed: getIsCollapsed(proxyListGroup.groups[index]),
                     onCollapse: () =>
                         {handleCollapse(proxyListGroup.groups[index])},
                     onItemChange: _handleItemChange,
+                    subscriptionList: subscriptionList,
                   );
                 },
               ));

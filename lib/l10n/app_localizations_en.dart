@@ -83,7 +83,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notElevated => 'Not running with elevated permissions.';
 
   @override
-  String get localServer => 'Local Server';
+  String get localServer => 'Local Servers';
 
   @override
   String get coreRunError => 'Encounter an error when starting lux_core';

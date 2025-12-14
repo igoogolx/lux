@@ -239,7 +239,7 @@ abstract class AppLocalizations {
   /// No description provided for @localServer.
   ///
   /// In en, this message translates to:
-  /// **'Local Server'**
+  /// **'Local Servers'**
   String get localServer;
 
   /// No description provided for @coreRunError.

@@ -104,24 +104,67 @@ Future<ProxyMode> readProxyMode() async {
   return ProxyMode.system;
 }
 
+List<ProxyList> sortProxyList(
+    List<ProxyList> groups, List<SubscriptionItem> subscriptions) {
+  final sortedIds = <String>[localServersGroupKey];
+  for (var i = subscriptions.length - 1; i >= 0; i--) {
+    sortedIds.add(subscriptions[i].id);
+  }
+  final newGroups = <ProxyList>[];
+  for (var sortedId in sortedIds) {
+    var filteredGroups = groups.where((g) => g.id == sortedId);
+    var group = filteredGroups.firstOrNull;
+    if (group != null) {
+      newGroups.add(group);
+    }
+  }
+  return newGroups;
+}
+
+List<ProxyList> convertProxyListToGroup(
+    List<ProxyItem> items, List<SubscriptionItem> subscriptions) {
+  Map<String, List<ProxyItem>> groupMap = {};
+  for (var item in items) {
+    if (item.subscription is String) {
+      var groupName = item.subscription as String;
+      if (!groupMap.containsKey(groupName)) {
+        groupMap[groupName] = [];
+      }
+      groupMap[groupName]!.add(item);
+    } else {
+      if (!groupMap.containsKey(localServersGroupKey)) {
+        groupMap[localServersGroupKey] = [];
+      }
+      groupMap[localServersGroupKey]!.add(item);
+    }
+  }
+
+  List<ProxyList> groups = [];
+  groupMap.forEach((groupName, proxies) {
+    groups.add(ProxyList(proxies, groupName));
+  });
+
+  return sortProxyList(groups, subscriptions);
+}
+
 class ProxyItem {
   final String id;
   final String name;
   final String type;
   final String? server;
   final int? port;
-  final String? subscriptionUrl;
+  final String? subscription;
 
-  ProxyItem(this.id, this.name, this.server, this.port, this.subscriptionUrl,
-      this.type);
+  ProxyItem(
+      this.id, this.name, this.server, this.port, this.subscription, this.type);
 
   ProxyItem.fromJson(Map<String, dynamic> json)
       : id = (json['id'] as String),
         name = (json['name'] as String),
         type = (json['type'] as String),
         server = (json['server'] as String),
-        subscriptionUrl = (json['subscriptionUrl'] is String
-            ? json['subscriptionUrl'] as String
+        subscription = (json['subscription'] is String
+            ? json['subscription'] as String
             : null),
         port = (json['port'] as int);
 
@@ -131,57 +174,81 @@ class ProxyItem {
       };
 }
 
-class ProxyListGroup {
-  late String selectedId;
-  late List<ProxyItem> allProxies;
-  late List<ProxyList> groups;
-
-  ProxyListGroup(this.allProxies, this.selectedId, this.groups);
-
-  ProxyListGroup.fromJson(Map<String, dynamic> json) {
-    allProxies = json['proxies'] != null
-        ? (json['proxies'] as List)
-            .map((asset) => ProxyItem.fromJson(asset as Map<String, dynamic>))
-            .toList()
-        : <ProxyItem>[];
-    groups = convertListToGroup(allProxies);
-    selectedId = (json['selectedId'] as String);
-  }
-
-  List<ProxyList> convertListToGroup(List<ProxyItem> items) {
-    Map<String, List<ProxyItem>> groupMap = {};
-    for (var item in items) {
-      if (item.subscriptionUrl is String) {
-        var groupName = item.subscriptionUrl as String;
-        if (!groupMap.containsKey(groupName)) {
-          groupMap[groupName] = [];
-        }
-        groupMap[groupName]!.add(item);
-      } else {
-        if (!groupMap.containsKey(localServersGroupKey)) {
-          groupMap[localServersGroupKey] = [];
-        }
-        groupMap[localServersGroupKey]!.add(item);
-      }
-    }
-
-    List<ProxyList> groups = [];
-    groupMap.forEach((groupName, proxies) {
-      groups.add(ProxyList(proxies, groupName));
-    });
-
-    return groups;
-  }
-}
-
 class ProxyList {
   final List<ProxyItem> proxies;
-  final String url;
+  final String id;
 
-  ProxyList(this.proxies, this.url);
+  ProxyList(this.proxies, this.id);
+
+  ProxyList.fromJson(Map<String, dynamic> json)
+      : proxies = json['proxies'] != null
+            ? (json['proxies'] as List)
+                .map((asset) =>
+                    ProxyItem.fromJson(asset as Map<String, dynamic>))
+                .toList()
+            : <ProxyItem>[],
+        id = (json['selectedId'] as String);
 
   Map<String, dynamic> toJson() =>
-      {'proxies': proxies.map((asset) => asset.toJson()).toList()};
+      {'proxies': proxies.map((asset) => asset.toJson()).toList(), id: id};
+}
+
+class SubscriptionItem {
+  final String id;
+  final String url;
+  final String name;
+  final String remark;
+
+  SubscriptionItem(
+    this.id,
+    this.url,
+    this.name,
+    this.remark,
+  );
+
+  SubscriptionItem.fromJson(Map<String, dynamic> json)
+      : id = (json['id'] as String),
+        url = (json['url'] as String),
+        name = (json['name'] as String),
+        remark = (json['remark'] as String);
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'url': url,
+        'remark': remark,
+      };
+}
+
+class SubscriptionList {
+  late List<SubscriptionItem> value;
+
+  SubscriptionList(this.value);
+
+  SubscriptionList.fromJson(Map<String, dynamic> json) {
+    value = json['subscriptions'] != null
+        ? (json['subscriptions'] as List)
+            .map((asset) =>
+                SubscriptionItem.fromJson(asset as Map<String, dynamic>))
+            .toList()
+        : <SubscriptionItem>[];
+  }
+
+  Map<String, dynamic> toJson() => {'value': value};
+}
+
+class ProxyListGroup {
+  final List<ProxyItem> allProxies;
+  final List<SubscriptionItem> subscriptions;
+  late String selectedId;
+
+  late List<ProxyList> groups;
+
+  ProxyListGroup(
+      {required this.allProxies,
+      required this.subscriptions,
+      required this.selectedId})
+      : groups = convertProxyListToGroup(allProxies, subscriptions);
 }
 
 class RuleList {

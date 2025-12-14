@@ -150,11 +150,20 @@ Future<void> checkForUpdate() async {
 }
 
 String formatBytes(int bytes) {
-  if (bytes < 1024 * 1024) return '${(bytes / 1024).toStringAsFixed(1)} KB';
-  if (bytes < 1024 * 1024 * 1024) {
-    return '${(bytes / (1024 * 1024)).toStringAsFixed(1)} M';
+  var unit = "";
+  var value = 0.0;
+  if (bytes < 1024 * 1024) {
+    value = bytes / 1024;
+    unit = "KB";
+  } else if (bytes < 1024 * 1024 * 1024) {
+    value = bytes / (1024 * 1024);
+    unit = "M";
+  } else {
+    value = (bytes / (1024 * 1024 * 1024));
+    unit = "G";
   }
-  return '${(bytes / (1024 * 1024 * 1024)).toStringAsFixed(1)} G';
+  final fixedNum = value > 1024 ? 0 : 1;
+  return '${value.toStringAsFixed(fixedNum)} $unit';
 }
 
 Future<String> getAppVersion() async {

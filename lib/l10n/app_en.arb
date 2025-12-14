@@ -22,7 +22,7 @@
   "bypassLabel": "Direct",
   "launchAtStartUpMessage": "Running in background",
   "notElevated": "Not running with elevated permissions.",
-  "localServer": "Local Server",
+  "localServer": "Local Servers",
   "coreRunError": "Encounter an error when starting lux_core",
   "somethingWrong":"Something wrong",
   "howToFix": "How to fix",
