@@ -32,7 +32,8 @@ class Notifier {
       macOS: initializationSettingsDarwin,
       windows: initializationSettingsWindows,
     );
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
+    await flutterLocalNotificationsPlugin.initialize(
+        settings: initializationSettings,
         onDidReceiveNotificationResponse: onDidReceiveNotificationResponse);
   }
 
@@ -45,7 +46,10 @@ class Notifier {
     );
 
     await flutterLocalNotificationsPlugin.show(
-        id++, Platform.isMacOS ? _appName : "", body, notificationDetails,
+        id: id++,
+        title: Platform.isMacOS ? _appName : "",
+        body: body,
+        notificationDetails: notificationDetails,
         payload: payload);
   }
 
