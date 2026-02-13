@@ -162,7 +162,7 @@ String formatBytes(int bytes) {
     value = (bytes / (1024 * 1024 * 1024));
     unit = "G";
   }
-  final fixedNum = value > 1024 ? 0 : 1;
+  final fixedNum = value >= 1000 ? 0 : 1;
   return '${value.toStringAsFixed(fixedNum)} $unit';
 }
 
