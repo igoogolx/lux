@@ -2,7 +2,7 @@
 
 ### Bug fixes 🐛
 
-* fix: overflowed styles of bottom bar in native UI
+* fix(windows): [high cpu usage](https://github.com/flutter/flutter/issues/182501) of flutter
 
 
 ### Other changes 
