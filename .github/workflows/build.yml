@@ -14,6 +14,11 @@ jobs:
         os: [windows-latest, macos-15, macos-15-intel]
 
     steps:
+      - if: matrix.os == 'macos-15'
+        name: Setup xcode version
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: "26.2"
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v6
         with:
