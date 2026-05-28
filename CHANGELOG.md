@@ -2,7 +2,7 @@
 
 ### Bug fixes 🐛
 
-* fix(windows): [high cpu usage](https://github.com/flutter/flutter/issues/182501) of flutter
+* fix(macOS): elevation not working on macOS-26
 
 
 ### Other changes 
