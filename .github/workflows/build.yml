@@ -76,7 +76,7 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           mv dist/${VERSION}/lux-${VERSION}-windows-setup.exe dist/${VERSION}/lux-${VERSION}-x64-windows.exe
 
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.os }}-artifact
           path: dist/*/*
