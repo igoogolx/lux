@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:lux/core/checksum.dart';
 import 'package:lux/util/utils.dart';
@@ -43,9 +44,14 @@ class ProcessManager {
       );
     } else {
       if (!kDebugMode) {
+        DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+        MacOsDeviceInfo macOsInfo = await deviceInfo.macOsInfo;
+        final isBiggerThanMacOs15 = macOsInfo.majorVersion > 15;
         var owner = await getFileOwner(path);
-        if (owner != "root") {
-          await verifyCoreBinary(path);
+        if (owner != "root" || isBiggerThanMacOs15) {
+          if (!isBiggerThanMacOs15) {
+            await verifyCoreBinary(path);
+          }
           var i10nLabel = await getInitI10nLabel();
           var code = await elevate(path, i10nLabel.macOSElevateServiceInfo);
           if (code != 0) {
