@@ -31,5 +31,16 @@
   "edit": "编辑",
   "delete": "删除",
   "qrCode": "二维码",
-  "addProxyTip": "添加新代理"
+  "addProxyTip": "添加新代理",
+  "peekPassword": "查看密码",
+  "peekPasswordTitle": "代理密码",
+  "peekPasswordElevationRequired": "需要管理员权限才能查看密码",
+  "peekPasswordNoPassword": "此代理未配置密码",
+  "peekPasswordElevationFailed": "权限提升失败，无法显示密码。",
+  "peekPasswordCopied": "密码已复制到剪贴板",
+  "lockPassword": "锁定密码",
+  "passwordLockedLabel": "密码已锁定",
+  "lockPasswordConfirmTitle": "锁定密码？",
+  "lockPasswordConfirmMessage": "此操作将永久禁止任何人查看此密码。代理将继续正常工作，但密码将永远无法被显示。此操作不可撤销。",
+  "lockPasswordSuccess": "密码已永久锁定"
 }

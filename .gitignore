@@ -51,3 +51,17 @@ config.json
 log.txt
 ChineseSimplified.isl
 devtools_options.yaml
+
+# Machine-specific build/deploy files (local only)
+BUILD.md
+JOURNAL.md
+upload_installer.py
+inject_sdk.ps1
+fix_reg.ps1
+copy_bin.ps1
+core_patches/
+.kiro/
+*.txt
+cleanup_*.ps1
+stop_services*.ps1
+lux_installed_backup.exe

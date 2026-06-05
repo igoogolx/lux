@@ -295,6 +295,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add new proxy'**
   String get addProxyTip;
+
+  /// No description provided for @peekPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Show Password'**
+  String get peekPassword;
+
+  /// No description provided for @peekPasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Proxy Password'**
+  String get peekPasswordTitle;
+
+  /// No description provided for @peekPasswordElevationRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Admin credentials required to view password'**
+  String get peekPasswordElevationRequired;
+
+  /// No description provided for @peekPasswordNoPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'No password configured for this proxy'**
+  String get peekPasswordNoPassword;
+
+  /// No description provided for @peekPasswordElevationFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Elevation failed. Cannot reveal password.'**
+  String get peekPasswordElevationFailed;
+
+  /// No description provided for @peekPasswordCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Password copied to clipboard'**
+  String get peekPasswordCopied;
+
+  /// No description provided for @lockPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock Password'**
+  String get lockPassword;
+
+  /// No description provided for @passwordLockedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Password Locked'**
+  String get passwordLockedLabel;
+
+  /// No description provided for @lockPasswordConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock Password?'**
+  String get lockPasswordConfirmTitle;
+
+  /// No description provided for @lockPasswordConfirmMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This will permanently prevent anyone from viewing this password. The proxy will continue to work, but the password can never be revealed again. This cannot be undone.'**
+  String get lockPasswordConfirmMessage;
+
+  /// No description provided for @lockPasswordSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Password locked permanently'**
+  String get lockPasswordSuccess;
 }
 
 class _AppLocalizationsDelegate

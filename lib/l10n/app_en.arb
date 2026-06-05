@@ -31,5 +31,16 @@
   "edit": "Edit",
   "delete": "Delete",
   "qrCode": "QR Code",
-  "addProxyTip": "Add new proxy"
+  "addProxyTip": "Add new proxy",
+  "peekPassword": "Show Password",
+  "peekPasswordTitle": "Proxy Password",
+  "peekPasswordElevationRequired": "Admin credentials required to view password",
+  "peekPasswordNoPassword": "No password configured for this proxy",
+  "peekPasswordElevationFailed": "Elevation failed. Cannot reveal password.",
+  "peekPasswordCopied": "Password copied to clipboard",
+  "lockPassword": "Lock Password",
+  "passwordLockedLabel": "Password Locked",
+  "lockPasswordConfirmTitle": "Lock Password?",
+  "lockPasswordConfirmMessage": "This will permanently prevent anyone from viewing this password. The proxy will continue to work, but the password can never be revealed again. This cannot be undone.",
+  "lockPasswordSuccess": "Password locked permanently"
 }

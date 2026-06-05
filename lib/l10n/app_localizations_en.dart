@@ -112,4 +112,40 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get addProxyTip => 'Add new proxy';
+
+  @override
+  String get peekPassword => 'Show Password';
+
+  @override
+  String get peekPasswordTitle => 'Proxy Password';
+
+  @override
+  String get peekPasswordElevationRequired =>
+      'Admin credentials required to view password';
+
+  @override
+  String get peekPasswordNoPassword => 'No password configured for this proxy';
+
+  @override
+  String get peekPasswordElevationFailed =>
+      'Elevation failed. Cannot reveal password.';
+
+  @override
+  String get peekPasswordCopied => 'Password copied to clipboard';
+
+  @override
+  String get lockPassword => 'Lock Password';
+
+  @override
+  String get passwordLockedLabel => 'Password Locked';
+
+  @override
+  String get lockPasswordConfirmTitle => 'Lock Password?';
+
+  @override
+  String get lockPasswordConfirmMessage =>
+      'This will permanently prevent anyone from viewing this password. The proxy will continue to work, but the password can never be revealed again. This cannot be undone.';
+
+  @override
+  String get lockPasswordSuccess => 'Password locked permanently';
 }
