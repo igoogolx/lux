@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
 import 'package:flutter/foundation.dart';
 import 'package:lux/error.dart';
 import 'package:lux/util/process_manager.dart';
@@ -58,7 +59,22 @@ class CoreManager {
     baseHttpUrl = "http://$baseUrl";
     baseWsUrl = "ws://$baseUrl";
     dio.transformer = BackgroundTransformer()..jsonDecodeCallback = parseJson;
-    dio.options.receiveTimeout = const Duration(seconds: 3);
+    dio.options.receiveTimeout = const Duration(seconds: 10);
+
+    // Bypass system proxy for localhost API calls to lux_core.
+    dio.httpClientAdapter = IOHttpClientAdapter(
+      createHttpClient: () {
+        final client = HttpClient();
+        client.findProxy = (uri) {
+          if (uri.host == '127.0.0.1' || uri.host == 'localhost') {
+            return 'DIRECT';
+          }
+          return HttpClient.findProxyFromEnvironment(uri);
+        };
+        return client;
+      },
+    );
+
     dio.interceptors.add(InterceptorsWrapper(onRequest:
         (RequestOptions options, RequestInterceptorHandler handler) async {
       final customHeaders = {
@@ -101,7 +117,7 @@ class CoreManager {
     final stopwatch = Stopwatch();
     stopwatch.start(); // Start the stopwatch
 
-    while (stopwatch.elapsedMilliseconds < 15000) {
+    while (stopwatch.elapsedMilliseconds < 30000) {
       try {
         final response = await dio.get(url);
 
@@ -260,5 +276,24 @@ class CoreManager {
   Future<SubscriptionList> getSubscriptionList() async {
     final res = await dio.get('$baseHttpUrl/subscription/all');
     return SubscriptionList.fromJson(res.data);
+  }
+
+  /// Fetches the full proxy detail including password for a given proxy ID.
+  Future<ProxyDetail?> getProxyDetail(String id) async {
+    try {
+      final res = await dio.get('$baseHttpUrl/proxies/$id');
+      if (res.data is Map<String, dynamic>) {
+        return ProxyDetail.fromJson(res.data);
+      }
+      return null;
+    } catch (e) {
+      debugPrint('Failed to get proxy detail: $e');
+      return null;
+    }
+  }
+
+  /// Locks a proxy's password so it can never be revealed again.
+  Future<void> lockProxyPassword(String id) async {
+    await dio.post('$baseHttpUrl/proxies/$id/lock-password');
   }
 }

@@ -9,13 +9,15 @@ class ProxyItemActionMenu extends StatefulWidget {
   final MenuController controller;
   final String id;
   final String type;
+  final bool passwordLocked;
 
   const ProxyItemActionMenu(
       {super.key,
       required this.controller,
       required this.onClick,
       required this.id,
-      required this.type});
+      required this.type,
+      this.passwordLocked = false});
 
   @override
   State<ProxyItemActionMenu> createState() => _ProxyItemActionMenuState();
@@ -97,6 +99,70 @@ class _ProxyItemActionMenuState extends State<ProxyItemActionMenu> {
                   ],
                 )));
       }
+
+      // Add peek password option (only if not locked)
+      if (!widget.passwordLocked) {
+        actionItems.insert(
+            actionItems.length - 1,
+            MenuItemButton(
+                onPressed: () {
+                  widget.onClick(ProxyItemAction.peekPassword);
+                },
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.visibility_outlined,
+                      size: 16,
+                    ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    Text(tr().peekPassword)
+                  ],
+                )));
+
+        // Add lock password option
+        actionItems.insert(
+            actionItems.length - 1,
+            MenuItemButton(
+                onPressed: () {
+                  widget.onClick(ProxyItemAction.lockPassword);
+                },
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.lock_outline,
+                      size: 16,
+                    ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    Text(tr().lockPassword)
+                  ],
+                )));
+      } else {
+        // Show indicator that password is locked
+        actionItems.insert(
+            actionItems.length - 1,
+            MenuItemButton(
+                onPressed: null,
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.lock,
+                      size: 16,
+                      color: Theme.of(context).colorScheme.outline,
+                    ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    Text(tr().passwordLockedLabel,
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.outline))
+                  ],
+                )));
+      }
+
 
       return MenuAnchor(
           childFocusNode: buttonFocusNode,
