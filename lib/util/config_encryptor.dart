@@ -42,27 +42,30 @@ Future<String?> readProxyPassword(String proxyId) async {
 /// This prevents other users on the same machine from reading proxy passwords.
 Future<void> protectConfigFile() async {
   try {
-    if (!Platform.isWindows) return;
-
     final homeDir = await getHomeDir();
     final configPath = path.join(homeDir, 'config.json');
     final configFile = File(configPath);
 
     if (!await configFile.exists()) return;
 
-    // Use icacls to restrict access to the current user only
-    final username = Platform.environment['USERNAME'] ?? '';
-    if (username.isEmpty) return;
+    if (Platform.isWindows) {
+      // Use icacls to restrict access to the current user only
+      final username = Platform.environment['USERNAME'] ?? '';
+      if (username.isEmpty) return;
 
-    // Remove inherited permissions and grant only current user full control
-    await Process.run('icacls', [
-      configPath,
-      '/inheritance:r',
-      '/grant:r',
-      '$username:(F)',
-      '/grant:r',
-      'SYSTEM:(F)',
-    ]);
+      // Remove inherited permissions and grant only current user full control
+      await Process.run('icacls', [
+        configPath,
+        '/inheritance:r',
+        '/grant:r',
+        '$username:(F)',
+        '/grant:r',
+        'SYSTEM:(F)',
+      ]);
+    } else if (Platform.isMacOS || Platform.isLinux) {
+      // Set file permissions to owner-only read/write (chmod 600)
+      await Process.run('chmod', ['600', configPath]);
+    }
 
     debugPrint('Protected config.json with restricted permissions');
   } catch (e) {
