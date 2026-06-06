@@ -296,4 +296,20 @@ class CoreManager {
   Future<void> lockProxyPassword(String id) async {
     await dio.post('$baseHttpUrl/proxies/$id/lock-password');
   }
+
+  /// Resets a proxy's password (wipes it and removes lock).
+  Future<void> resetProxyPassword(String id) async {
+    await dio.post('$baseHttpUrl/proxies/$id/reset-password');
+  }
+
+  /// Creates a new proxy and returns its ID.
+  Future<String> addProxy(Map<String, dynamic> proxy) async {
+    final res = await dio.put('$baseHttpUrl/proxies', data: proxy);
+    return res.data['id'] as String;
+  }
+
+  /// Updates an existing proxy.
+  Future<void> updateProxy(String id, Map<String, dynamic> proxy) async {
+    await dio.post('$baseHttpUrl/proxies/$id', data: proxy);
+  }
 }

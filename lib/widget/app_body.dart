@@ -3,6 +3,7 @@ import 'package:lux/const/const.dart';
 import 'package:lux/model/app.dart';
 import 'package:lux/tr.dart';
 import 'package:lux/widget/password_peek_dialog.dart';
+import 'package:lux/widget/proxy_edit_dialog.dart';
 import 'package:lux/widget/proxy_list_card.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -137,8 +138,18 @@ class _AppBodyState extends State<AppBody> with WindowListener {
   }
 
   void _handleEditItem(ProxyItem item) async {
-    final editingUrl = "${widget.dashboardUrl}&mode=edit&proxyId=${item.id}";
-    launchUrl(Uri.parse(editingUrl));
+    // Fetch full proxy detail for editing
+    final detail = await widget.coreManager.getProxyDetail(item.id);
+    if (!mounted || detail == null) return;
+
+    await showDialog(
+      context: context,
+      builder: (context) => ProxyEditDialog(
+        coreManager: widget.coreManager,
+        initialValue: detail,
+        onSaved: () => refreshData(),
+      ),
+    );
   }
 
   void _handleQrCode(ProxyItem item) async {
