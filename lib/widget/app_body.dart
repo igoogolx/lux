@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lux/const/const.dart';
 import 'package:lux/model/app.dart';
+import 'package:lux/tr.dart';
+import 'package:lux/widget/password_peek_dialog.dart';
+import 'package:lux/widget/proxy_edit_dialog.dart';
 import 'package:lux/widget/proxy_list_card.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -135,8 +138,18 @@ class _AppBodyState extends State<AppBody> with WindowListener {
   }
 
   void _handleEditItem(ProxyItem item) async {
-    final editingUrl = "${widget.dashboardUrl}&mode=edit&proxyId=${item.id}";
-    launchUrl(Uri.parse(editingUrl));
+    // Fetch full proxy detail for editing
+    final detail = await widget.coreManager.getProxyDetail(item.id);
+    if (!mounted || detail == null) return;
+
+    await showDialog(
+      context: context,
+      builder: (context) => ProxyEditDialog(
+        coreManager: widget.coreManager,
+        initialValue: detail,
+        onSaved: () => refreshData(),
+      ),
+    );
   }
 
   void _handleQrCode(ProxyItem item) async {
@@ -152,6 +165,59 @@ class _AppBodyState extends State<AppBody> with WindowListener {
         _handleEditItem(item);
       case ProxyItemAction.qrCode:
         _handleQrCode(item);
+      case ProxyItemAction.peekPassword:
+        _handlePeekPassword(item);
+      case ProxyItemAction.lockPassword:
+        _handleLockPassword(item);
+    }
+  }
+
+  void _handlePeekPassword(ProxyItem item) async {
+    await showPasswordPeekDialog(
+      context: context,
+      coreManager: widget.coreManager,
+      proxyItem: item,
+    );
+  }
+
+  void _handleLockPassword(ProxyItem item) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(tr().lockPasswordConfirmTitle),
+        content: Text(tr().lockPasswordConfirmMessage),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(MaterialLocalizations.of(context).cancelButtonLabel),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.error,
+            ),
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(tr().lockPassword),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true) return;
+    if (!mounted) return;
+
+    try {
+      await widget.coreManager.lockProxyPassword(item.id);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(tr().lockPasswordSuccess)),
+      );
+      // Refresh the proxy list to reflect the locked state
+      refreshProxyList();
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to lock password: $e')),
+      );
     }
   }
 

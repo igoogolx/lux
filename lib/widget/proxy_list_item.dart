@@ -54,7 +54,8 @@ class _ProxyListItemState extends State<ProxyListItem> {
               onClick: widget.onChange,
               controller: menuController,
               id: widget.item.id,
-              type: widget.item.type)
+              type: widget.item.type,
+              passwordLocked: widget.item.passwordLocked)
         ],
       ),
       value: item.id,

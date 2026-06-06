@@ -154,9 +154,12 @@ class ProxyItem {
   final String? server;
   final int? port;
   final String? subscription;
+  final String? password;
+  final bool passwordLocked;
 
   ProxyItem(
-      this.id, this.name, this.server, this.port, this.subscription, this.type);
+      this.id, this.name, this.server, this.port, this.subscription, this.type,
+      {this.password, this.passwordLocked = false});
 
   ProxyItem.fromJson(Map<String, dynamic> json)
       : id = (json['id'] as String),
@@ -166,12 +169,47 @@ class ProxyItem {
         subscription = (json['subscription'] is String
             ? json['subscription'] as String
             : null),
-        port = (json['port'] as int);
+        port = (json['port'] as int),
+        password = (json['password'] is String ? json['password'] : null),
+        passwordLocked = (json['passwordLocked'] is bool ? json['passwordLocked'] : false);
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,
       };
+}
+
+/// Detailed proxy configuration including sensitive fields like password.
+class ProxyDetail {
+  final String id;
+  final String name;
+  final String type;
+  final String? server;
+  final int? port;
+  final String? password;
+  final Map<String, dynamic> raw;
+
+  ProxyDetail({
+    required this.id,
+    required this.name,
+    required this.type,
+    this.server,
+    this.port,
+    this.password,
+    required this.raw,
+  });
+
+  factory ProxyDetail.fromJson(Map<String, dynamic> json) {
+    return ProxyDetail(
+      id: json['id'] as String? ?? '',
+      name: json['name'] as String? ?? '',
+      type: json['type'] as String? ?? '',
+      server: json['server'] as String?,
+      port: json['port'] as int?,
+      password: json['password'] as String?,
+      raw: json,
+    );
+  }
 }
 
 class ProxyList {

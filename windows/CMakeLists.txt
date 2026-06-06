@@ -2,6 +2,27 @@
 cmake_minimum_required(VERSION 3.14)
 project(lux LANGUAGES CXX)
 
+# Add Windows SDK include paths for cppwinrt and ATL when building on ARM64
+# hosts where the SDK may not auto-inject these paths.
+if(DEFINED ENV{WindowsSdkDir} OR EXISTS "C:/Program Files (x86)/Windows Kits/10")
+  set(_SDK_ROOT "C:/Program Files (x86)/Windows Kits/10")
+  set(_SDK_VER "10.0.22621.0")
+  set(_MSVC_ROOT "C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/VC/Tools/MSVC/14.44.35207")
+  include_directories(
+    "${_SDK_ROOT}/Include/${_SDK_VER}/um"
+    "${_SDK_ROOT}/Include/${_SDK_VER}/ucrt"
+    "${_SDK_ROOT}/Include/${_SDK_VER}/shared"
+    "${_SDK_ROOT}/Include/${_SDK_VER}/cppwinrt"
+    "${_SDK_ROOT}/Include/${_SDK_VER}/winrt"
+    "${_MSVC_ROOT}/atlmfc/include"
+  )
+  link_directories(
+    "${_SDK_ROOT}/Lib/${_SDK_VER}/um/x64"
+    "${_SDK_ROOT}/Lib/${_SDK_VER}/ucrt/x64"
+    "${_MSVC_ROOT}/atlmfc/lib/x64"
+  )
+endif()
+
 # The name of the executable created for the application. Change this to change
 # the on-disk name of your application.
 set(BINARY_NAME "lux")

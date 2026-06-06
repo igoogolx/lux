@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:lux/model/app.dart';
+import 'package:lux/widget/proxy_edit_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -168,8 +169,13 @@ class _State extends State<AppHeaderBar> with WindowListener {
   }
 
   void _handleAdd() async {
-    final addingUrl = "${widget.urlStr}&mode=add";
-    launchUrl(Uri.parse(addingUrl));
+    await showDialog(
+      context: context,
+      builder: (context) => ProxyEditDialog(
+        coreManager: widget.coreManager,
+        onSaved: () => refreshData(),
+      ),
+    );
   }
 
   @override

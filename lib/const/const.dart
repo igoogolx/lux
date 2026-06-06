@@ -64,4 +64,6 @@ enum ProxyItemAction {
   edit,
   delete,
   qrCode,
+  peekPassword,
+  lockPassword,
 }
