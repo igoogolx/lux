@@ -107,7 +107,7 @@ jobs:
           echo "$RELEASE_NOTES" >> CHANGELOG.md
 
       - name: GH Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           prerelease: ${{ contains(github.ref, '-beat.') }}
           draft: ${{ !contains(github.ref, '-beat.') }}
