@@ -1,9 +1,8 @@
 ## What's Changed
 
-### Bug fixes 🐛
+### New features ✨
 
-* fix(macOS): elevation not working on macOS-26
-* feat(macOS): return network service when error hijacking DNS servers
+* feat: support anyTls
 
 ### Other changes 
 
