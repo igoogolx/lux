@@ -32,7 +32,7 @@ Future<void> downloadFileWith(String url, String savePath) async {
 
 void downloadInnoSetupChineseItransFile() async {
   final url =
-      'https://raw.githubusercontent.com/jrsoftware/issrc/main/Files/Languages/Unofficial/ChineseSimplified.isl';
+      'https://raw.githubusercontent.com/jrsoftware/issrc/refs/heads/main/Files/Languages/ChineseSimplified.isl';
   final folderPath = path.normalize(path.join(
       Platform.script.toFilePath(), '..', "..", "windows", "packaging", "exe"));
   final fileName = 'ChineseSimplified.isl';
