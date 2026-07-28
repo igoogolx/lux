@@ -13,7 +13,7 @@ class Notifier {
   Future<void> ensureInitialized() async {
     final DarwinInitializationSettings initializationSettingsDarwin =
         DarwinInitializationSettings(
-      requestAlertPermission: false,
+      requestAlertPermission: true,
       requestBadgePermission: false,
       requestSoundPermission: false,
     );
