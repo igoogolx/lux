@@ -13,6 +13,8 @@ import '../tr.dart';
 import '../util/notifier.dart';
 import 'core_config.dart';
 
+const waitForCoreStartsTimeout = 30 * 1000;
+
 Future<int> findAvailablePort(int startPort, int endPort) async {
   for (int port = startPort; port <= endPort; port++) {
     try {
@@ -101,7 +103,7 @@ class CoreManager {
     final stopwatch = Stopwatch();
     stopwatch.start(); // Start the stopwatch
 
-    while (stopwatch.elapsedMilliseconds < 15000) {
+    while (stopwatch.elapsedMilliseconds < waitForCoreStartsTimeout) {
       try {
         final response = await dio.get(url);
 

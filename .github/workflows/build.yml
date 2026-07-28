@@ -25,9 +25,9 @@ jobs:
           python-version: '3.11'
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.44.0'
+          flutter-version: '3.44.8'
           channel: 'stable'
-      - run: dart pub global activate fastforge 0.6.6
+      - run: dart pub global activate fastforge 0.6.10
       - run: flutter pub get
       - if: matrix.os == 'macos-15'
         name: Build mac arm64 installer
@@ -107,7 +107,7 @@ jobs:
           echo "$RELEASE_NOTES" >> CHANGELOG.md
 
       - name: GH Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           prerelease: ${{ contains(github.ref, '-beat.') }}
           draft: ${{ !contains(github.ref, '-beat.') }}
