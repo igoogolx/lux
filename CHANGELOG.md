@@ -4,6 +4,10 @@
 
 * feat: support anyTls
 
+### Bug fixes 🐛
+
+* fix(macOS): notification not working
+
 ### Other changes 
 
 * chore: upgrade dependencies
