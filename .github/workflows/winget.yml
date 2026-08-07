@@ -1,17 +1,20 @@
 name: Publish to WinGet
 
-on:
-  release:
-    types: [published]
+on: workflow_dispatch
+
+env:
+  VERSION: 1.41.1
 
 jobs:
   publish:
     # Action can only be run on windows
     runs-on: windows-latest
     steps:
-      - if: ${{ !contains(github.ref, '-beat.') }}
+      - name: Upload Installers
         uses: vedantmgoyal9/winget-releaser@main
         with:
+          version: $VERSION
+          release-tag: v$VERSION
           identifier: igoogolx.lux
           max-versions-to-keep: 5 # keep only latest 5 versions
           installers-regex: '.*\.exe$' # Only .exe files
