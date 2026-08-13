@@ -1,4 +1,4 @@
-import 'package:material_ui/material_ui.dart';
+import 'package:flutter/material.dart';
 import 'package:lux/const/const.dart';
 import 'package:lux/tr.dart';
 import 'package:lux/widget/proxy_list_item.dart';
