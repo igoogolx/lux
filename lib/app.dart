@@ -1,10 +1,13 @@
+import 'package:material_ui/material_ui.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:lux/core/core_config.dart';
 import 'package:lux/home.dart';
 import 'package:lux/model/app.dart';
 import 'package:lux/theme.dart';
 import 'package:lux/tr.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
+
+import 'l10n/app_localizations.dart';
 
 class App extends StatefulWidget {
   final ThemeMode theme;
@@ -41,7 +44,11 @@ class _App extends State<App> {
             return 'Lux';
           },
           locale: appState.locale,
-          localizationsDelegates: GlobalMaterialLocalizations.delegates,
+          localizationsDelegates: [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
           supportedLocales: [
             Locale('en'),
             Locale('zh'),
