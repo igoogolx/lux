@@ -1,1 +1,1 @@
-const rawCoreVersion = '1.35.2-beat.0';
+const rawCoreVersion = '1.35.3-beat.1';
