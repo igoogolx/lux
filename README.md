@@ -44,6 +44,7 @@ Windows
 
 
 - [Motivation](#motivation)
+- [Supported Proxies](#supported-proxies)
 - [Getting Started](#getting-started)
 - [Architecture](#architecture)
 - [Monorepo structure](#monorepo-structure)
@@ -62,6 +63,25 @@ Windows
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- Supported Proxies -->
+## Supported Proxies
+
+| Proxy        | Clash YAML and Subscription | Edit Manually |
+|--------------|-----------------------------|---------------|
+| Http         | ✅                           | ✅             |
+| Socks5       | ✅                           | ✅             |
+| Shadowsocks  | ✅                           | ✅             |
+| AnyTLS       | ✅                           | ✅             |
+| ShadowsocksR | ✅                           | ❌(Todo)       |
+| Vmess        | ✅                           | ❌(Todo)       |
+| VLESS        | ✅                           | ❌(Todo)       |
+| Trojan       | ✅                           | ❌(Todo)       |
+| Snell        | ✅                           | ❌(Todo)       |
+| SSH          | ❌(Todo)                     | ❌(Todo)       |
+
 
 
 <!-- GETTING STARTED -->
