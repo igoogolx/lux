@@ -69,6 +69,8 @@ Windows
 <!-- Supported Proxies -->
 ## Supported Proxies
 
+[All proxies](https://wiki.metacubex.one/en/config/proxies/) from Clash Meta.
+
 | Proxy        | Clash YAML and Subscription | Edit Manually |
 |--------------|-----------------------------|---------------|
 | Http         | ✅                           | ✅             |
@@ -80,7 +82,9 @@ Windows
 | VLESS        | ✅                           | ❌(Todo)       |
 | Trojan       | ✅                           | ❌(Todo)       |
 | Snell        | ✅                           | ❌(Todo)       |
-| SSH          | ❌(Todo)                     | ❌(Todo)       |
+| SSH          | ✅                           | ❌(Todo)       |
+| Mieru        | ✅                           | ❌(Todo)       |
+| Sudoku       | ✅                           | ❌(Todo)       |
 
 
 
