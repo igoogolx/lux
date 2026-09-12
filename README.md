@@ -69,12 +69,13 @@ Windows
 <!-- Supported Proxies -->
 ## Supported Proxies
 
-[All proxies](https://wiki.metacubex.one/en/config/proxies/) from Clash Meta.
+[Most of the proxies](https://wiki.metacubex.one/en/config/proxies/) from Clash Meta.
 
 | Proxy        | Clash YAML and Subscription | Edit Manually |
 |--------------|-----------------------------|---------------|
 | Http         | ✅                           | ✅             |
 | Socks5       | ✅                           | ✅             |
+| SSH          | ✅                           | ❌(Todo)       |
 | Shadowsocks  | ✅                           | ✅             |
 | AnyTLS       | ✅                           | ✅             |
 | ShadowsocksR | ✅                           | ❌(Todo)       |
@@ -82,9 +83,13 @@ Windows
 | VLESS        | ✅                           | ❌(Todo)       |
 | Trojan       | ✅                           | ❌(Todo)       |
 | Snell        | ✅                           | ❌(Todo)       |
-| SSH          | ✅                           | ❌(Todo)       |
 | Mieru        | ✅                           | ❌(Todo)       |
 | Sudoku       | ✅                           | ❌(Todo)       |
+| Hysteria     | ✅                           | ❌(Todo)       |
+| Hysteria2    | ✅                           | ❌(Todo)       |
+| TUIC         | ✅                           | ❌(Todo)       |
+| ShadowQUIC   | ✅                           | ❌(Todo)       |
+
 
 
 
