@@ -5,7 +5,8 @@
 * feat: refactor core with Clash Meta to support [more protocols](https://wiki.metacubex.one/en/config/proxies/)
 * feat: support editing proxy with YAML
 * feat: support importing and editing Clash YAML
-* feat: show notification for HTTP proxy with invalid DNS setting
+* feat: support editing customized DNS option with type selector
+* feat: show message for HTTP proxy with invalid DNS setting
 
 ### Other changes 
 
