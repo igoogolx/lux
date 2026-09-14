@@ -6,6 +6,7 @@
 * feat: support editing proxy with YAML
 * feat: support importing and editing Clash YAML
 * feat: support editing customized DNS option with type selector
+* feat: improve UI and UX of DNS setting
 * feat: show message for HTTP proxy with invalid DNS setting
 
 ### Other changes 
