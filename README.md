@@ -44,6 +44,7 @@ Windows
 
 
 - [Motivation](#motivation)
+- [Supported Proxies](#supported-proxies)
 - [Getting Started](#getting-started)
 - [Architecture](#architecture)
 - [Monorepo structure](#monorepo-structure)
@@ -62,6 +63,34 @@ Windows
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- Supported Proxies -->
+## Supported Proxies
+
+[Most of the proxies](https://wiki.metacubex.one/en/config/proxies/) from Clash Meta.
+
+| Proxy        | Clash YAML and Subscription | Edit Manually |
+|--------------|-----------------------------|---------------|
+| Http         | ✅                           | ✅             |
+| Socks5       | ✅                           | ✅             |
+| SSH          | ✅                           | ❌(Todo)       |
+| Shadowsocks  | ✅                           | ✅             |
+| AnyTLS       | ✅                           | ✅             |
+| ShadowsocksR | ✅                           | ❌(Todo)       |
+| Vmess        | ✅                           | ❌(Todo)       |
+| VLESS        | ✅                           | ❌(Todo)       |
+| Trojan       | ✅                           | ❌(Todo)       |
+| Snell        | ✅                           | ❌(Todo)       |
+| Mieru        | ✅                           | ❌(Todo)       |
+| Sudoku       | ✅                           | ❌(Todo)       |
+| Hysteria     | ✅                           | ❌(Todo)       |
+| Hysteria2    | ✅                           | ❌(Todo)       |
+| TUIC         | ✅                           | ❌(Todo)       |
+| ShadowQUIC   | ✅                           | ❌(Todo)       |
+
+
 
 
 <!-- GETTING STARTED -->
