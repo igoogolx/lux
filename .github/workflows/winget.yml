@@ -13,8 +13,8 @@ jobs:
       - name: Upload Installers
         uses: vedantmgoyal9/winget-releaser@main
         with:
-          version: $VERSION
-          release-tag: v$VERSION
+          version: ${{ env.VERSION }}
+          release-tag: v${{ env.VERSION }}
           identifier: igoogolx.lux
           max-versions-to-keep: 5 # keep only latest 5 versions
           installers-regex: '.*\.exe$' # Only .exe files
