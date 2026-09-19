@@ -1,9 +1,13 @@
 ## What's Changed
 
 
-### Bug fixes 🐛
+### New features ✨
 
-* fix(DNS): system DNS not working
+feat: remove internal DHCP server for system DNS
+
+### Other changes
+
+* chore: add more DNS logs
 
 
 
