@@ -1,9 +1,14 @@
 ## What's Changed
 
 
-### Bug fixes 🐛
+### New features ✨
 
-* fix(DNS): system DNS not working
+* feat: remove internal DHCP server for system DNS
+* feat(macOS): resolve system DNS servers from resolv.conf
+
+### Other changes
+
+* chore: add more DNS logs
 
 
 
