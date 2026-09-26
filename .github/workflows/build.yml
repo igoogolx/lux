@@ -55,7 +55,7 @@ jobs:
       - if: matrix.os == 'windows-latest'
         name: install InnoSetup
         shell: cmd
-        run: choco upgrade innosetup -y --no-progress
+        run: winget install --id JRSoftware.InnoSetup.7 -e -s winget
 
       - if: matrix.os == 'windows-latest'
         name: Build windows x64 installer
