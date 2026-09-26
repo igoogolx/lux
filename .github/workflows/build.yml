@@ -27,7 +27,7 @@ jobs:
         with:
           flutter-version: '3.47.5'
           channel: 'stable'
-      - run: dart pub global activate fastforge 0.6.10
+      - run: dart pub global activate fastforge 0.6.12
       - run: flutter pub get
       - if: matrix.os == 'macos-15'
         name: Build mac arm64 installer
