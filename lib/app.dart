@@ -6,6 +6,8 @@ import 'package:lux/tr.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
+import 'l10n/app_localizations.dart';
+
 class App extends StatefulWidget {
   final ThemeMode theme;
   final Locale defaultLocal;
@@ -41,7 +43,10 @@ class _App extends State<App> {
             return 'Lux';
           },
           locale: appState.locale,
-          localizationsDelegates: GlobalMaterialLocalizations.delegates,
+          localizationsDelegates: [
+            AppLocalizations.delegate,
+            ...GlobalMaterialLocalizations.delegates
+          ],
           supportedLocales: [
             Locale('en'),
             Locale('zh'),
