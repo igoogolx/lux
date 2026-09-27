@@ -38,6 +38,7 @@ Future<void> initSystemTray(
   });
 
   menu.addItem(openDashboardItem);
+  menu.addSeparator();
 
   final exitAppItem =
       MenuItem.createWithLabelAndType(tr().exit, MenuItemType.normal);
@@ -48,7 +49,7 @@ Future<void> initSystemTray(
     }
   });
 
-  menu.addItem(openDashboardItem);
+  menu.addItem(exitAppItem);
 
   trayIcon.setContextMenu(menu);
   trayIcon.setVisible(true);
