@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
+import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:lux/const/const.dart';
 import 'package:url_launcher/url_launcher.dart';

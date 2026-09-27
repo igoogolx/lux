@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:lux/widget/error/core_run_error_handler.dart';
 
 import '../../error.dart';
