@@ -40,7 +40,7 @@ jobs:
           fastforge release --name ${{ matrix.os }}
           mv dist/${VERSION}/lux-${VERSION}-macos.dmg dist/${VERSION}/lux-${VERSION}-arm64-macos.dmg
 
-      - if: matrix.os == 'macos-15-intel'
+      - if: ${{(matrix.os == 'macos-15-intel') && !contains(github.ref, '-beat.') }}
         name: Build mac amd64 installer
         run: |
           VERSION=${GITHUB_REF_NAME#v}
