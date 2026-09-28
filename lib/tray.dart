@@ -1,20 +1,15 @@
 import 'dart:io';
+
 import 'package:lux/tr.dart';
-import 'package:tray_manager/tray_manager.dart';
+import 'package:tray_manager/legacy.dart';
 
 Future<void> initSystemTray() async {
   await trayManager.setIcon(
-    Platform.isWindows
-        ? 'assets/app_icon.ico'
-        : 'assets/tray.icns',
+    Platform.isWindows ? 'assets/app_icon.ico' : 'assets/tray.icns',
   );
   Menu menu = Menu(
     items: [
-      MenuItem(
-        key: 'lux',
-        label: 'Lux',
-        disabled: true
-      ),
+      MenuItem(key: 'lux', label: 'Lux', disabled: true),
       MenuItem.separator(),
       MenuItem(
         key: 'open_dashboard',
