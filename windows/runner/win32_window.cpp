@@ -18,7 +18,7 @@ namespace {
 
 HANDLE hMutexHandle=CreateMutex(NULL, TRUE, L"lux.app.mutex");
 
-constexpr const wchar_t kWindowClassName[] = L"FLUTTER_RUNNER_WIN32_WINDOW";
+constexpr const wchar_t kWindowClassName[] = L"Lux";
 
 /// Registry key for app theme preference.
 ///
