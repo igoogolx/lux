@@ -18,6 +18,7 @@ import 'package:lux/widget/progress_indicator.dart';
 import 'package:path/path.dart' as path;
 import 'package:power_monitor/power_monitor.dart';
 import 'package:provider/provider.dart';
+import 'package:tray_manager/tray_manager.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
 import 'package:version/version.dart';
@@ -40,7 +41,8 @@ Future<void> initClient(CoreManager? coreManager) async {
   await setAutoLaunch(coreManager);
 }
 
-class _HomeState extends State<Home> with WindowListener, PowerMonitorListener {
+class _HomeState extends State<Home>
+    with TrayListener, WindowListener, PowerMonitorListener {
   String baseUrl = "";
   String urlStr = "";
   String homeDir = "";
@@ -53,6 +55,7 @@ class _HomeState extends State<Home> with WindowListener, PowerMonitorListener {
   dynamic coreError;
 
   void _init(AppStateModel appState) async {
+    trayManager.addListener(this);
     await windowManager.setPreventClose(true);
     var corePath = path.join(Paths.assetsBin.path, LuxCoreName.name);
     var curHomeDir = await getHomeDir();
@@ -85,7 +88,7 @@ class _HomeState extends State<Home> with WindowListener, PowerMonitorListener {
     });
 
     if (Platform.isWindows) {
-      initSystemTray(handleShowWindow, handleOpenDashboard, handleExitApp);
+      initSystemTray();
     }
 
     isCoreReady.addListener(() {
@@ -136,8 +139,7 @@ class _HomeState extends State<Home> with WindowListener, PowerMonitorListener {
                 }
                 appState.updateLocale(convertLocale(message['value']));
                 if (Platform.isWindows) {
-                  initSystemTray(
-                      handleShowWindow, handleOpenDashboard, handleExitApp);
+                  initSystemTray();
                 }
               }
             case "set_auto_launch":
@@ -189,25 +191,33 @@ class _HomeState extends State<Home> with WindowListener, PowerMonitorListener {
 
   @override
   void dispose() {
+    trayManager.removeListener(this);
     windowManager.removeListener(this);
     powerMonitor.removeListener(this);
     _listener.dispose();
     super.dispose();
   }
 
-  void handleShowWindow() {
+  @override
+  void onTrayIconMouseDown() {
     windowManager.show();
     windowManager.focus();
   }
 
-  void handleOpenDashboard() {
-    final Uri url = Uri.parse(urlStr);
-    launchUrl(url);
+  @override
+  void onTrayIconRightMouseDown() {
+    trayManager.popUpContextMenu();
   }
 
-  void handleExitApp() async {
-    await coreManager?.exitCore();
-    exit(0);
+  @override
+  void onTrayMenuItemClick(MenuItem menuItem) async {
+    if (menuItem.key == 'open_dashboard') {
+      final Uri url = Uri.parse(urlStr);
+      launchUrl(url);
+    } else if (menuItem.key == 'exit_app') {
+      await coreManager?.exitCore();
+      exit(0);
+    }
   }
 
   @override
