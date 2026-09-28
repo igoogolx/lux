@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:lux/util/utils.dart';
 import 'package:lux/widget/app_body.dart';
 import 'package:lux/widget/app_bottom_bar.dart';
