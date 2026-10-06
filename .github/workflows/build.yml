@@ -76,7 +76,8 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           mv dist/${VERSION}/lux-${VERSION}-windows-setup.exe dist/${VERSION}/lux-${VERSION}-x64-windows.exe
 
-      - uses: actions/upload-artifact@v7
+      - if: ${{ !((matrix.os == 'macos-15-intel') && contains(github.ref, '-beat.')) }}
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.os }}-artifact
           path: dist/*/*
