@@ -94,7 +94,7 @@ jobs:
           mkdir artifact
           mv windows-latest-artifact/*/* artifact/
           mv macos-15-artifact/*/* artifact/
-          [ -d macos-15-intel-artifact ] && mv macos-15-intel-artifact/*/* artifact/
+          [ -d /macos-15-intel-artifact ] && mv macos-15-intel-artifact/*/* artifact/
 
       - name: Generate checksum
         uses: jmgilman/actions-generate-checksum@v1
