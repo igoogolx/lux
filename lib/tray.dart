@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:lux/tr.dart';
-import 'package:tray_manager/legacy.dart';
+import 'package:tray_manager/tray_manager.dart';
 
 Future<void> initSystemTray() async {
   await trayManager.setIcon(
