@@ -265,6 +265,7 @@ class _HomeState extends State<Home>
   @override
   onPowerMonitorShutdown() {
     resetSystemProxy();
+    coreManager?.exitCore();
   }
 
   @override
