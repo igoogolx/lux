@@ -67,3 +67,140 @@ Name: "{autodesktop}\\{{DISPLAY_NAME}}"; Filename: "{app}\\{{EXECUTABLE_NAME}}";
 [UninstallDelete]
 Type: filesandordirs; Name: "{localappdata}\..\Roaming\com.github.igoogolx\lux"
 ; NOTE: delete any file cautiously
+
+[Code]
+
+// ------------------------------------------------------------
+// Configuration
+// ------------------------------------------------------------
+const
+  AppDisplayName       = '{#SetupSetting("AppName")}';             //  App name shown in the closing message
+  AppClassName         = '{#SetupSetting("AppName")}';             //  Class name of the app's main window
+  AppMutexName         = '{#SetupSetting("AppMutex")}'; // Taken from [Setup] AppMutex at compile time (ISPP); used to detect whether the app is running / has exited
+  WM_QUERYENDSESSION   = $0011;          // Asks the app whether it agrees to end the session
+  CloseTimeoutMs       = 5000;           // Timeout (ms) waiting for the app window to disappear; adjust as needed
+  ProcessExitTimeoutMs = 3000;           // Timeout (ms) waiting for the process to exit after the window is gone; adjust as needed
+  ClosePollStepMs      = 200;            // Polling interval (ms)
+
+// ------------------------------------------------------------
+// Returns the "Closing xxx" message for the current setup language
+// (Chinese / English). ActiveLanguage returns the internal name defined
+// in the [Languages] section; anything other than Simplified Chinese
+// falls back to English.
+// ------------------------------------------------------------
+function ClosingAppMessage(): String;
+begin
+  if ActiveLanguage() = 'chinesesimplified' then
+    Result := '正在关闭 ' + AppDisplayName
+  else
+    Result := 'Closing ' + AppDisplayName;
+end;
+
+// ------------------------------------------------------------
+// Fills in and shows the "Closing" popup created by CreateCustomForm.
+// It is shown with Show (modeless): unlike MsgBox, Show does not block,
+// so execution continues and the code can close the popup by itself
+// once the app has exited.
+// FlipAndCenterIfNeeded is not called on purpose: without it the form is still
+// centered automatically (on the screen), and there is no WizardForm to center
+// on at this point (InitializeSetup / uninstall).
+// ------------------------------------------------------------
+procedure ShowClosingForm(const Form: TSetupForm);
+var
+  Lbl: TNewStaticText;
+begin
+  Form.Caption := AppDisplayName;
+  Form.BorderIcons := []; // No title bar close button: the popup closes automatically, no user action needed
+
+  Lbl := TNewStaticText.Create(Form);
+  Lbl.Parent := Form;
+  Lbl.AutoSize := True;
+  Lbl.Caption := ClosingAppMessage();
+  // Center the text horizontally and vertically
+  Lbl.Left := (Form.ClientWidth - Lbl.Width) div 2;
+  Lbl.Top := (Form.ClientHeight - Lbl.Height) div 2;
+
+  Form.Show;
+
+  // No message loop runs during the wait loops below, so the window won't
+  // repaint itself. Force one paint here, otherwise the popup may appear blank.
+  Form.Refresh;
+  Lbl.Refresh;
+end;
+
+// ------------------------------------------------------------
+// Graceful close: find the main window by class name
+// 1. Show the "Closing" popup
+// 2. Send WM_QUERYENDSESSION to ask whether the app agrees to end the session
+// 3. Poll until the window disappears, up to CloseTimeoutMs; move on as soon as it's gone
+// 4. Once the window is gone, use the mutex to check whether the process
+//    has exited, up to ProcessExitTimeoutMs
+// 5. Close the popup automatically when done (on success or timeout)
+// ------------------------------------------------------------
+procedure GracefulCloseAppByClass(const ClassName: string);
+var
+  Wnd: HWND;
+  Elapsed: Integer;
+  ClosingForm: TSetupForm;
+begin
+  Wnd := FindWindowByClassName(ClassName);
+  if Wnd = 0 then
+    Exit; // Window not found, return right away
+
+  // Since Inno Setup 6.6.0 the client size must be passed at creation (read-only afterwards).
+  // Last two parameters True: keep a fixed size, don't grow with WizardSizePercent.
+  // "try" follows the creation immediately (as in the official CodeClasses.iss example),
+  // so the form is freed even if something fails while it is being built or shown.
+  ClosingForm := CreateCustomForm(ScaleX(320), ScaleY(90), True, True);
+  try
+    ShowClosingForm(ClosingForm);
+
+    // SendMessage blocks until the target window procedure has processed the message
+    SendMessage(Wnd, WM_QUERYENDSESSION, 0, 0);
+
+    // Wait for the window to disappear
+    Elapsed := 0;
+    while (Elapsed < CloseTimeoutMs) and (FindWindowByClassName(ClassName) <> 0) do
+    begin
+      Sleep(ClosePollStepMs);
+      Elapsed := Elapsed + ClosePollStepMs;
+    end;
+
+    // Once the window is gone (closed successfully), make sure the process has really exited:
+    // after its window is destroyed, the process may still be cleaning up and holding files.
+    // When a process exits, the system closes all handles it holds and the mutex goes away,
+    // so once the mutex no longer exists, the process can be considered exited.
+    if FindWindowByClassName(ClassName) = 0 then
+    begin
+      Elapsed := 0;
+      while (Elapsed < ProcessExitTimeoutMs) and CheckForMutexes(AppMutexName) do
+      begin
+        Sleep(ClosePollStepMs);
+        Elapsed := Elapsed + ClosePollStepMs;
+      end;
+    end;
+  finally
+    // Close the popup whether the app closed or the wait timed out, so it never stays on screen
+    ClosingForm.Free;
+  end;
+end;
+
+// ------------------------------------------------------------
+// Setup hook: first use CheckForMutexes to check whether the app is running
+// ------------------------------------------------------------
+function InitializeSetup(): Boolean;
+begin
+  Result := True;
+  if CheckForMutexes(AppMutexName) then
+    GracefulCloseAppByClass(AppClassName);
+end;
+
+// ------------------------------------------------------------
+// Uninstall hook: same mutex check first
+// ------------------------------------------------------------
+function InitializeUninstall(): Boolean;
+begin
+  Result := True;
+  if CheckForMutexes(AppMutexName) then
+    GracefulCloseAppByClass(AppClassName);
+end;
