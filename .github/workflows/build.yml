@@ -92,7 +92,7 @@ jobs:
           mv windows-latest-artifact/*/* artifact/
           mv macos-15-artifact/*/* artifact/
 
-      - if: ${{ !((matrix.os == 'macos-15-intel') && contains(github.ref, '-beat.')) }}
+      - if: ${{ !contains(github.ref, '-beat.') }}
         run: mv macos-15-intel-artifact/*/* artifact/
 
       - name: Generate checksum
