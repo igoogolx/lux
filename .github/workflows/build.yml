@@ -27,7 +27,6 @@ jobs:
         with:
           flutter-version: '3.47.5'
           channel: 'stable'
-          cache: true
       - run: dart pub global activate fastforge 0.6.12
       - run: flutter pub get
       - if: matrix.os == 'macos-15'
