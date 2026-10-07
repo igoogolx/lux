@@ -19,6 +19,7 @@ ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 DisableFinishedPage=yes
 AppMutex=lux.app.mutex,Global\lux.app.mutex
+SetupMutex=lux.setup.mutex,Global\lux.setup.mutex
 
 [Languages]
 {% for locale in LOCALES %}
