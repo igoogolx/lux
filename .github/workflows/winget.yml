@@ -13,6 +13,7 @@ jobs:
       - name: Upload Installers
         uses: vedantmgoyal9/winget-releaser@main
         with:
+          fork-user: alicexcode
           version: ${{ env.VERSION }}
           release-tag: v${{ env.VERSION }}
           identifier: igoogolx.lux
