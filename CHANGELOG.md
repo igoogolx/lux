@@ -3,12 +3,12 @@
 
 ### New features ✨
 
-* feat: remove internal DHCP server for system DNS
-* feat(macOS): resolve system DNS servers from resolv.conf
+* feat(windows): close running Lux app before installing
+* feat(windows): prevent Setup from running while Setup is already running
 
 ### Other changes
 
-* chore: add more DNS logs
+* chore: upgrade deps
 
 
 

@@ -3,7 +3,6 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/material.dart';
 import 'package:launch_at_startup/launch_at_startup.dart';
 import 'package:lux/const/const.dart';
 import 'package:lux/core/core_manager.dart';
@@ -15,6 +14,7 @@ import 'package:lux/util/notifier.dart';
 import 'package:lux/util/process_manager.dart';
 import 'package:lux/util/utils.dart';
 import 'package:lux/widget/progress_indicator.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:path/path.dart' as path;
 import 'package:power_monitor/power_monitor.dart';
 import 'package:provider/provider.dart';
@@ -263,8 +263,10 @@ class _HomeState extends State<Home>
   }
 
   @override
-  onPowerMonitorShutdown() {
+  onPowerMonitorShutdown() async {
     resetSystemProxy();
+    await coreManager?.exitCore();
+    exitApp();
   }
 
   @override

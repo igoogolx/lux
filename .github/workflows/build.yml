@@ -25,9 +25,9 @@ jobs:
           python-version: '3.11'
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.47.5'
+          flutter-version: '3.47.6'
           channel: 'stable'
-      - run: dart pub global activate fastforge 0.6.10
+      - run: dart pub global activate fastforge 0.6.12
       - run: flutter pub get
       - if: matrix.os == 'macos-15'
         name: Build mac arm64 installer
@@ -40,7 +40,7 @@ jobs:
           fastforge release --name ${{ matrix.os }}
           mv dist/${VERSION}/lux-${VERSION}-macos.dmg dist/${VERSION}/lux-${VERSION}-arm64-macos.dmg
 
-      - if: matrix.os == 'macos-15-intel'
+      - if: ${{(matrix.os == 'macos-15-intel') && !contains(github.ref, '-beat.') }}
         name: Build mac amd64 installer
         run: |
           VERSION=${GITHUB_REF_NAME#v}
@@ -55,7 +55,7 @@ jobs:
       - if: matrix.os == 'windows-latest'
         name: install InnoSetup
         shell: cmd
-        run: choco upgrade innosetup -y --no-progress
+        run: winget install --id JRSoftware.InnoSetup -e -s winget
 
       - if: matrix.os == 'windows-latest'
         name: Build windows x64 installer
@@ -76,7 +76,8 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
           mv dist/${VERSION}/lux-${VERSION}-windows-setup.exe dist/${VERSION}/lux-${VERSION}-x64-windows.exe
 
-      - uses: actions/upload-artifact@v7
+      - if: ${{ !((matrix.os == 'macos-15-intel') && contains(github.ref, '-beat.')) }}
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.os }}-artifact
           path: dist/*/*
@@ -93,7 +94,9 @@ jobs:
           mkdir artifact
           mv windows-latest-artifact/*/* artifact/
           mv macos-15-artifact/*/* artifact/
-          mv macos-15-intel-artifact/*/* artifact/
+
+      - if: ${{ !contains(github.ref, '-beat.') }}
+        run: mv macos-15-intel-artifact/*/* artifact/
 
       - name: Generate checksum
         uses: jmgilman/actions-generate-checksum@v1

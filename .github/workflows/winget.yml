@@ -3,7 +3,7 @@ name: Publish to WinGet
 on: workflow_dispatch
 
 env:
-  VERSION: 1.50.2
+  VERSION: 1.50.3
 
 jobs:
   publish:
@@ -13,6 +13,7 @@ jobs:
       - name: Upload Installers
         uses: vedantmgoyal9/winget-releaser@main
         with:
+          fork-user: alicexcode
           version: ${{ env.VERSION }}
           release-tag: v${{ env.VERSION }}
           identifier: igoogolx.lux
