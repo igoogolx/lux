@@ -53,8 +53,12 @@ AppMutex=lux.app.mutex,Global\lux.app.mutex
 
 Source: "C:\temp\dll\*"; DestDir: "{app}"; Flags: ignoreversion skipifsourcedoesntexist
 
+[Run]
+Filename: {app}\lux.exe; Flags: shellexec skipifsilent nowait; Tasks: StartAfterInstall
+
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: {% if CREATE_DESKTOP_ICON != true %}unchecked{% else %}checkedonce{% endif %}
+Name: StartAfterInstall; Description: Run application after install
 
 [Files]
 Source: "{{SOURCE_DIR}}\\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
