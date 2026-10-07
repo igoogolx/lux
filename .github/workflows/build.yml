@@ -56,7 +56,7 @@ jobs:
       - if: matrix.os == 'windows-latest'
         name: install InnoSetup
         shell: cmd
-        run: winget install --id JRSoftware.InnoSetup.7 -e -s winget
+        run: winget install --id JRSoftware.InnoSetup -e -s winget
 
       - if: matrix.os == 'windows-latest'
         name: Build windows x64 installer
