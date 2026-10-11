@@ -67,8 +67,8 @@ class Notifier {
   void onDidReceiveNotificationResponse(
       NotificationResponse notificationResponse) async {
     final String? payload = notificationResponse.payload;
-    if (notificationResponse.payload != null) {
-      if (notificationResponse.payload == notifierPayloadNewRelease) {
+    if (payload != null) {
+      if (payload == notifierPayloadNewRelease) {
         launchUrl(Uri.parse(latestReleaseUrl));
       }
       debugPrint('notification payload: $payload');
