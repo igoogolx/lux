@@ -1,13 +1,16 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:material_ui/material_ui.dart';
+import 'package:lux/util/notifier.dart';
 import 'package:lux/util/utils.dart';
 import 'package:lux/widget/app_body.dart';
 import 'package:lux/widget/app_bottom_bar.dart';
 import 'package:lux/widget/app_header_bar.dart';
+import 'package:material_ui/material_ui.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:window_manager/window_manager.dart';
 
+import 'const/const.dart';
 import 'core/core_manager.dart';
 
 class Dashboard extends StatefulWidget {
@@ -32,6 +35,7 @@ class _DashboardState extends State<Dashboard> with WindowListener {
   void initState() {
     super.initState();
     windowManager.addListener(this);
+    notifier.registerEventHandler(handleNotificationEvent);
     checkForUpdate();
   }
 
@@ -58,6 +62,16 @@ class _DashboardState extends State<Dashboard> with WindowListener {
     setState(() {
       curProxyInfo = info;
     });
+  }
+
+  void handleNotificationEvent(NotificationEvent event) {
+    if (event == NotificationEvent.checkNewRelease) {
+      launchUrl(Uri.parse(latestReleaseUrl));
+    }
+
+    if (event == NotificationEvent.upgrade) {
+      //   TODO: handle upgrade event
+    }
   }
 
   @override

@@ -3,14 +3,13 @@ import 'dart:io';
 import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:lux/const/const.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class Notifier {
   final _appName = "Lux";
   final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   var id = 0;
 
-  Function(String event)? handleEvent;
+  Function(NotificationEvent event)? _handleEvent;
 
   Future<void> ensureInitialized() async {
     final DarwinInitializationSettings initializationSettingsDarwin =
@@ -66,17 +65,41 @@ class Notifier {
 
   void onDidReceiveNotificationResponse(
       NotificationResponse notificationResponse) async {
-    final String? payload = notificationResponse.payload;
-    if (payload != null) {
-      if (payload == notifierPayloadNewRelease) {
-        launchUrl(Uri.parse(latestReleaseUrl));
-      }
-      debugPrint('notification payload: $payload');
+    var payload = notificationResponse.payload;
+    var actionId = notificationResponse.actionId;
+    NotificationEvent? event;
+
+    if (payload == notifierPayloadNewRelease) {
+      event = NotificationEvent.checkNewRelease;
     }
+
+    if (notificationResponse.notificationResponseType ==
+        NotificationResponseType.selectedNotificationAction) {
+      if (actionId == upgradeActionId) {
+        event = NotificationEvent.upgrade;
+      }
+    }
+
+    debugPrint('notification payload: $payload, action id: $actionId');
+
+    if (event == null) {
+      return;
+    }
+
+    _handleEvent?.call(event);
+  }
+
+  void registerEventHandler(Function(NotificationEvent event) eventHandler) {
+    _handleEvent = eventHandler;
   }
 }
 
 const notifierPayloadNewRelease = "new_release";
 const upgradeActionId = "upgrade_action_id";
+
+enum NotificationEvent {
+  checkNewRelease,
+  upgrade,
+}
 
 final notifier = Notifier();
