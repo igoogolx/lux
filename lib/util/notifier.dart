@@ -10,6 +10,8 @@ class Notifier {
   final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   var id = 0;
 
+  Function(String event)? handleEvent;
+
   Future<void> ensureInitialized() async {
     final DarwinInitializationSettings initializationSettingsDarwin =
         DarwinInitializationSettings(
@@ -38,11 +40,20 @@ class Notifier {
   }
 
   Future<void> show(String body, [String? payload]) async {
+    final windowsActions = <WindowsAction>[];
+
+    final isNewReleaseMsg = payload == notifierPayloadNewRelease;
+
+    if (isNewReleaseMsg) {
+      windowsActions
+          .add(WindowsAction(content: "Upgrade", arguments: upgradeActionId));
+    }
+
     NotificationDetails notificationDetails = NotificationDetails(
       macOS: DarwinNotificationDetails(
         categoryIdentifier: 'plainCategory',
       ),
-      windows: WindowsNotificationDetails(),
+      windows: WindowsNotificationDetails(actions: windowsActions),
     );
 
     await flutterLocalNotificationsPlugin.show(
@@ -66,5 +77,6 @@ class Notifier {
 }
 
 const notifierPayloadNewRelease = "new_release";
+const upgradeActionId = "upgrade_action_id";
 
 final notifier = Notifier();
