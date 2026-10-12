@@ -66,6 +66,7 @@ dependencies:
 
   material_ui: any
   cupertino_ui: any
+  background_downloader: ^9.6.4
 dev_dependencies:
   flutter_test:
     sdk: flutter
