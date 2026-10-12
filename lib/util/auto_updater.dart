@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:background_downloader/background_downloader.dart';
 import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:dio/dio.dart';
 import 'package:lux/util/utils.dart';
@@ -13,6 +14,7 @@ class AutoUpdater {
   String? latestVersionDownloadLink;
   String? latestInstallerName;
   String? latestInstallerSha256;
+  Transfer? downloaderTransfer;
 
   Future<void> checkForUpdate() async {
     try {
@@ -66,6 +68,17 @@ class AutoUpdater {
       }
     } catch (e) {
       debugPrint('error checking for updates: $e');
+    }
+  }
+
+  Future<void> download() async {
+    if (latestVersionDownloadLink is String && latestInstallerName is String) {
+      final task = DownloadTask(
+        url: latestVersionDownloadLink!,
+        filename: latestInstallerName,
+      );
+
+      downloaderTransfer = await FileDownloader().transfers.start(task);
     }
   }
 }

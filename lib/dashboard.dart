@@ -64,13 +64,14 @@ class _DashboardState extends State<Dashboard> with WindowListener {
     });
   }
 
-  void handleNotificationEvent(NotificationEvent event) {
+  Future<void> handleNotificationEvent(NotificationEvent event) async {
     if (event == NotificationEvent.checkNewRelease) {
       launchUrl(Uri.parse(latestReleaseUrl));
     }
 
     if (event == NotificationEvent.upgrade) {
       //   TODO: handle upgrade event
+      await autoUpdater.download();
     }
   }
 
