@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:lux/util/auto_updater.dart';
 import 'package:lux/util/notifier.dart';
-import 'package:lux/util/utils.dart';
 import 'package:lux/widget/app_body.dart';
 import 'package:lux/widget/app_bottom_bar.dart';
 import 'package:lux/widget/app_header_bar.dart';
@@ -36,7 +36,7 @@ class _DashboardState extends State<Dashboard> with WindowListener {
     super.initState();
     windowManager.addListener(this);
     notifier.registerEventHandler(handleNotificationEvent);
-    checkForUpdate();
+    autoUpdater.checkForUpdate();
   }
 
   @override

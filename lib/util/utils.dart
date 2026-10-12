@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:cupertino_ui/cupertino_ui.dart';
+import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'package:launch_at_startup/launch_at_startup.dart';
 import 'package:lux/const/const.dart';
@@ -128,26 +128,6 @@ Function compareVersion = (String a, String b) {
   var versionB = Version.parse(b);
   return versionA.compareTo(versionB);
 };
-
-Future<void> checkForUpdate() async {
-  try {
-    final dio = Dio();
-    var latestReleaseRes = await dio
-        .get('https://api.github.com/repos/igoogolx/lux/releases/latest');
-    if (latestReleaseRes.data.containsKey('tag_name') &&
-        latestReleaseRes.data['tag_name'] is String) {
-      var latestVersion = latestReleaseRes.data['tag_name'].replaceAll('v', '');
-      var currentVersion = await getAppVersion();
-      debugPrint(
-          'latest version: $latestVersion, current version: $currentVersion');
-      if (compareVersion(latestVersion, currentVersion) == 1) {
-        notifier.show(tr().newVersionMessage, notifierPayloadNewRelease);
-      }
-    }
-  } catch (e) {
-    debugPrint('error checking for updates: $e');
-  }
-}
 
 String formatBytes(int bytes) {
   var unit = "";
