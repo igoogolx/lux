@@ -67,6 +67,7 @@ dependencies:
   material_ui: any
   cupertino_ui: any
   win32: ^5.15.0
+  ffi: ^2.2.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
