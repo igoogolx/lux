@@ -6,5 +6,7 @@
 * chore: upgrade deps
 
 
+### Bug fixes 🐛
 
+* fix(windows): single instance not working
 
