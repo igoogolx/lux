@@ -66,6 +66,7 @@ class _HomeState extends State<Home>
     var needElevate = true;
     var homeDirArg = '-home_dir=$curHomeDir';
     if (Platform.isWindows) {
+      homeDirArg = "-home_dir=`\"$curHomeDir`\"";
       final proxyMode = await readProxyMode();
       needElevate = proxyMode != ProxyMode.system;
     }
