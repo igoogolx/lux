@@ -71,15 +71,19 @@ class AutoUpdater {
     }
   }
 
-  Future<void> download() async {
+  Future<Transfer?> download() async {
     if (latestVersionDownloadLink is String && latestInstallerName is String) {
       final task = DownloadTask(
-        url: latestVersionDownloadLink!,
-        filename: latestInstallerName,
-      );
+          url: latestVersionDownloadLink!,
+          filename: latestInstallerName,
+          directory: "lux_installer",
+          baseDirectory: BaseDirectory.temporary);
 
       downloaderTransfer = await FileDownloader().transfers.start(task);
+
+      return downloaderTransfer;
     }
+    return null;
   }
 }
 

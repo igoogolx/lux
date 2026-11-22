@@ -6,6 +6,7 @@ import 'package:lux/util/notifier.dart';
 import 'package:lux/widget/app_body.dart';
 import 'package:lux/widget/app_bottom_bar.dart';
 import 'package:lux/widget/app_header_bar.dart';
+import 'package:lux/widget/auto_updater_dialog_content.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:window_manager/window_manager.dart';
@@ -28,6 +29,7 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> with WindowListener {
   String curProxyInfo = "";
+  bool isNewVersionDownloadCompeted = false;
 
   _DashboardState();
 
@@ -70,8 +72,19 @@ class _DashboardState extends State<Dashboard> with WindowListener {
     }
 
     if (event == NotificationEvent.upgrade) {
-      //   TODO: handle upgrade event
-      await autoUpdater.download();
+      final downloadTransfer = await autoUpdater.download();
+
+      if (downloadTransfer == null) {
+        return;
+      }
+
+      showDialog(
+          context: context,
+          builder: (BuildContext _) {
+            return SimpleDialog(
+              children: [AutoUpdaterDialogContent(downloadTransfer)],
+            );
+          });
     }
   }
 
