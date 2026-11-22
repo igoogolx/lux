@@ -65,6 +65,16 @@ class _AutoUpdaterDialogContentState extends State<AutoUpdaterDialogContent> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+
+    if (isDownloadComplete) {
+      return;
+    }
+    widget.downloadTransfer.cancel();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final title = widget.downloadTransfer.task.displayName.isNotEmpty
         ? widget.downloadTransfer.task.displayName
