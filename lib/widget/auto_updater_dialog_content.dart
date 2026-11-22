@@ -18,7 +18,6 @@ class AutoUpdaterDialogContent extends StatefulWidget {
 
 class _AutoUpdaterDialogContentState extends State<AutoUpdaterDialogContent> {
   bool isDownloadComplete = false;
-  double? downloadProgress = 0;
 
   Future<String> _getFilePath() async {
     final filePath = await widget.downloadTransfer.task.filePath();
@@ -43,13 +42,6 @@ class _AutoUpdaterDialogContentState extends State<AutoUpdaterDialogContent> {
   @override
   void initState() {
     super.initState();
-
-    widget.downloadTransfer.progressNotifier.addListener(() {
-      setState(() {
-        downloadProgress = widget.downloadTransfer.progress;
-        debugPrint("$downloadProgress");
-      });
-    });
 
     widget.downloadTransfer.statusNotifier.addListener(() {
       if (widget.downloadTransfer.status == TaskStatus.complete) {

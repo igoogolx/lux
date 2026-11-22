@@ -77,7 +77,8 @@ class AutoUpdater {
           url: latestVersionDownloadLink!,
           filename: latestInstallerName,
           directory: "lux_installer",
-          baseDirectory: BaseDirectory.temporary);
+          baseDirectory: BaseDirectory.temporary,
+          updates: Updates.statusAndProgress);
 
       downloaderTransfer = await FileDownloader().transfers.start(task);
 
