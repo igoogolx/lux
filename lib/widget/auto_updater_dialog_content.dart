@@ -72,10 +72,16 @@ class _AutoUpdaterDialogContentState extends State<AutoUpdaterDialogContent> {
         padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
         child: Column(children: [
           Row(
-            children: [Text(tr().autoUpdaterDialogTitle)],
+            children: [
+              Text(
+                tr().autoUpdaterDialogTitle,
+                style:
+                    const TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+              )
+            ],
           ),
           Container(
-            padding: EdgeInsetsGeometry.all(8),
+            padding: EdgeInsetsGeometry.fromLTRB(0, 32, 0, 16),
             child: Card(
               child: ListTile(
                   leading: CircleAvatar(
