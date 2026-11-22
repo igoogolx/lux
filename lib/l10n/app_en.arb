@@ -31,5 +31,9 @@
   "edit": "Edit",
   "delete": "Delete",
   "qrCode": "QR Code",
-  "addProxyTip": "Add new proxy"
+  "addProxyTip": "Add new proxy",
+  "open": "Open",
+  "install": "Install",
+  "autoUpdaterDialogTitle": "Upgrade to latest version",
+  "upgrade": "Upgrade"
 }

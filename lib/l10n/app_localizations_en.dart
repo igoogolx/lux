@@ -112,4 +112,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get addProxyTip => 'Add new proxy';
+
+  @override
+  String get open => 'Open';
+
+  @override
+  String get install => 'Install';
+
+  @override
+  String get autoUpdaterDialogTitle => 'Upgrade to latest version';
+
+  @override
+  String get upgrade => 'Upgrade';
 }
