@@ -295,6 +295,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add new proxy'**
   String get addProxyTip;
+
+  /// No description provided for @open.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get open;
+
+  /// No description provided for @install.
+  ///
+  /// In en, this message translates to:
+  /// **'Install'**
+  String get install;
+
+  /// No description provided for @autoUpdaterDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade to latest version'**
+  String get autoUpdaterDialogTitle;
+
+  /// No description provided for @upgrade.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade'**
+  String get upgrade;
 }
 
 class _AppLocalizationsDelegate

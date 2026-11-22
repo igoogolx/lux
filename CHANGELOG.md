@@ -3,13 +3,12 @@
 
 ### New features ✨
 
-* feat(windows): close running Lux app before installing
-* feat(windows): prevent Setup from running while Setup is already running
+* feat(windows): support auto update
 
 ### Other changes
-
 * chore: upgrade deps
 
+### Bug fixes 🐛
 
-
+* fix(windows): single instance not working
 

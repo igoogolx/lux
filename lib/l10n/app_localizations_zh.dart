@@ -112,4 +112,16 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get addProxyTip => '添加新代理';
+
+  @override
+  String get open => '打开';
+
+  @override
+  String get install => '安装';
+
+  @override
+  String get autoUpdaterDialogTitle => '升级到最新版本';
+
+  @override
+  String get upgrade => '升级';
 }

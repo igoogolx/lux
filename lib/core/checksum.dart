@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:crypto/crypto.dart';
 
 // checksum-start
- const darwinAmd64Checksum = "9b4c769c14fc83131ca0f50b772a4f06c50b346b6a142776b7f89ed4873f2489";
- const darwinArm64Checksum = "d7d85e5d8a90283ecc9ad1747b117bf0f401642072f3688f1a8b99a60ef99bc6";
- const windowsAmd64Checksum = "4a7b23778bb82d2e9ed2c6da44d2600733b712f0d2378bc0c3096f652949a3fc";
+ const darwinAmd64Checksum = "7df3623320d42ebb322134ee524d2b15f5d96b2747971f42b32a5f1c59caba37";
+ const darwinArm64Checksum = "296537c0e1ec466a454063496839bc3cd67fe6a5d40a5fe5df64fd490abcdea5";
+ const windowsAmd64Checksum = "e0be0b18e4019ba7892f5ab15d46fa7dc68e9b6448768bb882cb4a4629ad7101";
 // checksum-end
 
 Future<void> verifyCoreBinary(String filePath) async {
@@ -25,4 +25,15 @@ Future<void> verifyCoreBinary(String filePath) async {
   if (!validChecksums.contains(curChecksum)) {
     throw "Checksum of core binary is not matched. Expect $validChecksums, get $curChecksum.";
   }
+}
+
+Future<bool> verifyFileSha256(String filePath, fileSha256) async {
+  var input = File(filePath);
+  if (!input.existsSync()) {
+    throw "File $filePath does not exist.";
+  }
+  var value = await sha256.bind(input.openRead()).first;
+  var curChecksum = value.toString();
+
+  return curChecksum == fileSha256;
 }

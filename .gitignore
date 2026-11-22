@@ -51,3 +51,5 @@ config.json
 log.txt
 ChineseSimplified.isl
 devtools_options.yaml
+# Widget Preview related
+.widget_preview/
