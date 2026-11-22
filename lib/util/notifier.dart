@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cupertino_ui/cupertino_ui.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:lux/const/const.dart';
+import 'package:lux/tr.dart';
 
 class Notifier {
   final _appName = "Lux";
@@ -44,8 +45,8 @@ class Notifier {
     final isNewReleaseMsg = payload == notifierPayloadNewRelease;
 
     if (isNewReleaseMsg) {
-      windowsActions
-          .add(WindowsAction(content: "Upgrade", arguments: upgradeActionId));
+      windowsActions.add(
+          WindowsAction(content: tr().upgrade, arguments: upgradeActionId));
     }
 
     NotificationDetails notificationDetails = NotificationDetails(

@@ -3,6 +3,8 @@ import 'package:material_ui/material_ui.dart';
 import 'package:path/path.dart' as p;
 import 'package:url_launcher/url_launcher.dart';
 
+import '../tr.dart';
+
 class AutoUpdaterDialogContent extends StatefulWidget {
   final Transfer downloadTransfer;
 
@@ -30,6 +32,12 @@ class _AutoUpdaterDialogContentState extends State<AutoUpdaterDialogContent> {
     final dir = p.dirname(filePath);
 
     launchUrl(Uri.file(dir));
+  }
+
+  void _handleUpgrade() async {
+    final filePath = await _getFilePath();
+
+    launchUrl(Uri.file(filePath));
   }
 
   @override
@@ -64,7 +72,7 @@ class _AutoUpdaterDialogContentState extends State<AutoUpdaterDialogContent> {
         padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
         child: Column(children: [
           Row(
-            children: [const Text("TODO:title")],
+            children: [Text(tr().autoUpdaterDialogTitle)],
           ),
           Container(
             padding: EdgeInsetsGeometry.all(8),
@@ -96,7 +104,10 @@ class _AutoUpdaterDialogContentState extends State<AutoUpdaterDialogContent> {
             children: [
               TextButton(
                   onPressed: isDownloadComplete ? _handleOpenDir : null,
-                  child: const Text("TODO:open"))
+                  child: Text(tr().open)),
+              TextButton(
+                  onPressed: isDownloadComplete ? _handleUpgrade : null,
+                  child: Text(tr().upgrade))
             ],
           )
         ]));
