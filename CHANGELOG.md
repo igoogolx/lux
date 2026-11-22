@@ -1,10 +1,12 @@
 ## What's Changed
 
 
-### Other changes
-* perf(windows): speed up startup of core on Tun mode
-* chore: upgrade deps
+### New features ✨
 
+* feat(windows): support auto update
+
+### Other changes
+* chore: upgrade deps
 
 ### Bug fixes 🐛
 
