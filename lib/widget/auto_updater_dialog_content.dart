@@ -1,4 +1,6 @@
 import 'package:background_downloader/background_downloader.dart';
+import 'package:lux/core/checksum.dart';
+import 'package:lux/util/auto_updater.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:path/path.dart' as p;
 import 'package:url_launcher/url_launcher.dart';
@@ -43,8 +45,18 @@ class _AutoUpdaterDialogContentState extends State<AutoUpdaterDialogContent> {
   void initState() {
     super.initState();
 
-    widget.downloadTransfer.statusNotifier.addListener(() {
+    widget.downloadTransfer.statusNotifier.addListener(() async {
       if (widget.downloadTransfer.status == TaskStatus.complete) {
+        final filePath = await _getFilePath();
+
+        final isSha256Matched =
+            await verifyFileSha256(filePath, autoUpdater.latestInstallerSha256);
+
+        if (!isSha256Matched) {
+          // TODO: show error message
+          return;
+        }
+
         setState(() {
           isDownloadComplete = true;
         });
